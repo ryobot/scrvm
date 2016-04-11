@@ -1,0 +1,24 @@
+#AuthType Basic
+#AuthName "Auth Zone"
+#AuthUserFile /etc/httpd/.htpasswd
+#Require user scrv
+
+### mod_rewrite
+RewriteEngine On
+RewriteBase /scrvm/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(\w+)\/?$ index.php?_act=$1 [QSA,L]
+RewriteRule ^(\w+)\/(\w+)\/?$ index.php?_act=$1&_run=$2 [QSA,L]
+
+### php
+php_flag  display_errors On
+php_flag short_open_tag On
+php_value default_charset "UTF=8"
+php_value mbstring.language Japanese
+php_value mbstring.internal_encoding UTF-8
+php_value mbstring.http_input pass
+php_value mbstring.http_output pass
+php_flag  mbstring.encoding_translation Off
+#php_value mbstring.detect_order eucJP-win,UTF-8,SJIS-win,jis,ASCII
+php_value mbstring.substitute_character none

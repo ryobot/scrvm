@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+/*----------------------*/
+body {
+	background: #fff;
+	color: #003d4c;
+	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+	font-size:90%;
+	margin: 0;
+}
+
+table{
+	border-collapse: collapse;
+}
+
+tr:nth-child(2n) {
+/*	background: #EEE;*/
+}
+
+td,th{
+	vertical-align: middle;
+	margin:0;
+	padding: 0.2em;
+}
+
+textarea{
+	width:90%;
+	height:5em;
+}
+
+/*----------------------*/
+#container{
+	padding:0.5em;
+}
+
+/*----------------------*/
+.user_photo{
+	height:65px;
+}
+.user_photo_min{
+	height:30px;
+}
+
+.fav_album{
+	cursor: pointer;
+}
+
+.fav_track{
+	cursor: pointer;
+}
+
+.album_search_result{
+	border:1px solid #AAA;
+	margin:0.5em 0;
+	padding: 0.5em;
+	border-radius:0.5em;
+}
+.album_search_result:hover{
+	background-color: #FED;
+}
+
+.album_search_cover_result{
+	border:5px solid #FFF;
+	margin:0.2em;
+	width:65px;
+}
+.album_search_cover_result:hover{
+	border:5px solid #3C3;
+}

@@ -1,0 +1,68 @@
+<?php
+/**
+ * /lib/Scrv/Action/Users/View.php
+ * @author mgng
+ */
+
+namespace lib\Scrv\Action\Users;
+use lib\Scrv\Action\Base as Base;
+use lib\Scrv\Dao\Users as DaoUsers;
+use lib\Scrv\Dao\Reviews as DaoReviews;
+use lib\Util\Server as Server;
+use lib\Util\Pager as Pager;
+
+/**
+ * Users View class
+ * @author mgng
+ */
+class View extends Base
+{
+	/**
+	 * 実行クラス
+	 * @return boolean
+	 */
+	public function run()
+	{
+		// id取得
+		$user_id = Server::get("id");
+		if ( ! isset($user_id) || ! ctype_digit($user_id)) {
+			Server::send404Header("404 not found.");
+			return false;
+		}
+
+		// ユーザ情報取得
+		$DaoUsers = new DaoUsers();
+		$user_result = $DaoUsers->view((int)$user_id);
+		if ( ! $user_result["status"] || count($user_result["data"]) === 0){
+			Server::send404Header("404 not found..");
+			return false;
+		}
+
+		// offset設定
+		$offset = Server::get("offset", "0");
+		if ( ! ctype_digit($offset) ) {
+			$offset = "0";
+		}
+		$limit = $this->_common_ini["search"]["limit"];
+
+		// レビュー情報取得
+		$DaoReviews = new DaoReviews();
+		$reviews_result = $DaoReviews->view((int)$user_id, (int)$offset, (int)$limit);
+		if ( ! $reviews_result["status"] ) {
+			Server::send404Header("404 not found....");
+			return false;
+		}
+
+		// pager
+		$Pager = new Pager();
+
+		$this->_Template->assign(array(
+			"user_id" => (int)$user_id,
+			"user" => $user_result["data"],
+			"reviews" => $reviews_result["data"],
+			"pager" => $Pager->getPager($offset, $limit, $user_result["data"]["reviews_count"]),
+		))->display("Users/View.tpl.php");
+		return true;
+	}
+
+}
