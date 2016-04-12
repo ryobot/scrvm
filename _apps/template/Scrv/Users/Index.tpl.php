@@ -32,7 +32,7 @@
 				<td><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></td>
 				<td></td>
 				<td><?= h($list["review_count"]) ?></td>
-				<td>
+				<td class="actions">
 <?php if( $is_login):?>
 <?php		if ($login_user_data["role"] === "admin" || $login_user_data["id"] === $list["id"]):?>
 					<a href="<?= h($base_path) ?>Users/Edit?id=<?= h($list["id"]) ?>">Edit</a>

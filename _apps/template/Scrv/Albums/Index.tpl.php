@@ -35,7 +35,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	<h2>Albums (<?= h($pager["total_count"]) ?>)</h2>
 
 <?php if( $is_login ): ?>
-	<p><a href="<?= h($base_path) ?>Albums/Add">add Album</a></p>
+	<p class="actions"><a href="<?= h($base_path) ?>Albums/Add">add Album</a></p>
 <?php endif; ?>
 
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">

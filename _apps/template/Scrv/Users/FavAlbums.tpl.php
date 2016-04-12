@@ -1,13 +1,13 @@
 <?php
 /**
- * Users/View.tpl.php
+ * Users/FavAlbums.tpl.php
  * @author mgng
  */
 
-$prev_link = $base_path . "Users/View?id={$user_id}&" . http_build_query(array(
+$prev_link = $base_path . "Users/FavAlbums?id={$user_id}&" . http_build_query(array(
 	"offset" => $pager["offset"]-$pager["limit"],
 ));
-$next_link = $base_path . "Users/View?id={$user_id}&" . http_build_query(array(
+$next_link = $base_path . "Users/FavAlbums?id={$user_id}&" . http_build_query(array(
 	"offset" => $pager["offset"]+$pager["limit"],
 ));
 if($pager["offset"]-$pager["limit"] < 0){
@@ -22,7 +22,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Users :: View</title>
+<title><?= h($base_title) ?> :: Users :: FavAlbums</title>
 </head>
 <body>
 <div id="container">
@@ -32,19 +32,18 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	<h2><?= h($user["username"]) ?></h2>
 
 	<div class="lists">
-		<table>
+		<table><tbody>
 			<tr>
 				<td><img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" /></td>
 				<td>
 					Reviews : <a href="<?= h($base_path) ?>Users/View?id=<?= h($user_id) ?>"><?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?></a><br />
 					Fav.Tracks : <a href="<?= h($base_path) ?>Users/FavTracks?id=<?= h($user_id) ?>"><?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?></a><br />
 					Fav.Albums : <a href="<?= h($base_path) ?>Users/FavAlbums?id=<?= h($user_id) ?>"><?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?></a><br />
-				</td>
 			</tr>
-		</table>
+		</tbody></table>
 	</div>
 
-	<h3>Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)</h3>
+	<h3>Fav.Albums (<?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?>)</h3>
 
 	<p class="pager">
 <?php if($prev_link !== ""): ?>
@@ -61,23 +60,14 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	</p>
 
 	<table>
-<?php foreach($reviews as $review): ?>
+<?php foreach($favalbums as $favalbum): ?>
 		<tr>
-			<td><img class="album_search_cover_result" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" /></td>
+			<td><img class="album_search_cover_result" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
 			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
-				<div><?= h($review["created"]) ?></div>
-<?php if($is_login && $user_id === $login_user_data["id"]): ?>
-				<div class="actions">
-					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
-					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-				</div>
-<?php endif;?>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["album_id"]) ?>"><?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?></a>
+			</td>
 		</tr>
-		<tr>
-			<td colspan="3"><?= h($review["body"]) ?></td>
-		</tr>
-<?php		endforeach; ?>
+<?php endforeach; ?>
 	</table>
 
 	<p class="pager">
@@ -97,35 +87,6 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
-
-<script>
-;$(function(){
-	$(".review_delete").each(function(){
-		var $del = $(this);
-		var delete_id = $del.attr("data-delete_id");
-		$del.on("click.js", function(){
-			if(confirm("are you sure ?")){
-
-				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
-					method : 'POST',
-					dataType : 'json',
-					data : { id : delete_id }
-				})
-				.done(function(json){
-					location.href="<?= h($base_path) ?>Users/View?id=<?= $login_user_data["id"] ?>";
-				})
-				.fail(function(e){
-					alert("system error.");
-				})
-				.always(function(){
-				});
-
-			}
-			return false;
-		});
-	});
-});
-</script>
 
 </body>
 </html>

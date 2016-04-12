@@ -9,7 +9,7 @@
 
 <h1><a href="<?= h($base_path) ?>"><?= h($base_title) ?></a></h1>
 
-<p class="auth">
+<p class="auth actions">
 <?php if( $is_login ):?>
 	user : <?= h($login_user_data["username"]) ?>
 	<a href="<?= h($base_path) ?>Auth/Logout">Logout</a>

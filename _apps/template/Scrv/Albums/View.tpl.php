@@ -16,23 +16,28 @@
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-	<h2><?= h($album["artist"]) ?> / <?= h($album["title"]) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
+	<h2><?= h("{$album["artist"]} / {$album["title"]}") ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
 
 	<p>
-		<img src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h($album["artist"]) ?> / <?= h($album["title"]) ?>" />
+		<img src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 		<img
 			id="id_fav_album"
 			class="fav_album<?= $is_login ? "" : "_nologin" ?>"
+<?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
+			src="<?= h($base_path) ?>img/star_ylw.png"
+<?php else:?>
 			src="<?= h($base_path) ?>img/star_gry.png"
+<?php endif;?>
 			data-fav_on="<?= h($base_path) ?>img/star_ylw.png"
 			data-fav_off="<?= h($base_path) ?>img/star_gry.png"
 			data-album_id="<?= h($album_id) ?>"
 			alt="fav album"
 		/>
+		<?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?>
 	</p>
 
 <?php if($is_login): ?>
-	<p><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
+	<p class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
 
 	<table>
@@ -88,12 +93,15 @@
 </div>
 
 <!-- itunes search 用 -->
-<input type="hidden" name="term" id="id_term" value="<?= h($album["artist"] . " " . $album["title"]) ?>" />
+<input type="hidden" name="term" id="id_term" value="<?= h("{$album["artist"]} {$album["title"]}") ?>" />
 
 <script>
 ;$(function(){
+
+	var BASE_PATH = "<?= h($base_path) ?>";
+
 	// itunes search
-	$.ajax( '<?= h($base_path) ?>Itunes/Search', {
+	$.ajax( BASE_PATH + 'Itunes/Search', {
 		method : 'GET',
 		dataType : 'json',
 		data : {term : $("#id_term").val()}
@@ -102,14 +110,17 @@
 		if ( json.resultCount === 0 ) {
 			return;
 		}
+		var createLink = function(url,artist,title){
+			return $("<a />").attr({
+				href:url,
+				target:"blank"
+			}).text("♪ iTunes - " + artist + " / " + title);
+		};
 		var $search_results = $("#id_itunes_search_results").html("");
 		for(var i=0,len=json.results.length; i<len; i++) {
 			var result = json.results[i];
-			var $itunes_link = $("<div />").append(
-				$("<a />").attr({
-					href:result.collectionViewUrl,
-					target:"blank"
-				}).text("♪ itunes - " + result.artistName + " / " + result.collectionName)
+			var $itunes_link = $("<p />").append(
+				createLink(result.collectionViewUrl,result.artistName,result.collectionName)
 			);
 			$search_results.append($itunes_link);
 		}
@@ -120,10 +131,29 @@
 	});
 
 <?php if($is_login): ?>
+
+	var location_href = BASE_PATH + "Albums/View?id=<?= h($album_id) ?>";
+
 	// fav.album
 	$("#id_fav_album").on("click.js", function(){
-		var $this = $(this);
-		alert("TODO:" + $this.attr("data-album_id") + " をPOSTして更新すること");
+		var album_id = $(this).attr("data-album_id");
+		$.ajax( BASE_PATH + 'Albums/Fav', {
+			method : 'POST',
+			dataType : 'json',
+			data : {album_id : album_id	}
+		})
+		.done(function(json){
+			if (!json.status) {
+				alert("system error.");
+			} else {
+				location.href=location_href;
+			}
+		})
+		.fail(function(e){
+			alert("system error..");
+		})
+		.always(function(){
+		});
 	});
 
 	// fav.tracks
@@ -131,24 +161,23 @@
 		var $fav_track = $(this);
 		$fav_track.on("click.js", function(){
 			var track_id = $fav_track.attr("data-track_id");
-			$.ajax( '<?= h($base_path) ?>Tracks/Fav', {
+			$.ajax( BASE_PATH + 'Tracks/Fav', {
 				method : 'POST',
 				dataType : 'json',
 				data : {track_id : track_id	}
 			})
 			.done(function(json){
 				if (!json.status) {
-					console.log(json);
+					alert("system error.");
 				} else {
-					location.href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>";
+					location.href=location_href;
 				}
 			})
 			.fail(function(e){
-				alert("system error.");
+				alert("system error..");
 			})
 			.always(function(){
 			});
-
 		});
 	});
 <?php endif; ?>

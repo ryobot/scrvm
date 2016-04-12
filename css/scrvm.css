@@ -5,22 +5,26 @@ body {
 	background: #fff;
 	color: #003d4c;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+	line-height: 1.5em;
 	font-size:90%;
 	margin: 0;
+	word-wrap:break-word;
 }
 
 table{
 	border-collapse: collapse;
 }
 
-tr:nth-child(2n) {
-/*	background: #EEE;*/
-}
-
 td,th{
 	vertical-align: middle;
 	margin:0;
-	padding: 0.2em;
+	padding: 2px;
+}
+
+hr{
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: #AAA;
 }
 
 textarea{
@@ -34,6 +38,28 @@ textarea{
 }
 
 /*----------------------*/
+.actions a{
+	background: #DDD -moz-linear-gradient(center top , #EEE, #DDD) repeat scroll 0 0;
+	border: 1px solid #BBB;
+	border-radius: 4px;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 1px rgba(0, 0, 0, 0.2);
+	color: #333;
+	font-weight: normal;
+	min-width: 0;
+	padding: 2px;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #FFF;
+}
+.actions a:hover{
+	background: #EEE none repeat scroll 0 0;
+	border-color: #AAA;
+	text-decoration: none;
+}
+
+.error_message{
+	color:#C33;
+}
+
 .user_photo{
 	height:65px;
 }

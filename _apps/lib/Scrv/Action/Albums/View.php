@@ -38,15 +38,22 @@ class View extends Base
 
 		// ログインしている場合は自身がfavしたid一覧を取得
 		$own_favtracks = array();
+		$own_favalbums = array();
 		if ( $this->_is_login ) {
 			$DaoTracks = new DaoTracks();
+			$DaoAlbums = new DaoAlbums();
 			$favtracks_result = $DaoTracks->favtracks((int)$id, $this->_login_user_data["id"]);
-			if (!$favtracks_result["status"]) {
+			$favalbums_result = $DaoAlbums->favalbums((int)$id, $this->_login_user_data["id"]);
+			if (!$favtracks_result["status"] || !$favalbums_result["status"]) {
 				Server::send404Header("not found...");
+				print_r($favalbums_result);
 				return false;
 			}
 			foreach($favtracks_result["data"] as $data) {
 				$own_favtracks[] = $data["id"];
+			}
+			foreach($favalbums_result["data"] as $data) {
+				$own_favalbums[] = $data["id"];
 			}
 		}
 
@@ -56,6 +63,7 @@ class View extends Base
 			"tracks" => $view_result["data"]["tracks"],
 			"reviews" => $view_result["data"]["reviews"],
 			"own_favtracks" => $own_favtracks,
+			"own_favalbums" => $own_favalbums,
 		))->display("Albums/View.tpl.php");
 		return true;
 	}

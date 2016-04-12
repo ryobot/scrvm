@@ -52,14 +52,16 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 			<td><img class="album_search_cover_result" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
 			<td>
 				<div><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h( "{$review["artist"]} / {$review["title"]}") ?></a> (<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)</div>
-				<div>reviewd by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a></div>
 				<div>
+					reviewd by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<?= h($review["created"]) ?>
+				</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
+				<div class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-<?php endif;?>
 				</div>
+<?php endif;?>
 			</td>
 			<td>
 				<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />

@@ -48,12 +48,31 @@ class Itunes
 	{
 		$query = http_build_query(array(
 			"term" => $term,
-			"country" => "JP",
+			"country" => "jp",
+			"lang" => "ja_jp",
 			"entity" => "album",
+			"media"  => "music",
+			"limit" => 10,
 		));
 		$url = $this->_api_url . "?" . $query;
-		$result = file_get_contents($url);
+		$result = $this->_get($url);
 		return $result === false ? "" : trim($result);
+	}
+
+	/**
+	 * GET request
+	 * @param string $url
+	 * @return string
+	 */
+	private function _get($url)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,            $url );
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		return curl_exec ($ch);
 	}
 
 }
