@@ -1,14 +1,14 @@
 <?php
 /**
  * Template.php
- * @author mgng
+ * @author tomita
  */
 
 namespace lib\Util;
 
 /**
  * テンプレートクラス
- * @author mgng
+ * @author tomita
  * @package lib\Util
  */
 class Template

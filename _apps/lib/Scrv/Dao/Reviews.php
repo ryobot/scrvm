@@ -9,7 +9,7 @@ use lib\Scrv\Dao\Base as Dao;
 
 /**
  * Reviews class
- * @author mgng
+ * @author tomita
  */
 class Reviews extends Dao
 {

@@ -10,7 +10,7 @@ use lib\Util\Password as Password;
 
 /**
  * Users class
- * @author mgng
+ * @author tomita
  */
 class Users extends Dao
 {

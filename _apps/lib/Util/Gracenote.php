@@ -92,19 +92,14 @@ class Gracenote
 		;
 	}
 
-	/**
-	 * post request
-	 * @param string $body
-	 * @return string
-	 */
 	private function _post($body)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,            $this->_api_url );
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch,CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_POST,           true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,     $body );
 		curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: text/plain'));

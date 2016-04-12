@@ -1,7 +1,7 @@
 <?php
 /**
  * lib/Scrv/SessionKeys.php
- * @author mgng
+ * @author tomita
  */
 
 namespace lib\Scrv;

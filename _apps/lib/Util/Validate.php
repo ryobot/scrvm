@@ -1,14 +1,14 @@
 <?php
 /**
  * Validate.php
- * @author mgng
+ * @author tomita
  */
 
 namespace lib\Util;
 
 /**
  * Validation系クラス
- * @author mgng
+ * @author tomita
  * @package lib\Util
  */
 class Validate
