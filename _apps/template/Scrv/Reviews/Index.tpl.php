@@ -32,6 +32,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 
 	<h2>Reviews (<?= h($pager["total_count"]) ?>)</h2>
 
+<?php if(count($reviews) > 0):?>
+
 	<p class="pager">
 <?php if($prev_link !== ""): ?>
 		<a href="<?= h($prev_link) ?>">≪prev</a>
@@ -88,6 +90,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endif;?>
 	</p>
 
+<?php endif; ?>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 </div>
 
@@ -98,7 +102,6 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
 			if(confirm("are you sure ?")){
-
 				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
@@ -112,7 +115,6 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 				})
 				.always(function(){
 				});
-
 			}
 			return false;
 		});

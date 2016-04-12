@@ -15,6 +15,34 @@ use lib\Util\Password as Password;
 class Auth extends Dao
 {
 	/**
+	 * Dao object
+	 * @var Dao
+	 */
+	private $_Dao = null;
+
+	/**
+	 * resultSet
+	 * @var array
+	 */
+	private $_result = null;
+
+	/**
+	 * construct
+	 * @return boolean
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_result = getResultSet();
+		$this->_Dao = new Dao();
+		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+			echo $this->_Dao->getErrorMessage();
+			exit;
+		}
+		return true;
+	}
+
+	/**
 	 * login 処理
 	 * @param string $title
 	 * @param string $body
@@ -24,15 +52,7 @@ class Auth extends Dao
 	 */
 	public function login( $username, $password )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
-
 		try{
-			// 存在チェック、パスワードは共通ハッシュ化
 			$Password = new Password();
 			$password_hash = $Password->makePasswordHash(
 				$username,
@@ -40,24 +60,21 @@ class Auth extends Dao
 				$this->_common_ini["password"]["hash_seed"],
 				(int)$this->_common_ini["password"]["hash_count"]
 			);
-			$user_result = $Dao->select(
+			$user_result = $this->_Dao->select(
 				"SELECT * FROM users WHERE username=:username AND password=:password_hash",
-				array(
-					"username" => $username,
-					"password_hash" => $password_hash,
-				)
+				array("username" => $username,"password_hash" => $password_hash,)
 			);
 			if ( count($user_result) === 0 ) {
 				throw new \Exception("username または password が間違っています。");
 			}
-			$result["status"] = true;
-			$result["data"] = $user_result[0];
+			$this->_result["status"] = true;
+			$this->_result["data"] = $user_result[0];
 		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
+			$this->_result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 }

@@ -30,7 +30,7 @@
 			<tr>
 				<td><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></td>
 				<td><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></td>
-				<td></td>
+				<td><?php if($is_login):?><?= h($list["sync_point"]) ?><?php endif; ?></td>
 				<td><?= h($list["review_count"]) ?></td>
 				<td class="actions">
 <?php if( $is_login):?>

@@ -14,6 +14,34 @@ use lib\Scrv\Dao\Base as Dao;
 class Posts extends Dao
 {
 	/**
+	 * Dao object
+	 * @var Dao
+	 */
+	private $_Dao = null;
+
+	/**
+	 * resultSet
+	 * @var array
+	 */
+	private $_result = null;
+
+	/**
+	 * construct
+	 * @return boolean
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_result = getResultSet();
+		$this->_Dao = new Dao();
+		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+			echo $this->_Dao->getErrorMessage();
+			exit;
+		}
+		return true;
+	}
+
+	/**
 	 * 一覧取得
 	 * @param integer $offset
 	 * @param integer $limit
@@ -21,32 +49,22 @@ class Posts extends Dao
 	 */
 	public function lists( $offset, $limit )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
 		try{
-			$data = $Dao->select(
+			$data = $this->_Dao->select(
 				 "SELECT t1.*,t2.username FROM posts t1 "
 				."LEFT JOIN users t2 ON (t1.user_id=t2.id) "
-				."ORDER BY t1.created DESC "
-				."LIMIT {$offset},{$limit}",
-				array()
+				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
 			);
-			$data_count = $Dao->select("SELECT count(id) AS cnt FROM posts");
-			$result["status"] = true;
-			$result["data"] = array(
+			$data_count = $this->_Dao->select("SELECT count(id) AS cnt FROM posts");
+			$this->_result["status"] = true;
+			$this->_result["data"] = array(
 				"lists" => $data,
 				"lists_count" => $data_count[0]["cnt"],
 			);
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
@@ -59,16 +77,9 @@ class Posts extends Dao
 	 */
 	public function add( $title, $body, $user_id, $album_id )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
-
-		$Dao->beginTransaction();
+		$this->_Dao->beginTransaction();
 		try{
-			$row_count = $Dao->insert(
+			$row_count = $this->_Dao->insert(
 				 "INSERT INTO posts (title,body,user_id,album_id,created) "
 				."VALUES(:title,:body,:user_id,:album_id,now())",
 				array(
@@ -78,17 +89,14 @@ class Posts extends Dao
 					"album_id" => $album_id,
 				)
 			);
-			$result["status"] = true;
-			$result["data"]["rowcount"] = $row_count;
-			$Dao->commit();
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
-			$Dao->rollBack();
+			$this->_result["status"] = true;
+			$this->_result["data"]["rowcount"] = $row_count;
+			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
-			$Dao->rollBack();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 }

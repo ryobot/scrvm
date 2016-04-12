@@ -14,6 +14,34 @@ use lib\Scrv\Dao\Base as Dao;
 class Albums extends Dao
 {
 	/**
+	 * Dao object
+	 * @var Dao
+	 */
+	private $_Dao = null;
+
+	/**
+	 * resultSet
+	 * @var array
+	 */
+	private $_result = null;
+
+	/**
+	 * construct
+	 * @return boolean
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_result = getResultSet();
+		$this->_Dao = new Dao();
+		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+			echo $this->_Dao->getErrorMessage();
+			exit;
+		}
+		return true;
+	}
+
+	/**
 	 * lists
 	 * @param int $offset
 	 * @param int $limit
@@ -24,38 +52,29 @@ class Albums extends Dao
 	 */
 	public function lists($offset,$limit, $artist, $sort, $order)
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
 		try{
-			$order_by = "ORDER BY {$sort} {$order}";
-			$offset_limit = "LIMIT {$offset},{$limit}";
-			$sql = "SELECT * FROM albums {$order_by} {$offset_limit}";
+			$orderby = "ORDER BY {$sort} {$order}";
+			$offsetlimit = "LIMIT {$offset},{$limit}";
+			$sql = "SELECT * FROM albums {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums";
 			$params = array();
 			if ( $artist !== null && $artist !== "" ) {
-				$where = "WHERE (artist like :artist ESCAPE '!')";
-				$sql = "SELECT * FROM albums {$where} {$order_by} {$offset_limit}";
+				$where = "WHERE(artist like :artist ESCAPE '!')";
+				$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
 				$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
-				$params = array(
-					"artist" => "%" . $Dao->escapeForLike($artist) . "%"
-				);
+				$params = array("artist"=>"%".$this->_Dao->escapeForLike($artist)."%");
 			}
-			$albums_result = $Dao->select($sql, $params);
-			$albums_count_result = $Dao->select($sql_count, $params);
-
-			$result["status"] = true;
-			$result["data"]["lists"] = $albums_result;
-			$result["data"]["lists_count"] = $albums_count_result[0]["cnt"];
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
+			$albums_result = $this->_Dao->select($sql, $params);
+			$albums_count_result = $this->_Dao->select($sql_count, $params);
+			$this->_result["status"] = true;
+			$this->_result["data"] = array(
+				"lists" => $albums_result,
+				"lists_count" => $albums_count_result[0]["cnt"],
+			);
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
@@ -66,60 +85,47 @@ class Albums extends Dao
 	 */
 	public function view($id)
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
 		try{
-			// アルバム情報
-			$album_result = $Dao->select(
-				 "SELECT t1.*, t2.favalbums_count "
-				."FROM albums t1 "
-				."LEFT JOIN (SELECT album_id, count(id) AS favalbums_count FROM favalbums GROUP BY album_id) t2 ON (t1.id=t2.album_id) "
+			// album 情報
+			$album_result = $this->_Dao->select(
+				 "SELECT t1.*, t2.favalbums_count FROM albums t1 "
+				."LEFT JOIN (SELECT album_id,count(id) AS favalbums_count FROM favalbums GROUP BY album_id) t2 ON(t1.id=t2.album_id) "
 				."WHERE t1.id=:id",
 				array("id" => $id,));
 			if ( count($album_result) !== 1 ) {
 				throw new \Exception("album not found.");
 			}
 			$album_data = $album_result[0];
-
-			// track情報
-			$tracks_result = $Dao->select(
-				 "SELECT t1.*, t2.favtracks_count "
-				."FROM tracks t1 "
-				."LEFT JOIN (SELECT track_id, count(id) AS favtracks_count FROM favtracks GROUP BY track_id) t2 ON (t1.id=t2.track_id) "
+			// track 情報
+			$tracks_data = $this->_Dao->select(
+				 "SELECT t1.*, t2.favtracks_count FROM tracks t1 "
+				."LEFT JOIN (SELECT track_id,count(id) AS favtracks_count FROM favtracks GROUP BY track_id) t2 ON(t1.id=t2.track_id) "
 				."WHERE t1.album_id=:id "
 				."ORDER BY t1.track_num",
 				array("id" => $id,)
 			);
-			if ( count($tracks_result) === 0 ) {
+			if ( count($tracks_data) === 0 ) {
 				throw new \Exception("track not found.");
 			}
-			$tracks_data = $tracks_result;
-
-			// レビュー内容取得
-			$review_result = $Dao->select(
-				 "SELECT t1.*, t2.username, t2.img_file "
-				."FROM reviews t1 "
-				."INNER JOIN users t2 ON (t1.user_id=t2.id) "
+			// review内容取得
+			$review_data = $this->_Dao->select(
+				 "SELECT t1.*, t2.username, t2.img_file FROM reviews t1 "
+				."INNER JOIN users t2 ON(t1.user_id=t2.id) "
 				."WHERE t1.album_id=:album_id ORDER BY t1.created DESC",
 				array("album_id" => $album_data["id"],)
 			);
-
-			$result["status"] = true;
-			$result["data"] = array(
+			$this->_result["status"] = true;
+			$this->_result["data"] = array(
 				"album" => $album_data,
 				"tracks" => $tracks_data,
-				"reviews" => $review_result,
+				"reviews" => $review_data,
 			);
 		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
+			$this->_result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
@@ -132,30 +138,20 @@ class Albums extends Dao
 	 * @param array $tracks
 	 * @return resultSet
 	 */
-	public function add( $artist, $title, $year, $img_url, $img_file, array $tracks )
+	public function add($artist, $title, $year, $img_url, $img_file, array $tracks)
 	{
-		$result = getResultSet();
-
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
-
-		$Dao->beginTransaction();
+		$this->_Dao->beginTransaction();
 		try{
 			// 同一アルバムがある場合はエラー(mysqlは大文字小文字区別しない)
-			$search_result = $Dao->select(
-				"SELECT * FROM albums WHERE artist=:artist AND title=:title", array(
-				"artist" => $artist,
-				"title" => $title,
-			));
+			$search_result = $this->_Dao->select(
+				"SELECT * FROM albums WHERE artist=:artist AND title=:title",
+				array("artist" => $artist,"title" => $title,)
+			);
 			if ( count($search_result) !== 0 ) {
 				throw new \Exception("{$artist} / {$title} は登録済みです。");
 			}
-
 			// INSERT, img_url, year が空文字の場合は null
-			$Dao->insert(
+			$this->_Dao->insert(
 				 "INSERT INTO albums (artist,title,img_url,img_file,year,created,modified) "
 				."VALUES(:artist,:title,:img_url,:img_file,:year,now(),now())",
 				array(
@@ -166,22 +162,19 @@ class Albums extends Dao
 					"year" => $year === "" ? null : $year,
 				)
 			);
-
 			// 登録したalbum id を取得
-			$album_result = $Dao->select(
-				"SELECT id FROM albums WHERE artist=:artist AND title=:title",array(
-				"artist" => $artist,
-				"title" => $title,
-			));
+			$album_result = $this->_Dao->select(
+				"SELECT id FROM albums WHERE artist=:artist AND title=:title",
+				array("artist" => $artist,"title" => $title,)
+			);
 			if ( count($album_result) === 0 ) {
 				throw new \Exception("{$artist} / {$title} の登録に失敗しました。");
 			}
 			$album_id = $album_result[0]["id"];
-
 			// tracks をinsert
 			$track_index = 1;
 			foreach( $tracks as $track_title ) {
-				$Dao->insert(
+				$this->_Dao->insert(
 					 "INSERT INTO tracks (artist,album_id,track_num,track_title,created) "
 					."VALUES(:artist,:album_id,:track_num,:track_title,now())",
 					array(
@@ -193,18 +186,17 @@ class Albums extends Dao
 				);
 				$track_index++;
 			}
-
-			$result["status"] = true;
-			$result["data"]["album_id"] = $album_id;
-			$Dao->commit();
+			$this->_result["status"] = true;
+			$this->_result["data"]["album_id"] = $album_id;
+			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
-			$Dao->rollBack();
+			$this->_result["messages"][] = $ex->getMessage();
+			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
-			$Dao->rollBack();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
@@ -215,27 +207,19 @@ class Albums extends Dao
 	 */
 	public function favalbums( $album_id, $user_id )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
 		try{
-			$search_result = $Dao->select(
+			$search_result = $this->_Dao->select(
 				 "SELECT t1.*, t2.user_id FROM albums t1 "
 				."INNER JOIN favalbums t2 ON (t1.id=t2.album_id) "
 				."WHERE t1.id=:album_id AND t2.user_id=:user_id",
 				array("album_id" => $album_id, "user_id" => $user_id,)
 			);
-			$result["status"] = true;
-			$result["data"] = $search_result;
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
+			$this->_result["status"] = true;
+			$this->_result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
@@ -247,76 +231,90 @@ class Albums extends Dao
 	 */
 	public function favalbumsByUserId( $user_id, $offset, $limit )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
 		try{
-			$search_result = $Dao->select(
-				 "SELECT t1.* "
-				."FROM albums t1 "
+			$search_result = $this->_Dao->select(
+				 "SELECT t1.* FROM albums t1 "
 				."INNER JOIN favalbums t2 ON (t1.id=t2.album_id) "
 				."WHERE t2.user_id=:user_id "
-				."ORDER BY t2.created DESC "
-				."LIMIT {$offset},{$limit}",
+				."ORDER BY t2.created DESC LIMIT {$offset},{$limit}",
 				array("user_id" => $user_id,)
 			);
-			$result["status"] = true;
-			$result["data"] = $search_result;
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
+			$this->_result["status"] = true;
+			$this->_result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 	/**
 	 * fav update
-	 * @param integer $track_id
+	 * @param integer $album_id
 	 * @param integer $user_id
 	 * @return string
 	 */
 	public function fav( $album_id, $user_id )
 	{
-		$result = getResultSet();
-		$Dao = new Dao();
-		if ( ! $Dao->connect($this->_common_ini["db"]) ) {
-			$result["messages"][] = "db connect error - " . $Dao->getErrorMessage();
-			return $result;
-		}
-		$Dao->beginTransaction();
+		$this->_Dao->beginTransaction();
 		try{
-			// 存在したらdelete, しなければinsert
+			// sync point (album)
+			$add_point = 5;
+			// 存在したらdeleteでpoint減算, しなければinsert or updateで加算
 			$params = array("album_id" => $album_id,"user_id" => $user_id,);
-			$search_result = $Dao->select(
-				"SELECT * FROM favalbums WHERE album_id=:album_id AND user_id=:user_id",
-				$params
-			);
-			if ( count($search_result) > 0 ) {
-				$Dao->delete(
-					"DELETE FROM favalbums WHERE album_id=:album_id AND user_id=:user_id",
-					$params
-				);
+			$sel_result = $this->_Dao->select("SELECT * FROM favalbums WHERE album_id=:album_id AND user_id=:user_id", $params);
+			if ( count($sel_result) > 0 ) {
+				$this->_Dao->delete("DELETE FROM favalbums WHERE album_id=:album_id AND user_id=:user_id",$params);
+				$add_point = -5;
 			} else {
-				$Dao->insert(
-					"INSERT INTO favalbums (favtype,album_id,user_id,created) "
-					."VALUES('alltime',:album_id,:user_id,now())",
-					$params
-				);
+				$this->_Dao->insert("INSERT INTO favalbums (favtype,album_id,user_id,created) VALUES('alltime',:album_id,:user_id,now())", $params);
 			}
-			$result["status"] = true;
-			$Dao->commit();
-		} catch( \Exception $ex ) {
-			$result["messages"][] = $ex->getMessage();
-			$Dao->rollBack();
+
+			// XXX ...
+			// favalbums テーブルを参照して同じ album_id を登録しているユーザ一覧を取得、なければ終わり
+			$fav_user_id_list = $this->_Dao->select("SELECT user_id FROM favalbums WHERE album_id=:album_id AND user_id<>:user_id", $params);
+			if (count($fav_user_id_list) === 0) {
+			} else {
+				// syncs.sync_pointが存在するか確認
+				foreach ($fav_user_id_list as $fav_user_id) {
+					$syncs_params = array(
+						"id1" => $fav_user_id["user_id"],
+						"id2" => $user_id,
+						"id3" => $fav_user_id["user_id"],
+						"id4" => $user_id,
+					);
+					$sync_list = $this->_Dao->select(
+						"SELECT id,sync_point FROM syncs WHERE user_id IN(:id1,:id2) AND user_com_id IN(:id3,:id4)",
+						$syncs_params
+					);
+					if ( count($sync_list) === 0 ){
+						// 2行insert
+						$this->_Dao->insert(
+							 "INSERT INTO syncs (user_id,user_com_id,sync_point) "
+							."values(:id1,:id2,{$add_point}),(:id4,:id3,{$add_point})",
+							$syncs_params
+						);
+					} else {
+						// 加算してupdate,加算した数値が0未満の場合は0に丸める
+						foreach($sync_list as $sync) {
+							$add_sync_point = $sync["sync_point"] + $add_point < 0 ? 0 : $sync["sync_point"] + $add_point;
+							$this->_Dao->update(
+								"UPDATE syncs SET sync_point=:add_sync_point WHERE id=:id",
+								array("add_sync_point" => $add_sync_point,"id" => $sync["id"],)
+							);
+						}
+					}
+				}
+			}
+
+			$this->_result["status"] = true;
+			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
-			$Dao->rollBack();
+			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
 		}
-		return $result;
+		return $this->_result;
 	}
 
 }
+
+

@@ -16,6 +16,8 @@
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
+	<h2>Login</h2>
+
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
 <?php		foreach($error_messages as $key => $message): ?>

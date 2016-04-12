@@ -267,7 +267,10 @@ class Base extends Scrv\Base
 	public function beginTransaction()
 	{
 		//return $this->_pdo->beginTransaction();
-		return self::$_pdo->beginTransaction();
+		if ( ! self::$_pdo->inTransaction() ) {
+			return self::$_pdo->beginTransaction();
+		}
+		return true;
 	}
 
 	/**
