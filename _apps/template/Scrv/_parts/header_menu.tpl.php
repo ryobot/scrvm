@@ -7,23 +7,40 @@
 // TODO new user の扱いはどうする？
 ?>
 
-<h1><a href="<?= h($base_path) ?>"><?= h($base_title) ?></a></h1>
-
-<p class="auth actions">
+<table class="w100per">
+	<tr>
+		<td class="w50per taleft">
+			<h1 class="header_title"><a href="<?= h($base_path) ?>"><?= h($base_title) ?></a></h1>
+		</td>
+		<td class="w50per taright auth actions">
 <?php if( $is_login ):?>
-	user : <?= h($login_user_data["username"]) ?>
-	<a href="<?= h($base_path) ?>Auth/Logout">Logout</a>
+			<div>user : <?= h($login_user_data["username"]) ?></div>
+			<div><a id="id_logout" href="javascript:;">Logout</a></div>
+			<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
+			<script>
+				;$(function(){
+					$("#id_logout").on("click.js",function(){
+						$("#id_form_logout").submit();
+					});
+				});
+			</script>
 <?php else: ?>
-	user : guest
-	<a href="<?= h($base_path) ?>Auth">Login</a>
-	<a href="<?= h($base_path) ?>Users/Add">new user</a>
+			<div>user : guest</div>
+			<div>
+				<a href="<?= h($base_path) ?>Auth">Login</a>
+				<a href="<?= h($base_path) ?>Users/Add">new user</a>
+			</div>
 <?php endif; ?>
-</p>
+		</td>
+	</tr>
+</table>
 
-<p class="menu">
-	<a href="<?= h($base_path) ?>">Reviews</a>
-	<a href="<?= h($base_path) ?>Albums">Albums</a>
-	<a href="<?= h($base_path) ?>Users">Users</a>
-	<a href="<?= h($base_path) ?>Posts">Posts</a>
-</p>
+<table class="menu w100per">
+	<tr>
+		<td class="w25per"><a href="<?= h($base_path) ?>">Reviews</a></td>
+		<td class="w25per"><a href="<?= h($base_path) ?>Albums">Albums</a></td>
+		<td class="w25per"><a href="<?= h($base_path) ?>Users">Users</a></td>
+		<td class="w25per"><a href="<?= h($base_path) ?>Posts">Posts</a></td>
+	</tr>
+</table>
 

@@ -20,7 +20,11 @@ class Logout extends Base
 	 */
 	public function run()
 	{
-		// TODO POST method に限定すべき
+		if ( Server::env("REQUEST_METHOD") !== "POST" ) {
+			Server::send404Header();
+			return false;
+		}
+
 		$this->_Session->destroy();
 		Server::redirect($this->_BasePath);
 		return true;

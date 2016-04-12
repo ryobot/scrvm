@@ -22,18 +22,29 @@ class Index extends Base
 	 */
 	public function run()
 	{
-		$artist = Server::get("artist");
+		// 各パラメータ取得
+		$offset = Server::get("offset", "0");
+		$artist = Server::get("artist", "");
+		$sort = Server::get("sort", "artist");
+		$order = Server::get("order", "asc");
 
 		// offset設定
-		$offset = Server::get("offset", "0");
 		if ( ! ctype_digit($offset) ) {
 			$offset = "0";
 		}
 		$limit = $this->_common_ini["search"]["limit"];
 
+		// sort, order設定
+		if ( preg_match("/\A(artist|title|year)\z/", $sort) !== 1 ) {
+			$sort = "artist";
+		}
+		if ( preg_match("/\A(asc|desc)\z/", $order) !== 1 ) {
+			$order = "asc";
+		}
+
 		// album一覧取得
 		$DaoAlbums = new DaoAlbums();
-		$albums_result = $DaoAlbums->lists($offset, $limit, $artist);
+		$albums_result = $DaoAlbums->lists($offset, $limit, $artist, $sort, $order);
 		if ( ! $albums_result["status"] ) {
 			Server::send404Header("not found.");
 			return false;
@@ -44,6 +55,8 @@ class Index extends Base
 
 		$this->_Template->assign(array(
 			"artist" => $artist,
+			"sort" => $sort,
+			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],
 			"pager" => $Pager->getPager($offset, $limit, $albums_result["data"]["lists_count"]),
 		))->display("Albums/Index.tpl.php");

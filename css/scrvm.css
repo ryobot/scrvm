@@ -38,6 +38,17 @@ textarea{
 }
 
 /*----------------------*/
+.header_title{
+	font-size:100%;
+}
+
+.every_other_row_odd tr:nth-child(2n-1) {
+  background: #eee;
+}
+.every_other_row_even tr:nth-child(2n) {
+  background: #eee;
+}
+
 .actions a{
 	background: #DDD -moz-linear-gradient(center top , #EEE, #DDD) repeat scroll 0 0;
 	border: 1px solid #BBB;
@@ -93,3 +104,17 @@ textarea{
 .album_search_cover_result:hover{
 	border:5px solid #3C3;
 }
+
+.pager{
+	text-align: center;
+}
+
+/*----------------------*/
+.w100per{width:100%;}
+.w50per{width:50%;}
+.w25per{width:25%;}
+.w20per{width:20%;}
+.taright{text-align: right;}
+.taleft{text-align: left;}
+.tacenter{text-align: center;}
+

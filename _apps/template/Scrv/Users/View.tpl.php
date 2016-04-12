@@ -46,6 +46,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 
 	<h3>Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)</h3>
 
+<?php if (count($reviews) > 0): ?>
+
 	<p class="pager">
 <?php if($prev_link !== ""): ?>
 		<a href="<?= h($prev_link) ?>">≪prev</a>
@@ -60,22 +62,23 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endif;?>
 	</p>
 
-	<table>
+	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
 		<tr>
-			<td><img class="album_search_cover_result" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" /></td>
+			<td class="w20per">
+				<img class="album_search_cover_result" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" />
+			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
 				<div><?= h($review["created"]) ?></div>
+				<p><?= h($review["body"]) ?></p>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
-				<div class="actions">
+				<p class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-				</div>
+				</p>
 <?php endif;?>
-		</tr>
-		<tr>
-			<td colspan="3"><?= h($review["body"]) ?></td>
+			</td>
 		</tr>
 <?php		endforeach; ?>
 	</table>
@@ -93,6 +96,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 		<span>next≫</span>
 <?php endif;?>
 	</p>
+
+<?php endif; ?>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

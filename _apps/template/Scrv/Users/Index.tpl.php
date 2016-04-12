@@ -18,12 +18,12 @@
 	<h2>Users</h2>
 
 	<div class="lists">
-		<table><tbody>
+		<table class="w100per every_other_row_even">
 			<tr>
 				<th></th>
-				<th>username</th>
-				<th><?php if($is_login): ?>syncs<?php endif;?></th>
-				<th>reviews</th>
+				<th class="taleft">username</th>
+				<th class="taleft"><?php if($is_login): ?>syncs<?php endif;?></th>
+				<th class="taleft">reviews</th>
 				<th></th>
 			</tr>
 <?php foreach($lists as $list): ?>
@@ -41,7 +41,7 @@
 				</td>
 			</tr>
 <?php endforeach; unset($list) ?>
-		</tbody></table>
+		</table>
 	</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

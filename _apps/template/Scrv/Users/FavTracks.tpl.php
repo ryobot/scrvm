@@ -45,6 +45,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 
 	<h3>Fav.Tracks (<?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?>)</h3>
 
+<?php if(count($favtracks) > 0): ?>
+
 	<p class="pager">
 <?php if($prev_link !== ""): ?>
 		<a href="<?= h($prev_link) ?>">≪prev</a>
@@ -59,7 +61,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endif;?>
 	</p>
 
-	<table>
+	<table class="w100per every_other_row_odd">
 <?php foreach($favtracks as $favtrack): ?>
 		<tr>
 			<td><img class="album_search_cover_result" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
@@ -84,6 +86,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 		<span>next≫</span>
 <?php endif;?>
 	</p>
+
+<?php endif; ?>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

@@ -8,18 +8,21 @@ namespace lib\Scrv\Dao;
 use lib\Scrv\Dao\Base as Dao;
 
 /**
- * Posts class
+ * Albums class
  * @author mgng
  */
 class Albums extends Dao
 {
 	/**
 	 * lists
-	 * @param integer $offset
-	 * @param integer $limit
-	 * @return getResult
+	 * @param int $offset
+	 * @param int $limit
+	 * @param string $artist
+	 * @param string $sort artist,title,year のいずれか
+	 * @param string $order asc, desc のいずれか
+	 * @return resultSet
 	 */
-	public function lists($offset,$limit, $artist)
+	public function lists($offset,$limit, $artist, $sort, $order)
 	{
 		$result = getResultSet();
 		$Dao = new Dao();
@@ -28,12 +31,15 @@ class Albums extends Dao
 			return $result;
 		}
 		try{
-			$sql = "SELECT * FROM albums ORDER BY artist, title LIMIT {$offset}, {$limit}";
+			$order_by = "ORDER BY {$sort} {$order}";
+			$offset_limit = "LIMIT {$offset},{$limit}";
+			$sql = "SELECT * FROM albums {$order_by} {$offset_limit}";
 			$sql_count = "SELECT count(id) cnt FROM albums";
 			$params = array();
 			if ( $artist !== null && $artist !== "" ) {
-				$sql = "SELECT * FROM albums WHERE (artist like :artist ESCAPE '!') ORDER BY artist, title LIMIT {$offset}, {$limit}";
-				$sql_count = "SELECT count(id) cnt FROM albums WHERE (artist like :artist ESCAPE '!') ";
+				$where = "WHERE (artist like :artist ESCAPE '!')";
+				$sql = "SELECT * FROM albums {$where} {$order_by} {$offset_limit}";
+				$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 				$params = array(
 					"artist" => "%" . $Dao->escapeForLike($artist) . "%"
 				);

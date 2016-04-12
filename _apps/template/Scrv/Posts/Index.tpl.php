@@ -48,6 +48,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	</form>
 <?php endif;?>
 
+<?php if(count($lists) > 0): ?>
+
 	<p class="pager">
 <?php if($prev_link !== ""): ?>
 		<a href="<?= h($prev_link) ?>">≪prev</a>
@@ -63,14 +65,17 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	</p>
 
 	<div class="lists">
+		<table class="w100per every_other_row_odd">
 <?php foreach($lists as $list): ?>
-		<div>
-			<h4><?= h($list["title"]) ?></h4>
-			<p><?= h($list["body"]) ?></p>
-			<p>(posted by <strong><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></strong> <?= h($list["created"]) ?>)</p>
-		</div>
-		<hr />
+			<tr>
+				<td>
+					<h4><?= h($list["title"]) ?></h4>
+					<p><?= nl2br(h($list["body"])) ?></p>
+					<p>(posted by <strong><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></strong> <?= h($list["created"]) ?>)</p>
+				</td>
+			</tr>
 <?php endforeach; unset($list) ?>
+		</table>
 	</div>
 
 	<p class="pager">
@@ -86,6 +91,8 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 		<span>next≫</span>
 <?php endif;?>
 	</p>
+
+<?php endif; ?>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
