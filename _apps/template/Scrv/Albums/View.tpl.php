@@ -107,7 +107,7 @@
 		dataType : 'json',
 		data : {
 			term : $("#id_term").val(),
-			country_list : ["jp","us"]
+			country_list : ["jp"]
 		}
 	})
 	.done(function(json){
