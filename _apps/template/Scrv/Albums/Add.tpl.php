@@ -94,10 +94,10 @@
 		})
 		.done(function(json){
 			var $result = $("#id_Albums_SearchArtist_result");
-			$result.html("");
+			$result.html("").css({display:"none"});
 			cache_search_result = json;
 			if ( json.length === 0 ) {
-				$result.append($("<p class='notfound' />").text("not found..."));
+				$result.append($("<p class='notfound' />").text("not found...")).slideToggle("middle");
 				return;
 			}
 			$result.append($("<h4 />").text("album データを選択してください。"));
@@ -114,6 +114,9 @@
 					$("<p />").text( artist + " / " + title + " (" + year + ")" ),
 					$("<p />").text(track_list.join(" / "))
 				).on("click.js", function(){
+
+					$result.slideToggle("middle");
+
 					// clickしたらその情報をformに反映、他の情報は削除
 					var cache_index = $(this).attr("data-cache_index");
 					var cache_data = cache_search_result[cache_index];
@@ -131,6 +134,7 @@
 					searchImage(search_q.replace("'", "\'").replace('"','\"'));
 				}));
 			}
+			$result.slideToggle("middle");
 
 		})
 		.fail(function(e){
@@ -150,7 +154,7 @@
 		})
 		.done(function(json){
 			var $result = $("#id_Albums_SearchImage_result");
-			$result.html("");
+			$result.html("").css({display:"none"});;
 			if ( json.length === 0 ) {
 				$result.append($("<p class='notfound' />").text("not found..."));
 				return;
@@ -163,10 +167,13 @@
 				}).on("click.js", function(){
 					var selected_img_url = $(this).attr("src");
 					$("#id_add_img_url").val(selected_img_url);
-					$("#id_selected_img_url").html("").append($("<img />").attr({src:selected_img_url}));
+					$("#id_selected_img_url").fadeOut("fast", function(){
+						$(this).html("").append($("<img />").attr({src:selected_img_url})).fadeIn("fast");
+					});
 				});
 				$result.append($img);
 			}
+			$result.slideToggle("middle");
 		})
 		.fail(function(e){
 			alert("image search system error.");

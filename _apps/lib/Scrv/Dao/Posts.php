@@ -20,19 +20,12 @@ class Posts extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -49,6 +42,7 @@ class Posts extends Dao
 	 */
 	public function lists( $offset, $limit )
 	{
+		$result = getResultSet();
 		try{
 			$data = $this->_Dao->select(
 				 "SELECT t1.*,t2.username FROM posts t1 "
@@ -56,15 +50,15 @@ class Posts extends Dao
 				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
 			);
 			$data_count = $this->_Dao->select("SELECT count(id) AS cnt FROM posts");
-			$this->_result["status"] = true;
-			$this->_result["data"] = array(
+			$result["status"] = true;
+			$result["data"] = array(
 				"lists" => $data,
 				"lists_count" => $data_count[0]["cnt"],
 			);
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -77,6 +71,7 @@ class Posts extends Dao
 	 */
 	public function add( $title, $body, $user_id, $album_id )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			$row_count = $this->_Dao->insert(
@@ -89,14 +84,14 @@ class Posts extends Dao
 					"album_id" => $album_id,
 				)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }

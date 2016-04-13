@@ -31,8 +31,9 @@ class View extends Base
 		}
 
 		// ユーザ情報取得
+		$login_use_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoUsers = new DaoUsers();
-		$user_result = $DaoUsers->view((int)$user_id);
+		$user_result = $DaoUsers->view((int)$user_id, $login_use_id);
 		if ( ! $user_result["status"] || count($user_result["data"]) === 0){
 			Server::send404Header("404 not found..");
 			return false;

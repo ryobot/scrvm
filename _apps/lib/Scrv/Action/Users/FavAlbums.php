@@ -31,8 +31,9 @@ class FavAlbums extends Base
 		}
 
 		// ユーザ情報取得
+		$login_use_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoUsers = new DaoUsers();
-		$user_result = $DaoUsers->view((int)$user_id);
+		$user_result = $DaoUsers->view((int)$user_id, $login_use_id);
 		if ( ! $user_result["status"] || count($user_result["data"]) === 0){
 			Server::send404Header("404 not found..");
 			return false;
@@ -57,7 +58,7 @@ class FavAlbums extends Base
 		$Pager = new Pager();
 
 		$this->_Template->assign(array(
-			"user_id" => $user_id,
+			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
 			"favalbums" => $favalbums_result["data"],
 			"pager" => $Pager->getPager($offset, $limit, $user_result["data"]["favalbums_count"]),

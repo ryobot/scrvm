@@ -22,13 +22,18 @@ class Search extends Base
 	public function run()
 	{
 		$term = mb_trim(Server::get("term", ""));
+		$country_list = Server::getArray("country_list", null);
 		if ( $term === "" ) {
+			Server::send404Header();
+			return false;
+		}
+		if ( !is_array($country_list) ) {
 			Server::send404Header();
 			return false;
 		}
 
 		$Itunes = new Itunes($this->_common_ini["itunes"]["api_url"]);
-		$result = $Itunes->searchAlbums($term);
+		$result = $Itunes->searchAlbums($term, $country_list);
 
 		header("Content-Type:application/json; charset=utf-8");
 		echo $result;

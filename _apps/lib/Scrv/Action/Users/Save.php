@@ -84,6 +84,14 @@ class Save extends Base
 			return false;
 		}
 
+		// 登録情報を取得してセッション情報を書き換える
+		$user_result = $DaoUsers->view($this->_login_user_data["id"]);
+		if ( !$user_result["status"] ) {
+			Server::send404Header("system error...");
+			return false;
+		}
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $user_result["data"]);
+
 		// セッションのpost_param をクリアしてリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 		$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("保存しました。"));

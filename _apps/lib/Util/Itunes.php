@@ -42,14 +42,33 @@ class Itunes
 	/**
 	 * itunes search albums
 	 * @param string $term
+	 * @param array $country_list
+	 * @return type
+	 */
+	public function searchAlbums($term, $country_list = array("jp","us"))
+	{
+		$result = "";
+		foreach( $country_list as $country ){
+			$res = $this->_search($term, $country);
+			if ( $res !== "" ) {
+				$result = $res;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * search itunes api
+	 * @param string $term
+	 * @param string $country
 	 * @return string
 	 */
-	public function searchAlbums($term)
+	public function _search($term, $country)
 	{
 		$query = http_build_query(array(
 			"term" => $term,
-			"country" => "jp",
-			"lang" => "ja_jp",
+			"country" => $country,
 			"entity" => "album",
 			"media"  => "music",
 			"limit" => 10,

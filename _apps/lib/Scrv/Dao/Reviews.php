@@ -20,19 +20,12 @@ class Reviews extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -48,19 +41,20 @@ class Reviews extends Dao
 	 */
 	public function review( $review_id )
 	{
+		$result = getResultSet();
 		try{
 			$data = $this->_Dao->select("SELECT * FROM reviews WHERE id=:review_id",array("review_id" => $review_id,));
 			if ( count($data) !== 1 ) {
 				throw new \Exception("not found");
 			}
-			$this->_result["status"] = true;
-			$this->_result["data"] = $data[0];
+			$result["status"] = true;
+			$result["data"] = $data[0];
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -71,6 +65,7 @@ class Reviews extends Dao
 	 */
 	public function lists( $offset, $limit )
 	{
+		$result = getResultSet();
 		try{
 			$data = $this->_Dao->select(
 				"SELECT "
@@ -82,15 +77,15 @@ class Reviews extends Dao
 				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
 			);
 			$data_count = $this->_Dao->select("SELECT count(id) cnt FROM reviews");
-			$this->_result["status"] = true;
-			$this->_result["data"] = array(
+			$result["status"] = true;
+			$result["data"] = array(
 				"reviews" => $data,
 				"reviews_count" => $data_count[0]["cnt"],
 			);
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -102,6 +97,7 @@ class Reviews extends Dao
 	 */
 	public function view( $user_id, $offset, $limit )
 	{
+		$result = getResultSet();
 		try{
 			$data = $this->_Dao->select(
 				 "SELECT t1.*, t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks,"
@@ -113,12 +109,12 @@ class Reviews extends Dao
 				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}",
 				array("user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $data;
+			$result["status"] = true;
+			$result["data"] = $data;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -133,6 +129,7 @@ class Reviews extends Dao
 	 */
 	public function add( $user_id, $album_id, $listening_last, $listening_system, $body )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// アルバムが存在するかチェック
@@ -152,17 +149,17 @@ class Reviews extends Dao
 					"listening_system" => $listening_system,
 				)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -174,6 +171,7 @@ class Reviews extends Dao
 	 */
 	public function del( $user_id, $review_id )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// reviewが存在するかチェック
@@ -189,17 +187,17 @@ class Reviews extends Dao
 				"DELETE FROM reviews WHERE id=:review_id AND user_id=:user_id",
 				array("review_id" => $review_id, "user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -214,6 +212,7 @@ class Reviews extends Dao
 	 */
 	public function edit( $user_id, $review_id, $listening_last, $listening_system, $body )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// レビューが存在するかチェック
@@ -236,17 +235,17 @@ class Reviews extends Dao
 					"listening_system" => $listening_system,
 				)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }

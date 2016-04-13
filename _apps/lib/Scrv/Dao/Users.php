@@ -21,19 +21,12 @@ class Users extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -45,26 +38,37 @@ class Users extends Dao
 	/**
 	 * users view
 	 * @param integer $user_id
+	 * @param integer $login_user_id
 	 * @return resultSet
 	 */
-	public function view($user_id)
+	public function view($user_id, $login_user_id = null)
 	{
+		$result = getResultSet();
 		try{
+			$syncs_column = "0 as sync_point";
+			$syncs_sql = "";
+			$params = array("user_id" => $user_id);
+			if (isset( $login_user_id )) {
+				$syncs_column = "t5.sync_point";
+				$syncs_sql = "LEFT JOIN syncs t5 ON(t1.id=t5.user_id AND t5.user_com_id=:login_user_id) ";
+				$params["login_user_id"] = $login_user_id;
+			}
 			$data = $this->_Dao->select(
-				 "SELECT t1.*, t2.favtracks_count, t3.favalbums_count, t4.reviews_count "
+				 "SELECT t1.*, t2.favtracks_count, t3.favalbums_count, t4.reviews_count, {$syncs_column} "
 				."FROM users t1 "
 				."LEFT JOIN(SELECT user_id,count(id) AS favtracks_count FROM favtracks GROUP BY user_id)t2 ON(t1.id=t2.user_id) "
 				."LEFT JOIN(SELECT user_id,count(id) AS favalbums_count FROM favalbums GROUP BY user_id)t3 ON(t1.id=t3.user_id) "
 				."LEFT JOIN(SELECT user_id,count(id) AS reviews_count   FROM reviews   GROUP BY user_id)t4 ON(t1.id=t4.user_id) "
+				.$syncs_sql
 				."WHERE t1.id=:user_id",
-				array( "user_id" => $user_id, )
+				$params
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $data[0];
+			$result["status"] = true;
+			$result["data"] = $data[0];
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -76,28 +80,47 @@ class Users extends Dao
 	 */
 	public function lists($offset, $limit, $login_user_id = null)
 	{
+		$result = getResultSet();
 		try{
-			$syncs_column = "";
+			$syncs_column = "0 as sync_point";
 			$syncs_sql = "";
 			$params = array();
 			if (isset( $login_user_id )) {
-				$syncs_column = "t2.sync_point,";
+				$syncs_column = "t2.sync_point";
 				$syncs_sql = "LEFT JOIN syncs t2 ON(t1.id=t2.user_com_id AND t2.user_id=:login_user_id) ";
 				$params = array("login_user_id" => $login_user_id);
 			}
 			$data = $this->_Dao->select(
-				 "SELECT t1.*, {$syncs_column} count(t3.id) AS review_count FROM users t1 "
+				 "SELECT t1.*, {$syncs_column}, count(t3.id) AS review_count FROM users t1 "
 				. $syncs_sql
 				."LEFT JOIN reviews t3 ON(t1.id=t3.user_id) "
 				."GROUP BY t1.id ORDER BY t1.created LIMIT {$offset},{$limit}",
 				$params
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $data;
+			$result["status"] = true;
+			$result["data"] = $data;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
+	}
+
+	/**
+	 * syncs TODO
+	 * @param integer $user_id
+	 * @param integer $login_user_id
+	 * @return string
+	 */
+	public function syncs($user_id, $login_user_id)
+	{
+		$result = getResultSet();
+		try{
+			$result["status"] = true;
+			$result["data"] = array();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
 	}
 
 	/**
@@ -109,6 +132,7 @@ class Users extends Dao
 	 */
 	public function addNew( $username, $password, $role )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// 存在チェック
@@ -132,17 +156,17 @@ class Users extends Dao
 					"role" => $role,
 				)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $insert_row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $insert_row_count;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -155,6 +179,7 @@ class Users extends Dao
 	 */
 	public function save($user_id, $username, $password, $img_file=null)
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// 存在チェック user_id
@@ -191,17 +216,17 @@ class Users extends Dao
 				$params["img_file"] = $img_file;
 			}
 			$row_count = $this->_Dao->update("{$sql}{$set}{$where}", $params);
-			$this->_result["status"] = true;
-			$this->_result["data"]["rowcount"] = $row_count;
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }

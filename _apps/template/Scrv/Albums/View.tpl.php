@@ -101,10 +101,14 @@
 	var BASE_PATH = "<?= h($base_path) ?>";
 
 	// itunes search
+	var $search_results = $("#id_itunes_search_results").html("");
 	$.ajax( BASE_PATH + 'Itunes/Search', {
 		method : 'GET',
 		dataType : 'json',
-		data : {term : $("#id_term").val()}
+		data : {
+			term : $("#id_term").val(),
+			country_list : ["jp","us"]
+		}
 	})
 	.done(function(json){
 		if ( json.resultCount === 0 ) {
@@ -116,14 +120,15 @@
 				target:"blank"
 			}).text("♪ iTunes - " + artist + " / " + title);
 		};
-		var $search_results = $("#id_itunes_search_results").html("");
 		for(var i=0,len=json.results.length; i<len; i++) {
 			var result = json.results[i];
-			var $itunes_link = $("<p />").append(
-				createLink(result.collectionViewUrl,result.artistName,result.collectionName)
+			$search_results.append(
+				$("<p />").append(
+					createLink(result.collectionViewUrl,result.artistName,result.collectionName)
+				)
 			);
-			$search_results.append($itunes_link);
 		}
+		$search_results.slideToggle("middle");
 	})
 	.fail(function(e){
 	})
@@ -133,7 +138,6 @@
 <?php if($is_login): ?>
 
 	var location_href = BASE_PATH + "Albums/View?id=<?= h($album_id) ?>";
-
 	// fav.album
 	$("#id_fav_album").on("click.js", function(){
 		var album_id = $(this).attr("data-album_id");
@@ -155,7 +159,6 @@
 		.always(function(){
 		});
 	});
-
 	// fav.tracks
 	$(".fav_track").each(function(){
 		var $fav_track = $(this);
@@ -174,7 +177,7 @@
 				}
 			})
 			.fail(function(e){
-				alert("system error..");
+				alert("system error...");
 			})
 			.always(function(){
 			});

@@ -20,19 +20,12 @@ class Tracks extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -49,6 +42,7 @@ class Tracks extends Dao
 	 */
 	public function favtracks( $album_id, $user_id )
 	{
+		$result = getResultSet();
 		try{
 			$search_result = $this->_Dao->select(
 				 "SELECT t1.*, t2.user_id FROM tracks t1 "
@@ -56,12 +50,12 @@ class Tracks extends Dao
 				."WHERE t1.album_id=:album_id AND t2.user_id=:user_id",
 				array("album_id" => $album_id, "user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $search_result;
+			$result["status"] = true;
+			$result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -71,6 +65,7 @@ class Tracks extends Dao
 	 */
 	public function favtracksByUserId( $user_id, $offset, $limit )
 	{
+		$result = getResultSet();
 		try{
 			$search_result = $this->_Dao->select(
 				 "SELECT t1.*,t3.artist,t3.title,t3.img_file,t3.year "
@@ -81,12 +76,12 @@ class Tracks extends Dao
 				."ORDER BY t2.created DESC LIMIT {$offset},{$limit}",
 				array("user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $search_result;
+			$result["status"] = true;
+			$result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -97,6 +92,7 @@ class Tracks extends Dao
 	 */
 	public function fav( $track_id, $user_id )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// sync point (track)
@@ -148,13 +144,13 @@ class Tracks extends Dao
 			}
 
 
-			$this->_result["status"] = true;
+			$result["status"] = true;
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }

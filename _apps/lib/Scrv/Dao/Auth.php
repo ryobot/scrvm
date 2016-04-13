@@ -21,19 +21,12 @@ class Auth extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -52,6 +45,7 @@ class Auth extends Dao
 	 */
 	public function login( $username, $password )
 	{
+		$result = getResultSet();
 		try{
 			$Password = new Password();
 			$password_hash = $Password->makePasswordHash(
@@ -67,14 +61,14 @@ class Auth extends Dao
 			if ( count($user_result) === 0 ) {
 				throw new \Exception("username または password が間違っています。");
 			}
-			$this->_result["status"] = true;
-			$this->_result["data"] = $user_result[0];
+			$result["status"] = true;
+			$result["data"] = $user_result[0];
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }

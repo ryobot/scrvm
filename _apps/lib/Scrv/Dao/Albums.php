@@ -20,19 +20,12 @@ class Albums extends Dao
 	private $_Dao = null;
 
 	/**
-	 * resultSet
-	 * @var array
-	 */
-	private $_result = null;
-
-	/**
 	 * construct
 	 * @return boolean
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_result = getResultSet();
 		$this->_Dao = new Dao();
 		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
@@ -52,6 +45,7 @@ class Albums extends Dao
 	 */
 	public function lists($offset,$limit, $artist, $sort, $order)
 	{
+		$result = getResultSet();
 		try{
 			$orderby = "ORDER BY {$sort} {$order}";
 			$offsetlimit = "LIMIT {$offset},{$limit}";
@@ -66,15 +60,15 @@ class Albums extends Dao
 			}
 			$albums_result = $this->_Dao->select($sql, $params);
 			$albums_count_result = $this->_Dao->select($sql_count, $params);
-			$this->_result["status"] = true;
-			$this->_result["data"] = array(
+			$result["status"] = true;
+			$result["data"] = array(
 				"lists" => $albums_result,
 				"lists_count" => $albums_count_result[0]["cnt"],
 			);
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -85,6 +79,7 @@ class Albums extends Dao
 	 */
 	public function view($id)
 	{
+		$result = getResultSet();
 		try{
 			// album 情報
 			$album_result = $this->_Dao->select(
@@ -114,18 +109,18 @@ class Albums extends Dao
 				."WHERE t1.album_id=:album_id ORDER BY t1.created DESC",
 				array("album_id" => $album_data["id"],)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = array(
+			$result["status"] = true;
+			$result["data"] = array(
 				"album" => $album_data,
 				"tracks" => $tracks_data,
 				"reviews" => $review_data,
 			);
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -140,6 +135,7 @@ class Albums extends Dao
 	 */
 	public function add($artist, $title, $year, $img_url, $img_file, array $tracks)
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// 同一アルバムがある場合はエラー(mysqlは大文字小文字区別しない)
@@ -186,17 +182,17 @@ class Albums extends Dao
 				);
 				$track_index++;
 			}
-			$this->_result["status"] = true;
-			$this->_result["data"]["album_id"] = $album_id;
+			$result["status"] = true;
+			$result["data"]["album_id"] = $album_id;
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
-			$this->_result["messages"][] = $ex->getMessage();
+			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -207,6 +203,7 @@ class Albums extends Dao
 	 */
 	public function favalbums( $album_id, $user_id )
 	{
+		$result = getResultSet();
 		try{
 			$search_result = $this->_Dao->select(
 				 "SELECT t1.*, t2.user_id FROM albums t1 "
@@ -214,12 +211,12 @@ class Albums extends Dao
 				."WHERE t1.id=:album_id AND t2.user_id=:user_id",
 				array("album_id" => $album_id, "user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $search_result;
+			$result["status"] = true;
+			$result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -231,6 +228,7 @@ class Albums extends Dao
 	 */
 	public function favalbumsByUserId( $user_id, $offset, $limit )
 	{
+		$result = getResultSet();
 		try{
 			$search_result = $this->_Dao->select(
 				 "SELECT t1.* FROM albums t1 "
@@ -239,12 +237,12 @@ class Albums extends Dao
 				."ORDER BY t2.created DESC LIMIT {$offset},{$limit}",
 				array("user_id" => $user_id,)
 			);
-			$this->_result["status"] = true;
-			$this->_result["data"] = $search_result;
+			$result["status"] = true;
+			$result["data"] = $search_result;
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 	/**
@@ -255,6 +253,7 @@ class Albums extends Dao
 	 */
 	public function fav( $album_id, $user_id )
 	{
+		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// sync point (album)
@@ -306,13 +305,13 @@ class Albums extends Dao
 				}
 			}
 
-			$this->_result["status"] = true;
+			$result["status"] = true;
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
-			$this->_result["messages"][] = "db error - " . $e->getMessage();
+			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
 		}
-		return $this->_result;
+		return $result;
 	}
 
 }
