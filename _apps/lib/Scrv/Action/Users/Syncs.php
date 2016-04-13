@@ -7,6 +7,7 @@
 namespace lib\Scrv\Action\Users;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Users as DaoUsers;
+use lib\Scrv\Dao\Syncs as DaoSyncs;
 use lib\Util\Server as Server;
 
 /**
@@ -35,19 +36,36 @@ class Syncs extends Base
 		}
 
 		// ユーザ情報取得
-		$login_use_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
+		$login_user_id = $this->_login_user_data["id"];
 		$DaoUsers = new DaoUsers();
-		$user_result = $DaoUsers->view((int)$user_id, $login_use_id);
+		$user_result = $DaoUsers->view((int)$user_id, $login_user_id);
 		if ( ! $user_result["status"] || count($user_result["data"]) === 0){
 			Server::send404Header("404 not found..");
 			return false;
 		}
 
 		// TODO sync一覧取得
+		$DaoSyncs = new DaoSyncs();
+		$sync_reviews_result = $DaoSyncs->reviews($user_id, $login_user_id);
+		if ( !$sync_reviews_result["status"] ) {
+			Server::send404Header("db error.");
+			return false;
+		}
+		$sync_albums_result = $DaoSyncs->albums($user_id, $login_user_id);
+		if ( !$sync_albums_result["status"] ) {
+			Server::send404Header("db error..");
+			return false;
+		}
+		$sync_tracks_result = $DaoSyncs->tracks($user_id, $login_user_id);
+		if ( !$sync_tracks_result["status"] ) {
+			Server::send404Header("db error...");
+			return false;
+		}
+
 		$syncs = array(
-			"reviews" => array(),
-			"albums" => array(),
-			"tracks" => array(),
+			"reviews" => $sync_reviews_result["data"],
+			"albums" => $sync_albums_result["data"],
+			"tracks" => $sync_tracks_result["data"],
 		);
 
 		$this->_Template->assign(array(

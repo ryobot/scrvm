@@ -106,24 +106,6 @@ class Users extends Dao
 	}
 
 	/**
-	 * syncs TODO
-	 * @param integer $user_id
-	 * @param integer $login_user_id
-	 * @return string
-	 */
-	public function syncs($user_id, $login_user_id)
-	{
-		$result = getResultSet();
-		try{
-			$result["status"] = true;
-			$result["data"] = array();
-		} catch( \PDOException $e ) {
-			$result["messages"][] = "db error - " . $e->getMessage();
-		}
-		return $result;
-	}
-
-	/**
 	 * addNew 処理
 	 * @param string $username
 	 * @param string $password

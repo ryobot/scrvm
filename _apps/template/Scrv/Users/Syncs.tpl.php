@@ -33,9 +33,82 @@
 	</div>
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
-	<h4>Sync Reviews</h4>
-	<h4>Sync Albums</h4>
-	<h4>Sync Tracks</h4>
+
+	<h4>Sync Reviews ( <?= count( $syncs["reviews"] ) ?> )</h4>
+<?php if (count( $syncs["reviews"] ) > 0):?>
+	<table class="w100per">
+<?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
+		<tr class="bgeee">
+			<td>
+				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($reviews[0]["img_file"]) ?>" alt="<?= h("{$reviews[0]["artist"]} / {$reviews[0]["title"]}") ?>" />
+			</td>
+			<td>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>"><?= h("{$reviews[0]["artist"]} / {$reviews[0]["title"]}") ?></a>
+				(<?= isset($reviews[0]["year"]) ? h($reviews[0]["year"]) : "unknown" ?>)
+				 : TODO pt
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<table class="w100per">
+<?php   foreach($reviews as $review): ?>
+					<tr>
+						<td>
+							<img class="user_photo_min" src="<?= h($base_path) ?>files/attachment/photo/<?= h($review["user_img_file"]) ?>" alt="<?= h($review["username"]) ?>" />
+						</td>
+						<td>
+							<div>reviewed by <strong><?= h($review["username"]) ?></strong></div>
+							<div><?= h($review["created"]) ?></div>
+							<div><?= h($review["body"]) ?></div>
+						</td>
+					</tr>
+<?php   endforeach; unset($review); ?>
+				</table>
+			</td>
+		</tr>
+<?php endforeach; unset($album_id, $reviews); ?>
+	</table>
+<?php endif; ?>
+
+
+	<h4>Sync Albums ( <?= count( $syncs["albums"] ) ?> )</h4>
+<?php if (count( $syncs["albums"] ) > 0):?>
+	<table class="w100per every_other_row_odd">
+<?php foreach($syncs["albums"] as $album): ?>
+		<tr>
+			<td class="w20per">
+				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
+			</td>
+			<td>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>"><?= h("{$album["artist"]} / {$album["title"]}") ?></a>
+				(<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)
+			</td>
+		</tr>
+<?php endforeach; unset($album); ?>
+	</table>
+<?php endif; ?>
+
+
+	<h4>Sync Tracks ( <?= count( $syncs["tracks"] ) ?> )</h4>
+<?php if (count( $syncs["tracks"] ) > 0):?>
+	<table class="w100per every_other_row_odd">
+<?php foreach($syncs["tracks"] as $track): ?>
+		<tr>
+			<td class="w20per">
+				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
+			</td>
+			<td>
+				<div><strong><?= h($track["track_title"]) ?></strong></div>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>"><?= h("{$track["artist"]} / {$track["title"]}") ?></a>
+				(<?= isset($track["year"]) ? h($track["year"]) : "unknown" ?>)
+				: tr. <?= h($track["track_num"]) ?>
+			</td>
+		</tr>
+<?php endforeach; unset($track); ?>
+	</table>
+<?php endif; ?>
+
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
