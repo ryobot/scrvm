@@ -33,8 +33,9 @@ class Index extends Base
 		$limit = $this->_common_ini["search"]["limit"];
 
 		// 一覧取得
+		$login_user_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoUsers = new DaoUsers();
-		$lists_result = $DaoUsers->lists((int)$offset, (int)$limit);
+		$lists_result = $DaoUsers->lists((int)$offset, (int)$limit, $login_user_id);
 		if ( ! $lists_result["status"] ) {
 			Server::send404Header("db error.");
 			return false;

@@ -71,17 +71,26 @@ class Users extends Dao
 	 * users lists
 	 * @param integer $offset
 	 * @param integer $limit
+	 * @param integer $login_user_id
 	 * @return resultSet
 	 */
-	public function lists($offset, $limit)
+	public function lists($offset, $limit, $login_user_id = null)
 	{
 		try{
+			$syncs_column = "";
+			$syncs_sql = "";
+			$params = array();
+			if (isset( $login_user_id )) {
+				$syncs_column = "t2.sync_point,";
+				$syncs_sql = "LEFT JOIN syncs t2 ON(t1.id=t2.user_com_id AND t2.user_id=:login_user_id) ";
+				$params = array("login_user_id" => $login_user_id);
+			}
 			$data = $this->_Dao->select(
-				 "SELECT t1.*, t2.sync_point, count(t3.id) AS review_count FROM users t1 "
-				."LEFT JOIN syncs   t2 ON(t1.id=t2.user_com_id) "
+				 "SELECT t1.*, {$syncs_column} count(t3.id) AS review_count FROM users t1 "
+				. $syncs_sql
 				."LEFT JOIN reviews t3 ON(t1.id=t3.user_id) "
 				."GROUP BY t1.id ORDER BY t1.created LIMIT {$offset},{$limit}",
-				array()
+				$params
 			);
 			$this->_result["status"] = true;
 			$this->_result["data"] = $data;

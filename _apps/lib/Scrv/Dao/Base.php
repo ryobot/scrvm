@@ -82,6 +82,9 @@ class Base extends Scrv\Base
 			$options = $this->_getOptions($ini);
 			// $this->_pdo = new \PDO( $dsn, $username, $password, $options);
 			self::$_pdo = new \PDO( $dsn, $username, $password, $options);
+			if ( isset( $ini["timezone"] ) ) {
+				self::$_pdo->query("SET SESSION time_zone = '{$ini["timezone"]}'");
+			}
 			return true;
 		} catch( \PDOException $e ) {
 			$this->_error_message = $e->getMessage();

@@ -30,10 +30,8 @@
 		<input type="hidden" name="user_id" value="<?= h($user_id) ?>" />
 		<p><input type="text" name="username" id="id_username" value="<?= h($post_params["username"]) ?>" placeholder="username" /></p>
 		<p><input type="password" name="password" id="id_password" value="" placeholder="password" /></p>
-		<p>
-			<img src="<?= isset($post_params["img_file"]) ? "{$base_path}files/attachment/photo/{$post_params["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" />
-			<input type="file" name="file" id="id_file" />
-		</p>
+		<p><input type="file" name="file" id="id_file" /></p>
+		<p><img src="<?= isset($post_params["img_file"]) ? "{$base_path}files/attachment/photo/{$post_params["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 		<p><input type="submit" value="save" ></p>
 	</form>
 

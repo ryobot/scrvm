@@ -86,6 +86,7 @@ class Save extends Base
 
 		// セッションのpost_param をクリアしてリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
+		$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("保存しました。"));
 		Server::redirect($this->_BasePath . "Users/Edit?id=" . $post_params["user_id"]);
 		return true;
 	}
