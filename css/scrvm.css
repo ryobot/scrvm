@@ -1,6 +1,11 @@
 @charset "UTF-8";
 
 /*----------------------*/
+*{
+	margin:0;
+	padding:0;
+}
+
 body {
 	background: #fff;
 	color: #003d4c;
@@ -11,12 +16,21 @@ body {
 	word-wrap:break-word;
 }
 
+h1,h2,h3,h4,h5,h6{
+	font-size: 100%;
+	margin: 0.3em 0;
+}
+
+p{
+	padding:0.3em 0;
+}
+
 table{
 	border-collapse: collapse;
 }
 
 td,th{
-	vertical-align: middle;
+	vertical-align: top;
 	margin:0;
 	padding: 2px;
 }
@@ -34,19 +48,26 @@ textarea{
 
 /*----------------------*/
 #container{
-	padding:0.5em;
+	padding:0.3em;
 }
 
 /*----------------------*/
 .header_title{
-	font-size:100%;
+}
+
+.menu{
+	margin:0.3em 0;
+}
+
+.pager{
+	margin:0.3em 0;
 }
 
 .every_other_row_odd tr:nth-child(2n-1) {
-  background: #eee;
+	background: #eee;
 }
 .every_other_row_even tr:nth-child(2n) {
-  background: #eee;
+	background: #eee;
 }
 
 .actions a{
@@ -126,3 +147,4 @@ textarea{
 .bgddd{background-color: #DDD;}
 .bgeee{background-color: #EEE;}
 .bgfff{background-color: #FFF;}
+.bgtrsp{background-color: transparent;}

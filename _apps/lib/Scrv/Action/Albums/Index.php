@@ -24,7 +24,7 @@ class Index extends Base
 	{
 		// 各パラメータ取得
 		$offset = Server::get("offset", "0");
-		$artist = Server::get("artist", "");
+		$artist = mb_trim(Server::get("artist", ""));
 		$sort = Server::get("sort", "artist");
 		$order = Server::get("order", "asc");
 

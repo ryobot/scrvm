@@ -27,8 +27,8 @@ class SearchArtist extends Base
 			return false;
 		}
 
-		$artist = Server::post("artist");
-		$title = Server::post("title");
+		$artist = mb_trim(Server::post("artist"));
+		$title = mb_trim(Server::post("title"));
 		$Gracenote = new Gracenote(
 			$this->_common_ini["gracenote"]["api_url"],
 			$this->_common_ini["gracenote"]["client_id"],

@@ -56,11 +56,11 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 			</td>
 			<td>
 				<div><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h( "{$review["artist"]} / {$review["title"]}") ?></a> (<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)</div>
-				<div>
-					reviewd by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-					<?= h($review["created"]) ?>
-				</div>
 				<p><?= h($review["body"]) ?></p>
+				<p>
+					reviewd by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a><br />
+					<?= h($review["created"]) ?>
+				</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 				<p class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
@@ -68,9 +68,11 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 				</p>
 <?php endif;?>
 			</td>
-			<td>
-				<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
+			<td class="w20per">
+				<p>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
+					<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
+				</p>
 			</td>
 		</tr>
 <?php endforeach; ?>

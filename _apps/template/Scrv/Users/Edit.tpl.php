@@ -28,11 +28,23 @@
 	<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<input type="hidden" name="user_id" value="<?= h($user_id) ?>" />
-		<p><input type="text" name="username" id="id_username" value="<?= h($post_params["username"]) ?>" placeholder="username" /></p>
-		<p><input type="password" name="password" id="id_password" value="" placeholder="password" /></p>
-		<p><input type="file" name="file" id="id_file" /></p>
-		<p><img src="<?= isset($post_params["img_file"]) ? "{$base_path}files/attachment/photo/{$post_params["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
-		<p><input type="submit" value="save" ></p>
+		<table>
+			<tr>
+				<td><input type="text" name="username" id="id_username" value="<?= h($post_params["username"]) ?>" placeholder="username" /></td>
+			</tr>
+			<tr>
+				<td><input type="password" name="password" id="id_password" value="" placeholder="password" /></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="file" name="file" id="id_file" />
+					<p><img src="<?= isset($post_params["img_file"]) ? "{$base_path}files/attachment/photo/{$post_params["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
+				</td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="save" ></td>
+			</tr>
+		</table>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

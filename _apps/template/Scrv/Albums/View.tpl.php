@@ -40,7 +40,7 @@
 	<p class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
 
-	<table>
+	<table class="w100per every_other_row_odd">
 <?php foreach($tracks as $track): ?>
 		<tr>
 			<td><?= $track["track_num"] ?></td>
@@ -58,35 +58,32 @@
 					data-track_id="<?= h($track["id"]) ?>"
 					alt="fav track"
 				/>
+				<?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?>
 			</td>
-			<td><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></td>
+<!--			<td><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></td>-->
 		</tr>
 <?php endforeach;?>
 	</table>
 
-	<p id="id_itunes_search_results"></p>
-
-	<h3>Reviews ( <?= count($reviews) ?> )</h3>
-	<table>
+	<h3>Reviews (<?= count($reviews) ?>)</h3>
+	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td>
-				<div>reviewed by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a></div>
-				<div><?= h($review["created"]) ?></div>
-			</td>
-			<td>
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="3">
-				<?= h($review["body"]) ?>
-				<hr />
+			<td>
+				<div><?= h($review["body"]) ?></div>
+				<p>
+					reviewed by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a><br />
+					<?= h($review["created"]) ?>
+				</p>
 			</td>
 		</tr>
 <?php endforeach; ?>
 	</table>
+
+	<p id="id_itunes_search_results"></p>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
@@ -118,17 +115,23 @@
 			return $("<a />").attr({
 				href:url,
 				target:"blank"
-			}).text("♪ iTunes - " + artist + " / " + title);
+			}).text("♪ " + artist + " / " + title);
 		};
-		for(var i=0,len=json.results.length; i<len; i++) {
+
+		var i=0,len=json.results.length;
+		$search_results.append($("<h3 />").text("iTunes ("+len+")"));
+		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		for(; i<len; i++) {
 			var result = json.results[i];
-			$search_results.append(
-				$("<p />").append(
-					createLink(result.collectionViewUrl,result.artistName,result.collectionName)
+			$table.append(
+				$("<tr />").append(
+					$("<td />").append(
+						createLink(result.collectionViewUrl,result.artistName,result.collectionName)
+					)
 				)
 			);
 		}
-		$search_results.slideToggle("middle");
+		$search_results.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
 	})

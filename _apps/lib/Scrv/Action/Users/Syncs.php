@@ -9,6 +9,7 @@ use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Users as DaoUsers;
 use lib\Scrv\Dao\Syncs as DaoSyncs;
 use lib\Util\Server as Server;
+use lib\Util\Syncs as UtilSyncs;
 
 /**
  * Users Syncs class
@@ -44,7 +45,7 @@ class Syncs extends Base
 			return false;
 		}
 
-		// TODO sync一覧取得
+		// sync一覧取得
 		$DaoSyncs = new DaoSyncs();
 		$sync_reviews_result = $DaoSyncs->reviews($user_id, $login_user_id);
 		if ( !$sync_reviews_result["status"] ) {
@@ -62,10 +63,24 @@ class Syncs extends Base
 			return false;
 		}
 
+// TODO ....
+//		// 前後からsync pointを生成
+//		$UtilSyncs = new UtilSyncs();
+//		foreach($sync_reviews_result["data"] as &$reviews){
+//			for($i=1,$len=count($reviews); $i<$len; $i++){
+//				$current_created = $reviews[$i-1]["created"];
+//				$next_created = $reviews[$i]["created"];
+//				$syncs = $UtilSyncs->calcPoint($current_created, $next_created);
+//				$reviews[$i-1]["syncs"] = $syncs;
+//			}
+//		} unset($reviews);
+
 		$syncs = array(
 			"reviews" => $sync_reviews_result["data"],
 			"albums" => $sync_albums_result["data"],
 			"tracks" => $sync_tracks_result["data"],
+			"albums_point" => count($sync_albums_result["data"]) * 5,
+			"tracks_point" => count($sync_tracks_result["data"]) * 2,
 		);
 
 		$this->_Template->assign(array(

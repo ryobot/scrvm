@@ -15,7 +15,9 @@
 		<td class="w50per taright auth">
 <?php if( $is_login ):?>
 			<div>user : <a href="<?= h($base_path) ?>Users/View?id=<?= h($login_user_data["id"]) ?>"><?= h($login_user_data["username"]) ?></a></div>
-			<div class="actions"><a id="id_logout" href="javascript:;">Logout</a></div>
+			<p class="actions">
+				<a id="id_logout" href="javascript:;">Logout</a>
+			</p>
 			<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
 			<script>
 				;$(function(){
@@ -26,10 +28,10 @@
 			</script>
 <?php else: ?>
 			<div>user : guest</div>
-			<div class="actions">
+			<p class="actions">
 				<a href="<?= h($base_path) ?>Auth">Login</a>
 				<a href="<?= h($base_path) ?>Users/Add">new user</a>
-			</div>
+			</p>
 <?php endif; ?>
 		</td>
 	</tr>

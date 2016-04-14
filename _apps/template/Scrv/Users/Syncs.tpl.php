@@ -34,7 +34,9 @@
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
 
-	<h4>Sync Reviews ( <?= count( $syncs["reviews"] ) ?> )</h4>
+	<h4>
+		Sync Reviews (<?= count( $syncs["reviews"] ) ?>)
+	</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
 	<table class="w100per">
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
@@ -51,16 +53,18 @@
 		<tr>
 			<td></td>
 			<td>
-				<table class="w100per">
+				<table>
 <?php   foreach($reviews as $review): ?>
 					<tr>
 						<td>
 							<img class="user_photo_min" src="<?= h($base_path) ?>files/attachment/photo/<?= h($review["user_img_file"]) ?>" alt="<?= h($review["username"]) ?>" />
 						</td>
 						<td>
-							<div>reviewed by <strong><?= h($review["username"]) ?></strong></div>
-							<div><?= h($review["created"]) ?></div>
 							<div><?= h($review["body"]) ?></div>
+							<p>
+								reviewed by <strong><?= h($review["username"]) ?></strong><br />
+								<?= h($review["created"]) ?>
+							</p>
 						</td>
 					</tr>
 <?php   endforeach; unset($review); ?>
@@ -72,7 +76,10 @@
 <?php endif; ?>
 
 
-	<h4>Sync Albums ( <?= count( $syncs["albums"] ) ?> )</h4>
+	<h4>
+		Sync Albums (<?= count( $syncs["albums"]) ?>)
+		: <?= count($syncs["albums"])*5 ?>pt
+	</h4>
 <?php if (count( $syncs["albums"] ) > 0):?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($syncs["albums"] as $album): ?>
@@ -90,7 +97,10 @@
 <?php endif; ?>
 
 
-	<h4>Sync Tracks ( <?= count( $syncs["tracks"] ) ?> )</h4>
+	<h4>
+		Sync Tracks (<?= count( $syncs["tracks"] ) ?>)
+		: <?= count($syncs["tracks"])*2 ?>pt
+	</h4>
 <?php if (count( $syncs["tracks"] ) > 0):?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($syncs["tracks"] as $track): ?>
