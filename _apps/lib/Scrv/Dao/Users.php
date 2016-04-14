@@ -118,7 +118,9 @@ class Users extends Dao
 		$this->_Dao->beginTransaction();
 		try{
 			// 存在チェック
-			$user_result = $this->_Dao->select("SELECT * FROM users WHERE username=:username",array("username"=>$username,));
+			$user_sql = "SELECT * FROM users WHERE username=:username";
+			$user_params = array("username"=>$username,);
+			$user_result = $this->_Dao->select($user_sql, $user_params);
 			if ( count($user_result) > 0 ) {
 				throw new \Exception("その username は既に登録されています。");
 			}
@@ -129,7 +131,8 @@ class Users extends Dao
 				$this->_common_ini["password"]["hash_seed"],
 				(int)$this->_common_ini["password"]["hash_count"]
 			);
-			$insert_row_count = $this->_Dao->insert(
+			// 登録
+			$this->_Dao->insert(
 				 "INSERT INTO users (username,password,role,created,modified) "
 				."VALUES(:username,:password_hash,:role,now(),now())",
 				array(
@@ -138,8 +141,10 @@ class Users extends Dao
 					"role" => $role,
 				)
 			);
+			// 登録したユーザ情報を返す
+			$add_user_data = $this->_Dao->select($user_sql, $user_params);
 			$result["status"] = true;
-			$result["data"]["rowcount"] = $insert_row_count;
+			$result["data"] = array("user_data" => $add_user_data,);
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();
@@ -165,7 +170,10 @@ class Users extends Dao
 		$this->_Dao->beginTransaction();
 		try{
 			// 存在チェック user_id
-			$user_result = $this->_Dao->select("SELECT * FROM users WHERE id=:user_id",array("user_id"=>$user_id,));
+			$user_result = $this->_Dao->select(
+				"SELECT * FROM users WHERE id=:user_id",
+				array("user_id"=>$user_id,)
+			);
 			if ( count($user_result) === 0 ) {
 				throw new \Exception("ユーザが存在しません。");
 			}

@@ -57,7 +57,7 @@
 <?php   foreach($reviews as $review): ?>
 					<tr>
 						<td>
-							<img class="user_photo_min" src="<?= h($base_path) ?>files/attachment/photo/<?= h($review["user_img_file"]) ?>" alt="<?= h($review["username"]) ?>" />
+							<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
 						</td>
 						<td>
 							<div><?= h($review["body"]) ?></div>
