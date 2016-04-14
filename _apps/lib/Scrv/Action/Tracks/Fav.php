@@ -33,12 +33,30 @@ class Fav extends Base
 			return false;
 		}
 
+		header("Content-Type:application/json; charset=utf-8");
+
 		// favtracks更新
 		$DaoTracks = new DaoTracks();
 		$fav_result = $DaoTracks->fav((int)$track_id, $this->_login_user_data["id"]);
+		if ( !$fav_result["status"] ) {
+			echo json_encode($fav_result);
+			return false;
+		}
 
-		header("Content-Type:application/json; charset=utf-8");
-		echo json_encode($fav_result);
+		// 再取得
+		$favcount_result = $DaoTracks->favCount((int)$track_id);
+		if ( !$favcount_result["status"] ) {
+			echo json_encode($favcount_result);
+			return false;
+		}
+
+		echo json_encode(array(
+			"status" => true,
+			"data" => array(
+				"operation" => $fav_result["data"]["operation"],
+				"fav_count" => $favcount_result["data"]["count"],
+			),
+		));
 
 		return true;
 	}

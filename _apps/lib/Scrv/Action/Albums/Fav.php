@@ -33,12 +33,32 @@ class Fav extends Base
 			return false;
 		}
 
-		// fav.albums更新
-		$DaoAlbums = new DaoAlbums();
-		$fav_result = $DaoAlbums->fav((int)$album_id, $this->_login_user_data["id"]);
-
+		// json header
 		header("Content-Type:application/json; charset=utf-8");
-		echo json_encode($fav_result);
+
+		$DaoAlbums = new DaoAlbums();
+
+		// fav.albums更新
+		$fav_result = $DaoAlbums->fav((int)$album_id, $this->_login_user_data["id"]);
+		if ( ! $fav_result["status"] ) {
+			echo json_encode($fav_result);
+			return false;
+		}
+
+		// 再取得
+		$favcount_result = $DaoAlbums->favCount((int)$album_id);
+		if ( ! $favcount_result["status"] ) {
+			echo json_encode($favcount_result);
+			return false;
+		}
+
+		echo json_encode(array(
+			"status" => true,
+			"data" => array(
+				"operation" => $fav_result["data"]["operation"],
+				"fav_count" => $favcount_result["data"]["count"],
+			),
+		));
 
 		return true;
 	}

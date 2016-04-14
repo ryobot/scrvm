@@ -33,7 +33,7 @@
 			data-album_id="<?= h($album_id) ?>"
 			alt="fav album"
 		/>
-		<?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?>
+		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
 	</p>
 
 <?php if($is_login): ?>
@@ -53,14 +53,13 @@
 <?php else:?>
 					src="<?= h($base_path) ?>img/chk_gry.png"
 <?php endif;?>
-					data-fav_on="<?= h($base_path) ?>img/chk_gry.png"
-					data-fav_off="<?= h($base_path) ?>img/chk_ylw.png"
+					data-fav_on="<?= h($base_path) ?>img/chk_ylw.png"
+					data-fav_off="<?= h($base_path) ?>img/chk_gry.png"
 					data-track_id="<?= h($track["id"]) ?>"
 					alt="fav track"
 				/>
-				<?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?>
+				<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
 			</td>
-<!--			<td><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></td>-->
 		</tr>
 <?php endforeach;?>
 	</table>
@@ -143,7 +142,8 @@
 	var location_href = BASE_PATH + "Albums/View?id=<?= h($album_id) ?>";
 	// fav.album
 	$("#id_fav_album").on("click.js", function(){
-		var album_id = $(this).attr("data-album_id");
+		var $this = $(this);
+		var album_id = $this.attr("data-album_id");
 		$.ajax( BASE_PATH + 'Albums/Fav', {
 			method : 'POST',
 			dataType : 'json',
@@ -153,7 +153,11 @@
 			if (!json.status) {
 				alert("system error.");
 			} else {
-				location.href=location_href;
+				var operation = json.data.operation;
+				var fav_count = json.data.fav_count;
+				var img_src = $this.attr( operation === "delete" ? "data-fav_off" : "data-fav_on" );
+				$this.attr({src : img_src});
+				$("#id_fav_album_count").text(fav_count === 0 ? "" : "("+fav_count+")");
 			}
 		})
 		.fail(function(e){
@@ -162,11 +166,12 @@
 		.always(function(){
 		});
 	});
+
 	// fav.tracks
 	$(".fav_track").each(function(){
-		var $fav_track = $(this);
-		$fav_track.on("click.js", function(){
-			var track_id = $fav_track.attr("data-track_id");
+		var $this = $(this);
+		$this.on("click.js", function(){
+			var track_id = $this.attr("data-track_id");
 			$.ajax( BASE_PATH + 'Tracks/Fav', {
 				method : 'POST',
 				dataType : 'json',
@@ -176,7 +181,11 @@
 				if (!json.status) {
 					alert("system error.");
 				} else {
-					location.href=location_href;
+					var operation = json.data.operation;
+					var fav_count = json.data.fav_count;
+					var img_src = $this.attr( operation === "delete" ? "data-fav_off" : "data-fav_on" );
+					$this.attr({src : img_src});
+					$("#id_fav_track_count_" + track_id).text(fav_count === 0 ? "" : "("+fav_count+")");
 				}
 			})
 			.fail(function(e){

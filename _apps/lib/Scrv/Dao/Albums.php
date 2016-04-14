@@ -261,16 +261,22 @@ class Albums extends Dao
 			// 存在したらdeleteでpoint減算, しなければinsert or updateで加算
 			$params = array("album_id" => $album_id,"user_id" => $user_id,);
 			$sel_result = $this->_Dao->select("SELECT * FROM favalbums WHERE album_id=:album_id AND user_id=:user_id", $params);
+			$oparation = "delete";
 			if ( count($sel_result) > 0 ) {
 				$this->_Dao->delete("DELETE FROM favalbums WHERE album_id=:album_id AND user_id=:user_id",$params);
 				$add_point = -5;
+				$oparation = "delete";
 			} else {
 				$this->_Dao->insert("INSERT INTO favalbums (favtype,album_id,user_id,created) VALUES('alltime',:album_id,:user_id,now())", $params);
+				$oparation = "insert";
 			}
 
 			// XXX ...
 			// favalbums テーブルを参照して同じ album_id を登録しているユーザ一覧を取得、なければ終わり
-			$fav_user_id_list = $this->_Dao->select("SELECT user_id FROM favalbums WHERE album_id=:album_id AND user_id<>:user_id", $params);
+			$fav_user_id_list = $this->_Dao->select(
+				"SELECT user_id FROM favalbums WHERE album_id=:album_id AND user_id<>:user_id",
+				$params
+			);
 			if (count($fav_user_id_list) === 0) {
 			} else {
 				// syncs.sync_pointが存在するか確認
@@ -306,10 +312,36 @@ class Albums extends Dao
 			}
 
 			$result["status"] = true;
+			$result["data"] = array(
+				"operation" => $oparation,
+			);
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
+	/**
+	 * favCount
+	 * @param int $album_id
+	 * @return resultSet
+	 */
+	public function favCount($album_id)
+	{
+		$result = getResultSet();
+		try{
+			$search_result = $this->_Dao->select("
+				SELECT count(id) AS cnt FROM favalbums WHERE album_id=:aid",
+				array("aid" => $album_id,)
+			);
+			$result["status"] = true;
+			$result["data"] = array(
+				"count" => $search_result[0]["cnt"],
+			);
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
 		return $result;
 	}

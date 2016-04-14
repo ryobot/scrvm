@@ -100,11 +100,14 @@ class Tracks extends Dao
 			// 存在したらdeleteでpoint減算, しなければinsert or updateで加算
 			$params = array("track_id" => $track_id,"user_id" => $user_id,);
 			$search_result = $this->_Dao->select("SELECT * FROM favtracks WHERE track_id=:track_id AND user_id=:user_id",$params);
+			$oparation = "delete";
 			if ( count($search_result) > 0 ) {
 				$this->_Dao->delete("DELETE FROM favtracks WHERE track_id=:track_id AND user_id=:user_id",$params);
 				$add_point = -2;
+				$oparation = "delete";
 			} else {
 				$this->_Dao->insert("INSERT INTO favtracks(favtype,track_id,user_id,created) VALUES('alltime',:track_id,:user_id,now())",$params);
+				$oparation = "insert";
 			}
 
 			// XXX ...
@@ -143,12 +146,37 @@ class Tracks extends Dao
 				}
 			}
 
-
 			$result["status"] = true;
+			$result["data"] = array(
+				"operation" => $oparation,
+			);
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
+	/**
+	 * favCount
+	 * @param int $track_id
+	 * @return resultSet
+	 */
+	public function favCount($track_id)
+	{
+		$result = getResultSet();
+		try{
+			$search_result = $this->_Dao->select("
+				SELECT count(id) AS cnt FROM favtracks WHERE track_id=:tid",
+				array("tid" => $track_id,)
+			);
+			$result["status"] = true;
+			$result["data"] = array(
+				"count" => $search_result[0]["cnt"],
+			);
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
 		}
 		return $result;
 	}
