@@ -75,13 +75,14 @@ class AddRun extends Base
 		}
 
 		// sendtwitter
-		$this->_sendTwtter(
-			$post_params["send_twitter"],
-			$post_params["album_id"],
-			$add_result["data"]["album_data"]["artist"],
-			$add_result["data"]["album_data"]["title"],
-			$post_params["body"]
-		);
+		if ( isset($post_params["send_twitter"]) && $post_params["send_twitter"] === "1" ) {
+			$this->_sendTwtter(
+				$post_params["album_id"],
+				$add_result["data"]["album_data"]["artist"],
+				$add_result["data"]["album_data"]["title"],
+				$post_params["body"]
+			);
+		}
 
 		// Reviewsにリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
@@ -115,20 +116,15 @@ class AddRun extends Base
 
 	/**
 	 * sendTwitter
-	 * @param string $send_twitter
 	 * @param string $album_id
 	 * @param string $artist
 	 * @param string $title
 	 * @param string $body
 	 * @return resuktSet
 	 */
-	private function _sendTwtter($send_twitter, $album_id, $artist, $title, $body)
+	private function _sendTwtter($album_id, $artist, $title, $body)
 	{
 		$result = getResultSet();
-		if (!isset($send_twitter) || !isset($this->_login_user_data["twitter_user_id"])) {
-			$result["status"] = true;
-			return $result;
-		}
 		$tmhOAuth = new \tmhOAuth( array(
 			'consumer_key'    => $this->_common_ini["twitter"]['consumer_key'],
 			'consumer_secret' => $this->_common_ini["twitter"]['consumer_secret'],
