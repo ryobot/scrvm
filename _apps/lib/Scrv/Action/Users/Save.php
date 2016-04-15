@@ -32,19 +32,9 @@ class Save extends Base
 			"token" => Server::post("token", ""),
 			"username" => Server::post("username", ""),
 			"password" => Server::post("password", ""),
-			"user_id" => Server::post("user_id", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
-		}
-		$this->_Session->set(Scrv\SessionKeys::POST_PARAMS, $post_params);
-
-		// 管理者以外でセッションのユーザIDとPOST user_id が一致しなかったらエラー
-		if ( $this->_login_user_data["role"] !== "admin"
-			&& $post_params["user_id"] !== (string)$this->_login_user_data["id"]
-		) {
-			Server::send404Header("system error.");
-			return false;
 		}
 
 		// CSRFチェック
@@ -58,29 +48,29 @@ class Save extends Base
 		$check_result = $this->_checkPostParams($post_params);
 		if ( ! $check_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $check_result["messages"]);
-			Server::redirect($this->_BasePath . "Users/Edit?id=" . $post_params["user_id"]);
+			Server::redirect($this->_BasePath . "Users/Edit");
 			return false;
 		}
 
 		// ファイルアップロード チェック
-		$upload_result = $this->_checkFileUpload("file", (int)$post_params["user_id"]);
+		$upload_result = $this->_checkFileUpload("file", $this->_login_user_data["id"]);
 		if ( ! $upload_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $upload_result["messages"]);
-			Server::redirect($this->_BasePath . "Users/Edit?id=" . $post_params["user_id"]);
+			Server::redirect($this->_BasePath . "Users/Edit");
 			return false;
 		}
 
 		// 登録処理
 		$DaoUsers = new DaoUsers();
 		$save_result = $DaoUsers->save(
-			(int)$post_params["user_id"],
+			$this->_login_user_data["id"],
 			$post_params["username"],
 			$post_params["password"],
 			isset( $upload_result["data"]["img_file"] ) ? $upload_result["data"]["img_file"] : null
 		);
 		if ( ! $save_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $save_result["messages"]);
-			Server::redirect($this->_BasePath . "Users/Edit?id=" . $post_params["user_id"]);
+			Server::redirect($this->_BasePath . "Users/Edit");
 			return false;
 		}
 
@@ -95,7 +85,7 @@ class Save extends Base
 		// セッションのpost_param をクリアしてリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 		$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("保存しました。"));
-		Server::redirect($this->_BasePath . "Users/Edit?id=" . $post_params["user_id"]);
+		Server::redirect($this->_BasePath . "Users/Edit");
 		return true;
 	}
 
@@ -113,11 +103,8 @@ class Save extends Base
 		} else if ( mb_strlen($post_params["username"]) > 50 ){
 			$check_result["messages"]["username"] = "username は50文字以内で入力してください。";
 		}
-
 		if ( $post_params["password"] === "" ) {
 			$check_result["messages"]["password"] = "password が未入力です。";
-		} else if ( mb_strlen($post_params["password"]) > 100 ){
-			$check_result["messages"]["password"] = "password は100文字以内で入力してください";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

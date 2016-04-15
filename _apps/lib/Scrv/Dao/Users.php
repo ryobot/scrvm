@@ -160,7 +160,6 @@ class Users extends Dao
 	 * save 処理
 	 * @param integer $user_id
 	 * @param string $username
-	 * @param string $password
 	 * @param string $img_file default null
 	 * @return resultSet
 	 */
@@ -183,8 +182,9 @@ class Users extends Dao
 				array("username"=>$username,"user_id"=>$user_id,)
 			);
 			if ( count($username_result) > 0 ) {
-				throw new \Exception("その username は既に登録されています。");
+				throw new \Exception("{$username} は既に登録されています。");
 			}
+
 			$Password = new Password();
 			$password_hash = $Password->makePasswordHash(
 				$username,
@@ -192,14 +192,15 @@ class Users extends Dao
 				$this->_common_ini["password"]["hash_seed"],
 				(int)$this->_common_ini["password"]["hash_count"]
 			);
+
 			// img_fileはnullじゃない場合に設定
 			$sql = "UPDATE users ";
-			$set = "SET username=:username,password=:password_hash,modified=now() ";
-			$where = "WHERE id=:user_id";
+			$set = "SET username=:username,password=:pwd,modified=now() ";
+			$where = "WHERE id=:uid";
 			$params = array(
 				"username" => $username,
-				"password_hash" => $password_hash,
-				"user_id" => $user_id,
+				"uid" => $user_id,
+				"pwd" => $password_hash,
 			);
 			if ( $img_file !== null ) {
 				$set .= ",img_file=:img_file ";
@@ -212,6 +213,84 @@ class Users extends Dao
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();
 			$this->_Dao->rollBack();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
+	/**
+	 * save password
+	 * @param type $user_id
+	 * @param type $password
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function savePassword($user_id, $username, $password)
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			// 存在チェック user_id
+			$user_result = $this->_Dao->select("SELECT * FROM users WHERE id=:user_id",array("user_id"=>$user_id,));
+			if ( count($user_result) === 0 ) {
+				throw new \Exception("ユーザが存在しません。");
+			}
+			$Password = new Password();
+			$password_hash = $Password->makePasswordHash(
+				$username,
+				$password,
+				$this->_common_ini["password"]["hash_seed"],
+				(int)$this->_common_ini["password"]["hash_count"]
+			);
+			$sql = "UPDATE users SET password=:pwd,modified=now() WHERE id=:uid";
+			$params = array(
+				"pwd" => $password_hash,
+				"uid" => $user_id,
+			);
+			$row_count = $this->_Dao->update($sql, $params);
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
+			$this->_Dao->commit();
+		} catch( \Exception $ex ) {
+			$result["messages"][] = $ex->getMessage();
+			$this->_Dao->rollBack();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
+	/**
+	 * save twitter
+	 * @param int $user_id
+	 * @param string $twitter_user_id
+	 * @param string $oauth_token
+	 * @param string $oauth_token_secret
+	 * @return string
+	 */
+	public function saveTwitter($user_id, $twitter_user_id, $oauth_token, $oauth_token_secret )
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			$sql = "
+				UPDATE users
+				SET twitter_user_id=:tuid, twitter_user_token=:ot,twitter_user_secret=:ots,modified=now()
+				WHERE id=:uid
+			";
+			$params = array(
+				"uid" => $user_id,
+				"tuid" => $twitter_user_id,
+				"ot" => $oauth_token,
+				"ots" => $oauth_token_secret,
+			);
+			$row_count = $this->_Dao->update($sql, $params);
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
+			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 			$this->_Dao->rollBack();

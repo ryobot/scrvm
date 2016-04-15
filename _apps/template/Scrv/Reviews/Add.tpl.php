@@ -50,6 +50,9 @@
 				</td>
 			</tr>
 		</table>
+<?php if(isset($login_user_data["twitter_user_id"])): ?>
+		<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> twitterにも投稿する</label></p>
+<?php endif; ?>
 		<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
 		<p><input type="submit" value="Save Review" /></p>
 	</form>

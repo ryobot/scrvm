@@ -44,6 +44,23 @@ hr{
 textarea{
 	width:90%;
 	height:5em;
+	font-size:100%;
+	font-family:transparent;
+	padding:0.3em;
+}
+
+input[type="text"] {
+	font-size:100%;
+	font-family:transparent;
+	padding:0.3em;
+}
+input[type="password"] {
+	font-size:100%;
+	padding:0.3em;
+}
+
+img{
+	max-width: 100%;
 }
 
 /*----------------------*/
@@ -70,19 +87,26 @@ textarea{
 	background: #eee;
 }
 
-.actions a{
+.actions a,
+.actions input[type="submit"],
+.actions input[type="file"],
+.actions button {
 	background: #DDD -moz-linear-gradient(center top , #EEE, #DDD) repeat scroll 0 0;
 	border: 1px solid #BBB;
 	border-radius: 4px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 1px rgba(0, 0, 0, 0.2);
 	color: #333;
+	font-size:100%;
 	font-weight: normal;
 	min-width: 0;
 	padding: 2px;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #FFF;
 }
-.actions a:hover{
+.actions a:hover,
+.actions input[type="submit"]:hover,
+.actions input[type="file"]:hover,
+.actions button:hover {
 	background: #EEE none repeat scroll 0 0;
 	border-color: #AAA;
 	text-decoration: none;

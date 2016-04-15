@@ -30,4 +30,8 @@ class SessionKeys
 
 	/** CSRF トークン確認用 */
 	const CSRF_TOKEN = "CSRF_TOKEN";
+
+	const TWITTER_OAUTH = "TWITTER_OAUTH";
+	const TWITTER_ACCESS_TOKEN = "TWITTER_ACCESS_TOKEN";
+
 }

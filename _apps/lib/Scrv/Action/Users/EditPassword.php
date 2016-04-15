@@ -1,6 +1,6 @@
 <?php
 /**
- * /lib/Scrv/Action/Users/Edit.php
+ * /lib/Scrv/Action/Users/EditPassword.php
  * @author mgng
  */
 
@@ -15,7 +15,7 @@ use lib\Util\Password as Password;
  * Users Edit class
  * @author mgng
  */
-class Edit extends Base
+class EditPassword extends Base
 {
 	/**
 	 * 実行クラス
@@ -43,14 +43,10 @@ class Edit extends Base
 		$token = $Password->makeRandomHash($this->_Session->id());
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
-		// twitter連携処理済みか
-		$sess_twitter_access_token = $this->_Session->get(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN);
-
 		$this->_Template->assign(array(
 			"error_messages" => $error_messages,
 			"token" => $token,
-			"sess_twitter_access_token" => $sess_twitter_access_token,
-		))->display("Users/Edit.tpl.php");
+		))->display("Users/EditPassword.tpl.php");
 
 		return true;
 	}

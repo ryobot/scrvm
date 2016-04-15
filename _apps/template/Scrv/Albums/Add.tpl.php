@@ -19,37 +19,24 @@
 	<h2>Add Album</h2>
 
 	<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
-		<table><tbody>
-			<tr>
-				<th>artist</th>
-				<td><input type="text" name="artist" id="id_artist" value="" placeholder="king crimson"></td>
-			</tr>
-			<tr>
-				<th>title</th>
-				<td><input type="text" name="title" id="id_title" value="" placeholder="red"></td>
-			</tr>
-			<tr>
-				<th></th>
-				<td><input type="submit" id="id_submit" value="search" /></td>
-			</tr>
-		</tbody></table>
+		<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name" required="required"></p>
+		<p><input type="text" name="title" id="id_title" value="" placeholder="title"></p>
+		<p class="actions"><input type="submit" id="id_submit" value="search" /></p>
 	</form>
 
 	<div id="id_Albums_SearchArtist_result"></div>
-	<div id="id_Albums_SearchImage_result"></div>
 
 	<form id="id_Albums_AddRun" action="javascript:;" method="POST" style="display:none;">
 		<input type="hidden" name="add_img_url" id="id_add_img_url" value="" />
-		<p id="id_selected_img_url"></p>
 		<table>
 			<tr>
 				<td>artist</td>
-				<td><input type="text" name="add_artist" id="id_add_artist" value="" readonly="readonly" /></td>
+				<td><input type="text" name="add_artist" id="id_add_artist" value="" /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<td>title</td>
-				<td><input type="text" name="add_title" id="id_add_title" value="" readonly="readonly" /></td>
+				<td><input type="text" name="add_title" id="id_add_title" value="" /></td>
 				<td></td>
 			</tr>
 			<tr>
@@ -59,7 +46,11 @@
 			</tr>
 		</table>
 		<table id="id_add_tracks"></table>
-		<p><input type="submit" value="add album" /></p>
+
+		<div id="id_Albums_SearchImage_result"></div>
+		<p id="id_selected_img_url"></p>
+
+		<p class="actions"><input type="submit" value="add album" /></p>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

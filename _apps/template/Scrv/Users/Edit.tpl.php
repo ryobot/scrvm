@@ -27,28 +27,59 @@
 
 	<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<input type="hidden" name="user_id" value="<?= h($user_id) ?>" />
 		<table>
 			<tr>
-				<td><input type="text" name="username" id="id_username" value="<?= h($post_params["username"]) ?>" placeholder="username" /></td>
-			</tr>
-			<tr>
-				<td><input type="password" name="password" id="id_password" value="" placeholder="password" /></td>
-			</tr>
-			<tr>
 				<td>
-					<input type="file" name="file" id="id_file" />
-					<p><img src="<?= isset($post_params["img_file"]) ? "{$base_path}files/attachment/photo/{$post_params["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
+					<p><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" placeholder="username" /></p>
+					<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
 				</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="save" ></td>
+				<td>
+					<p><img src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
+					<p class="actions">
+						<input type="file" name="file" id="id_file" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png" />
+					</p>
+				</td>
+			</tr>
+<?php if (!isset($sess_twitter_access_token)):?>
+			<tr>
+				<td>
+					<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
+				</td>
+			</tr>
+<?php endif; ?>
+			<tr>
+				<td>
+					<p class="actions"><input type="submit" value="save" ></p>
+				</td>
 			</tr>
 		</table>
 	</form>
 
+	<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
+		<input type="hidden" name="authenticate" value="auth" />
+	</form>
+
+	<p><hr /></p>
+
+	<p>
+		<a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>
+	</p>
+
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
+
+<script>
+;$(function(){
+	$("#id_users_twitter").on("click.js", function(){
+		$("#id_users_twitter_form").submit();
+		return false;
+	});
+});
+</script>
+
 </body>
 </html>

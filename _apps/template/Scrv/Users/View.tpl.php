@@ -34,7 +34,9 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	<div class="lists">
 		<table>
 			<tr>
-				<td><img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" /></td>
+				<td>
+					<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" />
+				</td>
 				<td>
 					Reviews    : <a href="<?= h("{$base_path}Users/View?id={$user_id}") ?>"><?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?></a><br />
 					Fav.Tracks : <a href="<?= h("{$base_path}Users/FavTracks?id={$user_id}") ?>"><?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?></a><br />
@@ -44,6 +46,14 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endif;?>
 				</td>
 			</tr>
+<?php if($is_login && $user_id === $login_user_data["id"]): ?>
+			<tr>
+				<td>
+					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">edit</a></p>
+				</td>
+				<td></td>
+			</tr>
+<?php endif;?>
 		</table>
 	</div>
 

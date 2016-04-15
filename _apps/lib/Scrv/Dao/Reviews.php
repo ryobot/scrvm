@@ -198,7 +198,10 @@ class Reviews extends Dao
 			}
 
 			$result["status"] = true;
-			$result["data"]["rowcount"] = $row_count;
+			$result["data"] = array(
+				"row_count" => $row_count,
+				"album_data" => $album_result[0],
+			);
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();

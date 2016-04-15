@@ -42,9 +42,9 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php if($is_login ): ?>
 	<form action="<?= h($base_path) ?>Posts/Add" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" /></p>
-		<p><textarea name="body" id="id_body" placeholder="body"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
-		<p><input type="submit" value="Save Post" ></p>
+		<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
+		<p><textarea name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
+		<p class="actions"><input type="submit" value="Save Post" ></p>
 	</form>
 <?php endif;?>
 

@@ -139,9 +139,54 @@ class Server
 	 */
 	public static function getFullHostUrl()
 	{
-		$protocol = self::env('HTTPS') === null ? 'http' : 'https';
+		$protocol = self::_getProtocol();
 		$host = self::env('HTTP_HOST');
 		return "{$protocol}://{$host}";
+	}
+
+	/**
+	 * get protocol
+	 * @return string
+	 */
+	private static function _getProtocol()
+	{
+		$is_https = self::env('HTTPS');
+		$port = self::env('SERVER_PORT');
+    if (isset($is_https) && strtolower($is_https) == 'on') {
+      return 'https';
+    } elseif (isset($port) && ($port == '443')) {
+      return 'https';
+    }
+		return 'http';
+	}
+
+	/**
+	 * self url
+	 * @param boolean $dropqs
+	 * @return string
+	 */
+	public static function selfUrl($dropqs = true)
+	{
+		$protocol = self::_getProtocol();
+		$url = sprintf('%s://%s%s', $protocol, self::env('SERVER_NAME'), self::env('REQUEST_URI'));
+		$parts = parse_url($url);
+
+		$scheme = $parts['scheme'];
+		$host = $parts['host'];
+		$path = isset($parts['path']) ? $parts['path'] : "";
+		$qs   = isset($parts['query']) ? $parts['query'] : "";
+		$port = self::env('SERVER_PORT');
+
+		if ( ($scheme === 'https' && $port !== '443')
+			|| ($scheme == 'http' && $port !== '80')
+		) {
+			$host = "{$host}:{$port}";
+		}
+		$last_url = "{$scheme}://{$host}{$path}";
+		if ( ! $dropqs) {
+			return "{$last_url}?{$qs}";
+		}
+    return $last_url;
 	}
 
 	/**
