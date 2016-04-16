@@ -9,8 +9,6 @@ use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Users as DaoUsers;
 use lib\Util\Server as Server;
-use lib\Util\File as File;
-use lib\Util\Images as Images;
 
 /**
  * Users Save Password class
@@ -31,7 +29,7 @@ class SavePassword extends Base
 		$post_params = array(
 			"token" => Server::post("token", ""),
 			"password" => Server::post("password", ""),
-			"password_re" => Server::post("password", ""),
+			"password_re" => Server::post("password_re", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
@@ -89,7 +87,7 @@ class SavePassword extends Base
 		$check_result = getResultSet();
 
 		if ( $post_params["password"] === "" ) {
-			$check_result["messages"]["password"] = "username が未入力です。";
+			$check_result["messages"]["password"] = "password が未入力です。";
 		} else if ( mb_strlen($post_params["password"]) > 100 ){
 			$check_result["messages"]["password"] = "password は100文字以内で入力してください。";
 		} else if ($post_params["password"] !== $post_params["password_re"]) {
