@@ -45,14 +45,10 @@ class AddRun extends Base
 		// 画像が空文字じゃなくhttpで始まっている場合はgetcontents
 		$img_file = "";
 		if ( $img_url !== "" && preg_match("/\Ahttp(s?)\:\/\/.+/", $img_url) === 1 ) {
-			$src = file_get_contents($img_url);
-			if ( $src !== false ) {
-				$img_file = sha1($img_url . mt_rand(10000000, 99999999)) . ".jpg";
-				$path = __DIR__ . "/../../../../../files/covers/{$img_file}";
-				if( ! file_put_contents($path, $src) ){
-					Server::send404Header();
-					return false;
-				}
+			$img_file = $this->_saveCoverImagePath($img_url);
+			if ($img_file === false){
+				Server::send404Header("system error");
+				return false;
 			}
 		}
 
@@ -64,4 +60,27 @@ class AddRun extends Base
 		echo json_encode($add_result, true);
 		return true;
 	}
+
+	/**
+	 * save cover image path
+	 * @param string $img_url
+	 * @return string
+	 */
+	private function _saveCoverImagePath($img_url)
+	{
+		$src = file_get_contents($img_url);
+		if ( $src !== false ) {
+			$img_file = sha1($img_url . mt_rand(10000000, 99999999)) . ".jpg";
+			$dir = substr($img_file, 0,4);
+			$img_path = substr($img_file, 4, strlen($img_file));
+			$sep = "/";
+			$subdir = implode($sep, preg_split('//', $dir, -1, PREG_SPLIT_NO_EMPTY)) . $sep;
+			$dir_path = __DIR__ . "/../../../../../files/covers/{$subdir}";
+			if (mkdir($dir_path, 0777, true) && file_put_contents($dir_path.$img_path, $src)) {
+				return $subdir.$img_path;
+			}
+		}
+		return false;
+	}
+
 }
