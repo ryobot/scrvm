@@ -76,9 +76,14 @@ class AddRun extends Base
 			$sep = "/";
 			$subdir = implode($sep, preg_split('//', $dir, -1, PREG_SPLIT_NO_EMPTY)) . $sep;
 			$dir_path = __DIR__ . "/../../../../../files/covers/{$subdir}";
-			if (mkdir($dir_path, 0777, true) && file_put_contents($dir_path.$img_path, $src)) {
-				return $subdir.$img_path;
+			// dir がない場合は作成
+			if (! file_exists($dir_path) && ! mkdir($dir_path, 0777, true) ) {
+				return false;
 			}
+			if (! file_put_contents($dir_path.$img_path, $src)) {
+				return false;;
+			}
+			return $subdir.$img_path;
 		}
 		return false;
 	}
