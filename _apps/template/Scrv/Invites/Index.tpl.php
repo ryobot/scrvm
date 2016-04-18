@@ -1,6 +1,6 @@
 <?php
 /**
- * Auth/Index.tpl.php
+ * Invites/Index.tpl.php
  * @author mgng
  */
 ?>
@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Login</title>
+<title><?= h($base_title) ?> :: Invites</title>
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-	<h2>Login</h2>
+	<h2>User Add</h2>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
@@ -26,11 +26,11 @@
 	</div>
 <?php endif;?>
 
-	<form action="<?= h($base_path) ?>Auth/Login" method="POST">
+	<form action="<?= h($base_path) ?>Invites/Add" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<p><input type="text" name="username" id="id_user_id" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
-		<p><input type="password" name="password" id="id_password" placeholder="password" /></p>
-		<p class="actions"><input type="submit" value="login" /></p>
+		<p><input type="text" name="username" id="id_username" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
+		<p><input type="password" name="password" id="id_password" value="" placeholder="password" /></p>
+		<p><input type="submit" value="add user" ></p>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

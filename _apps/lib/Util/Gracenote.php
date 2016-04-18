@@ -60,9 +60,9 @@ class Gracenote
 	 * @param string $artist
 	 * @param string $title default null
 	 */
-	public function searchAlbums($artist, $title=null)
+	public function searchAlbums($artist, $title=null, $track=null)
 	{
-		$xml = $this->_makeAlbumsQuerys($artist, $title);
+		$xml = $this->_makeAlbumsQuerys($artist, $title, $track);
 		$res = $this->_post($xml);
 		return $res;
 	}
@@ -70,13 +70,15 @@ class Gracenote
 	/**
 	 * 検索用XMLを返す
 	 * @param string $artist
-	 * @param string $title
+	 * @param string $album_title
+	 * @param string $track_title
 	 * @return string
 	 */
-	private function _makeAlbumsQuerys($artist, $title)
+	private function _makeAlbumsQuerys($artist, $album_title, $track_title)
 	{
 		$tag_artist = "<TEXT TYPE=\"ARTIST\">".h($artist)."</TEXT>";
-		$tag_title = isset($title) ? "<TEXT TYPE=\"ALBUM_TITLE\">".h($title)."</TEXT>" : "";
+		$tag_album_title = isset($album_title) ? "<TEXT TYPE=\"ALBUM_TITLE\">".h($album_title)."</TEXT>" : "";
+		$tag_track_title = isset($track_title) ? "<TEXT TYPE=\"TRACK_TITLE\">".h($track_title)."</TEXT>" : "";
 		return
 		"<QUERIES>
 			<AUTH>
@@ -86,7 +88,8 @@ class Gracenote
 			<LANG>jpn</LANG>
 			<QUERY CMD=\"ALBUM_SEARCH\">
 				{$tag_artist}
-				{$tag_title}
+				{$tag_album_title}
+				{$tag_track_title}
 			</QUERY>
 		</QUERIES>"
 		;

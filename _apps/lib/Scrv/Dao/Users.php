@@ -112,7 +112,7 @@ class Users extends Dao
 	 * @param string $role
 	 * @return resultSet
 	 */
-	public function addNew( $username, $password, $role )
+	public function addNew( $username, $password, $role, $has_invited_user_id=null )
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -133,18 +133,19 @@ class Users extends Dao
 			);
 			// 登録
 			$this->_Dao->insert(
-				 "INSERT INTO users (username,password,role,created,modified) "
-				."VALUES(:username,:password_hash,:role,now(),now())",
+				 "INSERT INTO users (username,password,role,has_invited_user_id,created,modified) "
+				."VALUES(:username,:password_hash,:role,:has_invited_user_id,now(),now())",
 				array(
 					"username" => $username,
 					"password_hash" => $password_hash,
 					"role" => $role,
+					"has_invited_user_id" => $has_invited_user_id,
 				)
 			);
 			// 登録したユーザ情報を返す
 			$add_user_data = $this->_Dao->select($user_sql, $user_params);
 			$result["status"] = true;
-			$result["data"] = array("user_data" => $add_user_data,);
+			$result["data"] = $add_user_data[0];
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();

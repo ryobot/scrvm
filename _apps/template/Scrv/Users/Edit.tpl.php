@@ -31,7 +31,6 @@
 			<tr>
 				<td>
 					<p><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" placeholder="username" /></p>
-					<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
 				</td>
 			</tr>
 			<tr>
@@ -42,7 +41,7 @@
 					</p>
 				</td>
 			</tr>
-<?php if (!isset($sess_twitter_access_token)):?>
+<?php if (!isset($login_user_data["twitter_user_id"])):?>
 			<tr>
 				<td>
 					<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
@@ -51,6 +50,7 @@
 <?php endif; ?>
 			<tr>
 				<td>
+					<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
 					<p class="actions"><input type="submit" value="save" ></p>
 				</td>
 			</tr>
@@ -63,9 +63,9 @@
 
 	<p><hr /></p>
 
-	<p>
-		<a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>
-	</p>
+	<p><a href="<?= h($base_path) ?>Users/Edit">Edit User</a></p>
+	<p><a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>	</p>
+	<p><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク生成</a></p>
 
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

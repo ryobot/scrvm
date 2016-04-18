@@ -46,14 +46,6 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endif;?>
 				</td>
 			</tr>
-<?php if($is_login && $user_id === $login_user_data["id"]): ?>
-			<tr>
-				<td>
-					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">edit</a></p>
-				</td>
-				<td></td>
-			</tr>
-<?php endif;?>
 		</table>
 	</div>
 
@@ -84,7 +76,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
 				<p><?= h($review["body"]) ?></p>
-				<p><?= h($review["created"]) ?></p>
+				<?= h( timeAgoInWords($review["created"])) ?>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>

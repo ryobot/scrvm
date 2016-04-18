@@ -38,41 +38,37 @@
 		Sync Reviews (<?= count( $syncs["reviews"] ) ?>)
 	</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
-	<table class="w100per">
+<!--	<table class="w100per every_other_row_odd">-->
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
-		<tr class="bgeee">
-			<td>
-				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($reviews[0]["img_file"]) ?>" alt="<?= h("{$reviews[0]["artist"]} / {$reviews[0]["title"]}") ?>" />
-			</td>
-			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>"><?= h("{$reviews[0]["artist"]} / {$reviews[0]["title"]}") ?></a>
-				(<?= isset($reviews[0]["year"]) ? h($reviews[0]["year"]) : "unknown" ?>)
-				 : TODO pt
-			</td>
-		</tr>
+
+	<h5>
+		<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>"><?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?> (<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)</a>
+	 : <?= h($reviews["point"]) ?> pt
+	</h5>
+	<img class="album_cover" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
+	<table class="w100per every_other_row_odd">
+<?php   foreach($reviews["data"] as $review): ?>
 		<tr>
-			<td></td>
+			<td class="w20per">
+				<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+			</td>
+			<td class="w25per">
+				<p><?= h($review["body"]) ?></p>
+				<p>
+					reviewed by <strong><?= h($review["username"]) ?></strong>
+					<?= h(timeAgoInWords($review["created"])) ?>
+				</p>
+			</td>
 			<td>
-				<table>
-<?php   foreach($reviews as $review): ?>
-					<tr>
-						<td>
-							<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
-						</td>
-						<td>
-							<div><?= h($review["body"]) ?></div>
-							<p>
-								reviewed by <strong><?= h($review["username"]) ?></strong><br />
-								<?= h($review["created"]) ?>
-							</p>
-						</td>
-					</tr>
-<?php   endforeach; unset($review); ?>
-				</table>
+<?php if(isset($review["sync_point"]) ): ?>
+				<span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span>
+<?php endif;?>
 			</td>
 		</tr>
-<?php endforeach; unset($album_id, $reviews); ?>
+<?php   endforeach; unset($review); ?>
 	</table>
+<?php endforeach; unset($album_id, $reviews); ?>
+<!--	</table>-->
 <?php endif; ?>
 
 

@@ -45,26 +45,16 @@ class Syncs extends Dao
 	{
 		$result = getResultSet();
 		try{
-			// XXX 共通のアルバムレビューを取得…うーん…
-			$common_sql = "
+			$sql = "
 				SELECT t1.*, t2.artist, t2.title, t2.img_file, t2.year, t3.username, t3.img_file as user_img_file
 				FROM reviews t1
 				LEFT JOIN albums t2 ON(t1.album_id=t2.id)
 				LEFT JOIN users t3 ON(t1.user_id=t3.id)
+				WHERE t1.album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid)
+				order by t1.created DESC
 			";
-			$sql = "
-				SELECT * FROM(
-					{$common_sql}
-					WHERE t1.user_id=:uid1 AND album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid2)
-					UNION
-					{$common_sql}
-					WHERE t1.user_id=:uid3 AND album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid4)
-				) u1 ORDER BY u1.album_id, u1.created DESC";
 			$params = array(
-				"uid1" => $user_id,
-				"uid2" => $login_user_id,
-				"uid3" => $login_user_id,
-				"uid4" => $user_id,
+				"uid" => $login_user_id,
 			);
 			$merge_lists = $this->_Dao->select($sql, $params);
 

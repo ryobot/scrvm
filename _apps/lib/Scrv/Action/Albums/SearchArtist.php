@@ -29,12 +29,13 @@ class SearchArtist extends Base
 
 		$artist = mb_trim(Server::post("artist"));
 		$title = mb_trim(Server::post("title"));
+		$track = mb_trim(Server::post("track"));
 		$Gracenote = new Gracenote(
 			$this->_common_ini["gracenote"]["api_url"],
 			$this->_common_ini["gracenote"]["client_id"],
 			$this->_common_ini["gracenote"]["user_id"]
 		);
-		$res = $Gracenote->searchAlbums($artist, $title);
+		$res = $Gracenote->searchAlbums($artist, $title, $track);
 		$xml = new \SimpleXMLElement($res);
 		$albums = $xml->xpath("RESPONSE/ALBUM");
 		$results = array();

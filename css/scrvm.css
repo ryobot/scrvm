@@ -17,16 +17,26 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6{
-	font-size: 100%;
-	margin: 0.3em 0;
+	font-size: 125%;
+	margin: 0.4em 0;
 }
 
-p{
-	padding:0.3em 0;
-}
+h2{font-size: 125%;color:#D30;}
+h3{font-size: 120%;color:#267;}
+h4{font-size: 115%;color:#993;}
+h5{font-size: 110%;}
+h6{font-size: 105%;}
+
+a{color:#034;font-weight: bold;}
+a:hover{color:#378;text-decoration: none;}
+
+p{padding:0.3em 0;}
 
 table{
 	border-collapse: collapse;
+}
+
+tr{
 }
 
 td,th{
@@ -49,14 +59,16 @@ textarea{
 	padding:0.3em;
 }
 
-input[type="text"] {
-	font-size:100%;
-	font-family:transparent;
-	padding:0.3em;
+input{
+	max-width: 100%;
 }
-input[type="password"] {
-	font-size:100%;
-	padding:0.3em;
+
+input[type="text"],input[type="password"], textarea{
+	clear: both;
+	font-family: "frutiger linotype","lucida grande","verdana",sans-serif;
+	font-size: 100%;
+	padding: 1%;
+	width: 98%;
 }
 
 img{
@@ -69,11 +81,41 @@ img{
 }
 
 /*----------------------*/
-.header_title{
+.header{
+	padding:0.3em 0;
+}
+.header ul:after {
+	content:"";
+	clear:both;
+	display:block;
+}
+.header ul li {
+	display:block;
+	float:left;
+	height:auto;
+	list-style-type:none;
+}
+.header ul li {
+	width:50%;
 }
 
 .menu{
-	margin:0.3em 0;
+	padding:0.3em 0;
+}
+.menu ul:after {
+	content:"";
+	clear:both;
+	display:block;
+}
+.menu ul li {
+	display:block;
+	float:left;
+	height:auto;
+	list-style-type:none;
+	text-align:center;
+}
+.menu ul li {
+	width:25%;
 }
 
 .pager{
@@ -82,9 +124,13 @@ img{
 
 .every_other_row_odd tr:nth-child(2n-1) {
 	background: #eee;
+	border-bottom:1px solid #CCC;
+	border-top:1px solid #CCC;
 }
 .every_other_row_even tr:nth-child(2n) {
 	background: #eee;
+	border-bottom:1px solid #CCC;
+	border-top:1px solid #CCC;
 }
 
 .actions a,
@@ -118,9 +164,11 @@ img{
 
 .user_photo{
 	height:65px;
+	border-radius: 5px;
 }
 .user_photo_min{
 	height:30px;
+	border-radius: 3px;
 }
 
 .fav_album{
@@ -141,6 +189,11 @@ img{
 	background-color: #FED;
 }
 
+.album_cover {
+	margin:0.2em;
+	width:65px;
+}
+
 .album_search_cover_result{
 	border:5px solid #FFF;
 	margin:0.2em;
@@ -152,6 +205,16 @@ img{
 
 .pager{
 	text-align: center;
+}
+
+.sync_point_days{
+	background: #e99 none repeat scroll 0 0;
+	border-radius: 5px;
+	color: #eee;
+	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
+	font-weight: bold;
+	margin: 0 5px;
+	padding: 0 10px;
 }
 
 /*----------------------*/
@@ -172,3 +235,8 @@ img{
 .bgeee{background-color: #EEE;}
 .bgfff{background-color: #FFF;}
 .bgtrsp{background-color: transparent;}
+.displaynone{display: none;}
+.vtalgtop{vertical-align:top;}
+.vtalgmiddle{vertical-align:middle;}
+.vtalgbottom{vertical-align:bottom;}
+.bordernone{border:none;}

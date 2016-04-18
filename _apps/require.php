@@ -106,3 +106,21 @@ function getResultSet( array $add_array = array() )
 	), $add_array);
 }
 
+/**
+ * twitter 風日付表示
+ * @param string $date Y-m-d H:i:s
+ * @return string
+ */
+function timeAgoInWords($date)
+{
+	return $date;
+//	$now = time();
+//	$time = strtotime($date);
+//	$diff = $now- $time;
+//	if($diff > 0 && $diff <= 60*60){
+//		return floor($diff/60) . "分前";
+//	}elseif($diff > 0 && $diff <= 24*60*60){
+//		return floor($diff/(60*60)) . "時間前";
+//	}
+//	return date('Y年n月d日',$time);
+}

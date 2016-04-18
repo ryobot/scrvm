@@ -51,9 +51,9 @@
 
 	<p><hr /></p>
 
-	<p>
-		<a href="<?= h($base_path) ?>Users/Edit">Edit User</a>
-	</p>
+	<p><a href="<?= h($base_path) ?>Users/Edit">Edit User</a></p>
+	<p><a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>	</p>
+	<p><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク生成</a></p>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

@@ -31,7 +31,12 @@ class SessionKeys
 	/** CSRF トークン確認用 */
 	const CSRF_TOKEN = "CSRF_TOKEN";
 
+	/** twitter oauth データ格納用 */
 	const TWITTER_OAUTH = "TWITTER_OAUTH";
+
+	/** twitter access token データ格納用 */
 	const TWITTER_ACCESS_TOKEN = "TWITTER_ACCESS_TOKEN";
 
+	/** 招待用データ格納用 */
+	const INVITATIONS_DATA = "INVITATIONS_DATA";
 }

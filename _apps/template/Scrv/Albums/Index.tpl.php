@@ -60,10 +60,8 @@ $sort_links = array(
 <?php endif; ?>
 
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
-		<p class="actions">
-			<input type="text" name="artist" id="id_artist" value="<?= h($artist) ?>" placeholder="Artist Filter"/>
-			<input type="submit" value="filter" />
-		</p>
+		<p><input type="text" name="artist" id="id_artist" value="<?= h($artist) ?>" placeholder="Artist Filter" /></p>
+		<p class="actions"><input type="submit" value="filter" /></p>
 	</form>
 
 <?php if ( count($lists) > 0 ):?>
@@ -96,7 +94,7 @@ $sort_links = array(
 <?php foreach($lists as $album): ?>
 		<tr>
 			<td>
-				<img class="album_search_cover_result" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" />
+				<img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" />
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><?= h( "{$album["artist"]} / {$album["title"]}") ?></a> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)

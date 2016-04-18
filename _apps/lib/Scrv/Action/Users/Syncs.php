@@ -35,11 +35,12 @@ class Syncs extends Base
 			Server::send404Header("404 not found.");
 			return false;
 		}
+		$user_id = (int)$user_id;
 
 		// ユーザ情報取得
 		$login_user_id = $this->_login_user_data["id"];
 		$DaoUsers = new DaoUsers();
-		$user_result = $DaoUsers->view((int)$user_id, $login_user_id);
+		$user_result = $DaoUsers->view($user_id, $login_user_id);
 		if ( ! $user_result["status"] || count($user_result["data"]) === 0){
 			Server::send404Header("404 not found..");
 			return false;
@@ -63,20 +64,49 @@ class Syncs extends Base
 			return false;
 		}
 
-// TODO ....
-//		// 前後からsync pointを生成
-//		$UtilSyncs = new UtilSyncs();
-//		foreach($sync_reviews_result["data"] as &$reviews){
-//			for($i=1,$len=count($reviews); $i<$len; $i++){
-//				$current_created = $reviews[$i-1]["created"];
-//				$next_created = $reviews[$i]["created"];
-//				$syncs = $UtilSyncs->calcPoint($current_created, $next_created);
-//				$reviews[$i-1]["syncs"] = $syncs;
-//			}
-//		} unset($reviews);
+		// XXX pointの計算...
+		$UtilSyncs = new UtilSyncs();
+		foreach($sync_reviews_result["data"] as $album_id => &$reviews){
+			$own_review = null;
+			$you_review = null;
+			$you_review_idx = 0;
+			foreach( $reviews as $idx => $review ) {
+				// 自分のIDの最古レビューを格納(上書き)
+				// 相手のIDの最新レビューを格納(あればスルー)
+				if ( $login_user_id === $review["user_id"] ) {
+					$own_review = $review;
+				} else {
+					if ( $you_review === null ) {
+						$you_review = $review;
+						$you_review_idx = $idx;
+					}
+				}
+			}
+			// calc sync point
+			$sync_point = $UtilSyncs->calcPoint($own_review["created"], $you_review["created"]);
+			if ($sync_point["point"] > 0 ) {
+				$reviews[$you_review_idx]["sync_point"] = $sync_point;
+			}
+		} unset($reviews);
+
+		// XXX 自分と相手のidだけ格納...
+		$tpl_reviews = array();
+		foreach($sync_reviews_result["data"] as $album_id => &$reviews){
+			$tpl_reviews[$album_id] = array("point" => 0, "data" => array());
+			foreach( $reviews as $idx => $review ) {
+				if ( in_array($review["user_id"], array($login_user_id, $user_id), true) ) {
+					$tpl_reviews[$album_id]["data"][] = $review;
+					$tpl_reviews[$album_id]["point"] += isset($review["sync_point"]) ? $review["sync_point"]["point"] : 0;
+				}
+			}
+			if ($tpl_reviews[$album_id]["point"] === 0){
+				unset($tpl_reviews[$album_id]);
+			}
+		}
 
 		$syncs = array(
-			"reviews" => $sync_reviews_result["data"],
+//			"reviews" => $sync_reviews_result["data"],
+			"reviews" => $tpl_reviews,
 			"albums" => $sync_albums_result["data"],
 			"tracks" => $sync_tracks_result["data"],
 			"albums_point" => count($sync_albums_result["data"]) * 5,

@@ -20,25 +20,27 @@
 	<div class="lists">
 		<table class="w100per every_other_row_even">
 			<tr>
-				<th></th>
-				<th class="taleft">username</th>
-				<th class="taleft"><?php if($is_login): ?>syncs<?php endif;?></th>
+				<th class="taleft w20per">user</th>
+<?php if($is_login): ?>
+				<th class="taleft w20per">syncs</th>
+<?php endif;?>
 				<th class="taleft">reviews</th>
-				<th></th>
 			</tr>
 <?php foreach($lists as $list): ?>
 			<tr>
-				<td><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></td>
-				<td><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></td>
-				<td><?php if($is_login):?><?= h($list["sync_point"]) ?><?php endif; ?></td>
-				<td><?= h($list["review_count"]) ?></td>
-				<td class="actions">
+				<td>
+					<p><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></p>
+					<p><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a></p>
 <?php if( $is_login):?>
 <?php		if ($login_user_data["id"] === $list["id"]):?>
-					<a href="<?= h($base_path) ?>Users/Edit">Edit</a>
+					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">Edit</a></p>
 <?php		endif;?>
 <?php endif;?>
 				</td>
+<?php if($is_login):?>
+				<td><?= isset($list["sync_point"]) ? h($list["sync_point"]) : "-" ?></td>
+<?php endif; ?>
+				<td><?= h($list["review_count"]) ?></td>
 			</tr>
 <?php endforeach; unset($list) ?>
 		</table>

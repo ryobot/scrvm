@@ -36,10 +36,6 @@
 		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
 	</p>
 
-<?php if($is_login): ?>
-	<p class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
-<?php endif; ?>
-
 	<table class="w100per every_other_row_odd">
 <?php foreach($tracks as $track): ?>
 		<tr>
@@ -65,17 +61,20 @@
 	</table>
 
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
+<?php if($is_login): ?>
+	<p class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
+<?php endif; ?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
-		<tr>
+		<tr class="w20per">
 			<td>
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
 			<td>
 				<div><?= h($review["body"]) ?></div>
 				<p>
-					reviewed by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a><br />
-					<?= h($review["created"]) ?>
+					reviewed by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					<?= h( timeAgoInWords($review["created"])) ?>
 				</p>
 			</td>
 		</tr>
