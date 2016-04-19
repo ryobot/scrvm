@@ -10,19 +10,19 @@ $most_prev_link = "{$base_path}Albums?" . hbq(array(
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$prev_link = "{$base_path}Albums?" . http_build_query(array(
+$prev_link = "{$base_path}Albums?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["now_page"]-1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$next_link = "{$base_path}Albums?" . http_build_query(array(
+$next_link = "{$base_path}Albums?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["now_page"]+1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$most_next_link = "{$base_path}Albums?" . http_build_query(array(
+$most_next_link = "{$base_path}Albums?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["max_page"],
 	"sort"   => $sort,
@@ -34,7 +34,7 @@ foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$base_path}Albums?" . http_build_query(array(
+		"link" => "{$base_path}Albums?" . hbq(array(
 			"artist" => $artist,
 			"page" => $nav["page"],
 			"sort"   => $sort,
@@ -102,7 +102,7 @@ $sort_links = array(
 
 	<table class="w100per every_other_row_even">
 		<tr>
-			<th class="w20per"></th>
+			<th class="w80px"></th>
 			<th class="taleft">
 				<a href="<?= h($sort_links["artist"]["link"]) ?>"><?= h($sort_links["artist"]["text"]) ?></a>
 				/
@@ -114,7 +114,7 @@ $sort_links = array(
 <?php foreach($lists as $album): ?>
 		<tr>
 			<td>
-				<img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" />
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><?= h( "{$album["artist"]} / {$album["title"]}") ?></a> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)

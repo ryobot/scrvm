@@ -70,7 +70,7 @@ foreach($pager["nav_list"] as $nav) {
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
 		<tr>
-			<td class="w20per">
+			<td class="w80px">
 				<img class="album_cover" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" />
 			</td>
 			<td>

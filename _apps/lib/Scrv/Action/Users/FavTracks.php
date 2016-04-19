@@ -40,11 +40,12 @@ class FavTracks extends Base
 		}
 
 		// offset設定
-		$offset = Server::get("offset", "0");
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		$page = Server::get("page", "1");
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// track情報取得
 		$DaoTracks = new DaoTracks();
@@ -61,7 +62,7 @@ class FavTracks extends Base
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
 			"favtracks" => $favtracks_result["data"],
-			"pager" => $Pager->getPager($offset, $limit, $user_result["data"]["favtracks_count"]),
+			"pager" => $Pager->getPager((int)$page, $user_result["data"]["favtracks_count"], $limit, 5),
 		))->display("Users/FavTracks.tpl.php");
 		return true;
 	}

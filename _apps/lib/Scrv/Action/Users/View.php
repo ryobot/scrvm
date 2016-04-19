@@ -62,7 +62,6 @@ class View extends Base
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
 			"reviews" => $reviews_result["data"],
-//			"pager" => $Pager->getPager($offset, $limit, $user_result["data"]["reviews_count"]),
 			"pager" => $Pager->getPager((int)$page, $user_result["data"]["reviews_count"], $limit, 5),
 		))->display("Users/View.tpl.php");
 		return true;

@@ -4,17 +4,18 @@
  * @author mgng
  */
 
-$prev_link = $base_path . "Users/FavAlbums?id={$user_id}&" . http_build_query(array(
-	"offset" => $pager["offset"]-$pager["limit"],
-));
-$next_link = $base_path . "Users/FavAlbums?id={$user_id}&" . http_build_query(array(
-	"offset" => $pager["offset"]+$pager["limit"],
-));
-if($pager["offset"]-$pager["limit"] < 0){
-	$prev_link = "";
-}
-if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
-	$next_link = "";
+$_base_url = "{$base_path}Users/FavAlbums?id={$user_id}";
+$most_prev_link = "{$_base_url}";
+$prev_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]-1,));
+$next_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]+1,));
+$most_next_link = "{$_base_url}&" . hbq(array("page" => $pager["max_page"],));
+$nav_list = array();
+foreach($pager["nav_list"] as $nav) {
+	$nav_list[] = array(
+		"active" => $nav["active"],
+		"page" => $nav["page"],
+		"link" => "{$_base_url}&" . hbq(array("page" => $nav["page"],)),
+	);
 }
 
 ?>
@@ -51,24 +52,26 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 
 <?php if(count($favalbums) > 0): ?>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 	<table class="w100per every_other_row_odd">
 <?php foreach($favalbums as $favalbum): ?>
 		<tr>
-			<td><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
+			<td class="w80px">
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
+			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?></a>
 			</td>
@@ -76,19 +79,19 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php endforeach; ?>
 	</table>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 <?php endif; ?>
 

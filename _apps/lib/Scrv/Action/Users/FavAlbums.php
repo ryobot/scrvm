@@ -40,11 +40,12 @@ class FavAlbums extends Base
 		}
 
 		// offset設定
-		$offset = Server::get("offset", "0");
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		$page = Server::get("page", "1");
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// album情報取得
 		$DaoAlbums = new DaoAlbums();
@@ -61,7 +62,7 @@ class FavAlbums extends Base
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
 			"favalbums" => $favalbums_result["data"],
-			"pager" => $Pager->getPager($offset, $limit, $user_result["data"]["favalbums_count"]),
+			"pager" => $Pager->getPager((int)$page, $user_result["data"]["favalbums_count"], $limit, 5),
 		))->display("Users/FavAlbums.tpl.php");
 		return true;
 	}

@@ -42,7 +42,7 @@ tr{
 td,th{
 	vertical-align: top;
 	margin:0;
-	padding: 2px;
+	padding:5px 2px;
 }
 
 hr{
@@ -82,7 +82,8 @@ img{
 
 /*----------------------*/
 .header{
-	padding:0.3em 0;
+	padding:0.2em;
+	margin: 0;
 }
 .header ul:after {
 	content:"";
@@ -155,14 +156,14 @@ ul.pagination li a:hover:not(.active) {
 
 
 .every_other_row_odd tr:nth-child(2n-1) {
-	background: #eee;
-	border-bottom:1px solid #CCC;
-	border-top:1px solid #CCC;
+	background: #EFEFEF;
+	border-bottom:1px solid #DDD;
+	border-top:1px solid #DDD;
 }
 .every_other_row_even tr:nth-child(2n) {
-	background: #eee;
-	border-bottom:1px solid #CCC;
-	border-top:1px solid #CCC;
+	background: #EFEFEF;
+	border-bottom:1px solid #DDD;
+	border-top:1px solid #DDD;
 }
 
 .actions a,
@@ -260,6 +261,8 @@ ul.pagination li a:hover:not(.active) {
 .w50per{width:50%;}
 .w25per{width:25%;}
 .w20per{width:20%;}
+.w50px{width:50px;}
+.w80px{width:80px;}
 .taright{text-align: right;}
 .taleft{text-align: left;}
 .tacenter{text-align: center;}
