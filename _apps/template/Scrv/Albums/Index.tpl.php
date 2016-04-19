@@ -4,23 +4,43 @@
  * @author mgng
  */
 
+$most_prev_link = "{$base_path}Albums?" . hbq(array(
+	"artist" => $artist,
+	"page" => "1",
+	"sort"   => $sort,
+	"order"  => $order,
+));
 $prev_link = "{$base_path}Albums?" . http_build_query(array(
 	"artist" => $artist,
-	"offset" => $pager["offset"]-$pager["limit"],
+	"page" => $pager["now_page"]-1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
 $next_link = "{$base_path}Albums?" . http_build_query(array(
 	"artist" => $artist,
-	"offset" => $pager["offset"]+$pager["limit"],
+	"page" => $pager["now_page"]+1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-if($pager["offset"]-$pager["limit"] < 0){
-	$prev_link = "";
-}
-if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
-	$next_link = "";
+$most_next_link = "{$base_path}Albums?" . http_build_query(array(
+	"artist" => $artist,
+	"page" => $pager["max_page"],
+	"sort"   => $sort,
+	"order"  => $order,
+));
+
+$nav_list = array();
+foreach($pager["nav_list"] as $nav) {
+	$nav_list[] = array(
+		"active" => $nav["active"],
+		"page" => $nav["page"],
+		"link" => "{$base_path}Albums?" . http_build_query(array(
+			"artist" => $artist,
+			"page" => $nav["page"],
+			"sort"   => $sort,
+			"order"  => $order,
+		)),
+	);
 }
 
 // ソート用リンク
@@ -66,19 +86,19 @@ $sort_links = array(
 
 <?php if ( count($lists) > 0 ):?>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 	<table class="w100per every_other_row_even">
 		<tr>
@@ -105,19 +125,19 @@ $sort_links = array(
 <?php endforeach; ?>
 	</table>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 <?php else:?>
 	<p class="error_message tacenter">not found.</p>

@@ -23,11 +23,12 @@ class Index extends Base
 	public function run()
 	{
 		// offset設定
-		$offset = Server::get("offset", "0");
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		$page = Server::get("page", "1");
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// レビュー一覧取得
 		$DaoReviews = new DaoReviews();
@@ -43,7 +44,7 @@ class Index extends Base
 		$this->_Template->assign(array(
 			"reviews" => $lists_result["data"]["reviews"],
 			"reviews_count" => $lists_result["data"]["reviews_count"],
-			"pager" => $Pager->getPager($offset, $limit, $lists_result["data"]["reviews_count"]),
+			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["reviews_count"], $limit, 5),
 		))->display("Reviews/Index.tpl.php");
 		return true;
 	}

@@ -71,7 +71,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td class="w20per">
-				<img class="album_search_cover_result" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" />
+				<img class="album_cover" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" />
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>

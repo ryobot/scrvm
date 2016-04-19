@@ -68,7 +68,7 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 	<table class="w100per every_other_row_odd">
 <?php foreach($favalbums as $favalbum): ?>
 		<tr>
-			<td><img class="album_search_cover_result" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
+			<td><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?></a>
 			</td>

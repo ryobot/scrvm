@@ -23,16 +23,16 @@ class Index extends Base
 	public function run()
 	{
 		// 各パラメータ取得
-		$offset = Server::get("offset", "0");
+		$page = Server::get("page", "1");
 		$artist = mb_trim(Server::get("artist", ""));
 		$sort = Server::get("sort", "artist");
 		$order = Server::get("order", "asc");
-
-		// offset設定
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// sort, order設定
 		if ( preg_match("/\A(artist|title|year)\z/", $sort) !== 1 ) {
@@ -58,7 +58,7 @@ class Index extends Base
 			"sort" => $sort,
 			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],
-			"pager" => $Pager->getPager($offset, $limit, $albums_result["data"]["lists_count"]),
+			"pager" => $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5),
 		))->display("Albums/Index.tpl.php");
 		return true;
 	}

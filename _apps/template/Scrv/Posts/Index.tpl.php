@@ -4,17 +4,17 @@
  * @author mgng
  */
 
-$prev_link = $base_path . "Posts?" . http_build_query(array(
-	"offset" => $pager["offset"]-$pager["limit"],
-));
-$next_link = $base_path . "Posts?" . http_build_query(array(
-	"offset" => $pager["offset"]+$pager["limit"],
-));
-if($pager["offset"]-$pager["limit"] < 0){
-	$prev_link = "";
-}
-if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
-	$next_link = "";
+$most_prev_link = $base_path . "Posts";
+$prev_link = $base_path . "Posts?" . hbq(array("page" => $pager["now_page"]-1,));
+$next_link = $base_path . "Posts?" . hbq(array("page" => $pager["now_page"]+1,));
+$most_next_link = $base_path . "Posts?" . hbq(array("page" => $pager["max_page"],));
+$nav_list = array();
+foreach($pager["nav_list"] as $nav) {
+	$nav_list[] = array(
+		"active" => $nav["active"],
+		"page" => $nav["page"],
+		"link" => $base_path . "Posts?" . hbq(array("page" => $nav["page"],)),
+	);
 }
 
 ?>
@@ -50,19 +50,19 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 
 <?php if(count($lists) > 0): ?>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 	<div class="lists">
 		<table class="w100per every_other_row_odd">
@@ -78,19 +78,19 @@ if($pager["offset"]+$pager["limit"] >= $pager["total_count"]){
 		</table>
 	</div>
 
-	<p class="pager">
-<?php if($prev_link !== ""): ?>
-		<a href="<?= h($prev_link) ?>">≪prev</a>
-<?php else:?>
-		<span>≪prev</span>
+	<div class="tacenter">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">≪</a></li>
 <?php endif;?>
-		<?= h($pager["now_page"]) ?> / <?= h($pager["max_page"]) ?>
-<?php if($next_link !== ""): ?>
-		<a href="<?= h($next_link) ?>">next≫</a>
-<?php else:?>
-		<span>next≫</span>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">≫</a></li>
 <?php endif;?>
-	</p>
+		</ul>
+	</div>
 
 <?php endif; ?>
 

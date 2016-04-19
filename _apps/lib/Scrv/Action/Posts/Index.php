@@ -34,16 +34,16 @@ class Index extends Base
 		$token = $Password->makeRandomHash($this->_Session->id());
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
-		// offset設定
-		$offset = Server::get("offset", "0");
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		$page = Server::get("page", "1");
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// 一覧取得
 		$DaoPosts = new DaoPosts();
-		$lists_result = $DaoPosts->lists((int)$offset, (int)$limit);
+		$lists_result = $DaoPosts->lists($offset, $limit);
 		if ( ! $lists_result["status"] ) {
 			Server::send404Header("db error.");
 			print_r($lists_result);
@@ -59,7 +59,8 @@ class Index extends Base
 			"token" => $token,
 			"lists" => $lists_result["data"]["lists"],
 			"lists_count" => $lists_result["data"]["lists_count"],
-			"pager" => $Pager->getPager($offset, $limit, $lists_result["data"]["lists_count"]),
+//			"pager" => $Pager->getPager($offset, $limit, $lists_result["data"]["lists_count"]),
+			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
 		))->display("Posts/Index.tpl.php");
 
 		return true;

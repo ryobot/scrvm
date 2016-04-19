@@ -113,14 +113,14 @@ function getResultSet( array $add_array = array() )
  */
 function timeAgoInWords($date)
 {
-	return $date;
-//	$now = time();
-//	$time = strtotime($date);
-//	$diff = $now- $time;
-//	if($diff > 0 && $diff <= 60*60){
-//		return floor($diff/60) . "分前";
-//	}elseif($diff > 0 && $diff <= 24*60*60){
-//		return floor($diff/(60*60)) . "時間前";
-//	}
-//	return date('Y年n月d日',$time);
+//	return $date;
+	$now = time();
+	$time = strtotime($date);
+	$diff = $now- $time;
+	if($diff > 0 && $diff <= 60*60){
+		return floor($diff/60) . "分前";
+	}elseif($diff > 0 && $diff <= 24*60*60){
+		return floor($diff/(60*60)) . "時間前";
+	}
+	return date('Y年n月d日',$time);
 }
