@@ -39,9 +39,9 @@
 	<table class="w100per every_other_row_odd">
 <?php foreach($tracks as $track): ?>
 		<tr>
-			<td><?= $track["track_num"] ?></td>
+			<td class="w30px"><?= $track["track_num"] ?></td>
 			<td><?= $track["track_title"] ?></td>
-			<td>
+			<td class="w80px taleft">
 				<img
 					class="fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
@@ -66,8 +66,8 @@
 <?php endif; ?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
-		<tr class="w20per">
-			<td>
+		<tr>
+			<td class="w50px">
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
 			<td>

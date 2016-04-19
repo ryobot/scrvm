@@ -9,6 +9,7 @@ use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Users as DaoUsers;
 use lib\Util\Server as Server;
+use lib\Util\Pager as Pager;
 
 /**
  * Users Index class
@@ -26,11 +27,12 @@ class Index extends Base
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 
 		// offset設定
-		$offset = Server::get("offset", "0");
-		if ( ! ctype_digit($offset) ) {
-			$offset = "0";
+		$page = Server::get("page", "1");
+		if ( ! ctype_digit($page) ) {
+			$page = "1";
 		}
-		$limit = $this->_common_ini["search"]["limit"];
+		$limit = (int)$this->_common_ini["search"]["limit"];
+		$offset = ((int)$page-1) * $limit;
 
 		// 一覧取得
 		$login_user_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
@@ -41,8 +43,12 @@ class Index extends Base
 			return false;
 		}
 
+		$Pager = new Pager();
+
 		$this->_Template->assign(array(
-			"lists" => $lists_result["data"],
+			"lists" => $lists_result["data"]["lists"],
+			"lists_count" => $lists_result["data"]["lists_count"],
+			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
 		))->display("Users/Index.tpl.php");
 
 		return true;

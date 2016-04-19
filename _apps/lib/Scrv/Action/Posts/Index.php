@@ -59,7 +59,6 @@ class Index extends Base
 			"token" => $token,
 			"lists" => $lists_result["data"]["lists"],
 			"lists_count" => $lists_result["data"]["lists_count"],
-//			"pager" => $Pager->getPager($offset, $limit, $lists_result["data"]["lists_count"]),
 			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
 		))->display("Posts/Index.tpl.php");
 

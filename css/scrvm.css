@@ -100,6 +100,13 @@ img{
 	width:50%;
 }
 
+.header_title{
+	font-size:100%;
+}
+.header_title a{
+	text-decoration: none;
+}
+
 .menu{
 	padding:0.3em 0;
 }
@@ -153,7 +160,6 @@ ul.pagination li a.active {
 ul.pagination li a:hover:not(.active) {
 	background-color: #ddd;
 }
-
 
 .every_other_row_odd tr:nth-child(2n-1) {
 	background: #EFEFEF;
@@ -246,8 +252,15 @@ ul.pagination li a:hover:not(.active) {
 	color: #eee;
 	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
 	font-weight: bold;
-	margin: 0 5px;
-	padding: 0 10px;
+	margin: 5px 0;
+	padding: 0 8px;
+}
+
+.group{
+	padding:3px;
+	margin:8px 0;
+	border:1px solid #AAA;
+	border-radius: 10px;
 }
 
 /*----------------------*/
@@ -261,6 +274,7 @@ ul.pagination li a:hover:not(.active) {
 .w50per{width:50%;}
 .w25per{width:25%;}
 .w20per{width:20%;}
+.w30px{width:30px;}
 .w50px{width:50px;}
 .w80px{width:80px;}
 .taright{text-align: right;}

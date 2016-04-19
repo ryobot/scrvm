@@ -97,8 +97,12 @@ class Users extends Dao
 				."GROUP BY t1.id ORDER BY t1.created LIMIT {$offset},{$limit}",
 				$params
 			);
+			$data_count = $this->_Dao->select("SELECT count(id) as cnt FROM users");
 			$result["status"] = true;
-			$result["data"] = $data;
+			$result["data"] = array(
+				"lists" => $data,
+				"lists_count" => $data_count[0]["cnt"],
+			);
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 		}
