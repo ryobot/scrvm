@@ -48,6 +48,7 @@
 		.done(function(json){
 			if (!json.status) {
 				alert(json.messages.join("\n"));
+				location.href="<?= h($base_path) ?>Users/CreateInvite";
 				return false;
 			}
 			$("#id_actions").hide();

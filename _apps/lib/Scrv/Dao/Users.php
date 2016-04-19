@@ -91,10 +91,14 @@ class Users extends Dao
 				$params = array("login_user_id" => $login_user_id);
 			}
 			$data = $this->_Dao->select(
-				 "SELECT t1.*, {$syncs_column}, count(t3.id) AS review_count FROM users t1 "
-				. $syncs_sql
-				."LEFT JOIN reviews t3 ON(t1.id=t3.user_id) "
-				."GROUP BY t1.id ORDER BY t1.created LIMIT {$offset},{$limit}",
+				"SELECT
+					t1.*, {$syncs_column}, count(t3.id) AS review_count,
+					t4.username AS has_invited_username, t4.img_file AS has_invited_img_file
+				FROM users t1
+				$syncs_sql
+				LEFT JOIN reviews t3 ON(t1.id=t3.user_id)
+				LEFT JOIN users t4 ON(t4.id=t1.has_invited_user_id)
+				GROUP BY t1.id ORDER BY t1.created LIMIT {$offset},{$limit}",
 				$params
 			);
 			$data_count = $this->_Dao->select("SELECT count(id) as cnt FROM users");

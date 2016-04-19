@@ -73,7 +73,7 @@
 			<td>
 				<div><?= h($review["body"]) ?></div>
 				<p>
-					reviewed by <a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<?= h( timeAgoInWords($review["created"])) ?>
 				</p>
 			</td>

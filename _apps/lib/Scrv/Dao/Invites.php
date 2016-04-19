@@ -46,6 +46,13 @@ class Invites extends Dao
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
+
+			// ユーザ数が common.ini の上限を超えていたらNG
+			$user_count = $this->_Dao->select("SELECT count(id) AS cnt FROM users");
+			if ( $user_count[0]["cnt"] > (int)$this->_common_ini["invites"]["max_user_count"] ) {
+				throw new \Exception("ユーザ数上限に達しているためリンクを生成できません。");
+			}
+
 			// roleがadmin以外で招待数条件を超えていたらNG
 			$search_result = $this->_Dao->select("SELECT invited_count FROM users WHERE id=:uid",array("uid"=>$user_id,));
 			if (count($search_result) !== 1) {
@@ -53,7 +60,7 @@ class Invites extends Dao
 			}
 			if ( $role !== "admin"
 				&& (int)$this->_common_ini["invites"]["max_invited_count"] <= $search_result[0]["invited_count"]) {
-				throw new \Exception("招待数上限を超えているため招待できません。");
+				throw new \Exception("招待数の上限を超えているためリンクを生成できません。");
 			}
 
 			$expire_time = $this->_nowTimestamp + (int)$this->_common_ini["invites"]["expire"];

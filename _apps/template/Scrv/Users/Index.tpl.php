@@ -51,10 +51,9 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="lists">
 		<table class="w100per every_other_row_even">
 			<tr>
-				<th class="taleft w80px"></th>
-				<th class="taleft">
-<!--					name / reviews <?php if($is_login): ?>/ syncs<?php endif;?> -->
-				</th>
+				<th class="w80px"></th>
+				<th></th>
+				<th></th>
 			</tr>
 <?php foreach($lists as $list): ?>
 			<tr>
@@ -64,13 +63,21 @@ foreach($pager["nav_list"] as $nav) {
 					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">Edit</a></p>
 <?php endif;?>
 				</td>
-				<td>
+				<td class="taleft w20per">
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
 <?php if($list["review_count"] > 0): ?>
 					<div>reviews : <?= h($list["review_count"]) ?></div>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
 					<div>syncs : <?= h($list["sync_point"]) ?> pt</div>
+<?php endif; ?>
+				</td>
+				<td class="taleft">
+<?php if(isset($list["has_invited_user_id"])): ?>
+					invited from : <a href="<?= h($base_path) ?>Users/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+					<div>
+						<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
+					</div>
 <?php endif; ?>
 				</td>
 			</tr>
