@@ -47,15 +47,30 @@ foreach($pager["nav_list"] as $nav) {
 $order_type = $order === "asc" ? "desc" : "asc";
 $sort_links = array(
 	"artist" => array(
-		"link" => "{$base_path}Albums?sort=artist&order={$order_type}",
+//		"link" => "{$base_path}Albums?sort=artist&order={$order_type}",
+		"link" => "{$base_path}Albums?" . hbq(array(
+			"sort"   => "artist",
+			"artist" => $artist,
+			"order"  => $order_type,
+		)),
 		"text" => $sort === "artist" ? "[Artist]" : "Artist",
 	),
 	"title" => array(
-		"link" => "{$base_path}Albums?sort=title&order={$order_type}",
+//		"link" => "{$base_path}Albums?sort=title&order={$order_type}",
+		"link" => "{$base_path}Albums?" . hbq(array(
+			"sort"   => "title",
+			"artist" => $artist,
+			"order"  => $order_type,
+		)),
 		"text" => $sort === "title" ? "[Title]" : "Title",
 	),
 	"year" => array(
-		"link" => "{$base_path}Albums?sort=year&order={$order_type}",
+//		"link" => "{$base_path}Albums?sort=year&order={$order_type}",
+		"link" => "{$base_path}Albums?" . hbq(array(
+			"sort"   => "year",
+			"artist" => $artist,
+			"order"  => $order_type,
+		)),
 		"text" => $sort === "year" ? "[Year]" : "Year",
 	),
 );
