@@ -27,16 +27,26 @@ class AddRun extends Base
 			return false;
 		}
 
-		$artist = Server::post("artist");
-		$title = Server::post("title");
-		$year = Server::post("year");
-		$img_url = Server::post("img_url");
+		// POSTパラメータ
+		$post_params = array(
+			"artist" => Server::post("artist", ""),
+			"title" => Server::post("title", ""),
+			"year" => Server::post("year", ""),
+			"img_url" => Server::post("img_url", ""),
+		);
+		foreach( $post_params as &$val ) {
+			$val = convertEOL(mb_trim($val), "\n");
+		}
 		$tracks = Server::postArray("tracks");
+		foreach( $tracks as &$track ) {
+			$track= convertEOL(mb_trim($track), "\n");
+		}
 
 		// check
-		if ( ! isset($artist, $title, $year, $img_url, $tracks)
-			|| $artist === "" || $title === "" || count($tracks) === 0
-			|| ($year !== "" && ! ctype_digit($year))
+		if ( $post_params["artist"] === ""
+			|| $post_params["title"] === ""
+			|| count($tracks) === 0
+			|| ($post_params["year"] !== "" && ! ctype_digit($post_params["year"]))
 		) {
 			Server::send404Header();
 			return false;
@@ -44,8 +54,8 @@ class AddRun extends Base
 
 		// 画像が空文字じゃなくhttpで始まっている場合はgetcontents
 		$img_file = "";
-		if ( $img_url !== "" && preg_match("/\Ahttp(s?)\:\/\/.+/", $img_url) === 1 ) {
-			$img_file = $this->_saveCoverImagePath($img_url);
+		if ( $post_params["img_url"] !== "" && preg_match("/\Ahttp(s?)\:\/\/.+/", $post_params["img_url"]) === 1 ) {
+			$img_file = $this->_saveCoverImagePath($post_params["img_url"]);
 			if ($img_file === false){
 				Server::send404Header("system error");
 				return false;
@@ -54,7 +64,14 @@ class AddRun extends Base
 
 		// 登録
 		$DaoAlbums = new DaoAlbums();
-		$add_result = $DaoAlbums->add($artist, $title, $year, $img_url, $img_file, $tracks);
+		$add_result = $DaoAlbums->add(
+			$post_params["artist"],
+			$post_params["title"],
+			$post_params["year"] === "" ? null : $post_params["year"],
+			$post_params["img_url"],
+			$img_file,
+			$tracks
+		);
 
 		header("Content-Type:application/json; charset=UTF-8");
 		echo json_encode($add_result, true);

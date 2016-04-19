@@ -47,7 +47,6 @@ foreach($pager["nav_list"] as $nav) {
 $order_type = $order === "asc" ? "desc" : "asc";
 $sort_links = array(
 	"artist" => array(
-//		"link" => "{$base_path}Albums?sort=artist&order={$order_type}",
 		"link" => "{$base_path}Albums?" . hbq(array(
 			"sort"   => "artist",
 			"artist" => $artist,
@@ -56,7 +55,6 @@ $sort_links = array(
 		"text" => $sort === "artist" ? "[Artist]" : "Artist",
 	),
 	"title" => array(
-//		"link" => "{$base_path}Albums?sort=title&order={$order_type}",
 		"link" => "{$base_path}Albums?" . hbq(array(
 			"sort"   => "title",
 			"artist" => $artist,
@@ -65,7 +63,6 @@ $sort_links = array(
 		"text" => $sort === "title" ? "[Title]" : "Title",
 	),
 	"year" => array(
-//		"link" => "{$base_path}Albums?sort=year&order={$order_type}",
 		"link" => "{$base_path}Albums?" . hbq(array(
 			"sort"   => "year",
 			"artist" => $artist,
@@ -129,7 +126,7 @@ $sort_links = array(
 <?php foreach($lists as $album): ?>
 		<tr>
 			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><?= h( "{$album["artist"]} / {$album["title"]}") ?></a> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
