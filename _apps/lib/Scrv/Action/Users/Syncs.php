@@ -91,12 +91,15 @@ class Syncs extends Base
 
 		// XXX 自分と相手のidだけ格納...
 		$tpl_reviews = array();
+		$syncs_reviews_point_total = 0;
 		foreach($sync_reviews_result["data"] as $album_id => &$reviews){
 			$tpl_reviews[$album_id] = array("point" => 0, "data" => array());
 			foreach( $reviews as $idx => $review ) {
 				if ( in_array($review["user_id"], array($login_user_id, $user_id), true) ) {
+					$syncs_point = isset($review["sync_point"]) ? $review["sync_point"]["point"] : 0;
 					$tpl_reviews[$album_id]["data"][] = $review;
-					$tpl_reviews[$album_id]["point"] += isset($review["sync_point"]) ? $review["sync_point"]["point"] : 0;
+					$tpl_reviews[$album_id]["point"] += $syncs_point;
+					$syncs_reviews_point_total += $syncs_point;
 				}
 			}
 			if ($tpl_reviews[$album_id]["point"] === 0){
@@ -105,7 +108,6 @@ class Syncs extends Base
 		}
 
 		$syncs = array(
-//			"reviews" => $sync_reviews_result["data"],
 			"reviews" => $tpl_reviews,
 			"albums" => $sync_albums_result["data"],
 			"tracks" => $sync_tracks_result["data"],
@@ -117,6 +119,7 @@ class Syncs extends Base
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
 			"syncs" => $syncs,
+			"syncs_reviews_point_total" => $syncs_reviews_point_total,
 		))->display("Users/Syncs.tpl.php");
 		return true;
 	}

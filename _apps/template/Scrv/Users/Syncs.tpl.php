@@ -34,7 +34,7 @@
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
 
-	<h4>Sync Reviews (<?= count( $syncs["reviews"] ) ?>)</h4>
+	<h4>Sync Reviews (<?= count( $syncs["reviews"] ) ?>) : <?= h($syncs_reviews_point_total) ?> pt</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
 	<div class="group">
@@ -58,10 +58,10 @@
 					<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
 				</td>
 				<td>
+					<p><?= h($review["body"]) ?></p>
 <?php if(isset($review["sync_point"]) ): ?>
 					<span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span>
 <?php endif;?>
-					<p><?= h($review["body"]) ?></p>
 					<p>
 						<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 						<?= h(timeAgoInWords($review["created"])) ?>
@@ -82,7 +82,7 @@
 	<table class="w100per every_other_row_odd">
 <?php foreach($syncs["albums"] as $album): ?>
 		<tr>
-			<td class="w20per">
+			<td class="w80px">
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 			</td>
 			<td>
@@ -103,7 +103,7 @@
 	<table class="w100per every_other_row_odd">
 <?php foreach($syncs["tracks"] as $track): ?>
 		<tr>
-			<td class="w20per">
+			<td class="w80px">
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
 			</td>
 			<td>
