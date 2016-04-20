@@ -60,10 +60,8 @@ foreach($pager["nav_list"] as $nav) {
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 					<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
-					<span class="vtalgtop">
-						<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-						<?= h( timeAgoInWords($review["created"])) ?>
-					</span>
+					<a class="vtalgtop" href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					<span class="vtalgtop"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 				<p class="actions">

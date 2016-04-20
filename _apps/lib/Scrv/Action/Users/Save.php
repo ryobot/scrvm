@@ -27,7 +27,7 @@ class Save extends Base
 		// 未ログインの場合はログイン画面にリダイレクト
 		$this->isNotLogined($this->_BasePath . "Auth");
 
-		// POSTパラメータ取得、mb_trim、改行コード統一、セッション保持
+		// POSTパラメータ取得、mb_trim、改行コード統一
 		$post_params = array(
 			"token" => Server::post("token", ""),
 			"username" => Server::post("username", ""),
@@ -148,8 +148,9 @@ class Save extends Base
 		$ext = str_replace("image/", "", $imagesize["mime"]);
 
 		// 格納先ディレクトリ作成
-		$photo_dir = __DIR__ . "/../../../../../files/attachment/photo/{$user_id}/";
-		if ( ! file_exists($photo_dir) && ! mkdir($photo_dir, 0777) ) {
+		$sub_dir = implode("/", preg_split('//', $user_id, -1, PREG_SPLIT_NO_EMPTY)) . "/";
+		$photo_dir = __DIR__ . "/../../../../../files/attachment/photo/{$sub_dir}";
+		if ( ! file_exists($photo_dir) && ! mkdir($photo_dir, 0777, true) ) {
 			$result["messages"]["file"] = "ディレクトリの作成に失敗しました。";
 			return $result;
 		}
@@ -171,7 +172,7 @@ class Save extends Base
 		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb150_user.{$ext}", $resize_150["width"], $resize_150["height"]);
 
 		$result["status"] = true;
-		$result["data"]["img_file"] = "{$user_id}/user.{$ext}";
+		$result["data"]["img_file"] = "{$sub_dir}user.{$ext}";
 		return $result;
 	}
 

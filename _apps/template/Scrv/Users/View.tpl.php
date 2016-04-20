@@ -33,7 +33,7 @@ foreach($pager["nav_list"] as $nav) {
 
 	<table class="w100per every_other_row_odd">
 		<tr>
-			<td class="w50px">
+			<td class="w80px tacenter">
 				<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" />
 			</td>
 			<td>

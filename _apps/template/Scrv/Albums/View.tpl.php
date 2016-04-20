@@ -67,7 +67,7 @@
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
 		<tr>
-			<td class="w50px">
+			<td class="w50px tacenter">
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
 			<td>

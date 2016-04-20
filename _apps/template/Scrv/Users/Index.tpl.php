@@ -51,13 +51,13 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="lists">
 		<table class="w100per every_other_row_even">
 			<tr>
-				<th class="w80px"></th>
+				<th></th>
 				<th></th>
 				<th></th>
 			</tr>
 <?php foreach($lists as $list): ?>
 			<tr>
-				<td>
+				<td class="w80px tacenter">
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
 <?php if($is_login && $login_user_data["id"] === $list["id"]):?>
 					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">Edit</a></p>
