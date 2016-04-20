@@ -92,8 +92,10 @@ $sort_links = array(
 <?php endif; ?>
 
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
-		<p><input type="text" name="artist" id="id_artist" value="<?= h($artist) ?>" placeholder="Artist Filter" /></p>
-		<p class="actions"><input type="submit" value="filter" /></p>
+		<dl class="search">
+			<dt><input type="text" name="artist" id="id_artist" value="<?= h($artist) ?>" placeholder="Artist Filter" /></dt>
+			<dd><input type="submit" value="filter" /></dd>
+		</dl>
 	</form>
 
 <?php if ( count($lists) > 0 ):?>
