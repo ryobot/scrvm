@@ -62,7 +62,7 @@
 
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php if($is_login): ?>
-	<p class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
+	<p class="actions tacenter"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
@@ -71,7 +71,7 @@
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
 			<td>
-				<div><?= h($review["body"]) ?></div>
+				<div><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></div>
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>

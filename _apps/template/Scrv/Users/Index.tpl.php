@@ -5,18 +5,80 @@
  */
 
 $_base_url = $base_path . "Users";
-$most_prev_link = "{$_base_url}?";
-$prev_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = "{$_base_url}?" . hbq(array("page" => $pager["max_page"],));
+//$most_prev_link = "{$_base_url}?";
+//$prev_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]-1,));
+//$next_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]+1,));
+//$most_next_link = "{$_base_url}?" . hbq(array("page" => $pager["max_page"],));
+//$nav_list = array();
+//foreach($pager["nav_list"] as $nav) {
+//	$nav_list[] = array(
+//		"active" => $nav["active"],
+//		"page" => $nav["page"],
+//		"link" => "{$_base_url}?" . hbq(array("page" => $nav["page"],)),
+//	);
+//}
+
+$most_prev_link = "{$_base_url}?" . hbq(array(
+	"page"  => "1",
+	"sort"  => $sort,
+	"order" => $order,
+));
+$prev_link = "{$_base_url}?" . hbq(array(
+	"page"  => $pager["now_page"]-1,
+	"sort"  => $sort,
+	"order" => $order,
+));
+$next_link = "{$_base_url}?" . hbq(array(
+	"page"  => $pager["now_page"]+1,
+	"sort"  => $sort,
+	"order" => $order,
+));
+$most_next_link = "{$_base_url}?" . hbq(array(
+	"page"  => $pager["max_page"],
+	"sort"  => $sort,
+	"order" => $order,
+));
+
 $nav_list = array();
 foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$_base_url}?" . hbq(array("page" => $nav["page"],)),
+		"link" => "{$_base_url}?" . hbq(array(
+			"page" => $nav["page"],
+			"sort"   => $sort,
+			"order"  => $order,
+		)),
 	);
 }
+
+// ソート用リンク
+$order_type = $order === "asc" ? "desc" : "asc";
+$sort_links = array(
+	"username" => array(
+		"link" => "{$_base_url}?" . hbq(array(
+			"sort"   => "username",
+			"order"  => $order_type,
+		)),
+		"text" => $sort === "username" ? "[Username]" : "Username",
+	),
+	"review_count" => array(
+		"link" => "{$_base_url}?" . hbq(array(
+			"sort"   => "review_count",
+			"order"  => $order_type,
+		)),
+		"text" => $sort === "review_count" ? "[Reviews]" : "Reviews",
+	),
+	"sync_point" => array(
+		"link" => "{$_base_url}?" . hbq(array(
+			"sort"   => "sync_point",
+			"order"  => $order_type,
+		)),
+		"text" => $sort === "sync_point" ? "[Syncs]" : "Syncs",
+	),
+);
+
+
 
 ?>
 <!doctype html>
@@ -51,21 +113,28 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="lists">
 		<table class="w100per every_other_row_even">
 			<tr>
-				<th></th>
-				<th></th>
-				<th></th>
+				<td></td>
+				<td>
+					<a href="<?= h($sort_links["username"]["link"]) ?>"><?= h($sort_links["username"]["text"]) ?></a>
+					/
+					<a href="<?= h($sort_links["review_count"]["link"]) ?>"><?= h($sort_links["review_count"]["text"]) ?></a>
+<?php if($is_login):?>
+					/
+					<a href="<?= h($sort_links["sync_point"]["link"]) ?>"><?= h($sort_links["sync_point"]["text"]) ?></a>
+<?php endif; ?>
+				</td>
 			</tr>
 <?php foreach($lists as $list): ?>
 			<tr>
 				<td class="w80px tacenter vtalgmiddle">
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
+					<p><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a></p>
 <?php if($is_login && $login_user_data["id"] === $list["id"]):?>
-					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">Edit</a></p>
+					<p class="actions"><a href="<?= h($_base_url) ?>/Edit">Edit</a></p>
 <?php endif;?>
 				</td>
 				<td class="user_menu_list">
 					<ul>
-						<li><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></li>
+						<li><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></li>
 <?php if($list["review_count"] > 0): ?>
 						<li>Reviews : <?= h($list["review_count"]) ?></li>
 <?php endif; ?>
@@ -74,7 +143,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php endif; ?>
 <?php if(isset($list["has_invited_user_id"])): ?>
 						<li>
-							(invited from <a href="<?= h($base_path) ?>Users/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+							(invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
 							<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
 						</li>
 <?php endif; ?>

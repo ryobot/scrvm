@@ -42,7 +42,7 @@
 	<div class="group">
 		<table class="w100per">
 			<tr>
-				<td class="w80px">
+				<td class="w80px tacenter">
 					<img class="album_cover" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
 				</td>
 				<td>
@@ -56,7 +56,7 @@
 		<table class="w100per every_other_row_odd">
 <?php   foreach($reviews["data"] as $review): ?>
 			<tr>
-				<td class="w50px">
+				<td class="w50px tacenter">
 					<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
 				</td>
 				<td>
@@ -66,7 +66,7 @@
 <?php endif;?>
 					<p>
 						<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-						<?= h(timeAgoInWords($review["created"])) ?>
+						<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
 					</p>
 				</td>
 			</tr>
@@ -81,18 +81,20 @@
 		: <?= count($syncs["albums"])*5 ?>pt
 	</h4>
 <?php if (count( $syncs["albums"] ) > 0):?>
-	<table class="w100per every_other_row_odd">
+	<div class="group">
+		<table class="w100per every_other_row_odd">
 <?php foreach($syncs["albums"] as $album): ?>
-		<tr>
-			<td class="w80px">
-				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
-			</td>
-			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>"><?= h("{$album["artist"]} / {$album["title"]}") ?></a>
-			</td>
-		</tr>
+			<tr>
+				<td class="w80px tacenter">
+					<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
+				</td>
+				<td>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>"><?= h("{$album["artist"]} / {$album["title"]}") ?></a>
+				</td>
+			</tr>
 <?php endforeach; unset($album); ?>
-	</table>
+		</table>
+	</div>
 <?php endif; ?>
 
 
@@ -101,20 +103,22 @@
 		: <?= count($syncs["tracks"])*2 ?>pt
 	</h4>
 <?php if (count( $syncs["tracks"] ) > 0):?>
-	<table class="w100per every_other_row_odd">
+	<div class="group">
+		<table class="w100per every_other_row_odd">
 <?php foreach($syncs["tracks"] as $track): ?>
-		<tr>
-			<td class="w80px">
-				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
-			</td>
-			<td>
-				<div><strong><?= h($track["track_title"]) ?></strong></div>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>"><?= h("{$track["artist"]} / {$track["title"]}") ?></a>
-				: tr.<?= h($track["track_num"]) ?>
-			</td>
-		</tr>
+			<tr>
+				<td class="w80px tacenter">
+					<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
+				</td>
+				<td>
+					<div><strong><?= h($track["track_title"]) ?></strong></div>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>"><?= h("{$track["artist"]} / {$track["title"]}") ?></a>
+					: tr.<?= h($track["track_num"]) ?>
+				</td>
+			</tr>
 <?php endforeach; unset($track); ?>
-	</table>
+		</table>
+	</div>
 <?php endif; ?>
 
 

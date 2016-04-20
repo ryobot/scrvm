@@ -28,16 +28,30 @@ class Index extends Base
 
 		// offset設定
 		$page = Server::get("page", "1");
+		$sort = Server::get("sort", "review_count");
+		$order = Server::get("order", "desc");
 		if ( ! ctype_digit($page) ) {
 			$page = "1";
 		}
 		$limit = (int)$this->_common_ini["search"]["limit"];
 		$offset = ((int)$page-1) * $limit;
 
+		// sort, order設定
+		if ( preg_match("/\A(username|review_count|sync_point)\z/", $sort) !== 1 ) {
+			$sort = "review_count";
+		}
+		if ( preg_match("/\A(asc|desc)\z/", $order) !== 1 ) {
+			$order = "desc";
+		}
+		// loginしていないのに sync_point が設定されている場合は review_countにする
+		if ( ! $this->_is_login && $sort === "sync_point" ) {
+			$sort = "review_count";
+		}
+
 		// 一覧取得
 		$login_user_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoUsers = new DaoUsers();
-		$lists_result = $DaoUsers->lists((int)$offset, (int)$limit, $login_user_id);
+		$lists_result = $DaoUsers->lists((int)$offset, (int)$limit, $login_user_id, $sort, $order);
 		if ( ! $lists_result["status"] ) {
 			Server::send404Header("db error.");
 			return false;
@@ -46,6 +60,8 @@ class Index extends Base
 		$Pager = new Pager();
 
 		$this->_Template->assign(array(
+			"sort" => $sort,
+			"order" => $order,
 			"lists" => $lists_result["data"]["lists"],
 			"lists_count" => $lists_result["data"]["lists_count"],
 			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
