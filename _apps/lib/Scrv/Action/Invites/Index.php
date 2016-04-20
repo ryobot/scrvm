@@ -46,7 +46,8 @@ class Index extends Base
 		$DaoInvites = new DaoInvites();
 		$result = $DaoInvites->findHash($hash);
 		if ( !$result["status"]){
-			Server::send404Header("404 not found.");
+			Server::send404Header();
+			$this->_Template->assign(array())->display("Invites/NotFound.tpl.php");
 			return false;
 		}
 		$this->_Session->set(Scrv\SessionKeys::INVITATIONS_DATA, $result["data"]);
