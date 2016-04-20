@@ -117,6 +117,9 @@ li{
 
 .menu{
 	margin:10px -5px;
+	border-top: 1px solid #EEE;
+	border-bottom: 1px solid #EEE;
+	background-color: #EEE;
 }
 .menu ul:after {
 	content:"";
@@ -132,10 +135,10 @@ li{
 }
 .menu ul li {
 	width:25%;
-	background-color: #CEF;
+/*	background-color: #CEF;*/
 }
 .menu ul li:hover {
-	background-color: #DFF;
+/*	background-color: #DFF;*/
 }
 .menu ul li a {
 	text-decoration: none;
