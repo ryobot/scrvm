@@ -75,9 +75,17 @@ img{
 	max-width: 100%;
 }
 
+ul,ol,dl{
+  list-style:none;
+}
+li{
+  display:list-item;
+  zoom:normal;
+}
+
 /*----------------------*/
 #container{
-	padding:0.3em;
+	padding:5px;
 }
 
 /*----------------------*/
@@ -108,7 +116,7 @@ img{
 }
 
 .menu{
-	padding:0.3em 0;
+	margin:10px -5px;
 }
 .menu ul:after {
 	content:"";
@@ -124,8 +132,23 @@ img{
 }
 .menu ul li {
 	width:25%;
+	background-color: #CEF;
+}
+.menu ul li:hover {
+	background-color: #DFF;
+}
+.menu ul li a {
+	text-decoration: none;
 }
 
+.user_menu_list li.reviews:before{
+}
+.user_menu_list li.fav_tracks:before{
+}
+.user_menu_list li.fav_albums:before{
+}
+.user_menu_list li.syncs:before{
+}
 
 /* pagination */
 ul.pagination {
@@ -289,3 +312,4 @@ ul.pagination li a:hover:not(.active) {
 .vtalgmiddle{vertical-align:middle;}
 .vtalgbottom{vertical-align:bottom;}
 .bordernone{border:none;}
+.fwnormal{font-weight: normal;}

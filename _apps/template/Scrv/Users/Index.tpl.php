@@ -57,28 +57,28 @@ foreach($pager["nav_list"] as $nav) {
 			</tr>
 <?php foreach($lists as $list): ?>
 			<tr>
-				<td class="w80px tacenter">
+				<td class="w80px tacenter vtalgmiddle">
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
 <?php if($is_login && $login_user_data["id"] === $list["id"]):?>
 					<p class="actions"><a href="<?= h($base_path) ?>Users/Edit">Edit</a></p>
 <?php endif;?>
 				</td>
-				<td class="taleft w20per">
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
+				<td class="user_menu_list">
+					<ul>
+						<li><a href="<?= h($base_path) ?>Users/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></li>
 <?php if($list["review_count"] > 0): ?>
-					<div>reviews : <?= h($list["review_count"]) ?></div>
+						<li>Reviews : <?= h($list["review_count"]) ?></li>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-					<div>syncs : <?= h($list["sync_point"]) ?> pt</div>
+						<li>syncs : <?= h($list["sync_point"]) ?> pt</li>
 <?php endif; ?>
-				</td>
-				<td class="taleft">
 <?php if(isset($list["has_invited_user_id"])): ?>
-					invited from : <a href="<?= h($base_path) ?>Users/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
-					<div>
-						<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
-					</div>
+						<li>
+							(invited from <a href="<?= h($base_path) ?>Users/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+							<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
+						</li>
 <?php endif; ?>
+					</ul>
 				</td>
 			</tr>
 <?php endforeach; unset($list) ?>

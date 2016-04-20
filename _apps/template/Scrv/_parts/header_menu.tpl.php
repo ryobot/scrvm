@@ -3,8 +3,6 @@
  * _parts/header_menu.tpl.php
  * @author mgng
  */
-
-// TODO new user の扱いはどうする？
 ?>
 
 <div class="header">

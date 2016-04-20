@@ -44,7 +44,10 @@ class Reviews extends Dao
 	{
 		$result = getResultSet();
 		try{
-			$data = $this->_Dao->select("SELECT * FROM reviews WHERE id=:review_id",array("review_id" => $review_id,));
+			$data = $this->_Dao->select(
+				"SELECT * FROM reviews WHERE id=:review_id",
+				array("review_id" => $review_id,)
+			);
 			if ( count($data) !== 1 ) {
 				throw new \Exception("not found");
 			}
@@ -68,14 +71,19 @@ class Reviews extends Dao
 	{
 		$result = getResultSet();
 		try{
-			$data = $this->_Dao->select(
-				"SELECT "
-				."t1.*, t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks,"
-				."t3.username,t3.img_file as user_img_file "
-				."FROM reviews t1 "
-				."INNER JOIN albums t2 ON (t1.album_id=t2.id) "
-				."INNER JOIN users t3 ON (t1.user_id=t3.id) "
-				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
+				,t3.username,t3.img_file AS user_img_file
+				,count(t4.id) as reviews_count
+				FROM reviews t1
+				INNER JOIN albums t2 ON(t1.album_id=t2.id)
+				INNER JOIN users t3 ON(t1.user_id=t3.id)
+				LEFT JOIN reviews t4 ON(t1.album_id = t4.album_id)
+				GROUP BY t1.id
+				ORDER BY t1.created DESC
+				LIMIT {$offset},{$limit}"
 			);
 			$data_count = $this->_Dao->select("SELECT count(id) cnt FROM reviews");
 			$result["status"] = true;

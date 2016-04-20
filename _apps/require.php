@@ -125,5 +125,5 @@ function timeAgoInWords($date)
 	}elseif($diff > 0 && $diff <= 24*60*60){
 		return floor($diff/(60*60)) . "時間前";
 	}
-	return date('Y年n月d日',$time);
+	return date('Y年n月j日',$time);
 }

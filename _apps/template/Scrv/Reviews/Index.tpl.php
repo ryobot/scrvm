@@ -52,16 +52,26 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td class="w80px">
-				<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" />
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+					<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" />
+				</a>
 			</td>
 			<td>
-				<div><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h( "{$review["artist"]} / {$review["title"]}") ?></a> (<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)</div>
-				<p><?= h($review["body"]) ?></p>
+				<div>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+						<?= h( "{$review["artist"]} / {$review["title"]}") ?>
+						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+					</a>
+				</div>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></p>
+<?php if( $review["reviews_count"] - 1 > 0 ): ?>
+				<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">other <?= $review["reviews_count"] - 1 ?> review<?= $review["reviews_count"] - 1 > 1 ? "s" : "" ?>→</a></p>
+<?php endif; ?>
 				<p>
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
-					<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
-					<a class="vtalgtop" href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-					<span class="vtalgtop"><?= h( timeAgoInWords($review["created"])) ?></span>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
+					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					<?= h(timeAgoInWords($review["created"])) ?>
 				</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 				<p class="actions">
@@ -70,12 +80,6 @@ foreach($pager["nav_list"] as $nav) {
 				</p>
 <?php endif;?>
 			</td>
-<!--			<td class="w20per">
-				<p>
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
-					<img src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" />
-				</p>
-			</td>-->
 		</tr>
 <?php endforeach; ?>
 	</table>
