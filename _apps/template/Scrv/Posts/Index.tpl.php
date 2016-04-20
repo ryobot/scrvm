@@ -71,7 +71,7 @@ foreach($pager["nav_list"] as $nav) {
 				<td>
 					<h4><?= h($list["title"]) ?></h4>
 					<p><?= nl2br(h($list["body"])) ?></p>
-					<p>(<strong><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></strong> <?= h(timeAgoInWords($list["created"])) ?>)</p>
+					<p>(<strong><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></strong> <span class="post_date"><?= h(timeAgoInWords($list["created"])) ?>)</span></p>
 				</td>
 			</tr>
 <?php endforeach; unset($list) ?>

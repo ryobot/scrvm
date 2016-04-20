@@ -76,7 +76,7 @@ foreach($pager["nav_list"] as $nav) {
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
 				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></p>
-				<?= h( timeAgoInWords($review["created"])) ?>
+				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>

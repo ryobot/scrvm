@@ -117,14 +117,14 @@ $sort_links = array(
 
 	<table class="w100per every_other_row_even">
 		<tr>
-			<th class="w80px"></th>
-			<th class="taleft">
+			<td class="w80px"></td>
+			<td class="taleft">
 				<a href="<?= h($sort_links["artist"]["link"]) ?>"><?= h($sort_links["artist"]["text"]) ?></a>
 				/
 				<a href="<?= h($sort_links["title"]["link"]) ?>"><?= h($sort_links["title"]["text"]) ?></a>
 				( <a href="<?= h($sort_links["year"]["link"]) ?>"><?= h($sort_links["year"]["text"]) ?></a> )
-			</th>
-			<th></th>
+			</td>
+			<td></td>
 		</tr>
 <?php foreach($lists as $album): ?>
 		<tr>
@@ -132,7 +132,10 @@ $sort_links = array(
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 			</td>
 			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><?= h( "{$album["artist"]} / {$album["title"]}") ?></a> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+					<?= h( "{$album["artist"]} / {$album["title"]}") ?>
+					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+				</a>
 			</td>
 			<td>
 			</td>

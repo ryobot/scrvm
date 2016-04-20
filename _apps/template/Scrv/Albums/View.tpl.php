@@ -74,7 +74,7 @@
 				<div><?= h($review["body"]) ?></div>
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-					<?= h( timeAgoInWords($review["created"])) ?>
+					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</p>
 			</td>
 		</tr>

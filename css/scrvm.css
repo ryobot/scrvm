@@ -5,7 +5,8 @@
 
 body {
 	background: #fff;
-	color: #003d4c;
+/*	color: #003d4c;*/
+	color: #012;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	line-height: 1.5em;
 	font-size:90%;
@@ -21,8 +22,8 @@ h4{font-size: 115%;color:#993;}
 h5{font-size: 110%;}
 h6{font-size: 105%;}
 
-a{color:#034;font-weight: bold;}
-a:hover{color:#378;text-decoration: none;}
+a{color:#06C;font-weight: normal;text-decoration: none;}
+a:hover{color:#C50;text-decoration: underline;}
 
 p{padding:3px 0;}
 
@@ -275,6 +276,8 @@ dl.search dd input[type="submit"]:hover{
 }
 
 .error_message{color:#C33;}
+
+.post_date{color:#678;}
 
 /*----------------------*/
 #id_itunes_search_results{

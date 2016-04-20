@@ -89,7 +89,6 @@
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>"><?= h("{$album["artist"]} / {$album["title"]}") ?></a>
-				(<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)
 			</td>
 		</tr>
 <?php endforeach; unset($album); ?>
@@ -111,8 +110,7 @@
 			<td>
 				<div><strong><?= h($track["track_title"]) ?></strong></div>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>"><?= h("{$track["artist"]} / {$track["title"]}") ?></a>
-				(<?= isset($track["year"]) ? h($track["year"]) : "unknown" ?>)
-				: tr. <?= h($track["track_num"]) ?>
+				: tr.<?= h($track["track_num"]) ?>
 			</td>
 		</tr>
 <?php endforeach; unset($track); ?>
