@@ -37,13 +37,13 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>
@@ -88,13 +88,13 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>

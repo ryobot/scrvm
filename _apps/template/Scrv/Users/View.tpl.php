@@ -56,13 +56,13 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>
@@ -75,7 +75,7 @@ foreach($pager["nav_list"] as $nav) {
 			</td>
 			<td>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
-				<p><?= h($review["body"]) ?></p>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></p>
 				<?= h( timeAgoInWords($review["created"])) ?>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">
@@ -91,13 +91,13 @@ foreach($pager["nav_list"] as $nav) {
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>

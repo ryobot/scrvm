@@ -1,10 +1,7 @@
 @charset "UTF-8";
 
 /*----------------------*/
-*{
-	margin:0;
-	padding:0;
-}
+*{margin:0;padding:0;}
 
 body {
 	background: #fff;
@@ -16,10 +13,7 @@ body {
 	word-wrap:break-word;
 }
 
-h1,h2,h3,h4,h5,h6{
-	font-size: 125%;
-	margin: 0.4em 0;
-}
+h1,h2,h3,h4,h5,h6{font-size: 125%;margin: 0.4em 0;}
 
 h2{font-size: 125%;color:#D30;}
 h3{font-size: 120%;color:#267;}
@@ -30,19 +24,16 @@ h6{font-size: 105%;}
 a{color:#034;font-weight: bold;}
 a:hover{color:#378;text-decoration: none;}
 
-p{padding:0.3em 0;}
+p{padding:3px 0;}
 
-table{
-	border-collapse: collapse;
-}
+table{border-collapse: collapse;}
 
-tr{
-}
+tr{}
 
 td,th{
 	vertical-align: top;
 	margin:0;
-	padding:5px 2px;
+	padding:3px 2px;
 }
 
 hr{
@@ -59,9 +50,7 @@ textarea{
 	padding:0.3em;
 }
 
-input{
-	max-width: 100%;
-}
+input{max-width: 100%;}
 
 input[type="text"],input[type="password"], textarea{
 	clear: both;
@@ -71,28 +60,17 @@ input[type="text"],input[type="password"], textarea{
 	width: 97%;
 }
 
-img{
-	max-width: 100%;
-}
+img{max-width: 100%;}
 
-ul,ol,dl{
-  list-style:none;
-}
-li{
-  display:list-item;
-  zoom:normal;
-}
+ul,ol,dl{list-style:none;}
+li{display:list-item;zoom:normal;}
 
 /*----------------------*/
-#container{
-	padding:5px;
-}
+#container{padding:5px;}
 
 /*----------------------*/
-.header{
-	padding:0.2em;
-	margin: 0;
-}
+/* .header */
+.header{padding:0.2em;margin: 0;}
 .header ul:after {
 	content:"";
 	clear:both;
@@ -104,17 +82,11 @@ li{
 	height:auto;
 	list-style-type:none;
 }
-.header ul li {
-	width:50%;
-}
+.header ul li {width:50%;}
+.header_title{font-size:100%;}
+.header_title a{text-decoration: none;}
 
-.header_title{
-	font-size:100%;
-}
-.header_title a{
-	text-decoration: none;
-}
-
+/* .menu */
 .menu{
 	margin:10px -5px;
 	border-top: 1px solid #EEE;
@@ -133,35 +105,23 @@ li{
 	list-style-type:none;
 	text-align:center;
 }
-.menu ul li {
-	width:25%;
-/*	background-color: #CEF;*/
-}
-.menu ul li:hover {
-/*	background-color: #DFF;*/
-}
-.menu ul li a {
-	text-decoration: none;
-}
+.menu ul li {width:25%;}
+.menu ul li:hover {}
+.menu ul li a {text-decoration: none;}
 
-.user_menu_list li.reviews:before{
-}
-.user_menu_list li.fav_tracks:before{
-}
-.user_menu_list li.fav_albums:before{
-}
-.user_menu_list li.syncs:before{
-}
+/* .user_menu_list */
+.user_menu_list li.reviews:before{}
+.user_menu_list li.fav_tracks:before{}
+.user_menu_list li.fav_albums:before{}
+.user_menu_list li.syncs:before{}
 
-/* pagination */
+/* .pagination */
 ul.pagination {
 	display: inline-block;
 	padding: 0;
 	margin: 0.5em 0;
 }
-ul.pagination li {
-	display: inline;
-}
+ul.pagination li {display: inline;}
 ul.pagination li a {
 	color: black;
 	float: left;
@@ -183,10 +143,9 @@ ul.pagination li a.active {
 	color: white;
 	border: 1px solid #4CAF50;
 }
-ul.pagination li a:hover:not(.active) {
-	background-color: #ddd;
-}
+ul.pagination li a:hover:not(.active){background-color: #ddd;}
 
+/* .every_other_row_* */
 .every_other_row_odd tr:nth-child(2n-1) {
 	background: #EFEFEF;
 	border-bottom:1px solid #DDD;
@@ -198,9 +157,10 @@ ul.pagination li a:hover:not(.active) {
 	border-top:1px solid #DDD;
 }
 
-/* search */
+/* .search */
 dl.search{
 	position:relative;
+	margin: 6px 0;
 }
 dl.search dt{
 	margin-right:105px;
@@ -239,6 +199,7 @@ dl.search dd input[type="submit"]:hover{
 	background-color:#4A5;
 }
 
+/* .action */
 .actions a,
 .actions input[type="submit"],
 .actions input[type="file"],
@@ -264,27 +225,15 @@ dl.search dd input[type="submit"]:hover{
 	text-decoration: none;
 }
 
-.error_message{
-	color:#C33;
-}
+/* .user_photo */
+.user_photo{height:65px;border-radius: 5px;}
+.user_photo_min{height:30px;border-radius: 3px;}
 
-.user_photo{
-	height:65px;
-	border-radius: 5px;
-}
-.user_photo_min{
-	height:30px;
-	border-radius: 3px;
-}
+/* .fav_ */
+.fav_album{cursor: pointer;}
+.fav_track{cursor: pointer;}
 
-.fav_album{
-	cursor: pointer;
-}
-
-.fav_track{
-	cursor: pointer;
-}
-
+/* .album_ */
 .album_search_result{
 	border:1px solid #AAA;
 	margin:0.5em 0;
@@ -294,12 +243,10 @@ dl.search dd input[type="submit"]:hover{
 .album_search_result:hover{
 	background-color: #FED;
 }
-
 .album_cover {
 	margin:0.2em;
 	width:65px;
 }
-
 .album_search_cover_result{
 	border:5px solid #FFF;
 	margin:0.2em;
@@ -309,18 +256,15 @@ dl.search dd input[type="submit"]:hover{
 	border:5px solid #3C3;
 }
 
-.pager{
-	text-align: center;
-}
-
+/* .sync_ */
 .sync_point_days{
 	background: #e99 none repeat scroll 0 0;
 	border-radius: 5px;
-	color: #eee;
+	color: #FFF;
 	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
 	font-weight: bold;
 	margin: 5px 0;
-	padding: 0 8px;
+	padding: 2px 5px;
 }
 
 .group{
@@ -329,6 +273,8 @@ dl.search dd input[type="submit"]:hover{
 	border:1px solid #AAA;
 	border-radius: 10px;
 }
+
+.error_message{color:#C33;}
 
 /*----------------------*/
 #id_itunes_search_results{

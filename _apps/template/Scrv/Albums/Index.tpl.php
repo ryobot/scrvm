@@ -4,25 +4,26 @@
  * @author mgng
  */
 
-$most_prev_link = "{$base_path}Albums?" . hbq(array(
+$_base_url = "{$base_path}Albums";
+$most_prev_link = "{$_base_url}?" . hbq(array(
 	"artist" => $artist,
 	"page" => "1",
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$prev_link = "{$base_path}Albums?" . hbq(array(
+$prev_link = "{$_base_url}?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["now_page"]-1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$next_link = "{$base_path}Albums?" . hbq(array(
+$next_link = "{$_base_url}?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["now_page"]+1,
 	"sort"   => $sort,
 	"order"  => $order,
 ));
-$most_next_link = "{$base_path}Albums?" . hbq(array(
+$most_next_link = "{$_base_url}?" . hbq(array(
 	"artist" => $artist,
 	"page" => $pager["max_page"],
 	"sort"   => $sort,
@@ -34,7 +35,7 @@ foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$base_path}Albums?" . hbq(array(
+		"link" => "{$_base_url}?" . hbq(array(
 			"artist" => $artist,
 			"page" => $nav["page"],
 			"sort"   => $sort,
@@ -47,7 +48,7 @@ foreach($pager["nav_list"] as $nav) {
 $order_type = $order === "asc" ? "desc" : "asc";
 $sort_links = array(
 	"artist" => array(
-		"link" => "{$base_path}Albums?" . hbq(array(
+		"link" => "{$_base_url}?" . hbq(array(
 			"sort"   => "artist",
 			"artist" => $artist,
 			"order"  => $order_type,
@@ -55,7 +56,7 @@ $sort_links = array(
 		"text" => $sort === "artist" ? "[Artist]" : "Artist",
 	),
 	"title" => array(
-		"link" => "{$base_path}Albums?" . hbq(array(
+		"link" => "{$_base_url}?" . hbq(array(
 			"sort"   => "title",
 			"artist" => $artist,
 			"order"  => $order_type,
@@ -63,7 +64,7 @@ $sort_links = array(
 		"text" => $sort === "title" ? "[Title]" : "Title",
 	),
 	"year" => array(
-		"link" => "{$base_path}Albums?" . hbq(array(
+		"link" => "{$_base_url}?" . hbq(array(
 			"sort"   => "year",
 			"artist" => $artist,
 			"order"  => $order_type,
@@ -88,7 +89,7 @@ $sort_links = array(
 	<h2>Albums (<?= h($pager["total_count"]) ?>)</h2>
 
 <?php if( $is_login ): ?>
-	<p class="actions"><a href="<?= h($base_path) ?>Albums/Add">Add Album</a></p>
+	<p class="actions tacenter"><a href="<?= h($base_path) ?>Albums/Add">Add Album</a></p>
 <?php endif; ?>
 
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
@@ -103,13 +104,13 @@ $sort_links = array(
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>
@@ -142,13 +143,13 @@ $sort_links = array(
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">≪</a></li>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
 			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">≫</a></li>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>

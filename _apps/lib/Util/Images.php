@@ -40,6 +40,8 @@ class Images
 
 		// リサイズ
 		$dest_gd = imagecreatetruecolor($width, $height);
+		imagealphablending($dest_gd, false);	// 透過対応
+		imagesavealpha($dest_gd, true);	// 透過対応
 		imagecopyresampled($dest_gd, $src_gd, 0,0,0,0, $width, $height, $src_width, $src_height);
 
 		// 出力

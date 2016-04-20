@@ -48,7 +48,7 @@
 				<td>
 					<p>
 						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>"><?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?> (<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)</a>
-						: <span class="sync_point_days"><?= h($reviews["point"]) ?> pt</span>
+						<div><span class="sync_point_days"><?= h($reviews["point"]) ?> pt</span></div>
 					</p>
 				</td>
 			</tr>
