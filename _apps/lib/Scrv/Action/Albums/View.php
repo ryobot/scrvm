@@ -60,6 +60,7 @@ class View extends Base
 		$this->_Template->assign(array(
 			"album_id" => $id,
 			"album" => $view_result["data"]["album"],
+			"tags" => $view_result["data"]["tags"],
 			"tracks" => $view_result["data"]["tracks"],
 			"reviews" => $view_result["data"]["reviews"],
 			"own_favtracks" => $own_favtracks,

@@ -268,6 +268,23 @@ dl.search dd input[type="submit"]:hover{
 	padding: 2px 5px;
 }
 
+.tags{
+	background: #99E none repeat scroll 0 0;
+	border-radius: 5px;
+	color: #FFF;
+	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
+	font-weight: bold;
+	margin: 5px 0;
+	padding: 2px 5px;
+	white-space: nowrap;
+}
+.tags a{
+	color:#FFF;
+}
+.tags a:hover{
+	color:#FC0;
+}
+
 .group{
 	padding:0;
 	margin:10px 0;

@@ -18,6 +18,14 @@
 
 	<h2><?= h("{$album["artist"]} / {$album["title"]}") ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
 
+<?php if(count($tags) > 0): ?>
+	<p class="tags_group">
+<?php foreach($tags as $tag):?>
+		<span class="tags"><a href="<?= h($base_path) ?>Albums/Tag?tag=<?= h($tag["tag"]) ?>"><?= h($tag["tag"]) ?></a></span>
+<?php endforeach;?>
+	</p>
+<?php endif; ?>
+
 	<p>
 		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 		<img

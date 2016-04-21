@@ -70,7 +70,8 @@ class AddRun extends Base
 			$post_params["year"] === "" ? null : $post_params["year"],
 			$post_params["img_url"],
 			$img_file,
-			$tracks
+			$tracks,
+			$this->_login_user_data["id"]
 		);
 
 		header("Content-Type:application/json; charset=UTF-8");

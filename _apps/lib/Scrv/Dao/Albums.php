@@ -82,41 +82,92 @@ class Albums extends Dao
 		$result = getResultSet();
 		try{
 			// album 情報
-			$album_result = $this->_Dao->select(
-				 "SELECT t1.*, t2.favalbums_count FROM albums t1 "
-				."LEFT JOIN (SELECT album_id,count(id) AS favalbums_count FROM favalbums GROUP BY album_id) t2 ON(t1.id=t2.album_id) "
-				."WHERE t1.id=:id",
+			$album_result = $this->_Dao->select("
+				SELECT t1.*, t2.favalbums_count
+				FROM albums t1
+				LEFT JOIN (SELECT album_id,count(id) AS favalbums_count FROM favalbums GROUP BY album_id) t2 ON(t1.id=t2.album_id)
+				LEFT JOIN tags t3 ON(t1.id=t3.album_id)
+				WHERE t1.id=:id",
 				array("id" => $id,));
 			if ( count($album_result) !== 1 ) {
 				throw new \Exception("album not found.");
 			}
 			$album_data = $album_result[0];
+			// tags 情報
+			$tags_result = $this->_Dao->select("
+				SELECT t1.* FROM tags t1
+				INNER JOIN albums t2 ON (t2.id=t1.album_id)
+				WHERE t1.album_id=:id",
+				array("id" => $id,)
+			);
+			$tags_data = $tags_result;
 			// track 情報
-			$tracks_data = $this->_Dao->select(
-				 "SELECT t1.*, t2.favtracks_count FROM tracks t1 "
-				."LEFT JOIN (SELECT track_id,count(id) AS favtracks_count FROM favtracks GROUP BY track_id) t2 ON(t1.id=t2.track_id) "
-				."WHERE t1.album_id=:id "
-				."ORDER BY t1.track_num",
+			$tracks_data = $this->_Dao->select("
+				SELECT t1.*, t2.favtracks_count
+				FROM tracks t1
+				LEFT JOIN (SELECT track_id,count(id) AS favtracks_count FROM favtracks GROUP BY track_id) t2 ON(t1.id=t2.track_id)
+				WHERE t1.album_id=:id
+				ORDER BY t1.track_num",
 				array("id" => $id,)
 			);
 			if ( count($tracks_data) === 0 ) {
 				throw new \Exception("track not found.");
 			}
 			// review内容取得
-			$review_data = $this->_Dao->select(
-				 "SELECT t1.*, t2.username, t2.img_file FROM reviews t1 "
-				."INNER JOIN users t2 ON(t1.user_id=t2.id) "
-				."WHERE t1.album_id=:album_id ORDER BY t1.created DESC",
+			$review_data = $this->_Dao->select("
+				SELECT t1.*, t2.username, t2.img_file
+				FROM reviews t1
+				INNER JOIN users t2 ON(t1.user_id=t2.id)
+				WHERE t1.album_id=:album_id ORDER BY t1.created DESC",
 				array("album_id" => $album_data["id"],)
 			);
 			$result["status"] = true;
 			$result["data"] = array(
 				"album" => $album_data,
+				"tags" => $tags_data,
 				"tracks" => $tracks_data,
 				"reviews" => $review_data,
 			);
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
+	 * View Album Data by tag
+	 * @param string $tag
+	 * @param string $artist
+	 * @param string $sort
+	 * @param string $order
+	 * @param int $offset
+	 * @param int $limit
+	 * @return resultSet
+	 */
+	public function tag($tag, $artist, $sort, $order, $offset, $limit)
+	{
+		$result = getResultSet();
+		try{
+			$orderby = "ORDER BY {$sort} {$order}";
+			$offsetlimit = "LIMIT {$offset},{$limit}";
+			$sql = "SELECT * FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$orderby} {$offsetlimit}";
+			$sql_count = "SELECT count(id) as cnt FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag)";
+			$params = array("tag" => $tag);
+			if ( $artist !== null && $artist !== "" ) {
+				$where = "AND (artist like :artist ESCAPE '!')";
+				$sql = "SELECT * FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$where} {$orderby} {$offsetlimit}";
+				$sql_count = "SELECT count(id) as cnt FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$where}";
+				$params["artist"] = "%".$this->_Dao->escapeForLike($artist)."%";
+			}
+			$albums_result = $this->_Dao->select($sql, $params);
+			$albums_count_result = $this->_Dao->select($sql_count, $params);
+			$result["status"] = true;
+			$result["data"] = array(
+				"lists" => $albums_result,
+				"lists_count" => $albums_count_result[0]["cnt"],
+			);
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 		}
@@ -131,9 +182,10 @@ class Albums extends Dao
 	 * @param string $img_url
 	 * @param string $img_file
 	 * @param array $tracks
+	 * @param int $user_id
 	 * @return resultSet
 	 */
-	public function add($artist, $title, $year, $img_url, $img_file, array $tracks)
+	public function add($artist, $title, $year, $img_url, $img_file, array $tracks, $user_id = null)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -182,6 +234,16 @@ class Albums extends Dao
 				);
 				$track_index++;
 			}
+			// tags をinsert
+			$this->_Dao->insert("
+				INSERT INTO tags (album_id,create_user_id,tag,can_be_deleted,created)
+				VALUES(:album_id,:cuid,:tag,0,now())",
+				array(
+					"album_id" => $album_id,
+					"cuid" => $user_id,
+					"tag" => $artist,
+				)
+			);
 			$result["status"] = true;
 			$result["data"]["album_id"] = $album_id;
 			$this->_Dao->commit();
