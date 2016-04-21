@@ -32,24 +32,16 @@
 	<form action="<?= h($base_path) ?>Reviews/EditRun" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<input type="hidden" name="review_id" value="<?= h($review_id) ?>">
-		<table>
-			<tr>
-				<td>listening date</td>
-				<td>
-					<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">today</label>
-					<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">recently</label>
-				</td>
-			</tr>
-			<tr>
-				<td>listening system</td>
-				<td>
-					<label><input type="radio" name="listening_system" value="home" id="id_listening_system_home" checked="checked">home</label>
-					<label><input type="radio" name="listening_system" value="headphones" id="id_listening_system_headphones">headphones</label>
-					<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car">car</label>
-					<label><input type="radio" name="listening_system" value="other" id="id_listening_system_other">other</label>
-				</td>
-			</tr>
-		</table>
+		<p>
+			<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">today</label>
+			<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">recently</label>
+		</p>
+		<p>
+			<label><input type="radio" name="listening_system" value="home" id="id_listening_system_home" checked="checked"><img src="<?= h($base_path) ?>img/home_30.png" alt="home" /></label>
+			<label><input type="radio" name="listening_system" value="headphones" id="id_listening_system_headphones"><img src="<?= h($base_path) ?>img/headphones_30.png" alt="headphones" /></label>
+			<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car"><img src="<?= h($base_path) ?>img/car_30.png" alt="car" /></label>
+			<label><input type="radio" name="listening_system" value="other" id="id_listening_system_other">other</label>
+		</p>
 		<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= h($post_params["body"]) ?></textarea></p>
 		<p><input type="submit" value="Save Review" /></p>
 	</form>
