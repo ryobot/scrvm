@@ -18,13 +18,13 @@
 
 	<h2><?= h("{$album["artist"]} / {$album["title"]}") ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
 
-<?php if(count($tags) > 0): ?>
-	<p class="tags_group">
-<?php foreach($tags as $tag):?>
-		<span class="tags"><a href="<?= h($base_path) ?>Albums/Tag?tag=<?= h($tag["tag"]) ?>"><?= h($tag["tag"]) ?></a></span>
-<?php endforeach;?>
-	</p>
-<?php endif; ?>
+<?php if(isset($error_messages) && count($error_messages) > 0): ?>
+	<div class="error_message">
+<?php		foreach($error_messages as $key => $message): ?>
+		<p><?= h($message) ?></p>
+<?php		endforeach; unset($key, $message) ?>
+	</div>
+<?php endif;?>
 
 	<p>
 		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
@@ -43,6 +43,31 @@
 		/>
 		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
 	</p>
+
+<?php if(count($tags) > 0): ?>
+	<p class="tags_group">
+<?php foreach($tags as $tag):?>
+		<span class="tags"><a
+			href="<?= h($base_path) ?>Albums/Tag?tag=<?= h($tag["tag"]) ?>"
+			data-id="<?= h($tag["id"]) ?>"
+			data-tag="<?= h($tag["tag"]) ?>"
+			data-album_id="<?= h($tag["album_id"]) ?>"
+			data-is_editable="<?= $tag["create_user_id"] === $login_user_data["id"] && $tag["can_be_deleted"] === 1 ? 1 : 0 ?>"
+		><?= h($tag["tag"]) ?></a></span>
+<?php endforeach;?>
+	</p>
+<?php endif; ?>
+
+<?php if($is_login): ?>
+	<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+		<input type="hidden" name="token" value="<?= h($token) ?>" />
+		<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+		<dl class="search">
+			<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
+			<dd><input type="submit" value="add tag" /></dd>
+		</dl>
+	</form>
+<?php endif;?>
 
 	<table class="w100per every_other_row_odd">
 <?php foreach($tracks as $track): ?>

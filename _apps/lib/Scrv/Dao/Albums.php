@@ -86,7 +86,6 @@ class Albums extends Dao
 				SELECT t1.*, t2.favalbums_count
 				FROM albums t1
 				LEFT JOIN (SELECT album_id,count(id) AS favalbums_count FROM favalbums GROUP BY album_id) t2 ON(t1.id=t2.album_id)
-				LEFT JOIN tags t3 ON(t1.id=t3.album_id)
 				WHERE t1.id=:id",
 				array("id" => $id,));
 			if ( count($album_result) !== 1 ) {

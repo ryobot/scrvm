@@ -5,8 +5,10 @@
  */
 
 namespace lib\Scrv\Action\Albums;
+use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Util\Server as Server;
+use lib\Util\Password as Password;
 use lib\Scrv\Dao\Albums as DaoAlbums;
 use lib\Scrv\Dao\Tracks as DaoTracks;
 
@@ -28,11 +30,21 @@ class View extends Base
 			return false;
 		}
 
+		// セッション値取得
+		$error_messages = $this->_Session->get(Scrv\SessionKeys::ERROR_MESSAGES);
+		$this->_Session->clear(Scrv\SessionKeys::ERROR_MESSAGES);
+
+		// token生成、セッションに保持
+		$Password = new Password();
+		$token = $Password->makeRandomHash($this->_Session->id());
+		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
+
 		// アルバム情報取得
 		$DaoAlbums = new DaoAlbums();
 		$view_result = $DaoAlbums->view((int)$id);
 		if (!$view_result["status"]) {
 			Server::send404Header("not found..");
+			print_r($view_result);
 			return false;
 		}
 
@@ -61,10 +73,12 @@ class View extends Base
 			"album_id" => $id,
 			"album" => $view_result["data"]["album"],
 			"tags" => $view_result["data"]["tags"],
+			"token" => $token,
 			"tracks" => $view_result["data"]["tracks"],
 			"reviews" => $view_result["data"]["reviews"],
 			"own_favtracks" => $own_favtracks,
 			"own_favalbums" => $own_favalbums,
+			"error_messages" => $error_messages,
 		))->display("Albums/View.tpl.php");
 		return true;
 	}
