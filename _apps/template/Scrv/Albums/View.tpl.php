@@ -115,6 +115,7 @@
 	</table>
 
 	<p id="id_itunes_search_results"></p>
+	<p id="id_gpm_search_results"></p>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
@@ -163,6 +164,45 @@
 			);
 		}
 		$search_results.append($table).slideToggle("middle");
+	})
+	.fail(function(e){
+	})
+	.always(function(){
+	});
+
+	// google play music search
+	var $search_results_gpm = $("#id_gpm_search_results").html("");
+	$.ajax( BASE_PATH + 'GooglePlayMusic/Search', {
+		method : 'GET',
+		dataType : 'json',
+		data : {
+			q : $("#id_term").val()
+		}
+	})
+	.done(function(json){
+		if ( json.length === 0 ) {
+			return;
+		}
+		var createLink = function(url,artist,title){
+			return $("<a />").attr({
+				href:url,
+				target:"blank"
+			}).text("♪ " + artist + " / " + title);
+		};
+		var i=0,len=json.length;
+		$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
+		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		for(; i<len; i++) {
+			var result = json[i];
+			$table.append(
+				$("<tr />").append(
+					$("<td />").append(
+						createLink(result.url,result.artist,result.title)
+					)
+				)
+			);
+		}
+		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
 	})

@@ -301,6 +301,10 @@ dl.search dd input[type="submit"]:hover{
 	display: none;
 	overflow: hidden;
 }
+#id_gpm_search_results{
+	display: none;
+	overflow: hidden;
+}
 
 /*----------------------*/
 .w100per{width:100%;}
