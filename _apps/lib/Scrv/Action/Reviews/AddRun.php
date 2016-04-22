@@ -134,13 +134,11 @@ class AddRun extends Base
 
 		$max_length = 140;
 		$content = "{$artist}/{$title}\n{$body}";
+		$hashtag = "#scrv";
 		$perma_link = "";
-		$hashtag = "";
-// TODO 稼働時はコメントアウト解除
 //		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "Albums/View?id={$album_id}";
-//		$hashtag = "#scrv";
 
-		$status = "{$content}\n\n{$perma_link} {$hashtag}";
+		$status = "{$content}\n{$hashtag}\n{$perma_link}";
 		$status_length = mb_strlen($status);
 		if ( $status_length > $max_length ) {
 			$sub_length = $max_length - $status_length;
