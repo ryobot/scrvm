@@ -71,16 +71,17 @@ function convertEOL($string, $to = "\n")
  */
 function hbq(array $params)
 {
-	$internal_enc = ini_get("mbstring.internal_encoding");
-	$output_enc = ini_get("mbstring.http_output");
-	if ( $internal_enc === $output_enc ) {
-		return http_build_query($params);
-	}
-	$_tmp = array();
-	foreach($params as $key=>$val){
-		$_tmp[$key] = mb_convert_encoding($val, $output_enc, $internal_enc);
-	}
-	return http_build_query($_tmp);
+	return http_build_query($params);
+//	$internal_enc = ini_get("mbstring.internal_encoding");
+//	$output_enc = ini_get("mbstring.http_output");
+//	if ( $internal_enc === $output_enc ) {
+//		return http_build_query($params);
+//	}
+//	$_tmp = array();
+//	foreach($params as $key=>$val){
+//		$_tmp[$key] = mb_convert_encoding($val, $output_enc, $internal_enc);
+//	}
+//	return http_build_query($_tmp);
 }
 
 /**

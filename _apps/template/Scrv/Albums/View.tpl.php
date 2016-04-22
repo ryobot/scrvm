@@ -48,7 +48,7 @@
 	<p class="tags_group">
 <?php foreach($tags as $tag):?>
 		<span class="tags"><a
-			href="<?= h($base_path) ?>Albums/Tag?tag=<?= h($tag["tag"]) ?>"
+			href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
 			data-id="<?= h($tag["id"]) ?>"
 			data-tag="<?= h($tag["tag"]) ?>"
 			data-album_id="<?= h($tag["album_id"]) ?>"
