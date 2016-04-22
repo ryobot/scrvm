@@ -28,6 +28,7 @@ class Add extends Base
 			"token" => Server::post("token", ""),
 			"username" => Server::post("username", ""),
 			"password" => Server::post("password", ""),
+			"password_re" => Server::post("password_re", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
@@ -71,6 +72,13 @@ class Add extends Base
 		// セッションのpost_param をクリア
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 		$this->_Session->clear(Scrv\SessionKeys::INVITATIONS_DATA);
+
+		// ログイン済みとして処理
+		$this->_Session->init();
+		$this->_Session->regenerate();
+		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $add_result["data"]);
+
 		Server::redirect($this->_BasePath . "Users/View?id=" . $add_result["data"]["id"]);
 		return true;
 	}
@@ -94,6 +102,8 @@ class Add extends Base
 			$check_result["messages"]["password"] = "password が未入力です。";
 		} else if ( mb_strlen($post_params["password"]) > 100 ){
 			$check_result["messages"]["password"] = "password は100文字以内で入力してください";
+		} else if ( $post_params["password"] !== $post_params["password_re"] ) {
+			$check_result["messages"]["password"] = "password が一致しません。";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

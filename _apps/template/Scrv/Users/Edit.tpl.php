@@ -32,16 +32,17 @@
 		<p class="actions">
 			<input type="file" name="file" id="id_file" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png" />
 		</p>
-<?php if (!isset($login_user_data["twitter_user_id"])):?>
-		<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
-<?php endif; ?>
 		<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
 		<p class="actions"><input type="submit" value="save" ></p>
 	</form>
 
+<?php if (!isset($login_user_data["twitter_user_id"])):?>
+	<p><hr /></p>
+	<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
 	<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
 		<input type="hidden" name="authenticate" value="auth" />
 	</form>
+<?php endif; ?>
 
 	<p><hr /></p>
 

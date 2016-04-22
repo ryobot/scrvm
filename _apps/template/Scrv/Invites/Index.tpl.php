@@ -30,6 +30,7 @@
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<p><input type="text" name="username" id="id_username" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
 		<p><input type="password" name="password" id="id_password" value="" placeholder="password" /></p>
+		<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype password" /></p>
 		<p><input type="submit" value="add user" ></p>
 	</form>
 

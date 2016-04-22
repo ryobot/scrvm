@@ -17,11 +17,17 @@
 
 	<h2>Create Invite</h2>
 
+<?php if($login_user_data["role"] !== "admin"): ?>
+	<p>リンク生成回数：残り <span id="id_can_be_invited_count"><?= h($can_be_invited_count) ?></span> 回</p>
+<?php endif; ?>
+<?php if($login_user_data["role"] === "admin" || $can_be_invited_count > 0): ?>
 	<p class="actions" id="id_actions"><a href="javascript:;" id="id_create_invite">招待用リンクを作成する</a></p>
 	<div id="id_created_link_area" class="displaynone">
 		<p>下記リンクを相手にお知らせください。</p>
 		<p><textarea id="id_created_link"></textarea></p>
 	</div>
+<?php else: ?>
+<?php endif ;?>
 
 	<p><hr /></p>
 
@@ -54,6 +60,7 @@
 			$("#id_actions").hide();
 			$("#id_created_link").val(json.data.created_link);
 			$("#id_created_link_area").slideToggle();
+			$("#id_can_be_invited_count").text(json.data.can_be_invited_count);
 		})
 		.fail(function(e){
 			alert("system error..");

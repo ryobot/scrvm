@@ -40,12 +40,20 @@ class CreateInviteNew extends Base
 		$hash = $Password->makeRandomHash($this->_Session->id() . mt_rand(10000000,99999999));
 
 		// 登録
+		$result = getResultSet();
 		$DaoInvites = new DaoInvites();
-		$result = $DaoInvites->createInvite($this->_login_user_data["id"], $hash, $this->_login_user_data["role"]);
-		if ($result["status"]) {
+		$user_result = $DaoInvites->createInvite($this->_login_user_data["id"], $hash, $this->_login_user_data["role"]);
+		if ($user_result["status"]) {
+			// ユーザ情報をセッション上書き
+			$current_user_data = $user_result["data"];
+			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $current_user_data);
+			$result["status"] = true;
 			$result["data"] = array(
 				"created_link" => Server::getFullHostUrl() . "{$this->_BasePath}Invites?hash={$hash}",
+				"can_be_invited_count" => (int)$this->_common_ini["invites"]["max_invited_count"] - $current_user_data["invited_count"],
 			);
+		} else {
+			$result["messages"] = $user_result["messages"];
 		}
 
 		header("Content-Type:application/json; charset=utf-8");

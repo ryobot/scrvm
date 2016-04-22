@@ -84,7 +84,11 @@ class Invites extends Dao
 				array("uid" => $user_id,)
 			);
 
+			// 更新後のユーザ情報を返す
+			$current_user_data = $this->_Dao->select("SELECT * FROM users WHERE id=:uid",array("uid" => $user_id,));
+
 			$result["status"] = true;
+			$result["data"] = $current_user_data[0];
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();
