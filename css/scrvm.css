@@ -6,6 +6,8 @@
 body {
 	background: #fff;
 /*	color: #003d4c;*/
+    background-image: url("../img/noisy-texture-a50.png");
+    text-shadow: 0px 0px 3px #DDD;
 	color: #012;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	line-height: 1.5em;
@@ -84,15 +86,22 @@ li{display:list-item;zoom:normal;}
 	list-style-type:none;
 }
 .header ul li {width:50%;}
-.header_title{font-size:100%;}
+.header_title{
+    font-size:100%;
+    background-image: url("../img/headphone_icon_S.png");
+    background-repeat: no-repeat;
+    height: 50px;
+    padding: 18px 0  0 55px;
+    margin: 0
+}
 .header_title a{text-decoration: none;}
 
 /* .menu */
 .menu{
-	margin:10px -5px;
-	border-top: 1px solid #EEE;
-	border-bottom: 1px solid #EEE;
-	background-color: #EEE;
+	margin: 0px -5px 10px;
+	/*border-top: 1px solid #EEE;*/
+                  /*border-bottom: 1px solid #EEE;*/
+	/*background-color: #EEE;*/
 }
 .menu ul:after {
 	content:"";
@@ -111,10 +120,16 @@ li{display:list-item;zoom:normal;}
 .menu ul li a {text-decoration: none;}
 
 /* .user_menu_list */
-.user_menu_list li.reviews:before{}
-.user_menu_list li.fav_tracks:before{}
-.user_menu_list li.fav_albums:before{}
-.user_menu_list li.syncs:before{}
+.user_menu_list {
+    vertical-align: middle;
+}
+.user_menu_list li {
+    display: inline-block;
+}
+.user_menu_list li.reviews:before{ content: url("../img/headphone_icon_mini.png"); }
+.user_menu_list li.fav_tracks:before{ content: url("../img/chk_ylw.png"); }
+.user_menu_list li.fav_albums:before{ content: url("../img/star_ylw.png"); }
+.user_menu_list li.syncs:before{ content: url("../img/sync_min.png"); }
 
 /* .pagination */
 ul.pagination {
@@ -148,12 +163,14 @@ ul.pagination li a:hover:not(.active){background-color: #ddd;}
 
 /* .every_other_row_* */
 .every_other_row_odd tr:nth-child(2n-1) {
-	background: #EFEFEF;
+	/*background: #EFEFEF;*/
+	background: rgba(230,230,230,0.5);
 	border-bottom:1px solid #DDD;
 	border-top:1px solid #DDD;
 }
 .every_other_row_even tr:nth-child(2n) {
-	background: #EFEFEF;
+	/*background: #EFEFEF;*/
+	background: rgba(230,230,230,0.5);
 	border-bottom:1px solid #DDD;
 	border-top:1px solid #DDD;
 }
