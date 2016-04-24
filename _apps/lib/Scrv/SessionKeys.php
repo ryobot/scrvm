@@ -39,4 +39,7 @@ class SessionKeys
 
 	/** 招待用データ格納用 */
 	const INVITATIONS_DATA = "INVITATIONS_DATA";
+
+	/** ログイン後に遷移させるURL */
+	const URL_AFTER_LOGINED = "URL_AFTER_LOGINED";
 }

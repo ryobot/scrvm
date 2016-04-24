@@ -82,12 +82,17 @@ class Login extends Base
 			return false;
 		}
 
-		// セッションにログイン情報を保持してマイページにリダイレクト
+		// セッションにログイン情報を保持、ログイン前にみていたページにリダイレクト
+		$after_url_logined = $this->_Session->get(Scrv\SessionKeys::URL_AFTER_LOGINED);
+		$this->_Session->clear(Scrv\SessionKeys::URL_AFTER_LOGINED);
+		if ( !isset($after_url_logined) ){
+			$after_url_logined = "Users/View?id=" . $login_result["data"]["id"];
+		}
 		$this->_Session->init();
 		$this->_Session->regenerate();
 		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $login_result["data"]);
-		Server::redirect($this->_BasePath . "Users/View?id=" . $login_result["data"]["id"]);
+		Server::redirect($this->_BasePath . $after_url_logined);
 
 		return true;
 	}
