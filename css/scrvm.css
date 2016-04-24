@@ -64,6 +64,7 @@ input[type="text"],input[type="password"], textarea{
 }
 
 img{max-width: 100%;}
+img.album_view_cover {width: 120px;}
 
 ul,ol,dl{list-style:none;}
 li{display:list-item;zoom:normal;}
@@ -165,14 +166,14 @@ ul.pagination li a:hover:not(.active){background-color: #ddd;}
 .every_other_row_odd tr:nth-child(2n-1) {
 	/*background: #EFEFEF;*/
 	background: rgba(230,230,230,0.5);
-	border-bottom:1px solid #DDD;
-	border-top:1px solid #DDD;
+	border-bottom:1px solid #CCC;
+	border-top:1px solid #CCC;
 }
 .every_other_row_even tr:nth-child(2n) {
 	/*background: #EFEFEF;*/
 	background: rgba(230,230,230,0.5);
-	border-bottom:1px solid #DDD;
-	border-top:1px solid #DDD;
+	border-bottom:1px solid #CCC;
+	border-top:1px solid #CCC;
 }
 
 /* .search */
@@ -263,7 +264,7 @@ dl.search dd input[type="submit"]:hover{
 }
 .album_cover {
 	margin:0.2em;
-	width:65px;
+	width:60px;
 }
 .album_search_cover_result{
 	border:5px solid #FFF;

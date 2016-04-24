@@ -27,7 +27,7 @@
 <?php endif;?>
 
 	<p>
-		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
+		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" class="album_view_cover" />
 		<img
 			id="id_fav_album"
 			class="fav_album<?= $is_login ? "" : "_nologin" ?>"
@@ -42,6 +42,8 @@
 			alt="fav album"
 		/>
 		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
+                <img src="http://convexlevel.net/img/applemusic.png" height="40"/>
+                <img src="http://convexlevel.net/img/google.png" height="40"/>
 	</p>
 
 <?php if(count($tags) > 0): ?>
