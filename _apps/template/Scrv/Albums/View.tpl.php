@@ -42,8 +42,8 @@
 			alt="fav album"
 		/>
 		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
-                <img src="http://convexlevel.net/img/applemusic.png" height="40"/>
-                <img src="http://convexlevel.net/img/google.png" height="40"/>
+		<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="http://convexlevel.net/img/applemusic.png" height="40"/></a>
+		<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="http://convexlevel.net/img/google.png" height="40"/></a>
 	</p>
 
 <?php if(count($tags) > 0): ?>
@@ -165,6 +165,7 @@
 				)
 			);
 		}
+		$("#id_to_applemusic").attr({href:json.results[0].collectionViewUrl}).show();
 		$search_results.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
@@ -204,6 +205,7 @@
 				)
 			);
 		}
+		$("#id_to_googlemusic").attr({href:json[0].url}).show();
 		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
