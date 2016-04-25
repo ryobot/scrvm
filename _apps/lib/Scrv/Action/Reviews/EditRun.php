@@ -10,6 +10,9 @@ use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Reviews as DaoReviews;
 use lib\Util\Server as Server;
 
+// XXX...
+require_once __DIR__ . "/../../../Vender/tmhOAuth/tmhOAuth.php";
+
 /**
  * Reviews EditRun class
  * @author mgng
@@ -31,6 +34,7 @@ class EditRun extends Base
 			"review_id" => Server::post("review_id", ""),
 			"listening_last" => Server::post("listening_last", ""),
 			"listening_system" => Server::post("listening_system", ""),
+			"send_twitter" => Server::post("send_twitter"),
 			"body" => Server::post("body", ""),
 		);
 		foreach( $post_params as &$val ) {
@@ -70,6 +74,16 @@ class EditRun extends Base
 			return false;
 		}
 
+		// sendtwitter
+		if ( isset($post_params["send_twitter"]) && $post_params["send_twitter"] === "1" ) {
+			$this->_sendTwtter(
+				$post_params["album_id"],
+				$add_result["data"]["album_data"]["artist"],
+				$add_result["data"]["album_data"]["title"],
+				$post_params["body"]
+			);
+		}
+
 		// Reviewsにリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 		Server::redirect($this->_BasePath);
@@ -98,5 +112,50 @@ class EditRun extends Base
 
 		$check_result["status"] = count($check_result["messages"]) === 0;
 		return $check_result;
+	}
+
+	/**
+	 * sendTwitter
+	 * @param string $album_id
+	 * @param string $artist
+	 * @param string $title
+	 * @param string $body
+	 * @return resuktSet
+	 */
+	private function _sendTwtter($album_id, $artist, $title, $body)
+	{
+		$result = getResultSet();
+		$tmhOAuth = new \tmhOAuth( array(
+			'consumer_key'    => $this->_common_ini["twitter"]['consumer_key'],
+			'consumer_secret' => $this->_common_ini["twitter"]['consumer_secret'],
+			'user_token'      => $this->_login_user_data["twitter_user_token"],
+			'user_secret'     => $this->_login_user_data["twitter_user_secret"],
+		) );
+
+		$max_length = 140;
+		$content = "{$artist}/{$title}\n{$body}";
+		$hashtag = "#scrv";
+		$perma_link = "";
+//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "Albums/View?id={$album_id}";
+
+		$status = "{$content}\n{$hashtag}\n{$perma_link}";
+		$status_length = mb_strlen($status);
+		if ( $status_length > $max_length ) {
+			$sub_length = $max_length - $status_length;
+			$content = mb_substr($content, 0, $sub_length - 3 ); // ちょっと余裕を持たせて
+			$status = "{$content}…\n\n{$perma_link} {$hashtag}";
+		}
+
+		$code = $tmhOAuth->request('POST',"https://api.twitter.com/1.1/statuses/update.json",array(
+			"include_entities" => "true",
+			"status" => $status,
+		));
+		$res = $tmhOAuth->response['response'];
+		$result["status"] = $code === 200;
+		$result["data"] = array(
+			"code" => $code,
+			"response" => $res,
+		);
+		return $result;
 	}
 }

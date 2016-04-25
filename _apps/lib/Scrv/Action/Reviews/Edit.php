@@ -68,6 +68,7 @@ class Edit extends Base
 
 		$this->_Template->assign(array(
 			"token" => $token,
+			"album_id" => $album_id,
 			"review_id" => $review_id,
 			"album" => $album_result["data"]["album"],
 			"tracks" => $album_result["data"]["tracks"],

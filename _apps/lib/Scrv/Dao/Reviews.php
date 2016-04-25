@@ -319,13 +319,23 @@ class Reviews extends Dao
 		$this->_Dao->beginTransaction();
 		try{
 			// レビューが存在するかチェック
-			$album_result = $this->_Dao->select(
+			$review_result = $this->_Dao->select(
 				"SELECT * FROM reviews WHERE id=:review_id AND user_id=:user_id",
 				array("review_id" => $review_id, "user_id" => $user_id,)
+			);
+			if ( count($review_result) !== 1 ) {
+				throw new \Exception("not found.");
+			}
+
+			// アルバムが存在するかチェック
+			$album_result = $this->_Dao->select(
+				"SELECT * FROM albums WHERE id=:album_id",
+				array("album_id" => $review_result[0]["album_id"],)
 			);
 			if ( count($album_result) !== 1 ) {
 				throw new \Exception("not found.");
 			}
+
 			// 登録
 			$row_count = $this->_Dao->insert(
 				 "UPDATE reviews "
@@ -339,7 +349,10 @@ class Reviews extends Dao
 				)
 			);
 			$result["status"] = true;
-			$result["data"]["rowcount"] = $row_count;
+			$result["data"] = array(
+				"row_count" => $row_count,
+				"album_data" => $album_result[0],
+			);
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
 			$result["messages"][] = $ex->getMessage();

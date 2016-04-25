@@ -31,6 +31,7 @@
 
 	<form action="<?= h($base_path) ?>Reviews/EditRun" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
+		<input type="hidden" name="album_id" value="<?= h($album_id) ?>">
 		<input type="hidden" name="review_id" value="<?= h($review_id) ?>">
 		<p>
 			<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">today</label>
