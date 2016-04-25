@@ -30,7 +30,7 @@
 		<p><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" placeholder="username" /></p>
 		<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 		<p class="actions">
-			<input type="file" name="file" id="id_file" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png" />
+			<input type="file" name="file" id="id_file" accept="image/*" />
 		</p>
 		<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
 		<p class="actions"><input type="submit" value="save" ></p>
