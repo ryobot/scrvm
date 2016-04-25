@@ -128,3 +128,11 @@ function timeAgoInWords($date)
 	}
 	return date('Y年n月j日',$time);
 }
+
+function linkIt($text, $target_blank = true)
+{
+	$pattern = '/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/u';
+	$target = $target_blank ? ' target="blank"' : "";
+	$replacement = '<a href="\1"'.$target.'>\1</a>';
+	return preg_replace($pattern, $replacement, $text);
+}

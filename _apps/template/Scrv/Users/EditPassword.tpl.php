@@ -25,8 +25,8 @@
 	</div>
 <?php endif;?>
 
-	<p><img src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 	<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
+	<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 
 	<form action="<?= h($base_path) ?>Users/SavePassword" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />

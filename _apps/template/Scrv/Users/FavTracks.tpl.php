@@ -76,7 +76,12 @@ foreach($pager["nav_list"] as $nav) {
 			</td>
 			<td>
 				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>
-				<div><a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><?= h($favtrack["artist"]) ?> / <?= h($favtrack["title"]) ?></a> : tr.<?= h($favtrack["track_num"]) ?></div>
+				<div>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>">
+						<?= h($favtrack["artist"]) ?> / <?= h($favtrack["title"]) ?>
+						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
+					</a> : tr.<?= h($favtrack["track_num"]) ?>
+				</div>
 			</td>
 		</tr>
 <?php endforeach; ?>

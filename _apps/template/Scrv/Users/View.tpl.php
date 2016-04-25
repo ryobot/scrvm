@@ -74,8 +74,11 @@ foreach($pager["nav_list"] as $nav) {
 				<img class="album_cover" src="<?= h("{$base_path}files/covers/{$review["img_file"]}") ?>" alt="<?= h("{$review["artist"]} / {$review["title"]}") ?>" />
 			</td>
 			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h("{$review["artist"]} / {$review["title"]}") ?></a>
-				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></p>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+					<?= h("{$review["artist"]} / {$review["title"]}") ?>
+					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+				</a>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></p>
 				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">

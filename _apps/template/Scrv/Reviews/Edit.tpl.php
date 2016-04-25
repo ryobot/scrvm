@@ -42,6 +42,9 @@
 			<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car"><img src="<?= h($base_path) ?>img/car_30.png" alt="car" /></label>
 			<label><input type="radio" name="listening_system" value="other" id="id_listening_system_other">other</label>
 		</p>
+<?php if(isset($login_user_data["twitter_user_id"])): ?>
+		<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
+<?php endif; ?>
 		<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= h($post_params["body"]) ?></textarea></p>
 		<p><input type="submit" value="Save Review" /></p>
 	</form>

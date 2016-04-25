@@ -29,9 +29,10 @@
 
 	<form id="id_Albums_AddRun" action="javascript:;" method="POST" style="display:none;">
 		<input type="hidden" name="add_img_url" id="id_add_img_url" value="" />
-		<table>
+		<h4>album情報を確認・修正してください。</h4>
+		<table class="w100per">
 			<tr>
-				<td>artist</td>
+				<td class="w50px">artist</td>
 				<td><input type="text" name="add_artist" id="id_add_artist" value="" /></td>
 				<td></td>
 			</tr>
@@ -46,12 +47,12 @@
 				<td></td>
 			</tr>
 		</table>
-		<table id="id_add_tracks"></table>
+		<p> </p>
+		<table class="w100per" id="id_add_tracks"></table>
 
 		<div id="id_Albums_SearchImage_result"></div>
-		<p id="id_selected_img_url"></p>
 
-		<p class="actions"><input type="submit" value="add album" /></p>
+		<p class="actions tacenter"><input type="submit" value=" add album " /></p>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
@@ -103,28 +104,30 @@
 					track_list.push( k+1 + "." + tracks[k] );
 				}
 				$result.append($("<div class='album_search_result' data-cache_index='"+i+"' />").append(
-					$("<p />").text( artist + " / " + title + " (" + year + ")" ),
-					$("<p />").text(track_list.join(" / "))
-				).on("click.js", function(){
+					// artist / title (year)
+					$("<p />").css({"font-weight":"bold"}).text( artist + " / " + title + " (" + year + ")" ),
+					// track list
+					$("<p />").text(track_list.join(" / ")),
+					// 選択ボタン
+					$("<p class='tacenter actions' />").append(
+						$("<button data-cache_index='"+i+"'> 選 択 </button>").on("click.js",function(){
+							$result.slideToggle("middle");
+							// clickしたらその情報をformに反映、他の情報は削除
+							var cache_index = $(this).attr("data-cache_index");
+							var cache_data = cache_search_result[cache_index];
+							$("#id_add_artist").val(cache_data["artist"]);
+							$("#id_add_title").val(cache_data["title"]);
+							$("#id_add_year").val(cache_data["year"]);
+							setTracks(cache_data["tracks"]);
+							$("#id_Albums_SearchArtist_result").html("");
+							$("#id_Albums_AddRun").show();
+							// データを選択してから画像検索
+							var search_q = cache_data["artist"] + ' ' + cache_data["title"];
+							searchImage(search_q.replace("'", "\'").replace('"','\"'));
+						})
+					)
+				));
 
-					$result.slideToggle("middle");
-
-					// clickしたらその情報をformに反映、他の情報は削除
-					var cache_index = $(this).attr("data-cache_index");
-					var cache_data = cache_search_result[cache_index];
-
-					$("#id_add_artist").val(cache_data["artist"]);
-					$("#id_add_title").val(cache_data["title"]);
-					$("#id_add_year").val(cache_data["year"]);
-					setTracks(cache_data["tracks"]);
-
-					$("#id_Albums_SearchArtist_result").html("");
-					$("#id_Albums_AddRun").show();
-
-					// データを選択してから画像検索
-					var search_q = cache_data["artist"] + ' ' + cache_data["title"];
-					searchImage(search_q.replace("'", "\'").replace('"','\"'));
-				}));
 			}
 			$result.slideToggle("middle");
 
@@ -151,7 +154,10 @@
 				$result.append($("<p class='notfound' />").text("not found..."));
 				return;
 			}
-			$result.append($("<h4 />").text("album カバーを選択してください。"));
+			$result.append(
+				$("<h4 />").text("album カバーを選択してください。"),
+				$("<p />").attr({id:"id_selected_img_url"})
+			);
 			for(var i=0,len=json.length; i<len; i++) {
 				var img = json[i];
 				var $img = $("<img class='album_search_cover_result' />").attr({
@@ -176,20 +182,48 @@
 
 	function setTracks(tracks)
 	{
+		var tmp_tracks = [].concat(tracks);	// コピー作っておく
 		var $id_add_tracks = $("#id_add_tracks").html("");
 		var index = 0;
 		for(var i=0,len=tracks.length; i<len; i++){
 			index = i+1;
 			$id_add_tracks.append(
 				$("<tr />").attr({}).append(
-					$("<td />").text("track " + index),
-					$("<td />").append($('<input type="text" />').attr({
+					$("<td class='td_track_num' />").addClass("w50px").text("tr." + index),
+					$("<td class='td_track_title' />").append($('<input class="text_track_title" type="text" />').attr({
 						name :"add_track_"+index,
 						id :"id_add_track_"+index,
 						value : tracks[i]
 					})),
 					$("<td />").append(
-//						$("<button />").text("delete").on("click.js", function(){})
+						$("<button />").attr({"data-track_num":index}).text("del").on("click.js", function(){
+							// 現在表示されているtrack textで配列を再作成
+							tmp_tracks = [].concat([]);
+							$(".text_track_title").each(function(){
+								tmp_tracks.push($(this).val());
+							});
+							if (tmp_tracks.length <= 1) {
+								alert("これ以上削除できません。");
+								return false;
+							}
+							if(confirm("このトラックを削除しますか?")){
+								tmp_tracks.splice($(this).attr("data-track_num") - 1, 1);
+								setTracks(tmp_tracks);
+							}
+							return false;
+						}),
+						$("<button />").attr({"data-track_num":index}).text("add").on("click.js", function(){
+							// 現在表示されているtrack textで配列を再作成
+							tmp_tracks = [].concat([]);
+							$(".text_track_title").each(function(){
+								tmp_tracks.push($(this).val());
+							});
+							if(confirm("トラックを追加しますか？")){
+								tmp_tracks.splice($(this).attr("data-track_num"), 0, "");
+								setTracks(tmp_tracks);
+							}
+							return false;
+						})
 					)
 				)
 			);

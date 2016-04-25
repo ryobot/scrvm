@@ -106,7 +106,7 @@
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</td>
 			<td>
-				<div><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : h($review["body"]) ?></div>
+				<div><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></div>
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
@@ -165,7 +165,7 @@
 				)
 			);
 		}
-		$("#id_to_applemusic").attr({href:json.results[0].collectionViewUrl}).show();
+		$("#id_to_applemusic").attr({href:json.results[0].collectionViewUrl}).fadeIn();
 		$search_results.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
@@ -205,7 +205,7 @@
 				)
 			);
 		}
-		$("#id_to_googlemusic").attr({href:json[0].url}).show();
+		$("#id_to_googlemusic").attr({href:json[0].url}).fadeIn();
 		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){

@@ -75,7 +75,10 @@ foreach($pager["nav_list"] as $nav) {
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
 			</td>
 			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?></a>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>">
+					<?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?>
+					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
+				</a>
 			</td>
 		</tr>
 <?php endforeach; ?>

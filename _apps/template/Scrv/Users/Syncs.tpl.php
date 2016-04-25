@@ -89,7 +89,10 @@
 					<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 				</td>
 				<td>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>"><?= h("{$album["artist"]} / {$album["title"]}") ?></a>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>">
+						<?= h("{$album["artist"]} / {$album["title"]}") ?>
+						(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+					</a>
 				</td>
 			</tr>
 <?php endforeach; unset($album); ?>
@@ -112,8 +115,10 @@
 				</td>
 				<td>
 					<div><strong><?= h($track["track_title"]) ?></strong></div>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>"><?= h("{$track["artist"]} / {$track["title"]}") ?></a>
-					: tr.<?= h($track["track_num"]) ?>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>">
+						<?= h("{$track["artist"]} / {$track["title"]}") ?>
+						(<?= isset($track["year"]) && $track["year"] !== "" ? h($track["year"]) : "unknown" ?>)
+					</a> : tr.<?= h($track["track_num"]) ?>
 				</td>
 			</tr>
 <?php endforeach; unset($track); ?>
