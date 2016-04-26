@@ -408,6 +408,70 @@ class Albums extends Dao
 		return $result;
 	}
 
-}
+	/**
+	 * save album and tracks
+	 * @param int $id album_id
+	 * @param string $artist
+	 * @param string $title
+	 * @param string $year
+	 * @param string $img_file
+	 * @param array $tracks
+	 * @param int $user_id
+	 * @return resultSet
+	 * @throws \Exception
+	 */
+	public function save($id, $artist, $title, $year, $img_file, array $tracks, $user_id)
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			// check album exist
+			$search_result = $this->_Dao->select(
+				"SELECT * FROM albums WHERE id=:id AND create_user_id=:uid",
+				array("id"=>$id, "uid"=>$user_id,)
+			);
+			if ( count($search_result) === 0 ) {
+				throw new \Exception("該当のアルバムが見つかりません。");
+			}
+			// update album $img_file が null の場合は無視
+			$update_sql = "UPDATE albums SET artist=:artist,title=:title,img_file=:img_file,year=:year,modified=now() WHERE id=:id";
+			$update_params = array(
+				"artist" => $artist,
+				"title" => $title,
+				"img_file" => $img_file,
+				"year" => $year === "" ? null : $year,
+				"id" => $id,
+			);
+			if ($img_file === null) {
+				$update_sql = "UPDATE albums SET artist=:artist,title=:title,year=:year,modified=now() WHERE id=:id";
+				unset($update_params["img_file"]);
+			}
+			$this ->_Dao->update($update_sql,$update_params);
+			// update tracks
+			foreach( $tracks as $idx => $track_title ) {
+				$track_num = $idx+1;
+				$this->_Dao->update("
+					UPDATE tracks
+					SET track_title=:track_title
+					WHERE album_id=:album_id AND track_num=:track_num",
+					array(
+						"track_title" => $track_title,
+						"album_id" => $id,
+						"track_num" => $track_num,
+					)
+				);
+			}
+			$result["status"] = true;
+			$this->_Dao->commit();
+		} catch( \Exception $ex ) {
+			$result["messages"][] = $ex->getMessage();
+			$this->_Dao->rollBack();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
 
+}
 

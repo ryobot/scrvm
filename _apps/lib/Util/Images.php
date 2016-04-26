@@ -48,4 +48,25 @@ class Images
 		return call_user_func("image{$src_ext}", $dest_gd, $dest);
 	}
 
+	/**
+	 * 画像形式チェック。許可しない画像の場合はfalse, OKの場合は getimagesize の結果配列を返す
+	 * @param string $path img file path
+	 * @param array $allow_types 許可する画像形式 default["jpeg"]
+	 * @return boolean|array
+	 */
+	public function checkType($path, array $allow_types = array("jpeg"))
+	{
+		$imagesize = getimagesize($path);
+		if ( $imagesize === false ) {
+			return false;
+		}
+		$reg = implode("|", $allow_types);
+		if ( ! isset($imagesize["mime"])
+			|| preg_match("/\Aimage\/({$reg})\z/", $imagesize["mime"]) !== 1
+		) {
+			return false;
+		}
+		return $imagesize;
+	}
+
 }

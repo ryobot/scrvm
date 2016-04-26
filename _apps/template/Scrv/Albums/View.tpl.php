@@ -3,12 +3,15 @@
  * Albums/View.tpl.php
  * @author mgng
  */
+
+$view_title = "{$album["artist"]} / {$album["title"]}";
+
 ?>
 <!doctype html>
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Albums :: View</title>
+<title><?= h($view_title) ?> | <?= h($base_title) ?> :: Albums :: View</title>
 </head>
 <body>
 
@@ -16,7 +19,7 @@
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-	<h2><?= h("{$album["artist"]} / {$album["title"]}") ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
+	<h2><?= h($view_title) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
@@ -27,7 +30,7 @@
 <?php endif;?>
 
 	<p>
-		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" class="album_view_cover" />
+		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
 		<img
 			id="id_fav_album"
 			class="fav_album<?= $is_login ? "" : "_nologin" ?>"
