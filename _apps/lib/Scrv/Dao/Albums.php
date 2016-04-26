@@ -199,14 +199,15 @@ class Albums extends Dao
 			}
 			// INSERT, img_url, year が空文字の場合は null
 			$this->_Dao->insert(
-				 "INSERT INTO albums (artist,title,img_url,img_file,year,created,modified) "
-				."VALUES(:artist,:title,:img_url,:img_file,:year,now(),now())",
+				 "INSERT INTO albums (artist,title,img_url,img_file,year,create_user_id,created,modified) "
+				."VALUES(:artist,:title,:img_url,:img_file,:year,:cuid,now(),now())",
 				array(
 					"artist" => $artist,
 					"title" => $title,
 					"img_url" => $img_url === "" ? null : $img_url,
 					"img_file" => $img_file === "" ? null : $img_file,
 					"year" => $year === "" ? null : $year,
+					"cuid" => $user_id,
 				)
 			);
 			// 登録したalbum id を取得

@@ -197,21 +197,31 @@
 		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
 		for(; i<len; i++) {
 			var result = json[i];
+			var listen_url = createGPMListenUrl(result.url);
 			$table.append(
 				$("<tr />").append(
 					$("<td />").append(
-						createLink(result.url,result.artist,result.title)
+						createLink(listen_url,result.artist,result.title)
 					)
 				)
 			);
 		}
-		$("#id_to_googlemusic").attr({href:json[0].url}).fadeIn();
+		$("#id_to_googlemusic").attr({href:createGPMListenUrl(json[0].url)}).fadeIn();
 		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
 	})
 	.always(function(){
 	});
+
+	function createGPMListenUrl(url)
+	{
+		var match = url.match(/id=(.+)/);
+		return match ?
+			"https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0"
+			: url
+		;
+	}
 
 <?php if($is_login): ?>
 

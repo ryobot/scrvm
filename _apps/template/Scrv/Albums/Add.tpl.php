@@ -127,10 +127,8 @@
 						})
 					)
 				));
-
 			}
 			$result.slideToggle("middle");
-
 		})
 		.fail(function(e){
 			alert("system error.");
@@ -156,7 +154,7 @@
 			}
 			$result.append(
 				$("<h4 />").text("album カバーを選択してください。"),
-				$("<p />").attr({id:"id_selected_img_url"})
+				$("<p class='actions'/>").attr({id:"id_selected_img_url"})
 			);
 			for(var i=0,len=json.length; i<len; i++) {
 				var img = json[i];
@@ -166,7 +164,15 @@
 					var selected_img_url = $(this).attr("src");
 					$("#id_add_img_url").val(selected_img_url);
 					$("#id_selected_img_url").fadeOut("fast", function(){
-						$(this).html("").append($("<img />").attr({src:selected_img_url})).fadeIn("fast");
+						$(this).html("").append(
+							$("<img />").attr({src:selected_img_url}),
+							$("<span> </span>"),
+							$("<button>選択した画像を削除</button>").on("click.js", function(){
+								$("#id_selected_img_url").html("");
+								$("#id_add_img_url").val("");
+								return false;
+							})
+						).fadeIn("fast");
 					});
 				});
 				$result.append($img);
