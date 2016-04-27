@@ -36,6 +36,8 @@ class Twitter extends Base
 
 		$sess_twitter_access_token = $this->_Session->get(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN);
 		if ( isset($sess_twitter_access_token) ) {
+			// DBからユーザデータを取得してセッションを書き換え
+
 			header("Location: {$is_ok_url}");
 			return true;
 		}
@@ -96,12 +98,18 @@ class Twitter extends Base
 				$this->_Session->clear(Scrv\SessionKeys::TWITTER_OAUTH);
 
 				$access_token = $this->_Session->get(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN);
-				$DaoUsers->saveTwitter(
+				$save_result = $DaoUsers->saveTwitter(
 					$this->_login_user_data["id"],
 					$access_token["user_id"],
 					$access_token["oauth_token"],
 					$access_token["oauth_token_secret"]
 				);
+
+				// セッション値を最新のユーザ情報で上書き
+				if ( $save_result["status"] ) {
+					$this->_Session->regenerate();
+					$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $save_result["data"]["user_data"]);
+				}
 
 				header("Location: {$is_ok_url}");
 			} else {

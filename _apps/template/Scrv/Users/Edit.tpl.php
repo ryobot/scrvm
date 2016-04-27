@@ -25,6 +25,7 @@
 	</div>
 <?php endif;?>
 
+	<!-- user profile -->
 	<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<p><h3><?= h($login_user_data["username"]) ?></h3></p>
@@ -37,7 +38,6 @@
 	</form>
 
 <?php if (!isset($login_user_data["twitter_user_id"])):?>
-	<p><hr /></p>
 	<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
 	<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
 		<input type="hidden" name="authenticate" value="auth" />

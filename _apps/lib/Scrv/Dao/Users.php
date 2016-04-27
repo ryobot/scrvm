@@ -168,11 +168,11 @@ class Users extends Dao
 	/**
 	 * save 処理
 	 * @param integer $user_id
-	 * @param string $username
+	 * @param string $profile
 	 * @param string $img_file default null
 	 * @return resultSet
 	 */
-	public function save($user_id, $profile, /*$username, $password,*/ $img_file=null)
+	public function save($user_id, $profile, $img_file=null)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -185,32 +185,13 @@ class Users extends Dao
 			if ( count($user_result) === 0 ) {
 				throw new \Exception("ユーザが存在しません。");
 			}
-//			// 存在チェック user_name
-//			$username_result = $this->_Dao->select(
-//				"SELECT * FROM users WHERE username=:username AND id<>:user_id",
-//				array("username"=>$username,"user_id"=>$user_id,)
-//			);
-//			if ( count($username_result) > 0 ) {
-//				throw new \Exception("{$username} は既に登録されています。");
-//			}
-//
-//			$Password = new Password();
-//			$password_hash = $Password->makePasswordHash(
-//				$username,
-//				$password,
-//				$this->_common_ini["password"]["hash_seed"],
-//				(int)$this->_common_ini["password"]["hash_count"]
-//			);
-
 			// img_fileはnullじゃない場合に設定
 			$sql = "UPDATE users ";
 			$set = "SET profile=:pfl, modified=now() ";
 			$where = "WHERE id=:uid";
 			$params = array(
-//				"username" => $username,
 				"pfl" => $profile,
 				"uid" => $user_id,
-//				"pwd" => $password_hash,
 			);
 			if ( $img_file !== null ) {
 				$set .= ",img_file=:img_file ";
@@ -286,20 +267,26 @@ class Users extends Dao
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
-			$sql = "
+			$row_count = $this->_Dao->update("
 				UPDATE users
 				SET twitter_user_id=:tuid, twitter_user_token=:ot,twitter_user_secret=:ots,modified=now()
-				WHERE id=:uid
-			";
-			$params = array(
-				"uid" => $user_id,
-				"tuid" => $twitter_user_id,
-				"ot" => $oauth_token,
-				"ots" => $oauth_token_secret,
+				WHERE id=:uid",
+				array(
+					"uid" => $user_id,
+					"tuid" => $twitter_user_id,
+					"ot" => $oauth_token,
+					"ots" => $oauth_token_secret,
+				)
 			);
-			$row_count = $this->_Dao->update($sql, $params);
+
+			// 最新のユーザデータを取得して返す
+			$current_user_data = $this->_Dao->select(
+				"SELECT * FROM users WHERE id=:uid",
+				array("uid" => $user_id,)
+			);
+
 			$result["status"] = true;
-			$result["data"]["rowcount"] = $row_count;
+			$result["data"]["user_data"] = $current_user_data[0];
 			$this->_Dao->commit();
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
