@@ -118,12 +118,12 @@ function timeAgoInWords($date)
 	$now = time();
 	$time = strtotime($date);
 	$diff = $now- $time;
-	if($diff > 0 && $diff <= 60){
+	if($diff >= 0 && $diff <= 60){
 		return floor($diff) . "秒前";
 	}
-	else if($diff > 0 && $diff <= 60*60){
+	else if($diff >= 0 && $diff <= 60*60){
 		return floor($diff/60) . "分前";
-	}elseif($diff > 0 && $diff <= 24*60*60){
+	}elseif($diff >= 0 && $diff <= 24*60*60){
 		return floor($diff/(60*60)) . "時間前";
 	}
 	return date('Y年n月j日',$time);

@@ -71,13 +71,20 @@ foreach($pager["nav_list"] as $nav) {
 			<tr>
 				<td>
 					<h4><?= h($list["title"]) ?></h4>
-					<p><?= linkIt(nl2br(h($list["body"]))) ?></p>
+					<p class="post_body"><?= linkIt(nl2br(h($list["body"]))) ?></p>
+<?php if(isset($list["reply_id"])): ?>
+<!--					<div>
+						<p><a class="post_reply_source" href="<?= h($base_path) ?>Posts/View?id=<?= h($list["reply_id"]) ?>&amp;type=json">返信元</a></p>
+					</div>-->
+<?php endif;?>
+<?php if($is_login ): ?>
 					<p><span
 						class="post_reply"
 						data-reply_id="<?= h($list["id"]) ?>"
 						data-reply_title="<?= h($list["title"]) ?>"
 						data-reply_body="<?= h($list["body"]) ?>"
 					>返信</span></p>
+<?php endif; ?>
 					<p>
 						(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a>
 						-
@@ -111,6 +118,60 @@ foreach($pager["nav_list"] as $nav) {
 
 <script>
 ;$(function(){
+
+	var BASE_URL = "<?= h($base_path) ?>";
+
+	function postQuote(body){
+		var arr = body.replace(/\r\n?/g, "\n").split("\n");
+		var ret = [];
+		for(var i=0,len=arr.length;i<len;i++) {
+			if ( /^\s*&gt;/.test(arr[i])) {
+				ret.push("<span class='post_quote'>"+arr[i]+"</span>");
+			} else {
+				ret.push(arr[i]);
+			}
+		}
+		return ret.join("\n");
+	}
+
+	// post_body
+	$(".post_body").each(function(){
+		$(this).html(postQuote($(this).html()));
+	});
+
+//	// post_reply_source
+//	$(".post_reply_source").each(function(){
+//		var $this = $(this);
+//		var href = $this.attr("href");
+//		$this.on("click.js", function(){
+//			$.ajax( href, {
+//				method : 'GET',
+//				dataType : 'json'
+//			})
+//			.done(function(json){
+//				$this.parent().append(
+//					$("<div class='post_reply_source_result' />").append(
+//						$("<h5 />").html(json.title),
+//						$("<p />").html(postQuote(json.body)),
+//						$("<p />").append(
+//							"(",
+//							$("<a />").attr({href:BASE_URL + "Users/View?id=" + json.user_id}).html(json.username),
+//							" - ",
+//							$("<span class='post_date' />").html(json.created),
+//							")"
+//						)
+//					)
+//				);
+//			})
+//			.fail(function(e){
+//				alert("system error.");
+//			})
+//			.always(function(){
+//			});
+//			return false;
+//		});
+//	});
+
 	// post_reply
 	$(".post_reply").each(function(){
 		$(this).on("click.js", function(){
