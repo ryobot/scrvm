@@ -33,6 +33,9 @@
 				</ul>
 		</tr>
 	</table>
+<?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
+	<p class="w100per user_profile"><?= nl2br(linkIt(h($user["profile"]))) ?></p>
+<?php endif;?>
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
 

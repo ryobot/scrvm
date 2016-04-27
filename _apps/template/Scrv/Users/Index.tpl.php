@@ -5,19 +5,6 @@
  */
 
 $_base_url = $base_path . "Users";
-//$most_prev_link = "{$_base_url}?";
-//$prev_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]-1,));
-//$next_link = "{$_base_url}?" . hbq(array("page" => $pager["now_page"]+1,));
-//$most_next_link = "{$_base_url}?" . hbq(array("page" => $pager["max_page"],));
-//$nav_list = array();
-//foreach($pager["nav_list"] as $nav) {
-//	$nav_list[] = array(
-//		"active" => $nav["active"],
-//		"page" => $nav["page"],
-//		"link" => "{$_base_url}?" . hbq(array("page" => $nav["page"],)),
-//	);
-//}
-
 $most_prev_link = "{$_base_url}?" . hbq(array(
 	"page"  => "1",
 	"sort"  => $sort,

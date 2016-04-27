@@ -31,6 +31,7 @@ foreach($pager["nav_list"] as $nav) {
 
 	<h2><?= h($user["username"]) ?></h2>
 
+	<!-- user profile -->
 	<table class="w100per every_other_row_odd">
 		<tr>
 			<td class="w80px tacenter vtalgmiddle">
@@ -48,6 +49,9 @@ foreach($pager["nav_list"] as $nav) {
 			</td>
 		</tr>
 	</table>
+<?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
+	<p class="w100per user_profile"><?= nl2br(linkIt(h($user["profile"]))) ?></p>
+<?php endif;?>
 
 	<h3>Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)</h3>
 

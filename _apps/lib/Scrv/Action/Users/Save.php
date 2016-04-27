@@ -30,8 +30,9 @@ class Save extends Base
 		// POSTパラメータ取得、mb_trim、改行コード統一
 		$post_params = array(
 			"token" => Server::post("token", ""),
-			"username" => Server::post("username", ""),
-			"password" => Server::post("password", ""),
+			"profile" => Server::post("profile", ""),
+//			"username" => Server::post("username", ""),
+//			"password" => Server::post("password", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
@@ -64,8 +65,9 @@ class Save extends Base
 		$DaoUsers = new DaoUsers();
 		$save_result = $DaoUsers->save(
 			$this->_login_user_data["id"],
-			$post_params["username"],
-			$post_params["password"],
+			$post_params["profile"],
+//			$post_params["username"],
+//			$post_params["password"],
 			isset( $upload_result["data"]["img_file"] ) ? $upload_result["data"]["img_file"] : null
 		);
 		if ( ! $save_result["status"] ) {
@@ -98,13 +100,16 @@ class Save extends Base
 	{
 		$check_result = getResultSet();
 
-		if ( $post_params["username"] === "" ) {
-			$check_result["messages"]["username"] = "username が未入力です。";
-		} else if ( mb_strlen($post_params["username"]) > 50 ){
-			$check_result["messages"]["username"] = "username は50文字以内で入力してください。";
-		}
-		if ( $post_params["password"] === "" ) {
-			$check_result["messages"]["password"] = "password が未入力です。";
+//		if ( $post_params["username"] === "" ) {
+//			$check_result["messages"]["username"] = "username が未入力です。";
+//		} else if ( mb_strlen($post_params["username"]) > 50 ){
+//			$check_result["messages"]["username"] = "username は50文字以内で入力してください。";
+//		}
+//		if ( $post_params["password"] === "" ) {
+//			$check_result["messages"]["password"] = "password が未入力です。";
+//		}
+		if ( $post_params["profile"] !== "" && mb_strlen($post_params["profile"]) > 300 ) {
+			$check_result["messages"]["profile"] = "profile は 300文字以内で入力してください。";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

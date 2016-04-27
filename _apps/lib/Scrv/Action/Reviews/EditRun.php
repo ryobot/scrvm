@@ -73,20 +73,21 @@ class EditRun extends Base
 			Server::redirect($this->_BasePath . "Reviews/Edit?id=" . urlencode($post_params["review_id"]));
 			return false;
 		}
+		$album_data = $add_result["data"]["album_data"];
 
 		// sendtwitter
 		if ( isset($post_params["send_twitter"]) && $post_params["send_twitter"] === "1" ) {
 			$this->_sendTwtter(
-				$post_params["album_id"],
-				$add_result["data"]["album_data"]["artist"],
-				$add_result["data"]["album_data"]["title"],
+				$album_data["id"],
+				$album_data["artist"],
+				$album_data["title"],
 				$post_params["body"]
 			);
 		}
 
-		// Reviewsにリダイレクト
+		// Albums.View にリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
-		Server::redirect($this->_BasePath);
+		Server::redirect($this->_BasePath . "Albums/View?id={$album_data["id"]}");
 
 		return true;
 	}

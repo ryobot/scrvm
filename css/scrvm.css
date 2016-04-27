@@ -248,6 +248,11 @@ dl.search dd input[type="submit"]:hover{
 .user_photo{height:65px;border-radius: 5px;}
 .user_photo_min{height:30px;border-radius: 3px;}
 
+.user_profile{
+	background: rgba(230,230,230,0.5);
+	border-bottom:1px solid #CCC;
+}
+
 /* .fav_ */
 .fav_album{cursor: pointer;}
 .fav_track{cursor: pointer;}

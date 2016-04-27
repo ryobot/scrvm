@@ -27,12 +27,12 @@
 
 	<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<p><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" placeholder="username" /></p>
+		<p><h3><?= h($login_user_data["username"]) ?></h3></p>
 		<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 		<p class="actions">
 			<input type="file" name="file" id="id_file" accept="image/*" />
 		</p>
-		<p><input type="password" name="password" id="id_passowrd" value="" placeholder="current password" required="required" /></p>
+		<p><textarea name="profile" id="id_profile" placeholder="your profile"><?= isset($login_user_data["profile"]) ? h($login_user_data["profile"]) : "" ?></textarea></p>
 		<p class="actions"><input type="submit" value="save" ></p>
 	</form>
 

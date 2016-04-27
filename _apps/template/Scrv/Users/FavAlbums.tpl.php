@@ -49,6 +49,9 @@ foreach($pager["nav_list"] as $nav) {
 			</td>
 		</tr>
 	</table>
+<?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
+	<p class="w100per user_profile"><?= nl2br(linkIt(h($user["profile"]))) ?></p>
+<?php endif;?>
 
 	<h3>Fav.Albums (<?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?>)</h3>
 

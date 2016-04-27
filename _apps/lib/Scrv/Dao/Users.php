@@ -172,7 +172,7 @@ class Users extends Dao
 	 * @param string $img_file default null
 	 * @return resultSet
 	 */
-	public function save($user_id, $username, $password, $img_file=null)
+	public function save($user_id, $profile, /*$username, $password,*/ $img_file=null)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -185,31 +185,32 @@ class Users extends Dao
 			if ( count($user_result) === 0 ) {
 				throw new \Exception("ユーザが存在しません。");
 			}
-			// 存在チェック user_name
-			$username_result = $this->_Dao->select(
-				"SELECT * FROM users WHERE username=:username AND id<>:user_id",
-				array("username"=>$username,"user_id"=>$user_id,)
-			);
-			if ( count($username_result) > 0 ) {
-				throw new \Exception("{$username} は既に登録されています。");
-			}
-
-			$Password = new Password();
-			$password_hash = $Password->makePasswordHash(
-				$username,
-				$password,
-				$this->_common_ini["password"]["hash_seed"],
-				(int)$this->_common_ini["password"]["hash_count"]
-			);
+//			// 存在チェック user_name
+//			$username_result = $this->_Dao->select(
+//				"SELECT * FROM users WHERE username=:username AND id<>:user_id",
+//				array("username"=>$username,"user_id"=>$user_id,)
+//			);
+//			if ( count($username_result) > 0 ) {
+//				throw new \Exception("{$username} は既に登録されています。");
+//			}
+//
+//			$Password = new Password();
+//			$password_hash = $Password->makePasswordHash(
+//				$username,
+//				$password,
+//				$this->_common_ini["password"]["hash_seed"],
+//				(int)$this->_common_ini["password"]["hash_count"]
+//			);
 
 			// img_fileはnullじゃない場合に設定
 			$sql = "UPDATE users ";
-			$set = "SET username=:username,password=:pwd,modified=now() ";
+			$set = "SET profile=:pfl, modified=now() ";
 			$where = "WHERE id=:uid";
 			$params = array(
-				"username" => $username,
+//				"username" => $username,
+				"pfl" => $profile,
 				"uid" => $user_id,
-				"pwd" => $password_hash,
+//				"pwd" => $password_hash,
 			);
 			if ( $img_file !== null ) {
 				$set .= ",img_file=:img_file ";
