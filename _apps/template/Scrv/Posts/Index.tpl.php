@@ -29,7 +29,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-	<h2>Posts (<?= h($pager["total_count"]) ?>)</h2>
+	<h2 id="id_title_posts">Posts (<?= h($pager["total_count"]) ?>)</h2>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
@@ -42,6 +42,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php if($is_login ): ?>
 	<form action="<?= h($base_path) ?>Posts/Add" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
+		<input type="hidden" name="reply_id" id="id_reply_id" value="" />
 		<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
 		<p><textarea name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
 		<p class="actions"><input type="submit" value="Save Post" ></p>
@@ -71,7 +72,17 @@ foreach($pager["nav_list"] as $nav) {
 				<td>
 					<h4><?= h($list["title"]) ?></h4>
 					<p><?= linkIt(nl2br(h($list["body"]))) ?></p>
-					<p>(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a> - <span class="post_date"><?= h(timeAgoInWords($list["created"])) ?></span>)</p>
+					<p><span
+						class="post_reply"
+						data-reply_id="<?= h($list["id"]) ?>"
+						data-reply_title="<?= h($list["title"]) ?>"
+						data-reply_body="<?= h($list["body"]) ?>"
+					>返信</span></p>
+					<p>
+						(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a>
+						-
+						<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>)
+					</p>
 				</td>
 			</tr>
 <?php endforeach; unset($list) ?>
@@ -97,5 +108,36 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
+
+<script>
+;$(function(){
+	// post_reply
+	$(".post_reply").each(function(){
+		$(this).on("click.js", function(){
+			var replyBody = function(body){
+				var quote = "> ";
+				body = $.trim(body);
+				body = body.replace(/[\r\n]/g, "\n");
+				return quote + body.split("\n").join("\n"+quote) + "\n\n";
+			};
+
+			var $post = $(this);
+			var title = $post.attr("data-reply_title");
+			var body = $post.attr("data-reply_body");
+			var reply_id = $post.attr("data-reply_id");
+
+			// scroll
+      $('body,html').animate({scrollTop:$("#id_title_posts").offset().top}, 400, 'swing');
+
+			// set
+			$("#id_reply_id").val(reply_id);
+			$("#id_title").val("Re: " + title);
+			$("#id_body").val(replyBody(body)).focus();
+		});
+	});
+
+});
+</script>
+
 </body>
 </html>

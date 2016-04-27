@@ -336,7 +336,17 @@ dl.search dd input[type="submit"]:hover{
 
 .error_message{color:#C33;}
 
+/* .post */
 .post_date{color:#678;}
+.post_date a{color:#678;}
+.post_reply{
+	cursor:pointer;
+	font-weight:bold;
+	color:#9AB;
+}
+.post_reply:hover{
+	color:#09C;
+}
 
 /*----------------------*/
 #id_itunes_search_results{

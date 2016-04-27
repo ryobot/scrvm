@@ -30,6 +30,7 @@ class Add extends Base
 			"token" => Server::post("token", ""),
 			"title" => Server::post("title", ""),
 			"body" => Server::post("body", ""),
+			"reply_id" => Server::post("reply_id", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
@@ -56,6 +57,7 @@ class Add extends Base
 		$add_result = $DaoPosts->add(
 			$post_params["title"],
 			$post_params["body"],
+			$post_params["reply_id"] === "" ? null : (int)$post_params["reply_id"],
 			isset( $this->_login_user_data["id"] ) ? $this->_login_user_data["id"] : 0,
 			0
 		);
@@ -90,6 +92,10 @@ class Add extends Base
 			$check_result["messages"]["body"] = "body が未入力です。";
 		} else if ( mb_strlen($post_params["body"]) > 1000 ){
 			$check_result["messages"]["body"] = "body は1000文字以内で入力してください";
+		}
+
+		if ( $post_params["reply_id"] !== "" && !ctype_digit($post_params["reply_id"]) ) {
+			$check_result["messages"]["reply_id"] = "reply_id が不正です。";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

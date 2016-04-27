@@ -62,24 +62,55 @@ class Posts extends Dao
 	}
 
 	/**
+	 * view
+	 * @param int $id
+	 * @return resultSet
+	 * @throws \Exception
+	 */
+	public function view($id)
+	{
+		$result = getResultSet();
+		try{
+			$data = $this->_Dao->select("
+				SELECT t1.*,t2.username FROM posts t1
+				LEFT JOIN users t2 ON (t1.user_id=t2.id)
+				WHERE t1.id=:id",
+				array("id" => $id,)
+			);
+			if ( count($data) !== 1 ) {
+				throw new \Exception("post not found.");
+			}
+			$result["status"] = true;
+			$result["data"] = $data[0];
+		} catch( \Exception $ex ) {
+			$result["messages"][] = $ex->getMessage();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * add 処理
 	 * @param string $title
 	 * @param string $body
+	 * @param integer $reply_id
 	 * @param integer $user_id
 	 * @param integer $album_id
 	 * @return resultSet
 	 */
-	public function add( $title, $body, $user_id, $album_id )
+	public function add( $title, $body, $reply_id, $user_id, $album_id )
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			$row_count = $this->_Dao->insert(
-				 "INSERT INTO posts (title,body,user_id,album_id,created) "
-				."VALUES(:title,:body,:user_id,:album_id,now())",
+				 "INSERT INTO posts (title,body,reply_id,user_id,album_id,created) "
+				."VALUES(:title,:body,:reply_id,:user_id,:album_id,now())",
 				array(
 					"title" => $title,
 					"body" => $body,
+					"reply_id" => $reply_id,
 					"user_id" => $user_id,
 					"album_id" => $album_id,
 				)

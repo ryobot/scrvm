@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Users :: Syncs</title>
+<title><?= h($user["username"]) ?> | <?= h($base_title) ?> :: Users :: Syncs</title>
 </head>
 <body>
 <div id="container">

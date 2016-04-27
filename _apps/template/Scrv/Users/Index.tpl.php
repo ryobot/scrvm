@@ -119,22 +119,24 @@ $sort_links = array(
 					<p class="actions"><a href="<?= h($_base_url) ?>/Edit">Edit</a></p>
 <?php endif;?>
 				</td>
-				<td class="user_menu_list">
+				<td>
+					<div>
+						<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
+					</div>
 					<ul>
-						<li><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></li>
 <?php if($list["review_count"] > 0): ?>
-						<li>Reviews : <?= h($list["review_count"]) ?></li>
+						<li>Reviews : <a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a></li>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-						<li>syncs : <?= h($list["sync_point"]) ?> pt</li>
-<?php endif; ?>
-<?php if(isset($list["has_invited_user_id"])): ?>
-						<li>
-							(invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
-							<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
-						</li>
+						<li>syncs : <a href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a></li>
 <?php endif; ?>
 					</ul>
+<?php if(isset($list["has_invited_user_id"])): ?>
+					<div>
+						(invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
+					</div>
+<?php endif; ?>
 				</td>
 			</tr>
 <?php endforeach; unset($list) ?>
