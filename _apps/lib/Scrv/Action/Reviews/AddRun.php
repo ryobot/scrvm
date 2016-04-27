@@ -84,9 +84,9 @@ class AddRun extends Base
 			);
 		}
 
-		// Reviewsにリダイレクト
+		// alubums.viewにリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
-		Server::redirect($this->_BasePath);
+		Server::redirect($this->_BasePath . "Albums/View?id={$post_params["album_id"]}");
 
 		return true;
 	}

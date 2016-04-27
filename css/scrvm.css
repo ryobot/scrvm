@@ -47,7 +47,7 @@ hr{
 
 textarea{
 	width:90%;
-	height:5em;
+	height:8em;
 	font-size:100%;
 	font-family:transparent;
 	padding:0.3em;
@@ -266,6 +266,9 @@ dl.search dd input[type="submit"]:hover{
 	margin:0.2em;
 	width:60px;
 }
+.album_cover:hover {
+	border-left:1px solid transparent;
+}
 .album_search_cover_result{
 	border:5px solid #FFF;
 	margin:0.2em;
@@ -286,21 +289,37 @@ dl.search dd input[type="submit"]:hover{
 	padding: 2px 5px;
 }
 
+/* tags */
+.tag_group{
+	width:100%;
+	height: auto;
+}
 .tags{
 	background: #99E none repeat scroll 0 0;
 	border-radius: 5px;
 	color: #FFF;
 	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
 	font-weight: bold;
-	margin: 5px 0;
+	margin: 5px 3px;
 	padding: 2px 5px;
 	white-space: nowrap;
+	display: inline-block;
+	height:auto;
 }
 .tags a{
 	color:#FFF;
+	height:auto;
 }
 .tags a:hover{
 	color:#FC0;
+}
+.tag_delete{
+	cursor:pointer;
+	padding-right:10px;
+	color: #3333ff;
+}
+.tag_delete:hover{
+	color: #ff3333;
 }
 
 .group{
@@ -345,3 +364,5 @@ dl.search dd input[type="submit"]:hover{
 .vtalgbottom{vertical-align:bottom;}
 .bordernone{border:none;}
 .fwnormal{font-weight: normal;}
+.mgt10px{margin-top: 10px;}
+.mgb10px{margin-bottom: 10px;}

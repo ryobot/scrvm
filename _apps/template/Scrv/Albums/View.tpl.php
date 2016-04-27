@@ -50,6 +50,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	</p>
 
 <?php if(count($tags) > 0): ?>
+	<!-- tags -->
 	<p class="tags_group">
 <?php foreach($tags as $tag):?>
 		<span class="tags"><a
@@ -57,13 +58,14 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 			data-id="<?= h($tag["id"]) ?>"
 			data-tag="<?= h($tag["tag"]) ?>"
 			data-album_id="<?= h($tag["album_id"]) ?>"
-			data-is_editable="<?= $tag["create_user_id"] === $login_user_data["id"] && $tag["can_be_deleted"] === 1 ? 1 : 0 ?>"
+			data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] && $tag["can_be_deleted"] === 1 ? 1 : 0 ?>"
 		><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
 	</p>
 <?php endif; ?>
 
 <?php if($is_login): ?>
+	<!-- add tag form -->
 	<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
@@ -74,6 +76,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	</form>
 <?php endif;?>
 
+	<!-- tracks -->
 	<table class="w100per every_other_row_odd">
 <?php foreach($tracks as $track): ?>
 		<tr>
@@ -98,9 +101,10 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <?php endforeach;?>
 	</table>
 
+	<!-- reviews -->
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php if($is_login): ?>
-	<p class="actions tacenter"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
+	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
@@ -114,6 +118,12 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</p>
+<?php if( $review["user_id"] === $login_user_data["id"] ):?>
+				<p class="actions">
+					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
+				</p>
+<?php endif;?>
 			</td>
 		</tr>
 <?php endforeach; ?>
@@ -127,12 +137,76 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 </div>
 
 <!-- itunes search 用 -->
-<input type="hidden" name="term" id="id_term" value="<?= h("{$album["artist"]} {$album["title"]}") ?>" />
+<input
+	type="hidden"
+	name="term"
+	id="id_term"
+	value="<?= h("{$album["artist"]} {$album["title"]}") ?>"
+	data-artist="<?= h($album["artist"]) ?>"
+	data-title="<?= h($album["title"]) ?>"
+/>
 
 <script>
 ;$(function(){
 
 	var BASE_PATH = "<?= h($base_path) ?>";
+	var ARTIST = $("#id_term").attr("data-artist");
+	var TITLE = $("#id_term").attr("data-title");
+
+	// tag_data
+	$(".tags > a").each(function(){
+		var $tag = $(this);
+		if ($tag.attr("data-is_delete") === "0"){return;}
+		var delete_id = $tag.attr("data-id");
+		var $del = $("<span class='tag_delete' />").text("×").on("click.js", function(){
+			if (!confirm("「"+$tag.attr("data-tag")+"」タグを削除しますか？")){
+				return false;
+			}
+			$.ajax( "<?= h($base_path) ?>Tags/Del", {
+				method : 'POST',
+				dataType : 'json',
+				data : { id : delete_id }
+			})
+			.done(function(json){
+				if (!json.status) {
+					alert(json.messages.join("\n"));
+					return false;
+				}
+				$tag.parent().hide();
+			})
+			.fail(function(e){
+				alert("system error.");
+			})
+			.always(function(){
+			});
+			return false;
+		});
+		$tag.parent().prepend($del);
+	});
+
+	// review delete
+	$(".review_delete").each(function(){
+		var $del = $(this);
+		var delete_id = $del.attr("data-delete_id");
+		$del.on("click.js", function(){
+			if(confirm("are you sure ?")){
+				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
+					method : 'POST',
+					dataType : 'json',
+					data : { id : delete_id }
+				})
+				.done(function(json){
+					location.href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>";
+				})
+				.fail(function(e){
+					alert("system error.");
+				})
+				.always(function(){
+				});
+			}
+			return false;
+		});
+	});
 
 	// itunes search
 	var $search_results = $("#id_itunes_search_results").html("");
@@ -148,27 +222,31 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 		if ( json.resultCount === 0 ) {
 			return;
 		}
-		var createLink = function(url,artist,title){
-			return $("<a />").attr({
-				href:url,
-				target:"blank"
-			}).text("♪ " + artist + " / " + title);
-		};
-
 		var i=0,len=json.results.length;
 		$search_results.append($("<h3 />").text("iTunes ("+len+")"));
 		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		// 詰め直す
+		var results = [];
 		for(; i<len; i++) {
-			var result = json.results[i];
+			results.push({
+				url: json.results[i].collectionViewUrl,
+				artist: json.results[i].artistName,
+				title: json.results[i].collectionName
+			});
+		}
+		// ソート
+		results = sortSearchLists(ARTIST, TITLE, results);
+		for(i=0; i<len; i++) {
+			var result = results[i];
 			$table.append(
 				$("<tr />").append(
 					$("<td />").append(
-						createLink(result.collectionViewUrl,result.artistName,result.collectionName)
+						createLink(result.url,result.artist,result.title)
 					)
 				)
 			);
 		}
-		$("#id_to_applemusic").attr({href:json.results[0].collectionViewUrl}).fadeIn();
+		$("#id_to_applemusic").attr({href:results[0].url}).fadeIn();
 		$search_results.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
@@ -189,17 +267,12 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 		if ( json.length === 0 ) {
 			return;
 		}
-		var createLink = function(url,artist,title){
-			return $("<a />").attr({
-				href:url,
-				target:"blank"
-			}).text("♪ " + artist + " / " + title);
-		};
 		var i=0,len=json.length;
 		$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
 		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		var results = sortSearchLists(ARTIST, TITLE, json);
 		for(; i<len; i++) {
-			var result = json[i];
+			var result = results[i];
 			var listen_url = createGPMListenUrl(result.url);
 			$table.append(
 				$("<tr />").append(
@@ -209,7 +282,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 				)
 			);
 		}
-		$("#id_to_googlemusic").attr({href:createGPMListenUrl(json[0].url)}).fadeIn();
+		$("#id_to_googlemusic").attr({href:createGPMListenUrl(results[0].url)}).fadeIn();
 		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
@@ -217,18 +290,55 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	.always(function(){
 	});
 
-	function createGPMListenUrl(url)
-	{
+	function createGPMListenUrl(url) {
 		var match = url.match(/id=(.+)/);
-		return match ?
-			"https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0"
-			: url
-		;
+		return match ? "https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0" : url;
 	}
+
+	function createLink(url,artist,title) {
+		return $("<a />").attr({
+			href:url,
+			target:"blank"
+		}).text("♪ " + artist + " / " + title);
+	}
+
+	// うーん…
+	function sortSearchLists(artist, title, lists) {
+		return lists;
+		var escapeRegExp = function(string) {
+			return string.replace(/([.*+?^=!:${}()|[\]\/\\])/g, "\\$1");
+		};
+		var _lists = [].concat(lists);
+		var results = [];
+		var reg1 = new RegExp( "^" + escapeRegExp(artist) + "$", "i" ),
+		reg2 = new RegExp( "^" + escapeRegExp(title) + "$", "i" ),
+		reg3 = new RegExp( "^" + escapeRegExp(artist), "i" );
+		// 完全一致
+		for(var i=0,len=_lists.length; i<len; i++) {
+			if ( reg1.test(_lists[i].artist) && reg2.test(_lists[i].title) ) {
+				results.push(_lists[i]);
+				_lists.splice(i,1);
+				len--;
+			}
+		}
+		// artist 前方一致
+		for(var i=0,len=_lists.length; i<len; i++) {
+			if ( reg3.test(_lists[i].artist) ) {
+				results.push(_lists[i]);
+				_lists.splice(i,1);
+				len--;
+			}
+		}
+		// 残り
+		for(var i=0,len=_lists.length; i<len; i++) {
+			results.push(_lists[i]);
+		}
+		return results;
+	}
+
 
 <?php if($is_login): ?>
 
-	var location_href = BASE_PATH + "Albums/View?id=<?= h($album_id) ?>";
 	// fav.album
 	$("#id_fav_album").on("click.js", function(){
 		var $this = $(this);
