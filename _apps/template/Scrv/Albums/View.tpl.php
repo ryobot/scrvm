@@ -29,6 +29,10 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	</div>
 <?php endif;?>
 
+<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
+<?php endif; ?>
+
 	<p>
 		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
 		<img

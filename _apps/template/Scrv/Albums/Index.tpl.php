@@ -137,7 +137,7 @@ $sort_links = array(
 					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 				</a>
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit</a></p>
+				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
 <?php endif; ?>
 			</td>
 			<td>
