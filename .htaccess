@@ -22,3 +22,4 @@ php_value mbstring.http_output pass
 php_flag  mbstring.encoding_translation Off
 #php_value mbstring.detect_order eucJP-win,UTF-8,SJIS-win,jis,ASCII
 php_value mbstring.substitute_character none
+php_flag zlib.output_compression On
