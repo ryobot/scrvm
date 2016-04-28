@@ -125,11 +125,10 @@ foreach($pager["nav_list"] as $nav) {
 		var arr = body.replace(/\r\n?/g, "\n").split("\n");
 		var ret = [];
 		for(var i=0,len=arr.length;i<len;i++) {
-			if ( /^\s*&gt;/.test(arr[i])) {
-				ret.push("<span class='post_quote'>"+arr[i]+"</span>");
-			} else {
-				ret.push(arr[i]);
-			}
+			ret.push(/^\s*&gt;/.test(arr[i])
+				? "<span class='post_quote'>"+arr[i]+"</span>"
+				: arr[i]
+			);
 		}
 		return ret.join("\n");
 	}

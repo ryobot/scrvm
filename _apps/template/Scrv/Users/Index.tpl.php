@@ -120,22 +120,20 @@ $sort_links = array(
 <?php endif;?>
 				</td>
 				<td>
-					<div>
-						<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
-					</div>
-					<ul>
+					<p><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></p>
+					<ul class="user_menu_list">
 <?php if($list["review_count"] > 0): ?>
-						<li>Reviews : <a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a></li>
+						<li class="reviews"><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a></li>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-						<li>syncs : <a href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a></li>
+						<li class="syncs"><a href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a></li>
 <?php endif; ?>
 					</ul>
 <?php if(isset($list["has_invited_user_id"])): ?>
-					<div>
+					<p>
 						(invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
-					</div>
+					</p>
 <?php endif; ?>
 				</td>
 			</tr>
