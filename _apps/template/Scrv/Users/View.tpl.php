@@ -83,7 +83,10 @@ foreach($pager["nav_list"] as $nav) {
 					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
 				</a>
 				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></p>
-				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+				<div>
+					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
