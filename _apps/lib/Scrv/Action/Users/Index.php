@@ -28,7 +28,7 @@ class Index extends Base
 
 		// offset設定
 		$page = Server::get("page", "1");
-		$sort = Server::get("sort", "review_count");
+		$sort = Server::get("sort", "sync_point");
 		$order = Server::get("order", "desc");
 		if ( ! ctype_digit($page) ) {
 			$page = "1";
@@ -38,7 +38,7 @@ class Index extends Base
 
 		// sort, order設定
 		if ( preg_match("/\A(username|review_count|sync_point)\z/", $sort) !== 1 ) {
-			$sort = "review_count";
+			$sort = "sync_point";
 		}
 		if ( preg_match("/\A(asc|desc)\z/", $order) !== 1 ) {
 			$order = "desc";

@@ -39,6 +39,7 @@
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
 
+	<!-- sync review -->
 	<h4>Sync Reviews (<?= count( $syncs["reviews"] ) ?>) : <?= h($syncs_reviews_point_total) ?> pt</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
@@ -59,18 +60,17 @@
 		<table class="w100per every_other_row_odd">
 <?php   foreach($reviews["data"] as $review): ?>
 			<tr>
-				<td class="w50px tacenter">
-					<img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
-				</td>
-				<td>
+				<td colspan="2" class="pdl10px pdr10px">
 					<p><?= h($review["body"]) ?></p>
-<?php if(isset($review["sync_point"]) ): ?>
-					<span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span>
-<?php endif;?>
 					<p>
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+						<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 						<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 						<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
 					</p>
+<?php if(isset($review["sync_point"]) ): ?>
+					<p><span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span></p>
+<?php endif;?>
 				</td>
 			</tr>
 <?php   endforeach; unset($review); ?>

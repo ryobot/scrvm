@@ -30,7 +30,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <?php endif;?>
 
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
+	<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
 <?php endif; ?>
 
 	<p>
@@ -113,13 +113,15 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	<table class="w100per every_other_row_odd">
 <?php foreach($reviews as $review): ?>
 		<tr>
-			<td class="w50px tacenter">
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
-				<div><img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" /></div>
-			</td>
+<!--			<td class="w50px tacenter">
+			</td>-->
 			<td>
-				<div><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></div>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></p>
 				<p>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+					</a>
+					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</p>
