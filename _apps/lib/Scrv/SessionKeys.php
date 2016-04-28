@@ -22,6 +22,12 @@ class SessionKeys
 	/** ログインエラー時のメッセージ */
 	const LOGIN_ERROR = "LOGIN_ERROR_MESSAGE";
 
+	/** ログインタイムアウト時間 */
+	const LOGIN_TIMEOUT = "LOGIN_TIMEOUT";
+
+	/** ログインタイムアウト時刻 */
+	const LOGIN_EXPIRES = "LOGIN_EXPIRES";
+
 	/** 汎用エラーメッセージ格納用 */
 	const ERROR_MESSAGES = "ERROR_MESSAGES";
 

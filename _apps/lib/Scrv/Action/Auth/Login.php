@@ -30,6 +30,7 @@ class Login extends Base
 			"token" => Server::post("token", ""),
 			"username" => Server::post("username", ""),
 			"password" => Server::post("password", ""),
+			"autologin" => Server::post("autologin", ""),
 		);
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
@@ -43,27 +44,27 @@ class Login extends Base
 			return false;
 		}
 
-		// スーパーユーザの場合はログイン済みとして処理、トップにリダイレクト
-		if ( $post_params["username"] === $this->_common_ini["root"]["username"]
-			&& $post_params["password"] === $this->_common_ini["root"]["password"]
-		) {
-			$this->_Session->init();
-			$this->_Session->regenerate();
-			$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
-			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, array(
-				"id" => 0,
-				"username" => $this->_common_ini["root"]["username"],
-				"role" => "admin",
-				"favalbum_count" => null,
-				"favtrack_count" => null,
-				"img_file" => null,
-				"created" => "2016-01-01 00:00:00",
-				"modifiled" => null,
-				"review_count" => 0,
-			));
-			Server::redirect($this->_BasePath);
-			return true;
-		}
+//		// スーパーユーザの場合はログイン済みとして処理、トップにリダイレクト
+//		if ( $post_params["username"] === $this->_common_ini["root"]["username"]
+//			&& $post_params["password"] === $this->_common_ini["root"]["password"]
+//		) {
+//			$this->_Session->init();
+//			$this->_Session->regenerate();
+//			$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
+//			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, array(
+//				"id" => 0,
+//				"username" => $this->_common_ini["root"]["username"],
+//				"role" => "admin",
+//				"favalbum_count" => null,
+//				"favtrack_count" => null,
+//				"img_file" => null,
+//				"created" => "2016-01-01 00:00:00",
+//				"modifiled" => null,
+//				"review_count" => 0,
+//			));
+//			Server::redirect($this->_BasePath);
+//			return true;
+//		}
 
 		// post_params チェック
 		$check_result = $this->_checkPostParams($post_params);
@@ -88,10 +89,23 @@ class Login extends Base
 		if ( !isset($after_url_logined) ){
 			$after_url_logined = "Users/View?id=" . $login_result["data"]["id"];
 		}
+
+		// 自動ログインの場合の処理
+		$timeout = 30 * 60;
+		if ( $post_params["autologin"] === "1" ) {
+			// timeout を伸ばす
+			$timeout = isset($this->_common_ini["session"]["session.gc_maxlifetime"])
+								? (int)$this->_common_ini["session"]["session.gc_maxlifetime"]
+								: 30 * 60;
+			session_set_cookie_params($timeout);
+		}
+
 		$this->_Session->init();
 		$this->_Session->regenerate();
 		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $login_result["data"]);
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_TIMEOUT, $timeout);
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + $this->_nowTimestamp);
 		Server::redirect($this->_BasePath . $after_url_logined);
 
 		return true;

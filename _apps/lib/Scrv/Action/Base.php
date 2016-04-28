@@ -87,7 +87,20 @@ class Base extends Scrv\Base
 		$this->_BasePath = $this->_common_ini["common"]["base_path"];
 
 		// ログイン関連
-		$this->_is_login = $this->_Session->get(Scrv\SessionKeys::IS_LOGIN) === true;
+		// ログイン時は有効時間チェック
+		$is_login = $this->_Session->get(Scrv\SessionKeys::IS_LOGIN) === true;
+		if ( $is_login ) {
+			// 有効時間を超えていたらセッション破棄(ログアウト)
+			$expires = $this->_Session->get(Scrv\SessionKeys::LOGIN_EXPIRES);
+			if ( $expires < $this->_nowTimestamp ) {
+				$this->_Session->init();
+				$this->_Session->destroy();
+			} else {
+				$timeout = $this->_Session->get(Scrv\SessionKeys::LOGIN_TIMEOUT);
+				$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $this->_nowTimestamp + $timeout);
+			}
+		}
+		$this->_is_login = $is_login;
 		$this->_login_user_data = $this->_Session->get(Scrv\SessionKeys::LOGIN_USER_DATA);
 
 		// テンプレートに埋め込んでおく
