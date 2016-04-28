@@ -344,6 +344,9 @@ dl.search dd input[type="submit"]:hover{
 .post_body{
 	word-wrap:break-word;
 }
+.post_body a{
+	word-break : break-all;
+}
 .post_date{color:#678;}
 .post_date a{color:#678;}
 .post_reply{
