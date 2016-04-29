@@ -61,7 +61,7 @@
 <?php   foreach($reviews["data"] as $review): ?>
 			<tr>
 				<td colspan="2" class="pdl10px pdr10px">
-					<p><?= h($review["body"]) ?></p>
+					<p><?= nl2br(linkIt(h($review["body"]))) ?></p>
 					<p>
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
 						<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />

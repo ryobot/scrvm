@@ -116,7 +116,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <!--			<td class="w50px tacenter">
 			</td>-->
 			<td>
-				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></p>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />

@@ -82,7 +82,7 @@ foreach($pager["nav_list"] as $nav) {
 					<?= h("{$review["artist"]} / {$review["title"]}") ?>
 					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
 				</a>
-				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(h($review["body"])) ?></p>
+				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 				<div>
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
