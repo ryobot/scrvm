@@ -32,11 +32,13 @@
 	<form action="<?= h($base_path) ?>Reviews/AddRun" method="POST">
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<input type="hidden" name="album_id" value="<?= h($album_id) ?>">
-		<p>
-			<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">today</label>
-			<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">recently</label>
+		<p id="id_listening_last_group">
+			いつ聴いた？
+			<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">今日</label>
+			<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">最近</label>
 		</p>
-		<p>
+		<p id="id_listening_system_group">
+			どこで聴いた？
 			<label><input type="radio" name="listening_system" value="home" id="id_listening_system_home" checked="checked"><img src="<?= h($base_path) ?>img/home_30.png" alt="home" /></label>
 			<label><input type="radio" name="listening_system" value="headphones" id="id_listening_system_headphones"><img src="<?= h($base_path) ?>img/headphones_30.png" alt="headphones" /></label>
 			<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car"><img src="<?= h($base_path) ?>img/car_30.png" alt="car" /></label>
@@ -46,11 +48,25 @@
 		<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
 <?php endif; ?>
 		<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
-		<p class="actions"><input type="submit" value="Save Review" /></p>
+		<p><input type="submit" value="Save Review" /></p>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
 </body>
+
+<script>
+;$(function(){
+	$("#id_listening_last_group").on("click.js", function(){
+		var is_recently = $("#id_listening_last_recently").prop('checked');
+		if ( is_recently ) {
+			$("#id_listening_system_group").hide("fast");
+		} else {
+			$("#id_listening_system_group").show("fast");
+		}
+	});
+});
+</script>
+
 </html>
