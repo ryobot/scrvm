@@ -54,7 +54,7 @@ foreach($pager["nav_list"] as $nav) {
 			<td class="w80px tacenter">
 				<p>
 					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/user.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 					</a>
 				</p>
 			</td>
