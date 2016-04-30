@@ -253,7 +253,7 @@ class Reviews extends Dao
 		$sync_ponts = array();
 		foreach($reviews as $review) {
 			foreach($my_reviews as $my_review){
-				$point = $Syncs->calcPoint($review["created"], $my_review["created"]);
+				$point = $Syncs->calcPoint($review["created"], $my_review["created"], $my_review["listening_last"]);
 				$sync_ponts[] = array(
 					"user_id" => $review["user_id"],
 					"user_com_id" => $user_id,

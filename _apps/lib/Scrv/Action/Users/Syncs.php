@@ -83,7 +83,7 @@ class Syncs extends Base
 				}
 			}
 			// calc sync point
-			$sync_point = $UtilSyncs->calcPoint($own_review["created"], $you_review["created"]);
+			$sync_point = $UtilSyncs->calcPoint($own_review["created"], $you_review["created"], $own_review["listening_last"]);
 			if ($sync_point["point"] > 0 ) {
 				$reviews[$you_review_idx]["sync_point"] = $sync_point;
 			}

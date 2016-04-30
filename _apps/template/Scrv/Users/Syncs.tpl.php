@@ -61,6 +61,13 @@
 <?php   foreach($reviews["data"] as $review): ?>
 			<tr>
 				<td colspan="2" class="pdl10px pdr10px">
+<?php if(isset($review["sync_point"]) ): ?>
+<?php		if ( $review["sync_point"]["diff"] === null ):?>
+					<p><span class="sync_point_days"><?= h($review["sync_point"]["point"]) ?> pt</span></p>
+<?php		else:?>
+					<p><span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span></p>
+<?php		endif;?>
+<?php endif;?>
 					<p><?= nl2br(linkIt(h($review["body"]))) ?></p>
 					<p>
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
@@ -68,9 +75,6 @@
 						<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 						<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
 					</p>
-<?php if(isset($review["sync_point"]) ): ?>
-					<p><span class="sync_point_days">between <?= h($review["sync_point"]["diff"]+1) ?> days = <?= h($review["sync_point"]["point"]) ?> pt</span></p>
-<?php endif;?>
 				</td>
 			</tr>
 <?php   endforeach; unset($review); ?>
