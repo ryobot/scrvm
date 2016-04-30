@@ -121,7 +121,9 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["img_file"]) ? "files/attachment/photo/{$review["img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
 					</a>
+<?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+<?php endif; ?>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</p>

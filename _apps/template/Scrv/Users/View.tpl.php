@@ -84,7 +84,9 @@ foreach($pager["nav_list"] as $nav) {
 				</a>
 				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 				<div>
+<?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+<?php endif;?>
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
