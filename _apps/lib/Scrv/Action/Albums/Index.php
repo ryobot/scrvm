@@ -23,13 +23,15 @@ class Index extends Base
 	public function run()
 	{
 		// 各パラメータ取得
-		$page = Server::get("page", "1");
 		$stype = mb_trim(Server::get("stype", ""));
 		$type = mb_trim(Server::get("type", ""));
 		$q = mb_trim(Server::get("q", ""));
 		$index = mb_trim(Server::get("index", ""));
-		$sort = Server::get("sort", "artist");
-		$order = Server::get("order", "asc");
+		$sort = Server::get("sort", "reviews"); // defalut reviews
+		$order = Server::get("order", "desc");  // default desc
+		$page = Server::get("page", "1");
+
+		// page 設定
 		if ( ! ctype_digit($page) ) {
 			$page = "1";
 		}
@@ -37,11 +39,11 @@ class Index extends Base
 		$offset = ((int)$page-1) * $limit;
 
 		// sort, order設定
-		if ( preg_match("/\A(artist|title|year)\z/", $sort) !== 1 ) {
-			$sort = "artist";
+		if ( preg_match("/\A(artist|title|year|reviews)\z/", $sort) !== 1 ) {
+			$sort = "reviews";
 		}
 		if ( preg_match("/\A(asc|desc)\z/", $order) !== 1 ) {
-			$order = "asc";
+			$order = "desc";
 		}
 
 		// stype check

@@ -69,7 +69,7 @@ input[type="text"],input[type="password"], textarea{
 	width: 97%;
 }
 
-img{max-width: 100%;}
+img{max-width: 100%; vertical-align: middle;}
 img.album_view_cover {width: 120px;}
 
 ul,ol,dl{list-style:none;}
@@ -157,8 +157,6 @@ li{display:list-item;zoom:normal;}
 	clear: both;
 	text-align:center;
 	background-color: #FFF;
-	border: 1px solid #FFF;
-	border-bottom: 0px solid transparent;
 	padding:10px 0;
 	border-radius: 0 5px 0 0;
 	border:1px solid #AAA;

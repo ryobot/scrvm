@@ -47,6 +47,13 @@ foreach($pager["nav_list"] as $nav) {
 // ソート用リンク
 $order_type = $order === "asc" ? "desc" : "asc";
 $sort_links = array(
+	"reviews" => array(
+		"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+			"sort"   => "reviews",
+			"order"  => $order_type,
+		))),
+		"text" => $sort === "reviews" ? "[Reviews]" : "Reviews",
+	),
 	"artist" => array(
 		"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
 			"sort"   => "artist",
@@ -143,6 +150,9 @@ $sort_links = array(
 				/
 				<a href="<?= h($sort_links["title"]["link"]) ?>"><?= h($sort_links["title"]["text"]) ?></a>
 				( <a href="<?= h($sort_links["year"]["link"]) ?>"><?= h($sort_links["year"]["text"]) ?></a> )
+				<a href="<?= h($sort_links["reviews"]["link"]) ?>">
+					<?= h($sort_links["reviews"]["text"]) ?>
+				</a>
 			</td>
 			<td></td>
 		</tr>
@@ -156,6 +166,13 @@ $sort_links = array(
 					<?= h( "{$album["artist"]} / {$album["title"]}") ?>
 					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 				</a>
+<?php if($album["reviews"] > 0): ?>
+				<p>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+						<img src="<?= h($base_path) ?>img/headphone_icon_mini.png" alt="reviews" /><?= h($album["reviews"]) ?>
+					</a>
+				</p>
+<?php endif;?>
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
 				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
 <?php endif; ?>

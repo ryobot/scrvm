@@ -69,14 +69,16 @@ class Albums extends Dao
 		if ( strtolower($index) === "t" ) {
 			$where = "WHERE({$type} REGEXP '^{$index}' AND {$type} NOT REGEXP '^the ')";
 		}
+		$left_join = "LEFT JOIN reviews t2 ON(t1.id=t2.album_id)";
+		$group_by = "GROUP BY t1.id";
 		$orderby = "ORDER BY {$sort} {$order}";
 		$offsetlimit = "LIMIT {$offset},{$limit}";
-		$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+		$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$where} {$group_by} {$orderby} {$offsetlimit}";
 		$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 		$params = array();
 		if ( $index === "日" ) {
 			$where = "WHERE({$type} NOT REGEXP '^([a-zA-Z0-9])')";
-			$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+			$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$where} {$group_by} {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 		}
 		$albums_result = $this->_Dao->select($sql, $params);
@@ -92,14 +94,16 @@ class Albums extends Dao
 	private function _listsBySearch($offset,$limit, $type, $q, $sort, $order)
 	{
 		$result = getResultSet();
+		$left_join = "LEFT JOIN reviews t2 ON(t1.id=t2.album_id)";
+		$group_by = "GROUP BY t1.id";
 		$orderby = "ORDER BY {$sort} {$order}";
 		$offsetlimit = "LIMIT {$offset},{$limit}";
-		$sql = "SELECT * FROM albums {$orderby} {$offsetlimit}";
+		$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$group_by} {$orderby} {$offsetlimit}";
 		$sql_count = "SELECT count(id) cnt FROM albums";
 		$params = array();
 		if ( $q !== null && $q !== "" ) {
 			$where = "WHERE({$type} like :q ESCAPE '!')";
-			$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+			$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$where} {$group_by} {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 			$params = array("q"=>"%".$this->_Dao->escapeForLike($q)."%");
 		}
