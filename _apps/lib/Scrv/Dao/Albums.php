@@ -65,16 +65,19 @@ class Albums extends Dao
 	{
 		$result = getResultSet();
 		$where = "WHERE({$type} REGEXP '^({$index}|the {$index})')";
+		// T の場合は the は除外
+		if ( strtolower($index) === "t" ) {
+			$where = "WHERE({$type} REGEXP '^{$index}' AND {$type} NOT REGEXP '^the ')";
+		}
 		$orderby = "ORDER BY {$sort} {$order}";
 		$offsetlimit = "LIMIT {$offset},{$limit}";
 		$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
 		$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
-		$params = array("index"=>$index);
+		$params = array();
 		if ( $index === "日" ) {
 			$where = "WHERE({$type} NOT REGEXP '^([a-zA-Z0-9])')";
 			$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
-			$params = array();
 		}
 		$albums_result = $this->_Dao->select($sql, $params);
 		$albums_count_result = $this->_Dao->select($sql_count, $params);
