@@ -38,36 +38,75 @@ class Albums extends Dao
 	 * lists
 	 * @param int $offset
 	 * @param int $limit
-	 * @param string $artist
+	 * @param string $stype
+	 * @param string $type
+	 * @param string $q
+	 * @param string $index
 	 * @param string $sort artist,title,year のいずれか
 	 * @param string $order asc, desc のいずれか
 	 * @return resultSet
 	 */
-	public function lists($offset,$limit, $artist, $sort, $order)
+	public function lists($offset,$limit, $stype, $type, $q, $index, $sort, $order)
 	{
 		$result = getResultSet();
 		try{
-			$orderby = "ORDER BY {$sort} {$order}";
-			$offsetlimit = "LIMIT {$offset},{$limit}";
-			$sql = "SELECT * FROM albums {$orderby} {$offsetlimit}";
-			$sql_count = "SELECT count(id) cnt FROM albums";
-			$params = array();
-			if ( $artist !== null && $artist !== "" ) {
-				$where = "WHERE(artist like :artist ESCAPE '!')";
-				$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
-				$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
-				$params = array("artist"=>"%".$this->_Dao->escapeForLike($artist)."%");
+			if ($stype === "index") {
+				$result = $this->_listsByIndex($offset, $limit, $type, $index, $sort, $order);
+			} else {
+				$result = $this->_listsBySearch($offset, $limit, $type, $q, $sort, $order);
 			}
-			$albums_result = $this->_Dao->select($sql, $params);
-			$albums_count_result = $this->_Dao->select($sql_count, $params);
-			$result["status"] = true;
-			$result["data"] = array(
-				"lists" => $albums_result,
-				"lists_count" => $albums_count_result[0]["cnt"],
-			);
 		} catch( \PDOException $e ) {
 			$result["messages"][] = "db error - " . $e->getMessage();
 		}
+		return $result;
+	}
+
+	private function _listsByIndex($offset,$limit, $type, $index, $sort, $order)
+	{
+		$result = getResultSet();
+		$where = "WHERE({$type} REGEXP '^({$index}|the {$index})')";
+		$orderby = "ORDER BY {$sort} {$order}";
+		$offsetlimit = "LIMIT {$offset},{$limit}";
+		$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+		$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
+		$params = array("index"=>$index);
+		if ( $index === "日" ) {
+			$where = "WHERE({$type} NOT REGEXP '^([a-zA-Z0-9])')";
+			$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
+			$params = array();
+		}
+		$albums_result = $this->_Dao->select($sql, $params);
+		$albums_count_result = $this->_Dao->select($sql_count, $params);
+		$result["status"] = true;
+		$result["data"] = array(
+			"lists" => $albums_result,
+			"lists_count" => $albums_count_result[0]["cnt"],
+		);
+		return $result;
+	}
+
+	private function _listsBySearch($offset,$limit, $type, $q, $sort, $order)
+	{
+		$result = getResultSet();
+		$orderby = "ORDER BY {$sort} {$order}";
+		$offsetlimit = "LIMIT {$offset},{$limit}";
+		$sql = "SELECT * FROM albums {$orderby} {$offsetlimit}";
+		$sql_count = "SELECT count(id) cnt FROM albums";
+		$params = array();
+		if ( $q !== null && $q !== "" ) {
+			$where = "WHERE({$type} like :q ESCAPE '!')";
+			$sql = "SELECT * FROM albums {$where} {$orderby} {$offsetlimit}";
+			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
+			$params = array("q"=>"%".$this->_Dao->escapeForLike($q)."%");
+		}
+		$albums_result = $this->_Dao->select($sql, $params);
+		$albums_count_result = $this->_Dao->select($sql_count, $params);
+		$result["status"] = true;
+		$result["data"] = array(
+			"lists" => $albums_result,
+			"lists_count" => $albums_count_result[0]["cnt"],
+		);
 		return $result;
 	}
 

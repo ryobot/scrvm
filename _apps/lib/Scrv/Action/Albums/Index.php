@@ -24,13 +24,15 @@ class Index extends Base
 	{
 		// 各パラメータ取得
 		$page = Server::get("page", "1");
-		$artist = mb_trim(Server::get("artist", ""));
+		$stype = mb_trim(Server::get("stype", ""));
+		$type = mb_trim(Server::get("type", ""));
+		$q = mb_trim(Server::get("q", ""));
+		$index = mb_trim(Server::get("index", ""));
 		$sort = Server::get("sort", "artist");
 		$order = Server::get("order", "asc");
 		if ( ! ctype_digit($page) ) {
 			$page = "1";
 		}
-
 		$limit = (int)$this->_common_ini["search"]["limit"];
 		$offset = ((int)$page-1) * $limit;
 
@@ -42,9 +44,22 @@ class Index extends Base
 			$order = "asc";
 		}
 
+		// stype check
+		if ( preg_match("/\A(search|index)\z/", $stype) !== 1 ) {
+			$stype = "search";
+		}
+		// type check
+		if ( preg_match("/\A(artist|title)\z/", $type) !== 1 ) {
+			$type = "artist";
+		}
+		// index check
+		if (preg_match("/\A[a-z0-9日]\z/ui", $index) !== 1 ) {
+			$index = "";
+		}
+
 		// album一覧取得
 		$DaoAlbums = new DaoAlbums();
-		$albums_result = $DaoAlbums->lists($offset, $limit, $artist, $sort, $order);
+		$albums_result = $DaoAlbums->lists($offset, $limit, $stype, $type, $q, $index, $sort, $order);
 		if ( ! $albums_result["status"] ) {
 			Server::send404Header("not found.");
 			return false;
@@ -54,7 +69,10 @@ class Index extends Base
 		$Pager = new Pager();
 
 		$this->_Template->assign(array(
-			"artist" => $artist,
+			"q" => $q,
+			"type" => $type,
+			"index" => $index,
+			"stype" => $stype,
 			"sort" => $sort,
 			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],

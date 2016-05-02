@@ -1,7 +1,12 @@
 @charset "UTF-8";
 
 /*----------------------*/
-*{margin:0;padding:0;}
+*{
+	margin:0;padding:0;
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 body {
 	background: #fff;
@@ -75,7 +80,7 @@ li{display:list-item;zoom:normal;}
 
 /*----------------------*/
 /* .header */
-.header{padding:0.2em;margin: 0;}
+.header{padding:0.2em;margin: 0;margin-bottom:15px;}
 .header ul:after {
 	content:"";
 	clear:both;
@@ -120,6 +125,81 @@ li{display:list-item;zoom:normal;}
 .menu ul li {width:25%;}
 .menu ul li:hover {}
 .menu ul li a {text-decoration: none;}
+
+/* .tabs */
+.search_tab ul.tab {
+	list-style: none;
+}
+.search_tab ul.tab li {
+	float: left;
+	margin-right: 10px;
+	padding: 5px 10px;
+	background-color:rgba(255,255,255,0.7);
+	cursor: pointer;
+	border-radius: 5px 5px 0 0;
+	border: 1px solid #BBB;
+	border-bottom: 0px solid transparent;
+}
+.search_tab ul.tab li:hover {
+	color: #FF0000;
+}
+.search_tab ul.tab li.active {
+	background-color: #CCC;
+}
+.search_tab ul.tab li.notab {
+	cursor: auto;
+	background-color:transparent;
+	border: none;
+}
+.search_tab div.search_type {
+	clear: both;
+	text-align:center;
+	background-color: #CCC;
+	border: 1px solid #ccc;
+	border-bottom: 0px solid transparent;
+	padding:5px 0;
+	border-radius: 0 5px 0 0;
+}
+.search_tab div.tabContent {
+	clear: both;
+	background-color: #CCC;
+	border-top: 0px solid transparent;
+	padding: 5px;
+	width: 100%;
+	display: none;
+	background-color: #CCC;
+	text-align:center;
+	border-radius: 0 0 5px 5px;
+}
+.search_tab div.active {
+	display: block;
+}
+.search_tab ul.search_index {
+	display: inline-block;
+	padding: 0;
+	margin: 5px 0;
+}
+.search_tab ul.search_index li {display: inline;}
+.search_tab ul.search_index li a {
+	text-align: center;
+	color: black;
+	float: left;
+	width:2.5em;
+	margin:3px;
+	padding: 4px 8px;
+	text-decoration: none;
+	border: 1px solid #FFF;
+	transition: .3s;
+	border-radius: 3px;
+}
+.search_tab ul.search_index li a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+.search_tab ul.search_index li a:hover:not(.active){
+	background-color: #EEE;
+}
 
 /* .user_menu_list */
 .user_menu_list {
