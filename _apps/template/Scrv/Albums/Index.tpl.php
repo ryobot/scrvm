@@ -99,6 +99,7 @@ $sort_links = array(
 			</p>
 			<div class="search_type">
 				<label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label>
+				&nbsp;
 				<label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label>
 			</div>
 			<div class="tabContent active">
