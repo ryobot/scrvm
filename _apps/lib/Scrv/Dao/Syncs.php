@@ -130,4 +130,30 @@ class Syncs extends Dao
 		return $result;
 	}
 
+	/**
+	 * sync_point update
+	 * @param int $point 更新するpoint
+	 * @param int $my_user_id 自分の user_id
+	 * @param int $other_user_id syncしている相手のuser_id
+	 * @return resultSet
+	 */
+	public function updatePoint($point, $my_user_id, $other_user_id)
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			$row_count = $this->_Dao->update(
+				"UPDATE syncs SET sync_point=:point WHERE user_com_id=:muid AND user_id=:ouid",
+				array("point" => $point, "muid" => $my_user_id, "ouid" => $other_user_id,)
+			);
+			$result["status"] = true;
+			$result["data"]["rowcount"] = $row_count;
+			$this->_Dao->commit();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
 }

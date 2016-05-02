@@ -115,6 +115,15 @@ class Syncs extends Base
 			"tracks_point" => count($sync_tracks_result["data"]) * 2,
 		);
 
+		// XXX syncs point と実際に計算した値が異なっていればupdate
+		if ( isset($user_result["data"]["sync_point"]) ){
+			$this->_updateSyncsPoints(
+				$syncs_reviews_point_total + $syncs["albums_point"] + $syncs["tracks_point"],
+				$user_result["data"]["sync_point"],
+				(int)$user_id
+			);
+		}
+
 		$this->_Template->assign(array(
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
@@ -122,6 +131,15 @@ class Syncs extends Base
 			"syncs_reviews_point_total" => $syncs_reviews_point_total,
 		))->display("Users/Syncs.tpl.php");
 		return true;
+	}
+
+	private function _updateSyncsPoints($total_sync_points, $db_sync_poinsts, $user_id)
+	{
+		if ( $total_sync_points === $db_sync_poinsts ) {
+			return true;
+		}
+		$DaoSyncs = new DaoSyncs();
+		$DaoSyncs->updatePoint($total_sync_points, $this->_login_user_data["id"], $user_id);
 	}
 
 }

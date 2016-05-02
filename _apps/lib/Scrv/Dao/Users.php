@@ -87,7 +87,7 @@ class Users extends Dao
 			$params = array();
 			if (isset( $login_user_id )) {
 				$syncs_column = "t2.sync_point";
-				$syncs_sql = "LEFT JOIN syncs t2 ON(t1.id=t2.user_com_id AND t2.user_id=:login_user_id) ";
+				$syncs_sql = "LEFT JOIN syncs t2 ON(t1.id=t2.user_id AND t2.user_com_id=:login_user_id) ";
 				$params = array("login_user_id" => $login_user_id);
 			}
 			$data = $this->_Dao->select("
