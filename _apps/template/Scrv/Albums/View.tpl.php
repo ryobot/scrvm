@@ -125,7 +125,9 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
+						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+					</a>
 				</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 				<p class="actions">

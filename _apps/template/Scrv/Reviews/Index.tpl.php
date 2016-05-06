@@ -74,7 +74,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php endif; ?>
 						<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 						-
-						<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
+						<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a></span>
 					</p>
 				</div>
 <?php if( $review["reviews_count"] - 1 > 0 ): ?>

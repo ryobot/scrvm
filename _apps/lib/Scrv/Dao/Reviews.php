@@ -98,6 +98,39 @@ class Reviews extends Dao
 	}
 
 	/**
+	 * view by id
+	 * @param int $id
+	 * @return resultSet
+	 */
+	public function viewById( $id )
+	{
+		$result = getResultSet();
+		try{
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
+				,t3.username,t3.img_file AS user_img_file
+				,count(t4.id) as reviews_count
+				FROM reviews t1
+				INNER JOIN albums t2 ON(t1.album_id=t2.id)
+				INNER JOIN users t3 ON(t1.user_id=t3.id)
+				LEFT JOIN reviews t4 ON(t1.album_id = t4.album_id)
+				WHERE t1.id=:id
+				GROUP BY t1.id",
+				array("id" => $id,)
+			);
+			if ( count($data) === 1 ) {
+				$result["status"] = true;
+				$result["data"] = $data[0];
+			}
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * view
 	 * @param integer $user_id
 	 * @param integer $offset
