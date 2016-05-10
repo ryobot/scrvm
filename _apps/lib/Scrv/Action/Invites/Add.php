@@ -79,7 +79,8 @@ class Add extends Base
 		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $add_result["data"]);
 
-		Server::redirect($this->_BasePath . "Users/View?id=" . $add_result["data"]["id"]);
+		//Server::redirect($this->_BasePath . "Users/View?id=" . $add_result["data"]["id"]);
+		Server::redirect($this->_BasePath . "About");
 		return true;
 	}
 
