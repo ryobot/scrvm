@@ -99,7 +99,10 @@ li{display:list-item;zoom:normal;}
     background-repeat: no-repeat;
     height: 50px;
     padding: 18px 0  0 55px;
-    margin: 0
+    margin: 0;
+	-webkit-box-sizing: initial;
+  -moz-box-sizing: initial;
+  box-sizing: initial;
 }
 .header_title a{text-decoration: none;}
 
@@ -360,9 +363,10 @@ dl.search dd input[type="submit"]:hover{
 .album_cover {
 	margin:0.2em;
 	width:60px;
+	transition: opacity .2s;
 }
 .album_cover:hover {
-	border-left:1px solid transparent;
+	opacity: 0.7;
 }
 .album_search_cover_result{
 	border:5px solid #FFF;
@@ -451,6 +455,10 @@ dl.search dd input[type="submit"]:hover{
 }
 .post_quote{
 	color:#393;
+}
+
+/*----------------------*/
+.about_content{
 }
 
 /*----------------------*/

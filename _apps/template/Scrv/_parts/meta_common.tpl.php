@@ -13,4 +13,4 @@
 	crossorigin="anonymous"></script>
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="icon" />
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />
-<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v8" />
+<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v9" />

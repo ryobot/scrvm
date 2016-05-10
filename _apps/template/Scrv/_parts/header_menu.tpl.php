@@ -31,6 +31,7 @@
 				<a href="<?= h($base_path) ?>Auth">Login</a>
 			</p>
 <?php endif; ?>
+			<p class="actions"><a href="<?= h($base_path) ?>About">About/Help</a></p>
 		</li>
 	</ul>
 </div>

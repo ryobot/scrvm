@@ -60,10 +60,10 @@ foreach($pager["nav_list"] as $nav) {
 			</td>
 			<td>
 				<p>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-						<?= h( "{$review["artist"]} / {$review["title"]}") ?>
-						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-					</a>
+					<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>
+					-
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>"><?= h($review["title"]) ?></a>
+					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
 				</p>
 				<div class="review_comment">
 					<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
