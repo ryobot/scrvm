@@ -22,6 +22,7 @@
 		<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name" required="required"></p>
 		<p><input type="text" name="title" id="id_title" value="" placeholder="album title"></p>
 		<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
+		<p>※インディーズの新譜はあまりヒットしません。</p>
 		<p class="actions"><input type="submit" id="id_submit" value="search" /></p>
 	</form>
 

@@ -45,9 +45,13 @@
 		</p>
 <?php if(isset($login_user_data["twitter_user_id"])): ?>
 		<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
+		<p>※twitterへ投稿する場合、140文字を超えても投稿はできますが一部省略されます。</p>
 <?php endif; ?>
 		<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= h($post_params["body"]) ?></textarea></p>
-		<p><input type="submit" value="Save Review" /></p>
+		<p class="actions">
+			<input type="submit" value="Save Review" />
+			<span id="id_review_counter"></span>
+		</p>
 	</form>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
@@ -60,6 +64,7 @@
 	$("#id_listening_system_<?= h($post_params["listening_system"]) ?>").prop("checked", "checked");
 });
 </script>
+<script src="<?= h($base_path)?>js/Reviews.write.js"></script>
 
 </body>
 </html>

@@ -32,6 +32,7 @@ class EditRun extends Base
 		$post_params = array(
 			"token" => Server::post("token", ""),
 			"review_id" => Server::post("review_id", ""),
+			"album_id" => Server::post("album_id", ""),
 			"listening_last" => Server::post("listening_last", ""),
 			"listening_system" => Server::post("listening_system", ""),
 			"send_twitter" => Server::post("send_twitter"),
@@ -55,7 +56,7 @@ class EditRun extends Base
 		$check_result = $this->_checkPostParams($post_params);
 		if ( ! $check_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $check_result["messages"]);
-			Server::redirect($this->_BasePath . "Reviews/Add?id=" . urlencode($post_params["album_id"]));
+			Server::redirect($this->_BasePath . "Reviews/Edit?id=" . urlencode($post_params["review_id"]));
 			return false;
 		}
 
