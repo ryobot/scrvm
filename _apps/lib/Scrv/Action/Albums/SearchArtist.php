@@ -7,6 +7,7 @@
 namespace lib\Scrv\Action\Albums;
 use lib\Scrv\Action\Base as Base;
 use lib\Util\Gracenote as Gracenote;
+use lib\Util\Discogs as Discogs;
 use lib\Util\Server as Server;
 
 /**
@@ -30,6 +31,30 @@ class SearchArtist extends Base
 		$artist = mb_trim(Server::post("artist"));
 		$title = mb_trim(Server::post("title"));
 		$track = mb_trim(Server::post("track"));
+		$search_type = mb_trim(Server::post("search_type"));
+		$results = array();
+		if ( $search_type === "discogs" ) {
+			$results = $this->_discogs($artist, $title, $track);
+		} else {
+			$results = $this->_gracenote($artist, $title, $track);
+		}
+		header("Content-Type:application/json; charset=UTF-8");
+		echo json_encode($results, true);
+		return true;
+	}
+
+	private function _discogs($artist, $title, $track)
+	{
+		$Discogs = new Discogs(
+			$this->_common_ini["discogs"]["api_url"],
+			$this->_common_ini["discogs"]["consumer_key"],
+			$this->_common_ini["discogs"]["consumer_secret"]
+		);
+		return $Discogs->search($artist, $title, $track);
+	}
+
+	private function _gracenote($artist, $title, $track)
+	{
 		$Gracenote = new Gracenote(
 			$this->_common_ini["gracenote"]["api_url"],
 			$this->_common_ini["gracenote"]["client_id"],
@@ -51,8 +76,7 @@ class SearchArtist extends Base
 			}
 			$results[] = $tmp;
 		}
-		header("Content-Type:application/json; charset=UTF-8");
-		echo json_encode($results, true);
-		return true;
+		return $results;
 	}
+
 }

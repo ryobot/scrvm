@@ -19,6 +19,8 @@
 	<h2>Add Album</h2>
 
 	<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
+		<p><label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked">gracenote から検索</label></p>
+		<p><label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs">discogs から検索 (やや重い)</label></p>
 		<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name" required="required"></p>
 		<p><input type="text" name="title" id="id_title" value="" placeholder="album title"></p>
 		<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
@@ -70,6 +72,8 @@
 
 		var val_artist = $.trim($("#id_artist").val());
 		var val_title = $.trim($("#id_title").val());
+		var val_track = $.trim($("#id_track").val());
+		var val_search_type = $.trim($('input[name=search_type]:checked').val());
 		if ( val_artist === "" ) {
 			alert("artist名 は必須です。");
 			return;
@@ -83,7 +87,9 @@
 			dataType : 'json',
 			data : {
 				artist : val_artist,
-				title : val_title
+				title : val_title,
+				track : val_track,
+				search_type : val_search_type
 			}
 		})
 		.done(function(json){
@@ -154,7 +160,7 @@
 				return;
 			}
 			$result.append(
-				$("<h4 />").text("album カバーを選択してください。"),
+				$("<h4 />").text("album カバーを選択してください（あとで変更も可能です）。"),
 				$("<p class='actions'/>").attr({id:"id_selected_img_url"})
 			);
 			for(var i=0,len=json.length; i<len; i++) {

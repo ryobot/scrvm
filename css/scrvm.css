@@ -356,6 +356,7 @@ dl.search dd input[type="submit"]:hover{
 	margin:0.5em 0;
 	padding: 0.5em;
 	border-radius:0.5em;
+	background-color: #FFF;
 }
 .album_search_result:hover{
 	background-color: #FED;
