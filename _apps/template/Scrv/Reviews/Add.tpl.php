@@ -38,7 +38,7 @@
 			<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">最近</label>
 		</p>
 		<p id="id_listening_system_group">
-			どこで聴いた？
+			再生方法は？
 			<label><input type="radio" name="listening_system" value="home" id="id_listening_system_home" checked="checked"><img src="<?= h($base_path) ?>img/home_30.png" alt="home" /></label>
 			<label><input type="radio" name="listening_system" value="headphones" id="id_listening_system_headphones"><img src="<?= h($base_path) ?>img/headphones_30.png" alt="headphones" /></label>
 			<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car"><img src="<?= h($base_path) ?>img/car_30.png" alt="car" /></label>
