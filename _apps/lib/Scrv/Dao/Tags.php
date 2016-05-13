@@ -85,7 +85,7 @@ class Tags extends Dao
 		$this->_Dao->beginTransaction();
 		try{
 			$tag_result = $this->_Dao->select(
-				"SELECT * FROM tags WHERE id=:id AND create_user_id=:cuid AND can_be_deleted=1",
+				"SELECT * FROM tags WHERE id=:id AND create_user_id=:cuid",
 				array("id"=>$id,"cuid"=>$create_user_id,)
 			);
 			if ( count($tag_result) === 0 ) {

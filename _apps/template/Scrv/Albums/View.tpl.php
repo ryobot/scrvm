@@ -62,7 +62,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 			data-id="<?= h($tag["id"]) ?>"
 			data-tag="<?= h($tag["tag"]) ?>"
 			data-album_id="<?= h($tag["album_id"]) ?>"
-			data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] && $tag["can_be_deleted"] === 1 ? 1 : 0 ?>"
+			data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
 		><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
 	</p>
