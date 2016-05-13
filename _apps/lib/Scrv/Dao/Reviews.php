@@ -91,7 +91,7 @@ class Reviews extends Dao
 				INNER JOIN albums t2 ON(t1.album_id=t2.id)
 				INNER JOIN users t3 ON(t1.user_id=t3.id)
 				LEFT JOIN reviews t4 ON(t1.album_id = t4.album_id)
-				LEFT JOIN favreviews t5 ON(t1.id=t5.review_id)
+				LEFT JOIN favreviews t5 ON(t1.id=t4.id AND t1.id=t5.review_id)
 				{$my_fav_sql}
 				GROUP BY t1.id
 				ORDER BY t1.created DESC
@@ -150,19 +150,36 @@ class Reviews extends Dao
 	 * @param integer $limit
 	 * @return resultSet
 	 */
-	public function view( $user_id, $offset, $limit )
+	public function view( $user_id, $offset, $limit, $own_user_id=null )
 	{
 		$result = getResultSet();
 		try{
-			$data = $this->_Dao->select(
-				 "SELECT t1.*, t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks,"
-				."t3.username,t3.img_file as user_img_file "
-				."FROM reviews t1 "
-				."INNER JOIN albums t2 ON (t1.album_id=t2.id) "
-				."INNER JOIN users t3 ON (t1.user_id=t3.id) "
-				."WHERE user_id=:user_id "
-				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}",
-				array("user_id" => $user_id,)
+
+			$my_fav_select = "";
+			$my_fav_sql = "";
+			$params = array("user_id" => $user_id,);
+			if ( isset($own_user_id) ) {
+				$my_fav_select = ",t6.id as my_fav_id";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t5.id=t6.id AND t1.id=t6.review_id AND t5.user_id=:ouid)";
+				$params["ouid"] = $own_user_id;
+			}
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
+				,t3.username,t3.img_file as user_img_file
+				,count(t5.id) as fav_reviews_count
+				{$my_fav_select}
+				FROM reviews t1
+				INNER JOIN albums t2 ON (t1.album_id=t2.id)
+				INNER JOIN users t3 ON (t1.user_id=t3.id)
+				LEFT JOIN favreviews t5 ON(t1.id=t5.review_id)
+				{$my_fav_sql}
+				WHERE t1.user_id=:user_id
+				GROUP BY t1.id
+				ORDER BY t1.created DESC
+				LIMIT {$offset},{$limit}",
+				$params
 			);
 			$result["status"] = true;
 			$result["data"] = $data;
