@@ -82,14 +82,14 @@ foreach($pager["nav_list"] as $nav) {
 					<?= h("{$review["artist"]} / {$review["title"]}") ?>
 					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
 				</a>
-				<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
+				<p class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 				<div>
-<?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
-<?php endif;?>
 					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
 						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 					</a>
+<?php if($review["listening_last"] === "today"): ?>
+					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+<?php endif;?>
 				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">

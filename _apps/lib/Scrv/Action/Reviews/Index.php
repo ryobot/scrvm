@@ -31,8 +31,9 @@ class Index extends Base
 		$offset = ((int)$page-1) * $limit;
 
 		// レビュー一覧取得
+		$my_user_id = isset($this->_login_user_data) ? $this->_login_user_data["id"] : null;
 		$DaoReviews = new DaoReviews();
-		$lists_result = $DaoReviews->lists($offset, $limit);
+		$lists_result = $DaoReviews->lists($offset, $limit, $my_user_id);
 		if ( !$lists_result["status"] ) {
 			Server::send404Header("not found");
 			return false;

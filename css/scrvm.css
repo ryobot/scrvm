@@ -344,11 +344,13 @@ dl.search dd input[type="submit"]:hover{
 
 /* .review */
 .review_comment{
+	padding: 1em 0;
 }
 
 /* .fav_ */
 .fav_album{cursor: pointer;}
 .fav_track{cursor: pointer;}
+.fav_review{cursor: pointer;}
 
 /* .album_ */
 .album_search_result{
