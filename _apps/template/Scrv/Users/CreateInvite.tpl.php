@@ -17,23 +17,29 @@
 
 	<h2>Create Invite</h2>
 
+	<div class="search_tab">
+		<p>
+			<ul class="tab">
+				<li><a href="<?= h($base_path) ?>Users/Edit">編集</a></li>
+				<li><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></li>
+				<li class="active"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></li>
+			</ul>
+		</p>
+		<div class="search_type"></div>
+		<div class="tabContent active">
 <?php if($login_user_data["role"] !== "admin"): ?>
-	<p>リンク生成回数：残り <span id="id_can_be_invited_count"><?= h($can_be_invited_count) ?></span> 回</p>
+			<p>リンク生成回数：残り <span id="id_can_be_invited_count"><?= h($can_be_invited_count) ?></span> 回</p>
 <?php endif; ?>
 <?php if($login_user_data["role"] === "admin" || $can_be_invited_count > 0): ?>
-	<p class="actions" id="id_actions"><a href="javascript:;" id="id_create_invite">招待用リンクを作成する</a></p>
-	<div id="id_created_link_area" class="displaynone">
-		<p>下記リンクを相手にお知らせください。</p>
-		<p><textarea id="id_created_link"></textarea></p>
-	</div>
+			<p class="actions" id="id_actions"><a href="javascript:;" id="id_create_invite">招待用リンクを作成する</a></p>
+			<div id="id_created_link_area" class="displaynone">
+				<p>下記リンクをコピーして相手にお知らせください。</p>
+				<p><textarea id="id_created_link"></textarea></p>
+			</div>
 <?php else: ?>
 <?php endif ;?>
-
-	<p><hr /></p>
-
-	<p><a href="<?= h($base_path) ?>Users/Edit">Edit User</a></p>
-	<p><a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>	</p>
-	<p><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク生成</a></p>
+		</div>
+	</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

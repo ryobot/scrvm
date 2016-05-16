@@ -25,35 +25,40 @@
 	</div>
 <?php endif;?>
 
-	<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
-	<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
-
-	<form action="<?= h($base_path) ?>Users/SavePassword" method="POST">
-		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<table>
-			<tr>
-				<td>
-					<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype new password" required="required" /></p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p class="actions"><input type="submit" value="save" ></p>
-				</td>
-			</tr>
-		</table>
-	</form>
-
-	<p><hr /></p>
-
-	<p><a href="<?= h($base_path) ?>Users/Edit">Edit User</a></p>
-	<p><a href="<?= h($base_path) ?>Users/EditPassword">Edit Password</a>	</p>
-	<p><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク生成</a></p>
+	<div class="search_tab">
+		<p>
+			<ul class="tab">
+				<li><a href="<?= h($base_path) ?>Users/Edit">編集</a></li>
+				<li class="active"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></li>
+				<li><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></li>
+			</ul>
+		</p>
+		<div class="search_type"></div>
+		<div class="tabContent active">
+			<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
+			<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
+			<form action="<?= h($base_path) ?>Users/SavePassword" method="POST">
+				<input type="hidden" name="token" value="<?= h($token) ?>" />
+				<table class="w100per">
+					<tr>
+						<td>
+							<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype new password" required="required" /></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class="actions"><input type="submit" value="save" ></p>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
