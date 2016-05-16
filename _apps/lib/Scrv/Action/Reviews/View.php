@@ -28,8 +28,9 @@ class View extends Base
 		}
 
 		// レビュー取得
+		$own_user_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoReviews = new DaoReviews();
-		$lists_result = $DaoReviews->viewById($id);
+		$lists_result = $DaoReviews->viewById($id,$own_user_id);
 		if ( !$lists_result["status"] ) {
 			Server::send404Header("404 not found..");
 			return false;

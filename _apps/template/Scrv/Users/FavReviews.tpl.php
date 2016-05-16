@@ -1,10 +1,10 @@
 <?php
 /**
- * Users/FavTracks.tpl.php
+ * Users/FavReviews.tpl.php
  * @author mgng
  */
 
-$_base_url = "{$base_path}Users/FavTracks?id={$user_id}";
+$_base_url = "{$base_path}Users/FavReviews?id={$user_id}";
 $most_prev_link = "{$_base_url}";
 $prev_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]-1,));
 $next_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]+1,));
@@ -23,7 +23,7 @@ foreach($pager["nav_list"] as $nav) {
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($user["username"]) ?> | <?= h($base_title) ?> :: Users :: FavTracks</title>
+<title><?= h($user["username"]) ?> | <?= h($base_title) ?> :: Users :: FavReviews</title>
 </head>
 <body>
 <div id="container">
@@ -54,9 +54,9 @@ foreach($pager["nav_list"] as $nav) {
 	<p class="w100per user_profile"><?= nl2br(linkIt(h($user["profile"]))) ?></p>
 <?php endif;?>
 
-	<h3>Fav.Tracks (<?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?>)</h3>
+	<h3>Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)</h3>
 
-<?php if(count($favtracks) > 0): ?>
+<?php if(count($favreviews) > 0): ?>
 
 	<div class="tacenter">
 		<ul class="pagination">
@@ -73,19 +73,30 @@ foreach($pager["nav_list"] as $nav) {
 	</div>
 
 	<table class="w100per every_other_row_odd">
-<?php foreach($favtracks as $favtrack): ?>
+<?php foreach($favreviews as $favreview): ?>
 		<tr>
-			<td class="w80px">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
-			</td>
 			<td>
-				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>
-				<div>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>">
-						<?= h($favtrack["artist"]) ?> / <?= h($favtrack["title"]) ?>
-						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
-					</a> : tr.<?= h($favtrack["track_num"]) ?>
+				<div class="floatleft mgr5px">
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["id"]) ?>"><img class="album_cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
 				</div>
+				<div>
+						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($favreview["artist"]) ?>"><?= h($favreview["artist"]) ?></a>
+						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["album_id"]) ?>">
+							<?= h($favreview["title"]) ?>
+							(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
+						</a></p>
+					</div>
+				<div class="review_comment clearboth">
+					<?= $favreview["body"] === "" || $favreview["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($favreview["body"]))) ?>
+				</div>
+				<p>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>Users/View?id=<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
+					-
+					<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
+<?php if($favreview["listening_last"] === "today"): ?>
+					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>_30.png" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
+<?php endif; ?>
 			</td>
 		</tr>
 <?php endforeach; ?>
@@ -104,7 +115,6 @@ foreach($pager["nav_list"] as $nav) {
 <?php endif;?>
 		</ul>
 	</div>
-
 
 <?php endif; ?>
 

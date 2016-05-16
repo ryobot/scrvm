@@ -123,7 +123,7 @@ class Albums extends Dao
 	 * @return resultSet
 	 * @throws \Exception
 	 */
-	public function view($id)
+	public function view($id, $user_id = null )
 	{
 		$result = getResultSet();
 		try{
@@ -159,12 +159,28 @@ class Albums extends Dao
 				throw new \Exception("track not found.");
 			}
 			// review内容取得
+			$my_fav_select = "";
+			$my_fav_sql = "";
+			$params = array("album_id" => $album_data["id"],);
+			if ( isset($user_id) ) {
+				$my_fav_select = ",t6.id as my_fav_id";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:uid)";
+				$params["uid"] = $user_id;
+			}
 			$review_data = $this->_Dao->select("
-				SELECT t1.*, t2.username, t2.img_file
+				SELECT
+				t1.*
+				,t3.username,t3.img_file AS user_img_file
+				,count(t5.id) as fav_reviews_count
+				{$my_fav_select}
 				FROM reviews t1
-				INNER JOIN users t2 ON(t1.user_id=t2.id)
-				WHERE t1.album_id=:album_id ORDER BY t1.created DESC",
-				array("album_id" => $album_data["id"],)
+				INNER JOIN users t3 ON(t1.user_id=t3.id)
+				LEFT JOIN favreviews t5 ON(t1.id=t5.review_id)
+				{$my_fav_sql}
+				WHERE t1.album_id=:album_id
+				GROUP BY t1.id
+				ORDER BY t1.created DESC",
+				$params
 			);
 			$result["status"] = true;
 			$result["data"] = array(

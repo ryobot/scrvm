@@ -96,20 +96,6 @@ $sort_links = array(
 
 	<h2>Albums Tag &quot;<?= h($tag) ?>&quot; (<?= h($pager["total_count"]) ?>)</h2>
 
-<?php if( $is_login ): ?>
-<!--	<p class="actions tacenter"><a href="<?= h($base_path) ?>Albums/Add">Add Album</a></p>-->
-<?php endif; ?>
-
-	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums/Tag" method="GET">
-		<input type="hidden" name="tag" value="<?= h($tag) ?>" />
-		<input type="hidden" name="sort" value="<?= h($sort) ?>" />
-		<input type="hidden" name="order" value="<?= h($order) ?>" />
-		<dl class="search">
-			<dt><input type="text" name="artist" id="id_artist" value="<?= h($artist) ?>" placeholder="Artist Filter" /></dt>
-			<dd><input type="submit" value="filter" /></dd>
-		</dl>
-	</form>
-
 <?php if ( count($lists) > 0 ):?>
 
 	<div class="tacenter">

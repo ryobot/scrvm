@@ -219,6 +219,7 @@ li{display:list-item;zoom:normal;}
 .user_menu_list li.reviews:before{ content: url("../img/headphone_icon_mini.png"); }
 .user_menu_list li.fav_tracks:before{ content: url("../img/chk_ylw.png"); }
 .user_menu_list li.fav_albums:before{ content: url("../img/star_ylw.png"); }
+.user_menu_list li.fav_reviews:before{ content: url("../img/fav_on.png"); }
 .user_menu_list li.syncs:before{ content: url("../img/sync_min.png"); }
 
 /* .pagination */
@@ -501,7 +502,10 @@ dl.search dd input[type="submit"]:hover{
 .vtalgbottom{vertical-align:bottom;}
 .bordernone{border:none;}
 .fwnormal{font-weight: normal;}
+.mgr5px{margin-right:5px;}
 .mgt10px{margin-top: 10px;}
 .mgb10px{margin-bottom: 10px;}
 .pdl10px{padding-left:10px;}
 .pdr10px{padding-right:10px;}
+.floatleft{float:left;}
+.clearboth{clear:both;}

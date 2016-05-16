@@ -23,7 +23,7 @@
 				<td>
 					<h4><?= h($post["title"]) ?></h4>
 					<p><?= linkIt(nl2br(h($post["body"]))) ?></p>
-					<p>(<a href="<?= h($base_path) ?>Users/View?id=<?= h($post["user_id"]) ?>"><?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?></a> - <span class="post_date"><?= h(timeAgoInWords($post["created"])) ?></span>)</p>
+					<p><a href="<?= h($base_path) ?>Users/View?id=<?= h($post["user_id"]) ?>"><?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?></a> - <span class="post_date"><?= h( date("Y年m月d日 H時i分",strtotime($post["created"]))) ?></span></p>
 				</td>
 			</tr>
 		</table>

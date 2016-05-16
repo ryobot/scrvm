@@ -49,18 +49,25 @@ class Users extends Dao
 			$syncs_sql = "";
 			$params = array("user_id" => $user_id);
 			if (isset( $login_user_id )) {
-				$syncs_column = "t5.sync_point";
-				$syncs_sql = "LEFT JOIN syncs t5 ON(t1.id=t5.user_id AND t5.user_com_id=:login_user_id) ";
+				$syncs_column = "t6.sync_point";
+				$syncs_sql = "LEFT JOIN syncs t6 ON(t1.id=t6.user_id AND t6.user_com_id=:login_user_id) ";
 				$params["login_user_id"] = $login_user_id;
 			}
-			$data = $this->_Dao->select(
-				 "SELECT t1.*, t2.favtracks_count, t3.favalbums_count, t4.reviews_count, {$syncs_column} "
-				."FROM users t1 "
-				."LEFT JOIN(SELECT user_id,count(id) AS favtracks_count FROM favtracks GROUP BY user_id)t2 ON(t1.id=t2.user_id) "
-				."LEFT JOIN(SELECT user_id,count(id) AS favalbums_count FROM favalbums GROUP BY user_id)t3 ON(t1.id=t3.user_id) "
-				."LEFT JOIN(SELECT user_id,count(id) AS reviews_count   FROM reviews   GROUP BY user_id)t4 ON(t1.id=t4.user_id) "
-				.$syncs_sql
-				."WHERE t1.id=:user_id",
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.favtracks_count
+				,t3.favalbums_count
+				,t4.reviews_count
+				,t5.favreviews_count
+				,{$syncs_column}
+				FROM users t1
+				LEFT JOIN(SELECT user_id,count(id) AS favtracks_count  FROM favtracks  GROUP BY user_id)t2 ON(t1.id=t2.user_id)
+				LEFT JOIN(SELECT user_id,count(id) AS favalbums_count  FROM favalbums  GROUP BY user_id)t3 ON(t1.id=t3.user_id)
+				LEFT JOIN(SELECT user_id,count(id) AS reviews_count    FROM reviews    GROUP BY user_id)t4 ON(t1.id=t4.user_id)
+				LEFT JOIN(SELECT user_id,count(id) AS favreviews_count FROM favreviews GROUP BY user_id)t5 ON(t1.id=t5.user_id)
+				{$syncs_sql}
+				WHERE t1.id=:user_id",
 				$params
 			);
 			$result["status"] = true;

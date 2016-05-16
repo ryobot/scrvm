@@ -42,6 +42,7 @@ foreach($pager["nav_list"] as $nav) {
 					<li class="reviews"><a href="<?= h("{$base_path}Users/View?id={$user_id}") ?>"><?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?></a></li>
 					<li class="fav_tracks"><a href="<?= h("{$base_path}Users/FavTracks?id={$user_id}") ?>"><?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?></a></li>
 					<li class="fav_albums"><a href="<?= h("{$base_path}Users/FavAlbums?id={$user_id}") ?>"><?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?></a></li>
+					<li class="fav_reviews"><a href="<?= h("{$base_path}Users/FavReviews?id={$user_id}") ?>"><?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?></a></li>
 <?php if($is_login && $user_id !== $login_user_data["id"]): ?>
 					<li class="syncs"><a href="<?= h("{$base_path}Users/Syncs?id={$user_id}") ?>"><?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?> pt</a></li>
 <?php endif;?>
@@ -76,33 +77,20 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td>
-				<div>
+				<div class="floatleft mgr5px">
 					<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 				</div>
-				<p>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-						<?= h("{$review["artist"]} / {$review["title"]}") ?>
-						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-					</a>
-				</p>
-				<div class="review_comment">
+				<div>
+					<div>
+						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>
+						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+							<?= h($review["title"]) ?>
+							(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+						</a></p>
+					</div>
+				</div>
+				<div class="review_comment clearboth">
 					<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
-					<p class="tacenter">
-						<span class="fav_reviews_wrapper">
-							<img
-								class="fav_review vtalgmiddle "
-								src="<?= h($base_path) ?>img/fav_off.png"
-								data-img_on="<?= h($base_path) ?>img/fav_on.png"
-								data-img_off="<?= h($base_path) ?>img/fav_off.png"
-								data-review_id="<?= h($review["id"]) ?>"
-								data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-								data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-								alt="fav review"
-								title="fav review"
-							/>
-							<span class="fav_reviews_count"></span>
-						</span>
-					</p>
 				</div>
 				<div>
 					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
@@ -111,6 +99,20 @@ foreach($pager["nav_list"] as $nav) {
 <?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif;?>
+					<span class="fav_reviews_wrapper">
+						<img
+							class="fav_review vtalgmiddle "
+							src="<?= h($base_path) ?>img/fav_off.png"
+							data-img_on="<?= h($base_path) ?>img/fav_on.png"
+							data-img_off="<?= h($base_path) ?>img/fav_off.png"
+							data-review_id="<?= h($review["id"]) ?>"
+							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+							alt="fav review"
+							title="fav review"
+						/>
+						<span class="fav_reviews_count"></span>
+					</span>
 				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions">

@@ -40,8 +40,9 @@ class View extends Base
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
 		// アルバム情報取得
+		$own_user_id = isset($this->_login_user_data["id"]) ? $this->_login_user_data["id"] : null;
 		$DaoAlbums = new DaoAlbums();
-		$view_result = $DaoAlbums->view((int)$id);
+		$view_result = $DaoAlbums->view((int)$id, $own_user_id);
 		if (!$view_result["status"]) {
 			Server::send404Header("not found..");
 			print_r($view_result);
