@@ -42,6 +42,11 @@
 				<table class="w100per">
 					<tr>
 						<td>
+							<p><input type="password" name="current_password" id="id_current_password" value="" placeholder="current password" required="required" /></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
 						</td>
 					</tr>

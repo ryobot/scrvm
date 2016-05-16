@@ -28,6 +28,7 @@ class SavePassword extends Base
 		// POSTパラメータ取得、mb_trim、改行コード統一
 		$post_params = array(
 			"token" => Server::post("token", ""),
+			"current_password" => Server::post("current_password", ""),
 			"password" => Server::post("password", ""),
 			"password_re" => Server::post("password_re", ""),
 		);
@@ -55,6 +56,7 @@ class SavePassword extends Base
 		$save_result = $DaoUsers->savePassword(
 			$this->_login_user_data["id"],
 			$this->_login_user_data["username"],
+			$post_params["current_password"],
 			$post_params["password"]
 		);
 		if ( ! $save_result["status"] ) {
@@ -86,12 +88,16 @@ class SavePassword extends Base
 	{
 		$check_result = getResultSet();
 
+		if ( $post_params["current_password"] === "" ) {
+			$check_result["messages"]["current_password"] = "現在のパスワードが未入力です。";
+		}
+
 		if ( $post_params["password"] === "" ) {
-			$check_result["messages"]["password"] = "password が未入力です。";
+			$check_result["messages"]["password"] = "新しいパスワードが未入力です。";
 		} else if ( mb_strlen($post_params["password"]) > 100 ){
-			$check_result["messages"]["password"] = "password は100文字以内で入力してください。";
+			$check_result["messages"]["password"] = "新しいパスワードは 100 文字以内で入力してください。";
 		} else if ($post_params["password"] !== $post_params["password_re"]) {
-			$check_result["messages"]["password"] = "password が一致しません。";
+			$check_result["messages"]["password"] = "新しいパスワードが一致しません。";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

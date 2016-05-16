@@ -225,17 +225,27 @@ class Users extends Dao
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function savePassword($user_id, $username, $password)
+	public function savePassword($user_id, $username, $current_password, $password)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
-			// 存在チェック user_id
-			$user_result = $this->_Dao->select("SELECT * FROM users WHERE id=:user_id",array("user_id"=>$user_id,));
-			if ( count($user_result) === 0 ) {
-				throw new \Exception("ユーザが存在しません。");
-			}
+			// パスワードチェック
 			$Password = new Password();
+			$current_password_hash = $Password->makePasswordHash(
+				$username,
+				$current_password,
+				$this->_common_ini["password"]["hash_seed"],
+				(int)$this->_common_ini["password"]["hash_count"]
+			);
+
+			// 存在チェック user_id, current_password
+			$user_result = $this->_Dao->select("SELECT * FROM users WHERE id=:uid AND password=:pwd",array("uid"=>$user_id,"pwd" => $current_password_hash));
+			if ( count($user_result) === 0 ) {
+				throw new \Exception("現在のパスワードが一致しません。");
+			}
+
+			// 更新処理
 			$password_hash = $Password->makePasswordHash(
 				$username,
 				$password,
