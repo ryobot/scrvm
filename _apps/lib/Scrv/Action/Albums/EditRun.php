@@ -161,7 +161,7 @@ class EditRun extends Base
 		}
 		$ext = str_replace("image/", "", $imagesize["mime"]);
 
-		// ファイル作成
+		// ファイル作成, 長い方の辺 300px にする
 		$img_file = sha1($tmp_name . mt_rand(10000000, 99999999)) . ".{$ext}";
 		$dir = substr($img_file, 0,4);
 		$img_path = substr($img_file, 4, strlen($img_file));
@@ -178,6 +178,8 @@ class EditRun extends Base
 			$result["messages"]["file"] = "ファイルの移動に失敗しました。";
 			return $result;
 		}
+		// 300px に縮小
+		$Images->makeThumbnail($dir_path.$img_path, $dir_path.$img_path, 300, 300, true);
 
 		$result["status"] = true;
 		$result["data"]["img_path"] = $subdir.$img_path;

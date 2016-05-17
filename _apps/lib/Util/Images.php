@@ -15,13 +15,14 @@ class Images
 {
 	/**
 	 * サムネイル生成
-	 * @param type $src 対象画像ファイルパス
-	 * @param type $dest 保存先ファイルパス
-	 * @param type $width 伸張する幅
-	 * @param type $height 伸張する高さ
+	 * @param string $src 対象画像ファイルパス
+	 * @param string $dest 保存先ファイルパス
+	 * @param int $width 伸張する幅
+	 * @param int $height 伸張する高さ
+	 * @param bool $auto 長辺に合わせて自動リサイズするかどうか
 	 * @return boolean
 	 */
-	public function makeThumbnail($src, $dest, $width, $height)
+	public function makeThumbnail($src, $dest, $width, $height, $auto=false)
 	{
 		$imagesize = getimagesize($src);
 		if ( $imagesize === false ) {
@@ -39,6 +40,11 @@ class Images
 		}
 
 		// リサイズ
+		if ($auto) {
+			$auto_resize = $this->getAutoSize($src_width, $src_height, $width, $height);
+			$width = $auto_resize["width"];
+			$height = $auto_resize["height"];
+		}
 		$dest_gd = imagecreatetruecolor($width, $height);
 		imagealphablending($dest_gd, false);	// 透過対応
 		imagesavealpha($dest_gd, true);	// 透過対応
@@ -46,6 +52,23 @@ class Images
 
 		// 出力
 		return call_user_func("image{$src_ext}", $dest_gd, $dest);
+	}
+
+	/**
+	 * 縦横幅を自動調整したwdth,heightを返す
+	 * @param integer $src_w 元ファイル幅
+	 * @param integer $src_h 元ファイル高さ
+	 * @param integer $resize_w リサイズ用幅
+	 * @param integer $resize_h リサイズ用高さ
+	 * @return array
+	 */
+	public function getAutoSize($src_w, $src_h, $resize_w, $resize_h)
+	{
+		$per = ( $resize_w <= $resize_h ) ? ( $resize_w / $src_w ) : ( $resize_h / $src_h );
+		return array(
+			"width" => ceil( $src_w * $per ),
+			"height" => ceil( $src_h * $per ),
+		);
 	}
 
 	/**

@@ -168,34 +168,13 @@ class Save extends Base
 		}
 
 		// サムネイル作成
-		$src_w = $imagesize[0];
-		$src_h = $imagesize[1];
-		$resize_80 = $this->_getAutoSize($src_w, $src_h, 80, 80);
-		$resize_150 = $this->_getAutoSize($src_w, $src_h, 150, 150);
 		$Images = new Images();
-		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb80_user.{$ext}", $resize_80["width"], $resize_80["height"]);
-		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb150_user.{$ext}", $resize_150["width"], $resize_150["height"]);
+		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb80_user.{$ext}", 80, 80, true);
+		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb150_user.{$ext}", 150, 150, true);
 
 		$result["status"] = true;
 		$result["data"]["img_file"] = "{$sub_dir}user.{$ext}";
 		return $result;
-	}
-
-	/**
-	 * 縦横幅を自動調整したwdth,heightを返す
-	 * @param integer $src_w 元ファイル幅
-	 * @param integer $src_h 元ファイル高さ
-	 * @param integer $resize_w リサイズ用幅
-	 * @param integer $resize_h リサイズ用高さ
-	 * @return array
-	 */
-	private function _getAutoSize($src_w, $src_h, $resize_w, $resize_h)
-	{
-		$per = ( $resize_w <= $resize_h ) ? ( $resize_h / $src_h ) : ( $resize_w / $src_w );
-		return array(
-			"width" => ceil( $src_w * $per ),
-			"height" => ceil( $src_h * $per ),
-		);
 	}
 
 }
