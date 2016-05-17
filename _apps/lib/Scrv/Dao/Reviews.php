@@ -76,7 +76,7 @@ class Reviews extends Dao
 			$params = array();
 			if ( isset($user_id) ) {
 				$my_fav_select = ",t6.id as my_fav_id";
-				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t5.id=t6.id AND t1.id=t6.review_id AND t5.user_id=:uid)";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:uid)";
 				$params = array("uid" => $user_id);
 			}
 			$data = $this->_Dao->select("
