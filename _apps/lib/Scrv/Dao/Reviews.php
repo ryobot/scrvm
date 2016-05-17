@@ -124,7 +124,7 @@ class Reviews extends Dao
 			$params = array("id" => $id,);
 			if ( isset($user_id) ) {
 				$my_fav_select = ",t6.id as my_fav_id";
-				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t5.id=t6.id AND t1.id=t6.review_id AND t5.user_id=:uid)";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:uid)";
 				$params["uid"] = $user_id;
 			}
 			$data = $this->_Dao->select("
@@ -172,7 +172,7 @@ class Reviews extends Dao
 			$params = array("user_id" => $user_id,);
 			if ( isset($own_user_id) ) {
 				$my_fav_select = ",t6.id as my_fav_id";
-				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t5.id=t6.id AND t1.id=t6.review_id AND t5.user_id=:ouid)";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:ouid)";
 				$params["ouid"] = $own_user_id;
 			}
 			$data = $this->_Dao->select("
@@ -218,7 +218,7 @@ class Reviews extends Dao
 			$params = array("user_id" => $user_id,);
 			if ( isset($own_user_id) ) {
 				$my_fav_select = ",t6.id as my_fav_id";
-				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t5.id=t6.id AND t1.id=t6.review_id AND t5.user_id=:ouid)";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:ouid)";
 				$params["ouid"] = $own_user_id;
 			}
 			$data = $this->_Dao->select("
@@ -226,6 +226,7 @@ class Reviews extends Dao
 				t1.*
 				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
 				,t3.username,t3.img_file as user_img_file
+				,count(t5.id) as fav_reviews_count
 				{$my_fav_select}
 				FROM reviews t1
 				INNER JOIN albums t2 ON (t1.album_id=t2.id)
