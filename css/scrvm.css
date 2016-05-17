@@ -126,14 +126,14 @@ li{display:list-item;zoom:normal;}
 /*------------*/
 .menu{
 	margin:0;
-	padding:5px;
+	padding:0;
 	width:100%;
 	display: table;
 	background:rgba(255,255,255,0.5);
 }
 .menu_block{
 	margin:0;
-	padding:5px 0;
+	padding:0;
 	width:25%;
 	text-align: center;
 	display: table-cell;
@@ -158,7 +158,7 @@ li{display:list-item;zoom:normal;}
 }
 .dropmenu li{
 	background: #0066cc;
-	padding:5px;
+	padding:10px 5px;
 }
 .dropmenu li:hover{
   background: #0099CC;
@@ -251,17 +251,12 @@ li{display:list-item;zoom:normal;}
 }
 
 /* .user_menu_list */
-.user_menu_list {
-    vertical-align: middle;
-}
-.user_menu_list li {
-    display: inline-block;
-}
-.user_menu_list li.reviews:before{ content: url("../img/headphone_icon_mini.png"); }
-.user_menu_list li.fav_tracks:before{ content: url("../img/chk_ylw.png"); }
-.user_menu_list li.fav_albums:before{ content: url("../img/star_ylw.png"); }
-.user_menu_list li.fav_reviews:before{ content: url("../img/fav_on.png"); }
-.user_menu_list li.syncs:before{ content: url("../img/sync_min.png"); }
+.user_menu_list {padding:10px 0}
+.user_menu_list a.reviews:before{ content: url("../img/reviews_16.png"); }
+.user_menu_list a.fav_tracks:before{ content: url("../img/check_16.png"); }
+.user_menu_list a.fav_albums:before{ content: url("../img/star_16.png"); }
+.user_menu_list a.fav_reviews:before{ content: url("../img/fav_on.png"); }
+.user_menu_list a.syncs:before{ content: url("../img/sync_16.png"); }
 
 /* .pagination */
 ul.pagination {
@@ -502,7 +497,7 @@ dl.search dd input[type="submit"]:hover{
 	color:#393;
 }
 
-/*----------------------*/
+/*-----------*/
 .about_content{
     padding: 5px 20px 20px;
     font-weight: bold;
@@ -512,7 +507,7 @@ dl.search dd input[type="submit"]:hover{
     font-weight: normal;
 }
 
-/*----------------------*/
+/*-----------*/
 #id_itunes_search_results{
 	display: none;
 	overflow: hidden;
@@ -522,7 +517,7 @@ dl.search dd input[type="submit"]:hover{
 	overflow: hidden;
 }
 
-/*----------------------*/
+/*-----------*/
 .w100per{width:100%;}
 .w50per{width:50%;}
 .w25per{width:25%;}
@@ -538,6 +533,8 @@ dl.search dd input[type="submit"]:hover{
 .bgfff{background-color: #FFF;}
 .bgtrsp{background-color: transparent;}
 .displaynone{display: none;}
+.displaytable{display: table;}
+.displaytablecell{display: table-cell;}
 .vtalgtop{vertical-align:top;}
 .vtalgmiddle{vertical-align:middle;}
 .vtalgbottom{vertical-align:bottom;}

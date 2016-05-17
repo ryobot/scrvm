@@ -4,8 +4,9 @@
  * @author mgng
  */
 
-$review_title = "{$review["artist"]} / {$review["title"]} (".
-		(isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown") . ") - by {$review["username"]}";
+$year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown";
+$review_title = "{$review["artist"]} / {$review["title"]} ({$year}) - by {$review["username"]}";
+$album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
 
 ?>
 <!doctype html>
@@ -13,6 +14,8 @@ $review_title = "{$review["artist"]} / {$review["title"]} (".
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($review_title) ?> | <?= h($base_title) ?> :: Reviews</title>
+<?php require __DIR__ . '/../_parts/ogp.tpl.php'; ?>
+<?php require __DIR__ . '/../_parts/twitter_cards.tpl.php'; ?>
 </head>
 <body>
 
@@ -25,7 +28,7 @@ $review_title = "{$review["artist"]} / {$review["title"]} (".
 
 		<p>
 			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-				<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+				<img class="album_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 			</a>
 		</p>
 		<div class="review_comment">

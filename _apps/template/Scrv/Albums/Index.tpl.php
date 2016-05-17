@@ -170,7 +170,8 @@ $sort_links = array(
 <?php if($album["reviews"] > 0): ?>
 				<p>
 					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-						<img src="<?= h($base_path) ?>img/headphone_icon_mini.png" alt="reviews" /><?= h($album["reviews"]) ?>
+						<img src="<?= h($base_path) ?>img/reviews_16.png" alt="reviews" />
+						<span class="vtalgmiddle"><?= h($album["reviews"]) ?></span>
 					</a>
 				</p>
 <?php endif;?>

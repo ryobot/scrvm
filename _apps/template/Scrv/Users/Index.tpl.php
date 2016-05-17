@@ -65,8 +65,6 @@ $sort_links = array(
 	),
 );
 
-
-
 ?>
 <!doctype html>
 <html lang="ja">
@@ -121,20 +119,27 @@ $sort_links = array(
 <?php endif;?>
 				</td>
 				<td>
-					<p><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></p>
-					<ul class="user_menu_list">
+					<p>
+						<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
+					</p>
+					<div class="user_menu_list displaytable">
 <?php if($list["review_count"] > 0): ?>
-						<li class="reviews"><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a></li>
+						<div class="displaytablecell">
+							<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a>
+							&nbsp;&nbsp;
+						</div>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-						<li class="syncs"><a href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a></li>
+						<div class="displaytablecell">
+							<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a>
+						</div>
 <?php endif; ?>
-					</ul>
+					</div>
 <?php if(isset($list["has_invited_user_id"])): ?>
-					<p>
-						(invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
-						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />)
-					</p>
+					<div>
+						&laquo; invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
+					</div>
 <?php endif; ?>
 				</td>
 			</tr>

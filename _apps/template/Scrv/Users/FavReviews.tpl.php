@@ -57,17 +57,19 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($favreviews as $favreview): ?>
 		<tr>
 			<td>
-				<div class="floatleft mgr5px">
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["id"]) ?>"><img class="album_cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
-				</div>
-				<div>
+				<div class="displaytable">
+					<div class="displaytablecell w80px">
+						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["id"]) ?>"><img class="album_cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
+					</div>
+					<div class="displaytablecell vtalgmiddle">
 						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($favreview["artist"]) ?>"><?= h($favreview["artist"]) ?></a>
 						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["album_id"]) ?>">
 							<?= h($favreview["title"]) ?>
 							(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
 						</a></p>
 					</div>
-				<div class="review_comment clearboth">
+				</div>
+				<div class="review_comment">
 					<?= $favreview["body"] === "" || $favreview["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($favreview["body"]))) ?>
 				</div>
 				<p>

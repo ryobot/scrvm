@@ -57,11 +57,11 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td>
-				<div class="floatleft mgr5px">
-					<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-				</div>
-				<div>
-					<div>
+				<div class="displaytable">
+					<div class="displaytablecell w80px">
+						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+					</div>
+					<div class="displaytablecell vtalgmiddle">
 						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>
 						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
 							<?= h($review["title"]) ?>
@@ -69,7 +69,7 @@ foreach($pager["nav_list"] as $nav) {
 						</a></p>
 					</div>
 				</div>
-				<div class="review_comment clearboth">
+				<div class="review_comment">
 					<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
 				</div>
 				<div>

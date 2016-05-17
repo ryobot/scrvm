@@ -53,19 +53,21 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($reviews as $review): ?>
 		<tr>
 			<td>
-				<div class="floatleft mgr5px">
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-					</a>
+				<div class="displaytable w100per">
+					<div class="displaytablecell w80px">
+						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+							<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+						</a>
+					</div>
+					<div class="displaytablecell vtalgmiddle">
+						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>
+						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+							<?= h($review["title"]) ?>
+							(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+						</a></p>
+					</div>
 				</div>
-				<div>
-					<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>
-					<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-						<?= h($review["title"]) ?>
-						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-					</a></p>
-				</div>
-				<div class="review_comment clearboth">
+				<div class="review_comment">
 					<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
 				</div>
 				<p>
@@ -100,6 +102,7 @@ foreach($pager["nav_list"] as $nav) {
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>
 <?php endif;?>
+
 			</td>
 		</tr>
 <?php endforeach; ?>

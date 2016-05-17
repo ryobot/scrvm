@@ -1,8 +1,12 @@
-
-<meta name="twitter:card" value="summary" />
+<?php
+/**
+ * twitter_cards.tpl.php
+ * @author mgng
+ */
+?>
+<!-- twitter cards -->
+<meta name="twitter:card" value="summary_large_image" />
 <meta name="twitter:site" value="@ryobotnotabot" />
-<meta name="twitter:creator" value="@ryobotnotabot" />
-<meta name="twitter:url" value="http://syncreview.net/" />
-<meta name="twitter:title" value="サイトタイトル" />
-<meta name="twitter:description" value="このページの概要" />
-<meta name="twitter:image" value="画像リンク" />
+<meta name="twitter:title" value="<?= h($review_title) ?>" />
+<meta name="twitter:description" content="<?= h($review["body"]) ?>" />
+<meta name="twitter:image:src" content="<?= h(\lib\Util\Server::getFullHostUrl() . $album_image_path) ?>" />
