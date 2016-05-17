@@ -15,6 +15,7 @@
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2>Edit Your Review</h2>
 
@@ -54,6 +55,7 @@
 		</p>
 	</form>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

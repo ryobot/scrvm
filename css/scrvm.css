@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/*----------------------*/
+/*------------*/
 *{
 	margin:0;padding:0;
 	-webkit-box-sizing: border-box;
@@ -75,24 +75,25 @@ img.album_view_cover {width: 120px;}
 ul,ol,dl{list-style:none;}
 li{display:list-item;zoom:normal;}
 
-/*----------------------*/
-#container{padding:5px;}
+/*------------*/
+#container{
+	margin:0;
+	padding:0;
+}
 
-/*----------------------*/
-/* .header */
-.header{padding:0.2em;margin: 0;margin-bottom:15px;}
-.header ul:after {
-	content:"";
-	clear:both;
-	display:block;
+/*------------*/
+.header{
+	padding:5px;
+	margin: 0;
+	width:100%;
+	display:table;
 }
-.header ul li {
-	display:block;
-	float:left;
-	height:auto;
-	list-style-type:none;
+.header_block{
+	display: table-cell;
+	width:50%;
+	margin:0;
+	padding:0;
 }
-.header ul li {width:50%;}
 .header_title{
     font-size:100%;
     background-image: url("../img/headphone_icon_S.png");
@@ -106,28 +107,68 @@ li{display:list-item;zoom:normal;}
 }
 .header_title a{text-decoration: none;}
 
-/* .menu */
+/*------------*/
+.footer{
+	padding:5px;
+}
+
+/*------------*/
+.copyright{
+	text-align: right;
+	font-style: italic;
+}
+
+/*------------*/
+.contents{
+	padding:5px;
+}
+
+/*------------*/
 .menu{
-	margin: 0px -5px 10px;
-	/*border-top: 1px solid #EEE;*/
-                  /*border-bottom: 1px solid #EEE;*/
-	/*background-color: #EEE;*/
+	margin:0;
+	padding:5px;
+	width:100%;
+	display: table;
+	background:rgba(255,255,255,0.5);
 }
-.menu ul:after {
-	content:"";
-	clear:both;
-	display:block;
+.menu_block{
+	margin:0;
+	padding:5px 0;
+	width:25%;
+	text-align: center;
+	display: table-cell;
 }
-.menu ul li {
-	display:block;
-	float:left;
-	height:auto;
-	list-style-type:none;
-	text-align:center;
+
+/*------------*/
+#dropmenu_normal{
+	cursor:pointer;
 }
-.menu ul li {width:25%;}
-.menu ul li:hover {}
-.menu ul li a {text-decoration: none;}
+.dropmenu{
+  *zoom: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+	display:none;
+	position:relative;
+}
+.dropmenu ul{
+	position: absolute;
+	right : 0;
+	margin : 0;
+}
+.dropmenu li{
+	background: #0066cc;
+	padding:5px;
+}
+.dropmenu li:hover{
+  background: #0099CC;
+}
+.dropmenu li a{
+	color:#FFF;
+}
+.dropmenu li a:hover{
+	text-decoration: none;
+}
 
 /* .tabs */
 .search_tab ul.tab {
@@ -509,3 +550,5 @@ dl.search dd input[type="submit"]:hover{
 .pdr10px{padding-right:10px;}
 .floatleft{float:left;}
 .clearboth{clear:both;}
+.cursorpointer{cursor:pointer};
+.textdeconone{text-decoration: none;}

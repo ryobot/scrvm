@@ -29,6 +29,7 @@ foreach($pager["nav_list"] as $nav) {
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2><?= h($user["username"]) ?></h2>
 
@@ -84,6 +85,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php endif; ?>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

@@ -78,6 +78,7 @@ $sort_links = array(
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2>Users (<?= h($lists_count) ?>)</h2>
 
@@ -157,6 +158,7 @@ $sort_links = array(
 
 <?php endif; ?>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

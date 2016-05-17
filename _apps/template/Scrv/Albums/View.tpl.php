@@ -18,6 +18,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2><?= h($view_title) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
 
@@ -156,6 +157,7 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	<p id="id_itunes_search_results"></p>
 	<p id="id_gpm_search_results"></p>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

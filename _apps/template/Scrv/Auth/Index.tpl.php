@@ -15,6 +15,7 @@
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2>Login</h2>
 
@@ -34,6 +35,7 @@
 		<p class="actions"><input type="submit" value="login" /></p>
 	</form>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

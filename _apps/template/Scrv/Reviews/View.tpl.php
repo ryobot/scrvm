@@ -19,6 +19,7 @@ $review_title = "{$review["artist"]} / {$review["title"]} (".
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2><?= h($review_title) ?></h2>
 
@@ -53,7 +54,10 @@ $review_title = "{$review["artist"]} / {$review["title"]} (".
 				<span class="fav_reviews_count"></span>
 			</span>
 		</p>
+
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
+
 </div>
 
 <script>

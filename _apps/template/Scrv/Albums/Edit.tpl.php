@@ -15,6 +15,7 @@
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2>Edit Album</h2>
 
@@ -73,6 +74,7 @@
 		<p class="actions tacenter"><input type="submit" value=" save " id="id_save" /></p>
 	</form>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

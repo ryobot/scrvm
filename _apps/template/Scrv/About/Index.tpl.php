@@ -16,6 +16,8 @@
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
+<div class="contents">
+
 	<h2>About</h2>
 	<div class="about_content">
 		<h4>音楽鑑賞日記-共有版です。</h4>
@@ -44,6 +46,8 @@
 	<div class="about_content">
 		<p>右上 user の「edit」 &gt; 招待リンク生成 &gt; メールに貼って友達に送る。</p>
 	</div>
+
+</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

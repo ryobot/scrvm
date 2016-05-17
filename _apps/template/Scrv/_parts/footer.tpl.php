@@ -5,7 +5,7 @@
  */
 ?>
 
-<div id="footer" class="taright">
+<div class="footer">
 	<p class="copyright"><?= date("Y", $now_timestamp) ?> <?= h($base_title) ?></p>
 </div>
 

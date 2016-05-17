@@ -15,6 +15,7 @@
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
+<div class="contents">
 
 	<h2>Add Album</h2>
 
@@ -58,6 +59,7 @@
 		<p class="actions tacenter"><input type="submit" value=" add album " /></p>
 	</form>
 
+</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
@@ -104,7 +106,7 @@
 			for(var i=0,len=json.length; i<len; i++) {
 				var artist = json[i].artist,
 				title = json[i].title,
-				year = json[i].year === "" ? "unknown" : json[i].year,
+				year = json[i].year === "" || json[i].year === 0 ? "unknown" : json[i].year,
 				tracks = json[i].tracks,
 				track_list = [];
 				for(var k=0,n=tracks.length; k<n; k++) {
@@ -124,7 +126,7 @@
 							var cache_data = cache_search_result[cache_index];
 							$("#id_add_artist").val(cache_data["artist"]);
 							$("#id_add_title").val(cache_data["title"]);
-							$("#id_add_year").val(cache_data["year"]);
+							$("#id_add_year").val(cache_data["year"] === "" || cache_data["year"] === 0 ? "" : cache_data["year"]);
 							setTracks(cache_data["tracks"]);
 							$("#id_Albums_SearchArtist_result").html("");
 							$("#id_Albums_AddRun").show();
@@ -208,7 +210,7 @@
 						id :"id_add_track_"+index,
 						value : tracks[i]
 					})),
-					$("<td />").append(
+					$("<td class='actions' />").append(
 						$("<button />").attr({"data-track_num":index}).text("del").on("click.js", function(){
 							// 現在表示されているtrack textで配列を再作成
 							tmp_tracks = [].concat([]);
@@ -225,6 +227,7 @@
 							}
 							return false;
 						}),
+						$("<span>&nbsp;</span>"),
 						$("<button />").attr({"data-track_num":index}).text("add").on("click.js", function(){
 							// 現在表示されているtrack textで配列を再作成
 							tmp_tracks = [].concat([]);
