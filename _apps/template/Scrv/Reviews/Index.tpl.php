@@ -35,6 +35,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if(count($reviews) > 0):?>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
@@ -49,10 +50,9 @@ foreach($pager["nav_list"] as $nav) {
 		</ul>
 	</div>
 
-	<table class="w100per every_other_row_odd">
+	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<tr>
-			<td>
+		<div class="review">
 				<div class="displaytable w100per">
 					<div class="displaytablecell w80px">
 						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
@@ -102,12 +102,11 @@ foreach($pager["nav_list"] as $nav) {
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>
 <?php endif;?>
-
-			</td>
-		</tr>
+		</div>
 <?php endforeach; ?>
-	</table>
+	</div>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>

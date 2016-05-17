@@ -52,6 +52,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if(count($lists) > 0): ?>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
@@ -66,37 +67,35 @@ foreach($pager["nav_list"] as $nav) {
 		</ul>
 	</div>
 
-	<div class="lists">
-		<table class="w100per every_other_row_odd">
+	<!-- posts -->
+	<div class="lists w100per">
 <?php foreach($lists as $list): ?>
-			<tr>
-				<td>
-					<h4><?= h($list["title"]) ?></h4>
-					<p class="post_body"><?= linkIt(nl2br(h($list["body"]))) ?></p>
+		<div class="post">
+			<h4><?= h($list["title"]) ?></h4>
+			<p class="post_body"><?= linkIt(nl2br(h($list["body"]))) ?></p>
 <?php if(isset($list["reply_id"])): ?>
 <!--					<div>
 						<p><a class="post_reply_source" href="<?= h($base_path) ?>Posts/View?id=<?= h($list["reply_id"]) ?>&amp;type=json">返信元</a></p>
 					</div>-->
 <?php endif;?>
 <?php if($is_login ): ?>
-					<p><span
-						class="post_reply"
-						data-reply_id="<?= h($list["id"]) ?>"
-						data-reply_title="<?= h($list["title"]) ?>"
-						data-reply_body="<?= h($list["body"]) ?>"
-					>返信</span></p>
+			<p><span
+				class="post_reply"
+				data-reply_id="<?= h($list["id"]) ?>"
+				data-reply_title="<?= h($list["title"]) ?>"
+				data-reply_body="<?= h($list["body"]) ?>"
+			>返信</span></p>
 <?php endif; ?>
-					<p>
-						(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a>
-						-
-						<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>)
-					</p>
-				</td>
-			</tr>
+			<p>
+				(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a>
+				-
+				<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>)
+			</p>
+		</div>
 <?php endforeach; unset($list) ?>
-		</table>
 	</div>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>

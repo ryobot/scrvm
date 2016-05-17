@@ -38,6 +38,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if (count($reviews) > 0): ?>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
@@ -53,10 +54,9 @@ foreach($pager["nav_list"] as $nav) {
 	</div>
 
 	<!-- reviews -->
-	<table class="w100per every_other_row_odd">
+	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<tr>
-			<td>
+		<div class="review">
 				<div class="displaytable">
 					<div class="displaytablecell w80px">
 						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
@@ -100,10 +100,9 @@ foreach($pager["nav_list"] as $nav) {
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>
 <?php endif;?>
-			</td>
-		</tr>
+		</div>
 <?php		endforeach; ?>
-	</table>
+	</div>
 
 	<div class="tacenter">
 		<ul class="pagination">

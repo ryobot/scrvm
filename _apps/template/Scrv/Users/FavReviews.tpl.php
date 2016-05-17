@@ -53,10 +53,10 @@ foreach($pager["nav_list"] as $nav) {
 		</ul>
 	</div>
 
-	<table class="w100per every_other_row_odd">
+	<!-- reviews -->
+	<div class="w100per">
 <?php foreach($favreviews as $favreview): ?>
-		<tr>
-			<td>
+		<div class="review">
 				<div class="displaytable">
 					<div class="displaytablecell w80px">
 						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favreview["id"]) ?>"><img class="album_cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
@@ -80,10 +80,9 @@ foreach($pager["nav_list"] as $nav) {
 <?php if($favreview["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>_30.png" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
 <?php endif; ?>
-			</td>
-		</tr>
+		</div>
 <?php endforeach; ?>
-	</table>
+	</div>
 
 	<div class="tacenter">
 		<ul class="pagination">

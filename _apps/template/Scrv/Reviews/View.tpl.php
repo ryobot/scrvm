@@ -26,6 +26,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 
 	<h2><?= h($review_title) ?></h2>
 
+	<div class="review">
 		<p>
 			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
 				<img class="album_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
@@ -57,6 +58,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 				<span class="fav_reviews_count"></span>
 			</span>
 		</p>
+	</div>
 
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

@@ -18,16 +18,12 @@
 
 	<h2>Posts (id:<?= h($id) ?>)</h2>
 
-	<div class="lists">
-		<table class="w100per every_other_row_odd">
-			<tr>
-				<td>
-					<h4><?= h($post["title"]) ?></h4>
-					<p><?= linkIt(nl2br(h($post["body"]))) ?></p>
-					<p><a href="<?= h($base_path) ?>Users/View?id=<?= h($post["user_id"]) ?>"><?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?></a> - <span class="post_date"><?= h( date("Y年m月d日 H時i分",strtotime($post["created"]))) ?></span></p>
-				</td>
-			</tr>
-		</table>
+	<div class="lists w100per">
+		<div class="post">
+			<h4><?= h($post["title"]) ?></h4>
+			<p><?= linkIt(nl2br(h($post["body"]))) ?></p>
+			<p><a href="<?= h($base_path) ?>Users/View?id=<?= h($post["user_id"]) ?>"><?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?></a> - <span class="post_date"><?= h( date("Y年m月d日 H時i分",strtotime($post["created"]))) ?></span></p>
+		</div>
 	</div>
 
 </div>

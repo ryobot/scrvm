@@ -111,11 +111,10 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <?php if($is_login): ?>
 	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
-	<table class="w100per every_other_row_odd">
+	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<tr>
-			<td>
-				<p class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
+		<div class="review">
+				<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
 				<p>
 					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
@@ -149,10 +148,9 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>
 <?php endif;?>
-			</td>
-		</tr>
+		</div>
 <?php endforeach; ?>
-	</table>
+	</div>
 
 	<p id="id_itunes_search_results"></p>
 	<p id="id_gpm_search_results"></p>
