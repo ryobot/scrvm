@@ -143,6 +143,7 @@ $sort_links = array(
 		</ul>
 	</div>
 
+	<!-- album lists -->
 	<table class="w100per every_other_row_even">
 		<tr>
 			<td class="w80px"></td>
@@ -170,7 +171,7 @@ $sort_links = array(
 <?php if($album["reviews"] > 0): ?>
 				<p>
 					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-						<img src="<?= h($base_path) ?>img/reviews_16.png" alt="reviews" />
+						<img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" />
 						<span class="vtalgmiddle"><?= h($album["reviews"]) ?></span>
 					</a>
 				</p>

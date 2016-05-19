@@ -52,7 +52,7 @@ hr{
 }
 
 textarea{
-	width:90%;
+	width:100%;
 	height:8em;
 	font-size:100%;
 	font-family:transparent;
@@ -66,7 +66,7 @@ input[type="text"],input[type="password"], textarea{
 	font-family: "frutiger linotype","lucida grande","verdana",sans-serif;
 	font-size: 100%;
 	padding: 1%;
-	width: 97%;
+	width: 100%;
 }
 
 img{max-width: 100%; vertical-align: middle;}
@@ -130,6 +130,10 @@ li{display:list-item;zoom:normal;}
 	width:100%;
 	display: table;
 	background:rgba(255,255,255,0.5);
+}
+.menu img{
+	width:16px;
+	height:16px;
 }
 .menu_block{
 	margin:0;
@@ -252,11 +256,6 @@ li{display:list-item;zoom:normal;}
 
 /* .user_menu_list */
 .user_menu_list {padding:10px 0}
-.user_menu_list a.reviews:before{ content: url("../img/reviews_16.png"); }
-.user_menu_list a.fav_tracks:before{ content: url("../img/check_16.png"); }
-.user_menu_list a.fav_albums:before{ content: url("../img/star_16.png"); }
-.user_menu_list a.fav_reviews:before{ content: url("../img/fav_on.png"); }
-.user_menu_list a.syncs:before{ content: url("../img/sync_16.png"); }
 
 /* .pagination */
 ul.pagination {
@@ -375,8 +374,10 @@ dl.search dd input[type="submit"]:hover{
 .user_photo{height:65px;border-radius: 5px;}
 .user_photo_min{height:30px;border-radius: 3px;}
 .user_profile{
-	background: rgba(230,230,230,0.5);
-	border-bottom:1px solid #CCC;
+	background: rgba(255,255,255,0.7);
+	border:1px solid #CCC;
+	padding:5px;
+	border-radius: 5px;
 }
 
 /* .review */
@@ -394,7 +395,7 @@ dl.search dd input[type="submit"]:hover{
 /* .fav_ */
 .fav_album{cursor: pointer;}
 .fav_track{cursor: pointer;}
-.fav_review{cursor: pointer;}
+.fav_review{cursor: pointer; width:16px; height:16px;}
 
 /* .album_ */
 .album_search_result{
@@ -555,6 +556,7 @@ dl.search dd input[type="submit"]:hover{
 .bordernone{border:none;}
 .fwnormal{font-weight: normal;}
 .mgr5px{margin-right:5px;}
+.mgb5px{margin-bottom: 5px;}
 .mgt10px{margin-top: 10px;}
 .mgb10px{margin-bottom: 10px;}
 .pdl10px{padding-left:10px;}
@@ -563,3 +565,5 @@ dl.search dd input[type="submit"]:hover{
 .clearboth{clear:both;}
 .cursorpointer{cursor:pointer};
 .textdeconone{text-decoration: none;}
+.img16x16{width:16px; height:16px;}
+.img32x32{width:32px; height:32px;}

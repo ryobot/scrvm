@@ -76,14 +76,14 @@ foreach($pager["nav_list"] as $nav) {
 					-
 					<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a></span>
 <?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 					<span class="fav_reviews_wrapper">
 						<img
-							class="fav_review vtalgmiddle "
-							src="<?= h($base_path) ?>img/fav_off.png"
-							data-img_on="<?= h($base_path) ?>img/fav_on.png"
-							data-img_off="<?= h($base_path) ?>img/fav_off.png"
+							class="fav_review vtalgmiddle img16x16"
+							src="<?= h($base_path) ?>img/fav_off.svg"
+							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
 							data-review_id="<?= h($review["id"]) ?>"
 							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
 							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
@@ -94,7 +94,12 @@ foreach($pager["nav_list"] as $nav) {
 					</span>
 				</p>
 <?php if( $review["reviews_count"] - 1 > 0 ): ?>
-				<p class="taright"><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">&raquo; other <?= $review["reviews_count"] - 1 ?> review<?= $review["reviews_count"] - 1 > 1 ? "s" : "" ?></a></p>
+				<p class="taright">
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+						<span class="vtalgmiddle">&raquo; other <?= $review["reviews_count"] - 1 ?></span>
+						<img src="<?= h($base_path) ?>img/reviews.svg" width="16px" height="16px" alt="reviews" />
+					</a>
+				</p>
 <?php endif; ?>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
 				<p class="actions">

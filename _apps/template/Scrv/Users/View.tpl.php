@@ -77,14 +77,14 @@ foreach($pager["nav_list"] as $nav) {
 						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 					</a>
 <?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif;?>
 					<span class="fav_reviews_wrapper">
 						<img
-							class="fav_review vtalgmiddle "
-							src="<?= h($base_path) ?>img/fav_off.png"
-							data-img_on="<?= h($base_path) ?>img/fav_on.png"
-							data-img_off="<?= h($base_path) ?>img/fav_off.png"
+							class="fav_review vtalgmiddle img16x16"
+							src="<?= h($base_path) ?>img/fav_off.svg"
+							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
 							data-review_id="<?= h($review["id"]) ?>"
 							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
 							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"

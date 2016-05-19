@@ -78,7 +78,7 @@ foreach($pager["nav_list"] as $nav) {
 					-
 					<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
 <?php if($favreview["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>_30.png" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
+					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
 <?php endif; ?>
 <!--					<span class="fav_reviews_wrapper">
 						<img

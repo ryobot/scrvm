@@ -99,41 +99,48 @@ $sort_links = array(
 
 	<!-- user lists -->
 	<div class="lists">
-		<table class="w100per every_other_row_even">
-			<tr>
-				<td></td>
-				<td>
-					<a href="<?= h($sort_links["username"]["link"]) ?>"><?= h($sort_links["username"]["text"]) ?></a>
-					/
-					<a href="<?= h($sort_links["review_count"]["link"]) ?>"><?= h($sort_links["review_count"]["text"]) ?></a>
+
+		<!-- sort -->
+		<div class="displaytable w100per">
+			<div class="displaytablecell w80px"></div>
+			<div class="displaytablecell">
+				<a href="<?= h($sort_links["username"]["link"]) ?>"><?= h($sort_links["username"]["text"]) ?></a>
+				/
+				<a href="<?= h($sort_links["review_count"]["link"]) ?>"><?= h($sort_links["review_count"]["text"]) ?></a>
 <?php if($is_login):?>
-					/
-					<a href="<?= h($sort_links["sync_point"]["link"]) ?>"><?= h($sort_links["sync_point"]["text"]) ?></a>
+				/
+				<a href="<?= h($sort_links["sync_point"]["link"]) ?>"><?= h($sort_links["sync_point"]["text"]) ?></a>
 <?php endif; ?>
-				</td>
-			</tr>
+			</div>
+		</div>
+
+		<!-- lists -->
 <?php foreach($lists as $list): ?>
-			<tr>
-				<td class="w80px tacenter vtalgmiddle">
-					<p><a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a></p>
-<?php if($is_login && $login_user_data["id"] === $list["id"]):?>
-					<p class="actions"><a href="<?= h($_base_url) ?>/Edit">Edit</a></p>
-<?php endif;?>
-				</td>
-				<td>
-					<p>
-						<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
-					</p>
-					<div class="user_menu_list displaytable">
+		<div class="w100per user_profile mgb5px">
+			<div>
+				<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
+			</div>
+			<div class="displaytable w100per">
+				<div class="displaytable w80px">
+					<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
+				</div>
+				<div class="displaytablecell w100per vtalgtop">
+					<div class="displaytable">
 <?php if($list["review_count"] > 0): ?>
 						<div class="displaytablecell">
-							<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["review_count"]) ?></a>
+							<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>">
+								<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+								<?= h($list["review_count"]) ?>
+							</a>
 							&nbsp;&nbsp;
 						</div>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
 						<div class="displaytablecell">
-							<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>"><?= h($list["sync_point"]) ?> pt</a>
+							<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>">
+								<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
+								<?= h($list["sync_point"]) ?> pt
+							</a>
 						</div>
 <?php endif; ?>
 					</div>
@@ -143,10 +150,12 @@ $sort_links = array(
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
 					</div>
 <?php endif; ?>
-				</td>
-			</tr>
+				</div>
+			</div>
+		</div>
 <?php endforeach; unset($list) ?>
-		</table>
+
+
 	</div>
 
 	<!-- pager -->

@@ -48,19 +48,19 @@
 
 <div class="menu">
 	<div class="menu_block"><a href="<?= h($base_path) ?>">
-		<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" width="16" height="16" /></div>
+		<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>
 		<div>Reviews</div>
 	</a></div>
 	<div class="menu_block"><a href="<?= h($base_path) ?>Albums">
-		<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" width="16" height="16" /></div>
+		<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>
 		<div>Albums</div>
 	</a></div>
 	<div class="menu_block"><a href="<?= h($base_path) ?>Users">
-		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" width="16" height="16" /></div>
+		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
 		<div>Users</div>
 	</a></div>
 	<div class="menu_block"><a href="<?= h($base_path) ?>Posts">
-		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="posts" width="16" height="16" /></div>
+		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="posts" /></div>
 		<div>Posts</div>
 	</a></div>
 </div>

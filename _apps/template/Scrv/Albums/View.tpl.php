@@ -31,21 +31,23 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <?php endif;?>
 
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+	<!-- edit album -->
 	<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
 <?php endif; ?>
 
+	<!-- album info -->
 	<p>
 		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
 		<img
 			id="id_fav_album"
-			class="fav_album<?= $is_login ? "" : "_nologin" ?>"
+			class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
-			src="<?= h($base_path) ?>img/star_ylw.png"
+			src="<?= h($base_path) ?>img/favalbums_on.svg"
 <?php else:?>
-			src="<?= h($base_path) ?>img/star_gry.png"
+			src="<?= h($base_path) ?>img/favalbums_off.svg"
 <?php endif;?>
-			data-fav_on="<?= h($base_path) ?>img/star_ylw.png"
-			data-fav_off="<?= h($base_path) ?>img/star_gry.png"
+			data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
+			data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
 			data-album_id="<?= h($album_id) ?>"
 			alt="fav album"
 		/>
@@ -89,14 +91,14 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 			<td><?= $track["track_title"] ?></td>
 			<td class="w80px taleft">
 				<img
-					class="fav_track<?= $is_login ? "" : "_nologin" ?>"
+					class="img32x32 fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
-					src="<?= h($base_path) ?>img/chk_ylw.png"
+					src="<?= h($base_path) ?>img/favtracks_on.svg"
 <?php else:?>
-					src="<?= h($base_path) ?>img/chk_gry.png"
+					src="<?= h($base_path) ?>img/favtracks_off.svg"
 <?php endif;?>
-					data-fav_on="<?= h($base_path) ?>img/chk_ylw.png"
-					data-fav_off="<?= h($base_path) ?>img/chk_gry.png"
+					data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
+					data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
 					data-track_id="<?= h($track["id"]) ?>"
 					alt="fav track"
 				/>
@@ -125,14 +127,14 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 					</a>
 <?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>_30.png" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 					<span class="fav_reviews_wrapper">
 						<img
-							class="fav_review vtalgmiddle "
-							src="<?= h($base_path) ?>img/fav_off.png"
-							data-img_on="<?= h($base_path) ?>img/fav_on.png"
-							data-img_off="<?= h($base_path) ?>img/fav_off.png"
+							class="fav_review vtalgmiddle img16x16"
+							src="<?= h($base_path) ?>img/fav_off.svg"
+							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
 							data-review_id="<?= h($review["id"]) ?>"
 							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
 							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"

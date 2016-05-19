@@ -1,6 +1,16 @@
 // Reviews.write.js
 
 ;$(function(){
+
+	$("#id_listening_last_group").on("click.js", function(){
+		var is_recently = $("#id_listening_last_recently").prop('checked');
+		if ( is_recently ) {
+			$("#id_listening_system_group").hide("fast");
+		} else {
+			$("#id_listening_system_group").show("fast");
+		}
+	});
+
 	var body_max_length = 1000;
 	var $body = $("#id_body");
 	var $review_counter = $("#id_review_counter");
