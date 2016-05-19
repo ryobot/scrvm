@@ -48,8 +48,9 @@ class FavReviews extends Base
 		$offset = ((int)$page-1) * $limit;
 
 		// favreviews情報取得
+		$own_user_id = isset($this->_login_user_data) ? $this->_login_user_data["id"] : null;
 		$DaoReviews = new DaoReviews();
-		$favreviews_result = $DaoReviews->favReviews((int)$user_id, (int)$offset, (int)$limit);
+		$favreviews_result = $DaoReviews->favReviews((int)$user_id, (int)$offset, (int)$limit, $own_user_id);
 		if ( !$favreviews_result["status"] ) {
 			Server::send404Header("404 not found....");
 			return false;

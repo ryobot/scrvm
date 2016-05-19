@@ -82,6 +82,7 @@ $sort_links = array(
 
 <?php if(count($lists) > 0): ?>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
@@ -96,6 +97,7 @@ $sort_links = array(
 		</ul>
 	</div>
 
+	<!-- user lists -->
 	<div class="lists">
 		<table class="w100per every_other_row_even">
 			<tr>
@@ -147,6 +149,7 @@ $sort_links = array(
 		</table>
 	</div>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
