@@ -151,6 +151,7 @@ li{display:list-item;zoom:normal;}
   *zoom: 1;
   width: 100%;
   margin: 0;
+	margin-top:5px;
   padding: 0;
 	display:none;
 	position:relative;
@@ -166,6 +167,12 @@ li{display:list-item;zoom:normal;}
 }
 .dropmenu li:hover{
   background: #0099CC;
+}
+.dropmenu li:first-child{
+	border-radius: 5px 0 0 0;
+}
+.dropmenu li:last-child{
+	border-radius: 0 0 5px 5px;
 }
 .dropmenu li a{
 	color:#FFF;
@@ -398,6 +405,13 @@ dl.search dd input[type="submit"]:hover{
 .fav_review{cursor: pointer; width:16px; height:16px;}
 
 /* .album_ */
+.album_info{
+	background-color: rgba(255,255,255,0.7);
+	margin:5px 0;
+	padding:5px;
+	border:1px solid #CCC;
+	border-radius: 5px
+}
 .album_search_result{
 	border:1px solid #AAA;
 	margin:0.5em 0;
@@ -423,6 +437,53 @@ dl.search dd input[type="submit"]:hover{
 }
 .album_search_cover_result:hover{
 	border:5px solid #3C3;
+}
+
+/* .track_ */
+.track_info{
+	background-color: rgba(255,255,255,0.7);
+	margin:5px 0;
+	padding:5px;
+	border:1px solid #CCC;
+	border-radius: 5px
+}
+.track_info div.track{
+	border-bottom: 1px solid #CCC;
+}
+.track_info div.track:last-child{
+	border-bottom: none;
+}
+
+/* .itunes_ */
+.itunes_info{
+	background-color: rgba(255,255,255,0.7);
+	margin:5px 0;
+	padding:5px;
+	border:1px solid #CCC;
+	border-radius: 5px
+}
+.itunes_info div.data{
+	border-bottom: 1px solid #CCC;
+	padding:5px;
+}
+.itunes_info div.data:last-child{
+	border-bottom: none;
+}
+
+/* .gpm_ */
+.gpm_info{
+	background-color: rgba(255,255,255,0.7);
+	margin:5px 0;
+	padding:5px;
+	border:1px solid #CCC;
+	border-radius: 5px
+}
+.gpm_info div.data{
+	border-bottom: 1px solid #CCC;
+	padding:5px;
+}
+.gpm_info div.data:last-child{
+	border-bottom: none;
 }
 
 /* .sync_ */
@@ -540,6 +601,7 @@ dl.search dd input[type="submit"]:hover{
 .w30px{width:30px;}
 .w50px{width:50px;}
 .w80px{width:80px;}
+.w120px{width:120px;}
 .taright{text-align: right;}
 .taleft{text-align: left;}
 .tacenter{text-align: center;}

@@ -5,6 +5,7 @@
  */
 
 $view_title = "{$album["artist"]} / {$album["title"]}";
+$view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "unknown";
 
 ?>
 <!doctype html>
@@ -20,8 +21,6 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2><?= h($view_title) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</h2>
-
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
 <?php		foreach($error_messages as $key => $message): ?>
@@ -30,66 +29,75 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	</div>
 <?php endif;?>
 
-<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-	<!-- edit album -->
-	<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album</a></p>
-<?php endif; ?>
-
 	<!-- album info -->
-	<p>
-		<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
-		<img
-			id="id_fav_album"
-			class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
-<?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
-			src="<?= h($base_path) ?>img/favalbums_on.svg"
-<?php else:?>
-			src="<?= h($base_path) ?>img/favalbums_off.svg"
-<?php endif;?>
-			data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
-			data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
-			data-album_id="<?= h($album_id) ?>"
-			alt="fav album"
-		/>
-		<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
-		<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="http://convexlevel.net/img/applemusic.png" height="40"/></a>
-		<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="http://convexlevel.net/img/google.png" height="40"/></a>
-	</p>
+	<div class="album_info">
+		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
+<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+		<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>"> Edit </a></p>
+<?php endif; ?>
+		<div class="displaytable w100per">
+			<div class="displaytablecell w120px">
+				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
+			</div>
+			<div class="displaytablecell">
+				<img
+					id="id_fav_album"
+					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
+				<?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
+					src="<?= h($base_path) ?>img/favalbums_on.svg"
+				<?php else:?>
+					src="<?= h($base_path) ?>img/favalbums_off.svg"
+				<?php endif;?>
+					data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
+					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
+					data-album_id="<?= h($album_id) ?>"
+					alt="fav album"
+				/>
+				<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
+				<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.png" height="40"/></a>
+				<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.png" height="40"/></a>
+			</div>
+		</div>
 
 <?php if(count($tags) > 0): ?>
-	<!-- tags -->
-	<p class="tags_group">
+		<!-- tags -->
+		<p class="tags_group">
 <?php foreach($tags as $tag):?>
-		<span class="tags"><a
-			href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
-			data-id="<?= h($tag["id"]) ?>"
-			data-tag="<?= h($tag["tag"]) ?>"
-			data-album_id="<?= h($tag["album_id"]) ?>"
-			data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-		><?= h($tag["tag"]) ?></a></span>
+			<span class="tags"><a
+				href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
+				data-id="<?= h($tag["id"]) ?>"
+				data-tag="<?= h($tag["tag"]) ?>"
+				data-album_id="<?= h($tag["album_id"]) ?>"
+				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+			><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
-	</p>
+		</p>
 <?php endif; ?>
 
 <?php if($is_login): ?>
-	<!-- add tag form -->
-	<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
-		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-		<dl class="search">
-			<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
-			<dd><input type="submit" value="add tag" /></dd>
-		</dl>
-	</form>
+		<!-- add tag form -->
+		<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+			<input type="hidden" name="token" value="<?= h($token) ?>" />
+			<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+			<dl class="search">
+				<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
+				<dd><input type="submit" value="add tag" /></dd>
+			</dl>
+		</form>
 <?php endif;?>
+	</div>
 
-	<!-- tracks -->
-	<table class="w100per every_other_row_odd">
+	<!-- track_info -->
+	<div class="track_info w100per">
 <?php foreach($tracks as $track): ?>
-		<tr>
-			<td class="w30px"><?= $track["track_num"] ?></td>
-			<td><?= $track["track_title"] ?></td>
-			<td class="w80px taleft">
+		<div class="displaytable w100per track">
+			<div class="displaytablecell w30px">
+				<?= $track["track_num"] ?>.
+			</div>
+			<div class="displaytablecell">
+				<?= $track["track_title"] ?>
+			</div>
+			<div class="displaytablecell w80px taleft">
 				<img
 					class="img32x32 fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
@@ -103,10 +111,10 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 					alt="fav track"
 				/>
 				<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
-			</td>
-		</tr>
+			</div>
+		</div>
 <?php endforeach;?>
-	</table>
+	</div>
 
 	<!-- reviews -->
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
@@ -116,46 +124,46 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
 		<div class="review">
-				<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
-				<p>
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
-						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
-					</a>
-					<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-					-
-					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
-						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-					</a>
+			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
+			<p>
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
+					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+				</a>
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				-
+				<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
+					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+				</a>
 <?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-					<span class="fav_reviews_wrapper">
-						<img
-							class="fav_review vtalgmiddle img16x16"
-							src="<?= h($base_path) ?>img/fav_off.svg"
-							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-							data-review_id="<?= h($review["id"]) ?>"
-							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-							alt="fav review"
-							title="fav review"
-						/>
-						<span class="fav_reviews_count"></span>
-					</span>
-				</p>
+				<span class="fav_reviews_wrapper">
+					<img
+						class="fav_review vtalgmiddle img16x16"
+						src="<?= h($base_path) ?>img/fav_off.svg"
+						data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+						data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+						data-review_id="<?= h($review["id"]) ?>"
+						data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+						data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+						alt="fav review"
+						title="fav review"
+					/>
+					<span class="fav_reviews_count"></span>
+				</span>
+			</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-				<p class="actions">
-					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
-					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-				</p>
+			<p class="actions">
+				<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
+				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
+			</p>
 <?php endif;?>
 		</div>
 <?php endforeach; ?>
 	</div>
 
-	<p id="id_itunes_search_results"></p>
-	<p id="id_gpm_search_results"></p>
+	<div id="id_itunes_search_results"></div>
+	<div id="id_gpm_search_results"></div>
 
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
@@ -287,8 +295,10 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 			return;
 		}
 		var i=0,len=json.results.length;
-		$search_results.append($("<h3 />").text("iTunes ("+len+")"));
-		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		if ( len > 0 ) {
+			$search_results.append($("<h3 />").text("iTunes ("+len+")"));
+		}
+		var $table = $("<div />").attr({class:"w100per itunes_info"});
 		// 詰め直す
 		var results = [];
 		for(; i<len; i++) {
@@ -303,10 +313,8 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 		for(i=0; i<len; i++) {
 			var result = results[i];
 			$table.append(
-				$("<tr />").append(
-					$("<td />").append(
-						createLink(result.url,result.artist,result.title)
-					)
+				$("<div />").attr({class:"data"}).append(
+					createLink(result.url,result.artist,result.title)
 				)
 			);
 		}
@@ -332,17 +340,17 @@ $view_title = "{$album["artist"]} / {$album["title"]}";
 			return;
 		}
 		var i=0,len=json.length;
-		$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
-		var $table = $("<table />").attr({class:"w100per every_other_row_odd"});
+		if ( len > 0 ) {
+			$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
+		}
+		var $table = $("<div />").attr({class:"w100per gpm_info"});
 		var results = sortSearchLists(ARTIST, TITLE, json);
 		for(; i<len; i++) {
 			var result = results[i];
 			var listen_url = createGPMListenUrl(result.url);
 			$table.append(
-				$("<tr />").append(
-					$("<td />").append(
-						createLink(listen_url,result.artist,result.title)
-					)
+				$("<div />").attr({class:"data"}).append(
+					createLink(listen_url,result.artist,result.title)
 				)
 			);
 		}
