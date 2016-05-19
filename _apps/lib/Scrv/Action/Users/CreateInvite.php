@@ -7,7 +7,10 @@
 namespace lib\Scrv\Action\Users;
 use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
+use lib\Scrv\Dao\Users as DaoUsers;
 use lib\Util\Password as Password;
+use lib\Util\Server as Server;
+
 
 /**
  * CreateInvite class
@@ -29,9 +32,18 @@ class CreateInvite extends Base
 		$token = $Password->makeRandomHash($this->_Session->id());
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
+		// 招待可能数はセッションではなくDBから取得
+		$DaoUsers = new DaoUsers();
+		$user_result = $DaoUsers->view($this->_login_user_data["id"]);
+		if ( ! $user_result["status"] ) {
+			Server::send404Header("not found.");
+			return false;
+		}
+		$invited_count = $user_result["data"]["invited_count"];
+
 		$this->_Template->assign(array(
 			"token" => $token,
-			"can_be_invited_count" => (int)$this->_common_ini["invites"]["max_invited_count"] - $this->_login_user_data["invited_count"],
+			"can_be_invited_count" => (int)$this->_common_ini["invites"]["max_invited_count"] - $invited_count,
 		))->display("Users/CreateInvite.tpl.php");
 
 		return true;
