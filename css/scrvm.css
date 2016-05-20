@@ -403,6 +403,12 @@ dl.search dd input[type="submit"]:hover{
 .fav_album{cursor: pointer;}
 .fav_track{cursor: pointer;}
 .fav_review{cursor: pointer; width:16px; height:16px;}
+.fav_review_user_lists{
+	margin: 5px 0;
+	padding:5px 0;
+	border-top:1px solid #DDD;
+	color:#666;
+}
 
 /* .album_ */
 .album_info{

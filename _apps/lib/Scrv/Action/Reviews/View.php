@@ -36,8 +36,16 @@ class View extends Base
 			return false;
 		}
 
+		// fav review user lists
+		$favreviews_user_lists_result = $DaoReviews->favReviewsUserLists($id);
+		if ( !$favreviews_user_lists_result["status"] ) {
+			Server::send404Header("404 not found...");
+			return false;
+		}
+
 		$this->_Template->assign(array(
 			"review" => $lists_result["data"],
+			"favreviews_user_lists" => $favreviews_user_lists_result["data"],
 		))->display("Reviews/View.tpl.php");
 		return true;
 	}

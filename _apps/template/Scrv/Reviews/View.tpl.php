@@ -35,31 +35,52 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 		<div class="review_comment">
 			<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 		</div>
-		<p>
-			<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-			-
-			<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= date('Y年n月j日 H時i分',strtotime($review["created"])) ?></a></span>
+		<div class="displaytable w100per">
+			<div class="displaytablecell w50px vtalgmiddle">
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
+			</div>
+			<div class="displaytablecell">
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				<div class="post_date">
+					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= date('Y年n月j日 H時i分',strtotime($review["created"])) ?></a>
 <?php if($review["listening_last"] === "today"): ?>
-			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-			<span class="fav_reviews_wrapper">
-				<img
-					class="fav_review vtalgmiddle "
-					src="<?= h($base_path) ?>img/fav_off.png"
-					data-img_on="<?= h($base_path) ?>img/fav_on.png"
-					data-img_off="<?= h($base_path) ?>img/fav_off.png"
-					data-review_id="<?= h($review["id"]) ?>"
-					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-					alt="fav review"
-					title="fav review"
-				/>
-				<span class="fav_reviews_count"></span>
-			</span>
-		</p>
-	</div>
+					<span class="fav_reviews_wrapper">
+						<img
+							class="fav_review vtalgmiddle "
+							src="<?= h($base_path) ?>img/fav_off.png"
+							data-img_on="<?= h($base_path) ?>img/fav_on.png"
+							data-img_off="<?= h($base_path) ?>img/fav_off.png"
+							data-review_id="<?= h($review["id"]) ?>"
+							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+							alt="fav review"
+							title="fav review"
+						/>
+						<span class="fav_reviews_count"></span>
+					</span>
+				</div>
+			</div>
+		</div>
 
+<?php if(count($favreviews_user_lists) > 0): ?>
+		<div class="fav_review_user_lists w100per">
+			<p>faved by</p>
+<?php		foreach($favreviews_user_lists as $user): ?>
+			<a href="<?= h($base_path) ?>Users/View?id=<?= h($user["user_id"]) ?>">
+				<img
+					class="user_photo_min vtalgmiddle"
+					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.png" ?>"
+					alt="<?= h($user["username"]) ?>"
+					title="<?= h($user["username"]) ?>"
+				/>
+			</a>
+<?php		endforeach;unset($user) ?>
+		</div>
+<?php endif; ?>
+
+	</div>
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

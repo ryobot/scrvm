@@ -156,6 +156,34 @@ class Reviews extends Dao
 	}
 
 	/**
+	 * fav_reviews user lists
+	 * @param int $review_id
+	 * @return resultSet
+	 */
+	public function favReviewsUserLists($review_id)
+	{
+		$result = getResultSet();
+		try{
+			$params = array("rid" => $review_id,);
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.username,t2.img_file AS user_img_file
+				FROM favreviews t1
+				INNER JOIN users t2 ON (t1.user_id=t2.id)
+				WHERE t1.review_id=:rid
+				ORDER BY t1.created",
+				$params
+			);
+			$result["status"] = true;
+			$result["data"] = $data;
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * view
 	 * @param integer $user_id
 	 * @param integer $offset
