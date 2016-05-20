@@ -181,6 +181,10 @@ li{display:list-item;zoom:normal;}
 	text-decoration: none;
 }
 
+/* .auth */
+.auth{
+}
+
 /* .tabs */
 .search_tab ul.tab {
 	list-style: none;
@@ -383,6 +387,7 @@ dl.search dd input[type="submit"]:hover{
 .user_profile{
 	background: rgba(255,255,255,0.7);
 	border:1px solid #CCC;
+	margin:5px 0;
 	padding:5px;
 	border-radius: 5px;
 }
@@ -577,6 +582,19 @@ dl.search dd input[type="submit"]:hover{
 }
 .post_quote{
 	color:#393;
+}
+
+.link_page_top{
+	cursor: pointer;
+	display: none;
+	opacity: 0.7;
+	position: fixed;
+	right: 10px;
+	bottom: 25px;
+}
+.link_page_top img:hover{
+	filter: invert(100%);
+	transition: filter .3s;
 }
 
 /*-----------*/

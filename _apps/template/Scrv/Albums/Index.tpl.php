@@ -144,17 +144,14 @@ $sort_links = array(
 	</div>
 
 	<!-- album lists -->
-	<div class="displaytable w100per">
-		<div class="displaytablecell w80px"> </div>
-		<div class="displaytablecell ">
-			<a href="<?= h($sort_links["artist"]["link"]) ?>"><?= h($sort_links["artist"]["text"]) ?></a>
-			/
-			<a href="<?= h($sort_links["title"]["link"]) ?>"><?= h($sort_links["title"]["text"]) ?></a>
-			( <a href="<?= h($sort_links["year"]["link"]) ?>"><?= h($sort_links["year"]["text"]) ?></a> )
-			<a href="<?= h($sort_links["reviews"]["link"]) ?>">
-				<?= h($sort_links["reviews"]["text"]) ?>
-			</a>
-		</div>
+	<div class="w100per tacenter">
+		<a href="<?= h($sort_links["artist"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort artist" class="img16x16" /><?= h($sort_links["artist"]["text"]) ?></a>
+		/
+		<a href="<?= h($sort_links["title"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort title" class="img16x16" /><?= h($sort_links["title"]["text"]) ?></a>
+		/
+		<a href="<?= h($sort_links["year"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort year" class="img16x16" /><?= h($sort_links["year"]["text"]) ?></a>
+		/
+		<a href="<?= h($sort_links["reviews"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["reviews"]["text"]) ?></a>
 	</div>
 <?php foreach($lists as $album): ?>
 	<div class="displaytable w100per album_info">
@@ -172,7 +169,9 @@ $sort_links = array(
 		</div>
 		<div class="displaytablecell vtalgmiddle">
 			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-				<?= h( "{$album["artist"]} / {$album["title"]}") ?>
+				<?= h($album["artist"]) ?>
+				/
+				<?= h($album["title"]) ?>
 				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 			</a>
 <?php if($album["reviews"] > 0): ?>

@@ -27,13 +27,15 @@
 	</div>
 <?php endif;?>
 
-	<form action="<?= h($base_path) ?>Auth/Login" method="POST">
-		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<p><input type="text" name="username" id="id_user_id" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
-		<p><input type="password" name="password" id="id_password" placeholder="password" /></p>
-		<p><label><input type="checkbox" name="autologin" id="id_autologin" value="1" /> ログイン状態を保持する</label></p>
-		<p class="actions"><input type="submit" value="login" /></p>
-	</form>
+	<div class="auth">
+		<form action="<?= h($base_path) ?>Auth/Login" method="POST">
+			<input type="hidden" name="token" value="<?= h($token) ?>" />
+			<p><input type="text" name="username" id="id_user_id" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
+			<p><input type="password" name="password" id="id_password" placeholder="password" /></p>
+			<p><label><input type="checkbox" name="autologin" id="id_autologin" value="1" /> ログイン状態を保持する</label></p>
+			<p class="actions tacenter"><input type="submit" value=" login " /></p>
+		</form>
+	</div>
 
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
