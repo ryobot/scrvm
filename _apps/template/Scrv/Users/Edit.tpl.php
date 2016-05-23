@@ -26,16 +26,14 @@
 	</div>
 <?php endif;?>
 
-	<div class="search_tab">
-		<p>
-			<ul class="tab">
-				<li class="active"><a href="<?= h($base_path) ?>Users/Edit">編集</a></li>
-				<li><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></li>
-				<li><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></li>
-			</ul>
-		</p>
-		<div class="search_type"></div>
-		<div class="tabContent active">
+	<div class="user_edit">
+		<div class="displaytable w100per user_edit_menu">
+			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/Edit">編集</a></div>
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></div>
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></div>
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/ConnectTwitter">twitter 連携</a></div>
+		</div>
+		<div class="user_edit_area">
 			<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<p><h3><?= h($login_user_data["username"]) ?></h3></p>
@@ -46,12 +44,6 @@
 				<p><textarea name="profile" id="id_profile" placeholder="your profile"><?= isset($login_user_data["profile"]) ? h($login_user_data["profile"]) : "" ?></textarea></p>
 				<p class="actions"><input type="submit" value="save" ></p>
 			</form>
-<?php if (!isset($login_user_data["twitter_user_id"])):?>
-			<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
-			<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
-				<input type="hidden" name="authenticate" value="auth" />
-			</form>
-<?php endif; ?>
 		</div>
 	</div>
 
@@ -59,15 +51,6 @@
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
-
-<script>
-;$(function(){
-	$("#id_users_twitter").on("click.js", function(){
-		$("#id_users_twitter_form").submit();
-		return false;
-	});
-});
-</script>
 
 </body>
 </html>

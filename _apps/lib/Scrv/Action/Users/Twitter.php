@@ -32,7 +32,8 @@ class Twitter extends Base
 		}
 
 		$authenticate = Server::post("authenticate");
-		$is_ok_url = Server::getFullHostUrl() . "{$this->_BasePath}Users/Edit?id={$this->_login_user_data["id"]}";
+//		$is_ok_url = Server::getFullHostUrl() . "{$this->_BasePath}Users/Edit?id={$this->_login_user_data["id"]}";
+		$is_ok_url = Server::getFullHostUrl() . "{$this->_BasePath}Users/ConnectTwitter";
 
 		$sess_twitter_access_token = $this->_Session->get(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN);
 		if ( isset($sess_twitter_access_token) ) {

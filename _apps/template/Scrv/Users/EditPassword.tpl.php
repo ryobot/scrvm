@@ -26,42 +26,22 @@
 	</div>
 <?php endif;?>
 
-	<div class="search_tab">
-		<p>
-			<ul class="tab">
-				<li><a href="<?= h($base_path) ?>Users/Edit">編集</a></li>
-				<li class="active"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></li>
-				<li><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></li>
-			</ul>
-		</p>
-		<div class="search_type"></div>
-		<div class="tabContent active">
+	<div class="user_edit">
+		<div class="displaytable w100per user_edit_menu">
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/Edit">編集</a></div>
+			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></div>
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></div>
+			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/ConnectTwitter">twitter 連携</a></div>
+		</div>
+		<div class="user_edit_area">
 			<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
 			<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
 			<form action="<?= h($base_path) ?>Users/SavePassword" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
-				<table class="w100per">
-					<tr>
-						<td>
-							<p><input type="password" name="current_password" id="id_current_password" value="" placeholder="current password" required="required" /></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype new password" required="required" /></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p class="actions"><input type="submit" value="save" ></p>
-						</td>
-					</tr>
-				</table>
+				<p><input type="password" name="current_password" id="id_current_password" value="" placeholder="current password" required="required" /></p>
+				<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
+				<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype new password" required="required" /></p>
+				<p class="actions"><input type="submit" value="save" ></p>
 			</form>
 		</div>
 	</div>

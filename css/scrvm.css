@@ -185,6 +185,32 @@ li{display:list-item;zoom:normal;}
 .auth{
 }
 
+/* .user_edit */
+.user_edit{
+	margin:5px 0;
+	padding: 5px 0;
+}
+.user_edit_menu div{
+	padding:5px;
+	margin: 0 5px;
+	background: rgba(230,230,230,0.7);
+	border-radius: 5px 5px 0 0;
+	border:1px solid #CCC;
+	text-align:center;
+}
+.user_edit_menu div.active{
+	background: rgba(255,255,255,0.7);
+	border-bottom:none;
+}
+.user_edit_area{
+	padding:5px;
+	margin: 0;
+	background: rgba(255,255,255,0.7);
+	border-radius: 0 0 5px 5px;
+	border:1px solid #CCC;
+	border-top:none;
+}
+
 /* .tabs */
 .search_tab ul.tab {
 	list-style: none;
