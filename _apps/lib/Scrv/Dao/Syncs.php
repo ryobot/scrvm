@@ -53,9 +53,8 @@ class Syncs extends Dao
 				WHERE t1.album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid)
 				order by t1.created DESC
 			";
-			$params = array(
-				"uid" => $login_user_id,
-			);
+//			$params = array("uid" => $login_user_id,);
+			$params = array("uid" => $user_id,);
 			$merge_lists = $this->_Dao->select($sql, $params);
 
 			// album_idごとにまとめて返す

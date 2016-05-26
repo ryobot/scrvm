@@ -309,8 +309,14 @@ class Reviews extends Dao
 				)
 			);
 
-			// point加算処理
-			$this->syncReviewUpdate($user_id, $album_id, true);
+			// 該当アルバムレビューの先頭2件取得。2件かつ、先頭が自分のIDであれば加算処理
+			$review_list = $this->_Dao->select(
+				"SELECT * FROM reviews WHERE album_id=:aid ORDER BY created DESC LIMIT 0,2",
+				array("aid" => $album_id)
+			);
+			if (count($review_list) === 2 || $review_list[0]["user_id"] === $user_id) {
+				$this->_syncPointAdd($review_list, "+");
+			}
 
 			$result["status"] = true;
 			$result["data"] = array(
@@ -326,6 +332,41 @@ class Reviews extends Dao
 			$this->_Dao->rollBack();
 		}
 		return $result;
+	}
+
+	private function _syncPointAdd($review_list, $operator = "+")
+	{
+		// calc sync_point
+		$Syncs = new Syncs();
+		$sync_points = array();
+		$sync_point_result = $Syncs->calcReviewsPoint($review_list);
+		foreach($sync_point_result as $sync_point) {
+			$idx = "{$sync_point["user_com_id"]}_{$sync_point["user_id"]}";
+			if ( !isset( $sync_points[$idx] ) ) {
+				$sync_points[$idx] = 0;
+			}
+			$sync_points[$idx] += $sync_point["sync"]["point"];
+		}
+
+		// add point
+		foreach( $sync_points as $key=>$point ) {
+			$tmp = explode("_", $key);
+			$_user_id = (int)$tmp[0];
+			$_user_com_id = (int)$tmp[1];
+			// 存在したらupdate、しなければinsert
+			$sync_list = $this->_Dao->select(
+				"SELECT * FROM syncs WHERE user_id=:uid AND user_com_id=:ucid"
+				,array("uid" => $_user_id, "ucid" => $_user_com_id,)
+			);
+			$sql = "UPDATE syncs SET sync_point = sync_point {$operator} :sp WHERE user_id=:uid AND user_com_id=:ucid";
+			$params = array("uid"=>$_user_id, "ucid"=>$_user_com_id, "sp"=>$point,);
+			if ( count($sync_list) === 0 ) {
+				$sql = "INSERT INTO syncs (user_id,user_com_id,sync_point) VALUES(:uid,:ucid,:sp)";
+			}
+			$this->_Dao->update($sql, $params);
+		}
+
+		return true;
 	}
 
 	/**
@@ -349,8 +390,36 @@ class Reviews extends Dao
 				throw new \Exception("not found.");
 			}
 
-			// point減算処理
-			$this->syncReviewUpdate($user_id, $review_result[0]["album_id"], false);
+
+			// 減算処理
+			// 削除対象レビューが含まれる同一アルバムレビュー一覧を取得
+			$reviews_list = $this->_Dao->select("
+				SELECT t1.* FROM reviews t1
+				INNER JOIN reviews t2 ON (t1.album_id = t2.album_id AND t2.id=:rid)
+				ORDER BY t1.created DESC
+			",
+				array("rid" => $review_id,)
+			);
+			// 該当レビューの前後のデータを取得する
+			$new = null;
+			$current = null;
+			$old = null;
+			for($i=0,$len=count($reviews_list); $i<$len; $i++) {
+				if ( $reviews_list[$i]["id"] === $review_id ) {
+					$new = isset( $reviews_list[$i-1] ) ? $reviews_list[$i-1] : null;
+					$current = $reviews_list[$i];
+					$old = isset( $reviews_list[$i+1] ) ? $reviews_list[$i+1] : null;
+					break;
+				}
+			}
+			// 減算実行
+			if ( $new !== null ) {
+				$this->_syncPointAdd(array($new, $current), "-");
+			}
+			if ( $old !== null) {
+				$this->_syncPointAdd(array($current, $old), "-");
+			}
+
 
 			// 削除処理
 			$row_count = $this->_Dao->delete(
@@ -369,88 +438,6 @@ class Reviews extends Dao
 		}
 		return $result;
 	}
-
-	/**
-	 *
-	 * @param int $user_id
-	 * @param int $album_id
-	 * @param boolean $is_add 加算時true,減算時false
-	 * @return boolean
-	 */
-	public function syncReviewUpdate($user_id, $album_id, $is_add = true)
-	{
-		// 自分以外のレヴューの一番新しいもの取得, なければ何もしない
-		$reviews = $this->_Dao->select(
-			"SELECT * FROM reviews WHERE album_id=:aid AND user_id<>:uid ORDER BY created DESC LIMIT 0,1",
-			array("aid" => $album_id, "uid" => $user_id)
-		);
-		if (count($reviews) === 0) {
-			return false;
-		}
-
-		// 自分のレビューを古い順に取得、1件じゃなかったら(レビュー済みor未レビューの場合)何もしない
-		$my_reviews = $this->_Dao->select(
-			"SELECT * FROM reviews WHERE album_id=:aid AND user_id=:uid ORDER BY created ASC",
-			array("aid" => $album_id, "uid" => $user_id)
-		);
-		if (count($my_reviews) !== 1){
-			return false;
-		}
-
-		// sync point 計算処理
-		$Syncs = new Syncs();
-		$sync_ponts = array();
-		foreach($reviews as $review) {
-			foreach($my_reviews as $my_review){
-				$point = $Syncs->calcPoint($review["created"], $my_review["created"], $my_review["listening_last"]);
-				$sync_ponts[] = array(
-					"user_id" => $review["user_id"],
-					"user_com_id" => $user_id,
-					"diff" => $point["diff"],
-					"point" => $point["point"] * ($is_add ? 1 : -1),	// レビュー追加は加算、削除は減算
-				);
-			}
-		}
-
-		// 加算実行
-		foreach($sync_ponts as $sync_point) {
-			// syncsにデータがあるか
-			$syncs = $this->_Dao->select(
-				"SELECT * FROM syncs WHERE user_id=:uid AND user_com_id=:ucid",
-				array("uid"=>$sync_point["user_id"], "ucid"=>$sync_point["user_com_id"])
-			);
-			// あればupdate、なければinsert
-			if ( count($syncs) > 0 ) {
-				$point = $syncs[0]["sync_point"] + $sync_point["point"] < 0 ? 0 : $syncs[0]["sync_point"] + $sync_point["point"];
-				$this->_Dao->update(
-					"UPDATE syncs SET sync_point=:sp WHERE user_id IN(:id1,:id2) AND user_com_id IN(:id3,:id4)",
-					array(
-						"sp" => $point,
-						"id1" => $syncs[0]["user_id"],
-						"id2" => $syncs[0]["user_com_id"],
-						"id3" => $syncs[0]["user_id"],
-						"id4" => $syncs[0]["user_com_id"],
-					)
-				);
-			} else {
-				$point = $sync_point["point"] < 0 ? 0 : $sync_point["point"];
-				$this->_Dao->insert(
-					"INSERT INTO syncs (user_id,user_com_id,sync_point)VALUES(:id1,:id2,:sp1),(:id3,:id4,:sp2)",
-					array(
-						"id1" => $sync_point["user_id"],
-						"id2" => $sync_point["user_com_id"],
-						"sp1" => $point,
-						"id3" => $sync_point["user_com_id"],
-						"id4" => $sync_point["user_id"],
-						"sp2" => $point,
-					)
-				);
-			}
-		}
-
-		return true;
-	}
-
 
 	/**
 	 * edit

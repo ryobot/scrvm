@@ -64,82 +64,62 @@ class Syncs extends Base
 			return false;
 		}
 
-		// XXX pointの計算...
 		$UtilSyncs = new UtilSyncs();
-		foreach($sync_reviews_result["data"] as $album_id => &$reviews){
-			$own_review = null;
-			$you_review = null;
-			$you_review_idx = 0;
-			foreach( $reviews as $idx => $review ) {
-				// 自分のIDの最古レビューを格納(上書き)
-				// 相手のIDの最新レビューを格納(あればスルー)
-				if ( $login_user_id === $review["user_id"] ) {
-					$own_review = $review;
-				} else {
-					if ( $you_review === null ) {
-						$you_review = $review;
-						$you_review_idx = $idx;
-					}
-				}
-			}
-			// calc sync point
-			$sync_point = $UtilSyncs->calcPoint($own_review["created"], $you_review["created"], $own_review["listening_last"]);
-			if ($sync_point["point"] > 0 ) {
-				$reviews[$you_review_idx]["sync_point"] = $sync_point;
-			}
-		} unset($reviews);
 
-		// XXX 自分と相手のidだけ格納...
-		$tpl_reviews = array();
-		$syncs_reviews_point_total = 0;
-		foreach($sync_reviews_result["data"] as $album_id => &$reviews){
-			$tpl_reviews[$album_id] = array("point" => 0, "data" => array());
-			foreach( $reviews as $idx => $review ) {
-				if ( in_array($review["user_id"], array($login_user_id, $user_id), true) ) {
-					$syncs_point = isset($review["sync_point"]) ? $review["sync_point"]["point"] : 0;
-					$tpl_reviews[$album_id]["data"][] = $review;
-					$tpl_reviews[$album_id]["point"] += $syncs_point;
-					$syncs_reviews_point_total += $syncs_point;
+		// 自分のuser_idが入っているレビュー一覧のみ抜き取る
+		$reviews_list = array();
+		foreach($sync_reviews_result["data"] as $album_id => $reviews) {
+			foreach( $reviews as $review ) {
+				if ( $review["user_id"] === $login_user_id ) {
+					$reviews_list[$album_id] = $reviews;
+					break;
 				}
-			}
-			if ($tpl_reviews[$album_id]["point"] === 0){
-				unset($tpl_reviews[$album_id]);
 			}
 		}
 
-		$syncs = array(
-			"reviews" => $tpl_reviews,
-			"albums" => $sync_albums_result["data"],
-			"tracks" => $sync_tracks_result["data"],
-			"albums_point" => count($sync_albums_result["data"]) * 5,
-			"tracks_point" => count($sync_tracks_result["data"]) * 2,
-		);
-
-		// XXX syncs point と実際に計算した値が異なっていればupdate
-		if ( isset($user_result["data"]["sync_point"]) ){
-			$this->_updateSyncsPoints(
-				$syncs_reviews_point_total + $syncs["albums_point"] + $syncs["tracks_point"],
-				$user_result["data"]["sync_point"],
-				(int)$user_id
-			);
+		// 計算実行。地獄…
+		$reviews_with_point = array();
+		$syncs_reviews_point_total = 0;
+		foreach($reviews_list as $album_id => $reviews){
+			// 自分のIDと次のIDが相手のものの場合のみ計算
+			for($i=0,$len=count($reviews);$i<$len;$i++){
+				$current = $reviews[$i];
+				$next = isset($reviews[$i+1]) ? $reviews[$i+1] : null;
+				if ($next === null) {
+					continue;
+				}
+				if ($current["user_id"] !== $login_user_id || $next["user_id"] !== $user_id) {
+					continue;
+				}
+				$calc = $UtilSyncs->calcReviewsPoint(array($next, $current));
+				if ( count($calc) === 0 ) {
+					continue;
+				}
+				$next["sync_point"] = $calc[0]["sync"];
+				$syncs_reviews_point_total += $calc[0]["sync"]["point"];
+				$reviews_with_point[$album_id] = array(
+					"point" => $calc[0]["sync"]["point"],
+					"data" => array(
+						$current,
+						$next,
+					),
+				);
+			}
 		}
 
 		$this->_Template->assign(array(
 			"user_id" => (int)$user_id,
 			"user" => $user_result["data"],
-			"syncs" => $syncs,
 			"syncs_reviews_point_total" => $syncs_reviews_point_total,
+			"syncs" => array(
+				"reviews" => $reviews_with_point,
+				"albums" => $sync_albums_result["data"],
+				"tracks" => $sync_tracks_result["data"],
+				"albums_point" => count($sync_albums_result["data"]) * 5,
+				"tracks_point" => count($sync_tracks_result["data"]) * 2,
+			),
 		))->display("Users/Syncs.tpl.php");
 		return true;
-	}
-
-	private function _updateSyncsPoints($total_sync_points, $db_sync_poinsts, $user_id)
-	{
-		if ( $total_sync_points === $db_sync_poinsts ) {
-			return true;
-		}
-		$DaoSyncs = new DaoSyncs();
-		$DaoSyncs->updatePoint($total_sync_points, $this->_login_user_data["id"], $user_id);
 	}
 
 }

@@ -43,4 +43,67 @@ class Syncs
 		$result["point"] = $is_today ? $point : 10;	// today以外の場合は一律 10point
 		return $result;
 	}
+
+	public function calcReviewsPoint($review_list)
+	{
+		$result = array();
+		for($i=0, $len=count($review_list); $i<$len; $i++){
+			$current = $review_list[$i];
+			$next = isset($review_list[$i+1]) ? $review_list[$i+1] : null;
+			if ( $next === null ) {
+				break;
+			}
+			if ($current["user_id"] === $next["user_id"]) {
+				continue;
+			}
+			// pointが0以上の場合のみ
+			$sync = $this->calcPoint($current["created"], $next["created"], $next["listening_last"]);
+			if ($sync["point"] > 0) {
+				$result[] = array(
+					"user_id" => $current["user_id"],
+					"user_com_id" => $next["user_id"],
+					"sync" => $sync,
+				);
+			}
+		}
+		return $result;
+	}
+
+	public function calcFavTracksPoint($user_id_list)
+	{
+		$result = array();
+		for($i=0,$len=count($user_id_list); $i<$len; $i++) {
+			$idx = $user_id_list[$i]["user_id"];
+			for( $j=0;$j<$len; $j++) {
+				if ( $idx === $user_id_list[$j]["user_id"] ) {
+					continue;
+				}
+				$key = "{$idx}_{$user_id_list[$j]["user_id"]}";
+				if ( ! isset($result[$key]) ) {
+					$result[$key] = 0;
+				}
+				$result[$key] += 2;	// fav_tracks は 2ポイント
+			}
+		}
+		return $result;
+	}
+
+	public function calcFavAlbumsPoints($user_id_list)
+	{
+		$result = array();
+		for($i=0,$len=count($user_id_list); $i<$len; $i++) {
+			$idx = $user_id_list[$i]["user_id"];
+			for( $j=0;$j<$len; $j++) {
+				if ( $idx === $user_id_list[$j]["user_id"] ) {
+					continue;
+				}
+				$key = "{$idx}_{$user_id_list[$j]["user_id"]}";
+				if ( ! isset($result[$key]) ) {
+					$result[$key] = 0;
+				}
+				$result[$key] += 5;	// fav_albums は 5ポイント
+			}
+		}
+		return $result;
+	}
 }

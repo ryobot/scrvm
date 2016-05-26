@@ -35,10 +35,10 @@
 		</div>
 		<div class="user_edit_area">
 <?php if (isset($sess_twitter_access_token["oauth_token"])): ?>
-			<p>現在 twitter連携中です。連携を解除するには、以下手順を実行してください。</p>
+			<p>現在 twitter 連携中です。連携を解除するには、以下手順を実行してください。</p>
 			<ul style="list-style: disc;margin-left:1.5em;">
-				<li><a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す。</li>
-				<li>上記メニューから Logout → 再ログイン</li>
+				<li>パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す。</li>
+				<li>syncreview をログアウト → 再ログイン。</li>
 			</ul>
 <?php else: ?>
 			<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>

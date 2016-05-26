@@ -36,7 +36,7 @@ class Del extends Base
 
 		// 削除処理
 		$DaoReviews = new DaoReviews();
-		$add_result = $DaoReviews->del($this->_login_user_data["id"], $review_id);
+		$add_result = $DaoReviews->del($this->_login_user_data["id"], (int)$review_id);
 		if ( !$add_result["status"] ){
 			Server::send404Header("system error.");
 			return false;

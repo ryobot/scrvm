@@ -382,58 +382,20 @@ class Albums extends Dao
 		try{
 			// sync point (album)
 			$add_point = 5;
+			$oparation = "insert";
 			// 存在したらdeleteでpoint減算, しなければinsert or updateで加算
-			$params = array("album_id" => $album_id,"user_id" => $user_id,);
-			$sel_result = $this->_Dao->select("SELECT * FROM favalbums WHERE album_id=:album_id AND user_id=:user_id", $params);
-			$oparation = "delete";
+			$params = array("aid" => $album_id,"uid" => $user_id,);
+			$sel_result = $this->_Dao->select("SELECT * FROM favalbums WHERE album_id=:aid AND user_id=:uid", $params);
 			if ( count($sel_result) > 0 ) {
-				$this->_Dao->delete("DELETE FROM favalbums WHERE album_id=:album_id AND user_id=:user_id",$params);
+				$this->_Dao->delete("DELETE FROM favalbums WHERE album_id=:aid AND user_id=:uid",$params);
 				$add_point = -5;
 				$oparation = "delete";
 			} else {
-				$this->_Dao->insert("INSERT INTO favalbums (favtype,album_id,user_id,created) VALUES('alltime',:album_id,:user_id,now())", $params);
-				$oparation = "insert";
+				$this->_Dao->insert("INSERT INTO favalbums (favtype,album_id,user_id,created) VALUES('alltime',:aid,:uid,now())", $params);
 			}
 
-			// XXX ...
-			// favalbums テーブルを参照して同じ album_id を登録しているユーザ一覧を取得、なければ終わり
-			$fav_user_id_list = $this->_Dao->select(
-				"SELECT user_id FROM favalbums WHERE album_id=:album_id AND user_id<>:user_id",
-				$params
-			);
-			if (count($fav_user_id_list) === 0) {
-			} else {
-				// syncs.sync_pointが存在するか確認
-				foreach ($fav_user_id_list as $fav_user_id) {
-					$syncs_params = array(
-						"id1" => $fav_user_id["user_id"],
-						"id2" => $user_id,
-						"id3" => $fav_user_id["user_id"],
-						"id4" => $user_id,
-					);
-					$sync_list = $this->_Dao->select(
-						"SELECT id,sync_point FROM syncs WHERE user_id IN(:id1,:id2) AND user_com_id IN(:id3,:id4)",
-						$syncs_params
-					);
-					if ( count($sync_list) === 0 ){
-						// 2行insert
-						$this->_Dao->insert(
-							 "INSERT INTO syncs (user_id,user_com_id,sync_point) "
-							."values(:id1,:id2,{$add_point}),(:id4,:id3,{$add_point})",
-							$syncs_params
-						);
-					} else {
-						// 加算してupdate,加算した数値が0未満の場合は0に丸める
-						foreach($sync_list as $sync) {
-							$add_sync_point = $sync["sync_point"] + $add_point < 0 ? 0 : $sync["sync_point"] + $add_point;
-							$this->_Dao->update(
-								"UPDATE syncs SET sync_point=:add_sync_point WHERE id=:id",
-								array("add_sync_point" => $add_sync_point,"id" => $sync["id"],)
-							);
-						}
-					}
-				}
-			}
+			// add sync point
+			$this->_addSyncPoints($album_id, $user_id, $add_point);
 
 			$result["status"] = true;
 			$result["data"] = array(
@@ -445,6 +407,45 @@ class Albums extends Dao
 			$this->_Dao->rollBack();
 		}
 		return $result;
+	}
+
+	private function _addSyncPoints($album_id, $user_id, $add_point)
+	{
+		$params = array("aid" => $album_id,"uid" => $user_id,);
+		$fav_user_id_list = $this->_Dao->select("SELECT user_id FROM favalbums WHERE album_id=:aid AND user_id<>:uid",$params);
+		if (count($fav_user_id_list) === 0) {
+			return true;
+		}
+		// syncs.sync_pointが存在するか確認
+		foreach ($fav_user_id_list as $fav_user_id) {
+			$syncs_params = array(
+				"id1" => $fav_user_id["user_id"],
+				"id2" => $user_id,
+				"id3" => $fav_user_id["user_id"],
+				"id4" => $user_id,
+			);
+			$sync_list = $this->_Dao->select(
+				"SELECT id,sync_point FROM syncs WHERE user_id IN(:id1,:id2) AND user_com_id IN(:id3,:id4)",
+				$syncs_params
+			);
+			if ( count($sync_list) === 0 ){
+				// 2行insert
+				$this->_Dao->insert(
+					 "INSERT INTO syncs (user_id,user_com_id,sync_point) "
+					."values(:id1,:id2,{$add_point}),(:id4,:id3,{$add_point})",
+					$syncs_params
+				);
+			} else {
+				// 加算してupdate,加算した数値が0未満の場合は0に丸める
+				foreach($sync_list as $sync) {
+					$add_sync_point = $sync["sync_point"] + $add_point < 0 ? 0 : $sync["sync_point"] + $add_point;
+					$this->_Dao->update(
+						"UPDATE syncs SET sync_point=:add_sync_point WHERE id=:id",
+						array("add_sync_point" => $add_sync_point,"id" => $sync["id"],)
+					);
+				}
+			}
+		}
 	}
 
 	/**
