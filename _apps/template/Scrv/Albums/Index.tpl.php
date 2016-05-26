@@ -174,14 +174,17 @@ $sort_links = array(
 				<?= h($album["title"]) ?>
 				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 			</a>
-<?php if($album["reviews"] > 0): ?>
 			<p>
+<?php if($album["reviews"] > 0): ?>
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
 					<img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" />
-					<span class="vtalgmiddle"><?= h($album["reviews"]) ?></span>
+					<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
 				</a>
-			</p>
 <?php endif;?>
+<?php if($is_login): ?>
+			<span class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album["id"]) ?>">Write a Review</a></span>
+<?php endif; ?>
+			</p>
 		</div>
 	</div>
 <?php endforeach; ?>

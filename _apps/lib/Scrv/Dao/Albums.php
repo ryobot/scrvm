@@ -236,6 +236,29 @@ class Albums extends Dao
 	}
 
 	/**
+	 * album exists
+	 * @param string $artist
+	 * @param string $title
+	 * @return resultSet
+	 */
+	public function exists($artist, $title)
+	{
+		$result = getResultSet();
+		try{
+			// mysql は大文字小文字区別しない
+			$search_result = $this->_Dao->select(
+				"SELECT * FROM albums WHERE artist=:artist AND title=:title",
+				array("artist" => $artist,"title" => $title,)
+			);
+			$result["status"] = true;
+			$result["data"] = $search_result;
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * album add
 	 * @param string $artist
 	 * @param string $title
@@ -251,12 +274,9 @@ class Albums extends Dao
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
-			// 同一アルバムがある場合はエラー(mysqlは大文字小文字区別しない)
-			$search_result = $this->_Dao->select(
-				"SELECT * FROM albums WHERE artist=:artist AND title=:title",
-				array("artist" => $artist,"title" => $title,)
-			);
-			if ( count($search_result) !== 0 ) {
+			// 同一アルバム検索
+			$search_result = $this->exists($artist, $title);
+			if ( ! $search_result["status"] || count($search_result["data"]) !== 0 ) {
 				throw new \Exception("{$artist} / {$title} は登録済みです。");
 			}
 			// INSERT, img_url, year が空文字の場合は null

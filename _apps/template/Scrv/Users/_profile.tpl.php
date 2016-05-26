@@ -1,6 +1,7 @@
 
 	<!-- user profile -->
-	<div class="user_profile">
+	<div class="user_profile w100per">
+		<h3><?= h($user["username"]) ?></h3>
 		<div class="displaytable">
 			<div class="displaytablecell w80px">
 				<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" />

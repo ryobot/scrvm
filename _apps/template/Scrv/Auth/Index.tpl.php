@@ -19,15 +19,14 @@
 
 	<h2>Login</h2>
 
+	<div class="form_info">
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
-	<div class="error_message">
+		<div class="error_message">
 <?php		foreach($error_messages as $key => $message): ?>
-		<p><?= h($message) ?></p>
+			<p><?= h($message) ?></p>
 <?php		endforeach; unset($key, $message) ?>
-	</div>
+		</div>
 <?php endif;?>
-
-	<div class="auth">
 		<form action="<?= h($base_path) ?>Auth/Login" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<p><input type="text" name="username" id="id_user_id" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>

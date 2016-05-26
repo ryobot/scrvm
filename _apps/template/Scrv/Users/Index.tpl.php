@@ -47,7 +47,7 @@ $sort_links = array(
 			"sort"   => "username",
 			"order"  => $order_type,
 		)),
-		"text" => $sort === "username" ? "[Username]" : "Username",
+		"text" => $sort === "username" ? "[Name]" : "Name",
 	),
 	"review_count" => array(
 		"link" => "{$_base_url}?" . hbq(array(
@@ -61,7 +61,7 @@ $sort_links = array(
 			"sort"   => "sync_point",
 			"order"  => $order_type,
 		)),
-		"text" => $sort === "sync_point" ? "[Syncs]" : "Syncs",
+		"text" => $sort === "sync_point" ? "[SyncPoint]" : "SyncPoint",
 	),
 );
 
@@ -113,34 +113,32 @@ $sort_links = array(
 
 		<!-- lists -->
 <?php foreach($lists as $list): ?>
-		<div class="w100per user_profile">
-			<div>
-				<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
-			</div>
-			<div class="displaytable w100per">
-				<div class="displaytable w80px">
+		<div class="user_profile w100per">
+			<h3>
+				<?= h($list["username"]) ?>
+			</h3>
+			<div class="displaytable w100per vtalgmiddle">
+				<div class="displaytablecell w80px vtalgmiddle">
 					<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
 				</div>
-				<div class="displaytablecell w100per vtalgtop">
-					<div class="displaytable">
+				<div class="displaytablecell vtalgmiddle">
 <?php if($list["review_count"] > 0): ?>
-						<div class="displaytablecell">
-							<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>">
-								<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
-								<?= h($list["review_count"]) ?>
-							</a>
-							&nbsp;&nbsp;
-						</div>
+					<div class="displaytablecell">
+						<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>">
+							<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+							<?= h($list["review_count"]) ?> reviews
+						</a>
+						&nbsp;&nbsp;
+					</div>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-						<div class="displaytablecell">
-							<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>">
-								<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
-								<?= h($list["sync_point"]) ?> pt
-							</a>
-						</div>
-<?php endif; ?>
+					<div class="displaytablecella">
+						<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>">
+							<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
+							<?= h($list["sync_point"]) ?> pt
+						</a>
 					</div>
+<?php endif; ?>
 <?php if(isset($list["has_invited_user_id"])): ?>
 					<div>
 						&laquo; invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>

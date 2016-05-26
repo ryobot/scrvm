@@ -16,8 +16,6 @@
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2><?= h($user["username"]) ?></h2>
-
 	<?php require __DIR__ . "/_profile.tpl.php" ?>
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>

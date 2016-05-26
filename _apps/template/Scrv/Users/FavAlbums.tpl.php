@@ -31,8 +31,6 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2><?= h($user["username"]) ?></h2>
-
 	<?php require __DIR__ . "/_profile.tpl.php" ?>
 
 	<h3>Fav.Albums (<?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?>)</h3>

@@ -19,15 +19,24 @@
 
 	<h2>Add Album</h2>
 
-	<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
-		<p><label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked">gracenote から検索</label></p>
-		<p><label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs">discogs から検索</label></p>
-		<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name (required)" required="required"></p>
-		<p><input type="text" name="title" id="id_title" value="" placeholder="album title"></p>
-		<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
-		<p>※インディーズの新譜はあまりヒットしません。</p>
-		<p class="actions"><input type="submit" id="id_submit" value="search" /></p>
-	</form>
+	<div class="form_info">
+		<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
+			<div class="displaytable w100per tacenter">
+				<div class="displaytablecell w50per">
+					<label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked"> <img src="<?= h($base_path) ?>img/logo_gracenote.png" alt="gracenote" title="gracenote" class="w80px" /> で検索</label>
+				</div>
+				<div class="displaytablecell w50per">
+					<label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs"> <img src="<?= h($base_path) ?>img/logo_discogs.png" alt="discogs" title="discogs" class="w80px" /> で検索</label>
+				</div>
+			</div>
+
+			<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name (required)" required="required"></p>
+			<p><input type="text" name="title" id="id_title" value="" placeholder="album title"></p>
+			<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
+			<p>※インディーズの新譜はあまりヒットしません。</p>
+			<p class="actions tacenter"><input type="submit" id="id_submit" value="search" /></p>
+		</form>
+	</div>
 
 	<div id="id_Albums_SearchArtist_result"></div>
 
@@ -136,21 +145,47 @@
 					// 選択ボタン
 					$("<p class='tacenter actions' />").append(
 						$("<button data-cache_index='"+i+"'> 選 択 </button>").on("click.js",function(){
-							$result.slideToggle("middle");
-							// clickしたらその情報をformに反映、他の情報は削除
 							var cache_index = $(this).attr("data-cache_index");
 							var cache_data = cache_search_result[cache_index];
-							$("#id_add_artist").val(cache_data["artist"]);
-							$("#id_add_title").val(cache_data["title"]);
-							$("#id_add_year").val(cache_data["year"] === "" || cache_data["year"] === 0 ? "" : cache_data["year"]);
-							setTracks(cache_data["tracks"]);
-							$("#id_Albums_SearchArtist_result").html("");
-							$("#id_Albums_AddRun").show();
-							// データを選択してから画像検索
-							var search_q = cache_data["artist"] + ' ' + cache_data["title"];
-							search_q = search_q.replace("'", "\'").replace('"','\"');
-							$("#id_search_q").val(search_q);
-							searchImage(search_q);
+							// 最初にアルバム検索
+							$.ajax( "<?= h($base_path) ?>Albums/SearchAlbumExists", {
+								method : 'POST',
+								dataType : 'json',
+								data : {
+									artist : cache_data["artist"],
+									title  : cache_data["title"]
+								}
+							})
+							.done(function(json){
+								if (!json.status) {
+									alert(json.messages.join("\n"));
+									return false;
+								}
+								if (json.data.length > 0) {
+									if ( confirm( cache_data["artist"] + " / " + cache_data["title"] + " は登録済みです。\nアルバムページを表示しますか？" ) ) {
+										location.href = "<?= h($base_path) ?>Albums/View?id=" + json.data[0].id;
+									}
+									return false;
+								}
+								// 情報をformに反映、他の情報は削除
+								$result.slideToggle("middle");
+								$("#id_add_artist").val(cache_data["artist"]);
+								$("#id_add_title").val(cache_data["title"]);
+								$("#id_add_year").val(cache_data["year"] === "" || cache_data["year"] === 0 ? "" : cache_data["year"]);
+								setTracks(cache_data["tracks"]);
+								$("#id_Albums_SearchArtist_result").html("");
+								$("#id_Albums_AddRun").show();
+								// データを選択してから画像検索
+								var search_q = cache_data["artist"] + ' ' + cache_data["title"];
+								search_q = search_q.replace("'", "\'").replace('"','\"');
+								$("#id_search_q").val(search_q);
+								searchImage(search_q);
+							})
+							.fail(function(e){
+								alert("system error.");
+							})
+							.always(function(){
+							});
 						})
 					)
 				));
