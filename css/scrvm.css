@@ -65,7 +65,7 @@ input[type="text"],input[type="password"], textarea{
 	clear: both;
 	font-family: "frutiger linotype","lucida grande","verdana",sans-serif;
 	font-size: 100%;
-	padding: 1%;
+	padding: 7px;
 	width: 100%;
 }
 
@@ -221,56 +221,43 @@ li{display:list-item;zoom:normal;}
 }
 
 /* .tabs */
-.search_tab ul.tab {
-	list-style: none;
+.search_tab{
 }
-.search_tab ul.tab li {
-	float: left;
-	margin-right: 10px;
-	padding: 5px 10px;
-	background-color:#CCC;
-	cursor: pointer;
+.search_tab div.tab {
+	background-color: rgba(220,220,220,1.0);
+	padding:5px;
 	border-radius: 5px 5px 0 0;
-	border:1px solid #AAA;
-	border-bottom:0px solid #FFF;
-	z-index: 2;
-	margin-bottom: -1px;
+	border:1px solid #BBB;
+	cursor:pointer;
 }
-.search_tab ul.tab li:hover {
-	color: #FF0000;
+.search_tab div.tab.active {
+	background-color: rgba(255,255,255,1.0);
+	border-bottom: 1px solid transparent;
 }
-.search_tab ul.tab li.active {
-	background-color: #FFF;
-}
-.search_tab ul.tab li.notab {
+.search_tab div.notab {
 	cursor: auto;
 	background-color:transparent;
-	border: none;
+	border-bottom:1px solid #BBB;
 }
 .search_tab div.search_type {
-	clear: both;
-	text-align:center;
-	background-color: #FFF;
-	padding:10px 0;
-	border-radius: 0 5px 0 0;
-	border:1px solid #AAA;
+	background-color: rgba(255,255,255,1.0);
+	padding:10px;
+	border:1px solid #BBB;
+	border-top:0px solid transparent;
 	border-bottom:0px solid transparent;
-	z-index: 1;
 }
 .search_tab div.tabContent {
-	clear: both;
-	background-color: #FFF;
+	background-color: rgba(255,255,255,1.0);
 	border-top: 0px solid transparent;
 	padding: 5px;
 	width: 100%;
 	display: none;
-	background-color: #FFF;
 	text-align:center;
 	border-radius: 0 0 5px 5px;
-	border:1px solid #AAA;
+	border:1px solid #BBB;
 	border-top:0px solid transparent;
 }
-.search_tab div.active {
+.search_tab div.tabContent.active {
 	display: block;
 }
 .search_tab ul.search_index {
@@ -693,4 +680,5 @@ dl.search dd input[type="submit"]:hover{
 .cursorpointer{cursor:pointer};
 .textdeconone{text-decoration: none;}
 .img16x16{width:16px; height:16px;}
+.img24x24{width:24px; height:24px;}
 .img32x32{width:32px; height:32px;}

@@ -26,7 +26,7 @@
 
 	<h3>何か音楽を聴いたら・・・</h3>
 	<div class="about_content">
-		<p>● Albums &gt; Add Album で追加。</p><p class="about_content_sub">* すでにありそうなものは Albums &gt; artist/title で探す。</p>
+		<p>● Albums &gt; <img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img16x16" /> で追加。</p><p class="about_content_sub">* すでにありそうなものは Albums &gt; artist/title で探す。</p>
 		<p>● アルバムページの Write a Review でレビューを残す。</p><p class="about_content_sub">* レビューなし（単なる視聴記録）でも、適当なメモでも、ちゃんとした音楽レビューでもOK。</p><p class="about_content_sub">* あとから編集も可能。</p>
 		<p>● 好きなアルバム <img src="<?= h($base_path) ?>img/favalbums_on.svg" class="img16x16" />、好きな曲 <img src="<?= h($base_path) ?>img/favtracks_on.svg" class="img16x16" /> をチェック。</p>
 	</div>

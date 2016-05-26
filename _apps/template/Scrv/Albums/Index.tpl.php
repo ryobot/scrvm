@@ -96,20 +96,20 @@ $sort_links = array(
 	<!-- search tabs -->
 	<div class="search_tab">
 		<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
-			<p>
-				<ul class="tab">
-					<li id="id_stype_search">Search</li>
-					<li id="id_stype_index">Index</li>
+
+			<div class="displaytable w100per tacenter">
+				<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img16x16" /></div>
+				<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
 <?php if( $is_login ): ?>
-					<li class="notab"><span class="actions"><a href="<?= h($base_path) ?>Albums/Add">Add Album</a></span></li>
+				<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
 <?php endif; ?>
-				</ul>
-			</p>
-			<div class="search_type">
-				<label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label>
-				&nbsp;
-				<label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label>
 			</div>
+
+			<div class="displaytable w100per tacenter search_type">
+				<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label></div>
+				<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label></div>
+			</div>
+
 			<div class="tabContent active">
 				<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
 				<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>
@@ -121,6 +121,7 @@ $sort_links = array(
 		<?php endforeach; unset($alpha); ?>
 				</ul>
 			</div>
+
 			<input type="hidden" name="stype" id="id_stype" value="search" />
 			<input type="hidden" name="index" id="id_search_index" value="" />
 		</form>
@@ -216,16 +217,16 @@ $sort_links = array(
 <script>
 ;$(function(){
 	// tab menu
-	$(".tab li").on("click.js", function() {
+	$(".tab").on("click.js", function() {
 		if ( $(this).hasClass("notab") ) {
 			return;
 		}
-		var num = $(".tab li").index(this);
+		var num = $(".tab").index(this);
 		$(".tabContent").removeClass('active');
 		$(".tabContent").eq(num).addClass('active');
-		$(".tab li").removeClass('active');
+		$(".tab").removeClass('active');
 		$(this).addClass('active');
-		$("#id_stype").val($(this).text().toLowerCase());
+		$("#id_stype").val($(this).attr("data-stype").toLowerCase());
 	});
 
 	// type click
