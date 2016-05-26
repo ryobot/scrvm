@@ -22,8 +22,18 @@
 
 	<h3>Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt</h3>
 
+<!--	 sync menu
+	<div class="displaytable w100per sync_menu tacenter">
+		<div class="displaytablecell w33per"><a href="#id_title_sync_reviews">Reviews : <?= h($syncs_reviews_point_total) ?>pt</a></div>
+		<div class="displaytablecell w33per"><a href="#id_title_sync_albums">Albums : <?= count($syncs["albums"])*5 ?>pt</a></div>
+		<div class="displaytablecell w33per"><a href="#id_title_sync_tracks">Tracks : <?= count($syncs["tracks"])*2 ?>pt</a></div>
+	</div>-->
+
 	<!-- sync review -->
-	<h4>Sync Reviews (<?= count( $syncs["reviews"] ) ?>) : <?= h($syncs_reviews_point_total) ?> pt</h4>
+	<h4 id="id_title_sync_reviews">
+		Reviews (<?= count( $syncs["reviews"] ) ?>)
+		: <?= h($syncs_reviews_point_total) ?>pt
+	</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
 	<div class="group">
@@ -68,53 +78,50 @@
 <?php endforeach; unset($album_id, $reviews); ?>
 <?php endif; ?>
 
-	<h4>
-		Sync Albums (<?= count( $syncs["albums"]) ?>)
+	<!-- sync albums -->
+	<h4 id="id_title_sync_albums">
+		Albums (<?= count( $syncs["albums"]) ?>)
 		: <?= count($syncs["albums"])*5 ?>pt
 	</h4>
 <?php if (count( $syncs["albums"] ) > 0):?>
-	<div class="group">
-		<table class="w100per every_other_row_odd">
+	<div>
 <?php foreach($syncs["albums"] as $album): ?>
-			<tr>
-				<td class="w80px tacenter">
-					<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
-				</td>
-				<td>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>">
-						<?= h("{$album["artist"]} / {$album["title"]}") ?>
-						(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
-					</a>
-				</td>
-			</tr>
+		<div class="displaytable w100per album_info">
+			<div class="displaytablecell w80px">
+				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
+			</div>
+			<div class="displaytablecell vtalgmiddle">
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>">
+					<?= h("{$album["artist"]} / {$album["title"]}") ?>
+					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+				</a>
+			</div>
+		</div>
 <?php endforeach; unset($album); ?>
-		</table>
 	</div>
 <?php endif; ?>
 
-
-	<h4>
-		Sync Tracks (<?= count( $syncs["tracks"] ) ?>)
+	<!-- sync tracks -->
+	<h4 id="id_title_sync_tracks">
+		Tracks (<?= count( $syncs["tracks"] ) ?>)
 		: <?= count($syncs["tracks"])*2 ?>pt
 	</h4>
 <?php if (count( $syncs["tracks"] ) > 0):?>
-	<div class="group">
-		<table class="w100per every_other_row_odd">
+	<div>
 <?php foreach($syncs["tracks"] as $track): ?>
-			<tr>
-				<td class="w80px tacenter">
-					<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
-				</td>
-				<td>
-					<div><strong><?= h($track["track_title"]) ?></strong></div>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>">
-						<?= h("{$track["artist"]} / {$track["title"]}") ?>
-						(<?= isset($track["year"]) && $track["year"] !== "" ? h($track["year"]) : "unknown" ?>)
-					</a> : tr.<?= h($track["track_num"]) ?>
-				</td>
-			</tr>
+		<div class="displaytable w100per track_info">
+			<div class="displaytablecell w80px">
+				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
+			</div>
+			<div class="displaytablecell vtalgmiddle">
+				<div><strong><?= h($track["track_title"]) ?></strong></div>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>">
+					<?= h("{$track["artist"]} / {$track["title"]}") ?>
+					(<?= isset($track["year"]) && $track["year"] !== "" ? h($track["year"]) : "unknown" ?>)
+				</a> : tr.<?= h($track["track_num"]) ?>
+			</div>
+		</div>
 <?php endforeach; unset($track); ?>
-		</table>
 	</div>
 <?php endif; ?>
 
@@ -122,6 +129,18 @@
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
+
+<script>
+//;$(function() {
+//	$(".sync_menu a").on("click.js",function(){
+//		var href= $(this).attr("href");
+//		var target = $(href === "#" || href === "" ? 'html' : href);
+//		var position = target.offset().top;
+//		$('body,html').animate({scrollTop:position}, 250, 'swing');
+//    return false;
+//  });
+//});
+</script>
 
 </body>
 </html>

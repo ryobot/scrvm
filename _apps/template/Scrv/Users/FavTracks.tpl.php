@@ -53,13 +53,12 @@ foreach($pager["nav_list"] as $nav) {
 		</ul>
 	</div>
 
-	<table class="w100per every_other_row_odd">
 <?php foreach($favtracks as $favtrack): ?>
-		<tr>
-			<td class="w80px">
+		<div class="displaytable w100per track_info">
+			<div class="displaytablecell w80px">
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
-			</td>
-			<td>
+			</div>
+			<div class="displaytablecell vtalgmiddle">
 				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>
 				<div>
 					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>">
@@ -67,10 +66,9 @@ foreach($pager["nav_list"] as $nav) {
 						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
 					</a> : tr.<?= h($favtrack["track_num"]) ?>
 				</div>
-			</td>
-		</tr>
+			</div>
+		</div>
 <?php endforeach; ?>
-	</table>
 
 	<div class="tacenter">
 		<ul class="pagination">

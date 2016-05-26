@@ -53,21 +53,19 @@ foreach($pager["nav_list"] as $nav) {
 		</ul>
 	</div>
 
-	<table class="w100per every_other_row_odd">
 <?php foreach($favalbums as $favalbum): ?>
-		<tr>
-			<td class="w80px">
+		<div class="displaytable w100per album_info">
+			<div class="displaytablecell w80px">
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
-			</td>
-			<td>
+			</div>
+			<div class="displaytablecell vtalgmiddle">
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>">
 					<?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?>
 					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
 				</a>
-			</td>
-		</tr>
+			</div>
+		</div>
 <?php endforeach; ?>
-	</table>
 
 	<div class="tacenter">
 		<ul class="pagination">
