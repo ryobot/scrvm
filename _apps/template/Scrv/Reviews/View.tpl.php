@@ -5,7 +5,7 @@
  */
 
 $year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown";
-$review_title = "{$review["artist"]} / {$review["title"]} ({$year}) - by {$review["username"]}";
+$review_title = "{$review["artist"]} / {$review["title"]} ({$year})";
 $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
 
 ?>
@@ -13,7 +13,11 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($review_title) ?> | <?= h($base_title) ?> :: Reviews</title>
+<title>
+	<?= h($review_title) ?>
+	(by <?= h($review["username"]) ?>)
+	| <?= h($base_title) ?> :: Reviews
+</title>
 <?php require __DIR__ . '/../_parts/ogp.tpl.php'; ?>
 <?php require __DIR__ . '/../_parts/twitter_cards.tpl.php'; ?>
 </head>
@@ -24,14 +28,17 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2><?= h($review_title) ?></h2>
-
-	<div class="review">
-		<p>
+	<div class="review w100per">
+		<h3>
+			<?= h($review_title) ?>
+		</h3>
+		<div class="w100per">
 			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
-				<img class="album_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+				<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 			</a>
-		</p>
+		</div>
+
+
 		<div class="review_comment">
 			<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 		</div>

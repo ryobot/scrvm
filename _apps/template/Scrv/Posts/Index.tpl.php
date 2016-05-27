@@ -72,7 +72,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($lists as $list): ?>
 		<div class="post">
 			<h4><?= h($list["title"]) ?></h4>
-			<p class="post_body"><?= linkIt(nl2br(h($list["body"]))) ?></p>
+			<p class="post_body"><?= linkIt(nl2br(h($list["body"])), false) ?></p>
 <?php if(isset($list["reply_id"])): ?>
 <!--					<div>
 						<p><a class="post_reply_source" href="<?= h($base_path) ?>Posts/View?id=<?= h($list["reply_id"]) ?>&amp;type=json">返信元</a></p>
