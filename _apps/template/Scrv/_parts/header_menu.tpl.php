@@ -13,7 +13,7 @@
 	<div class="header_block taright">
 <?php if( $is_login ):?>
 		<a href="<?= h($base_path) ?>Users/View?id=<?= h($login_user_data["id"]) ?>">
-			<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.png" ?>" alt="<?= h($login_user_data["username"]) ?>" title="<?= h($login_user_data["username"]) ?>" />
+			<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.svg" ?>" alt="<?= h($login_user_data["username"]) ?>" title="<?= h($login_user_data["username"]) ?>" />
 		</a>
 <?php endif; ?>
 		<span id="dropmenu_normal">

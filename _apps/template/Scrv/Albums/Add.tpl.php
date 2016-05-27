@@ -23,16 +23,16 @@
 		<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
 			<div class="displaytable w100per tacenter">
 				<div class="displaytablecell w50per">
-					<label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked"> <img src="<?= h($base_path) ?>img/logo_gracenote.png" alt="gracenote" title="gracenote" class="w80px" /> で検索</label>
+					<label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked"> <img src="<?= h($base_path) ?>img/logo_gracenote.png" alt="gracenote" title="gracenote" class="w80px" /></label>
 				</div>
 				<div class="displaytablecell w50per">
-					<label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs"> <img src="<?= h($base_path) ?>img/logo_discogs.png" alt="discogs" title="discogs" class="w80px" /> で検索</label>
+					<label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs"> <img src="<?= h($base_path) ?>img/logo_discogs.png" alt="discogs" title="discogs" class="w80px" /></label>
 				</div>
 			</div>
 
-			<p><input type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="artist name (required)" required="required"></p>
-			<p><input type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="album title"></p>
-			<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
+			<p><input type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="artist name (required)" required="required" /></p>
+			<p><input type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="album title" /></p>
+			<p><input type="text" name="track" id="id_track" value="" placeholder="track title" /></p>
 			<p>※インディーズの新譜はあまりヒットしません。</p>
 			<p class="actions tacenter"><input type="submit" id="id_submit" value="search" /></p>
 		</form>
@@ -43,40 +43,44 @@
 	<div id="id_Albums_AddRun" class="displaynone">
 		<input type="hidden" name="add_img_url" id="id_add_img_url" value="" />
 		<h4>album情報を確認・修正してください。</h4>
-		<table class="w100per">
-			<tr>
-				<td class="w50px">artist</td>
-				<td><input type="text" name="add_artist" id="id_add_artist" value="" /></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>title</td>
-				<td><input type="text" name="add_title" id="id_add_title" value="" /></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>year</td>
-				<td><input type="text" name="add_year" id="id_add_year" value="" /></td>
-				<td></td>
-			</tr>
-		</table>
-		<p> </p>
-		<table class="w100per" id="id_add_tracks"></table>
+		<div class="info">
+			<table class="w100per">
+				<tr>
+					<td class="w50px">artist</td>
+					<td><input type="text" name="add_artist" id="id_add_artist" value="" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>title</td>
+					<td><input type="text" name="add_title" id="id_add_title" value="" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>year</td>
+					<td><input type="text" name="add_year" id="id_add_year" value="" /></td>
+					<td></td>
+				</tr>
+			</table>
+			<p> </p>
+			<table class="w100per" id="id_add_tracks"></table>
+		</div>
 
 		<div id="id_Albums_SearchImage_result_wrapper">
 			<h4>album カバーを選択してください（あとで変更も可能です）。</h4>
-			<form action="javascript:;" id="id_image_search_form">
-				<p><input type="text" name="search_q" id="id_search_q" value="" placeholder="search image" /></p>
-				<p class="actions"><input
-					type="submit"
-					value="image search"
-					id="id_image_search_form_submit"
-					data-label_on="image search"
-					data-label_off="searching..."
-				/></p>
-			</form>
-			<p class="actions" id="id_selected_img_url"></p>
-			<div id="id_Albums_SearchImage_result"></div>
+			<div class="info">
+				<form action="javascript:;" id="id_image_search_form">
+					<p><input type="text" name="search_q" id="id_search_q" value="" placeholder="search image" /></p>
+					<p class="actions tacenter"><input
+						type="submit"
+						value="image search"
+						id="id_image_search_form_submit"
+						data-label_on="image search"
+						data-label_off="searching..."
+					/></p>
+				</form>
+				<p class="actions" id="id_selected_img_url"></p>
+				<div id="id_Albums_SearchImage_result"></div>
+			</div>
 		</div>
 
 		<form id="id_Albums_AddRun_Form" action="javascript:;" method="POST">
@@ -124,7 +128,7 @@
 			$result.html("").css({display:"none"});
 			cache_search_result = json;
 			if ( json.length === 0 ) {
-				$result.append($("<p class='notfound' />").text("not found...")).slideToggle("middle");
+				$result.append($("<div class='info error_message tacenter' />").html("見つかりませんでした。")).slideToggle("middle");
 				return;
 			}
 			$result.append($("<h4 />").text("album データを選択してください。"));

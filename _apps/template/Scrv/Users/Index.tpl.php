@@ -119,7 +119,7 @@ $sort_links = array(
 			</h3>
 			<div class="displaytable w100per vtalgmiddle">
 				<div class="displaytablecell w80px vtalgmiddle">
-					<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.png" ?>" alt="<?= h($list["username"]) ?>" /></a>
+					<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
 <?php if($list["review_count"] > 0): ?>
@@ -142,7 +142,7 @@ $sort_links = array(
 <?php if(isset($list["has_invited_user_id"])): ?>
 					<div>
 						&laquo; invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
-						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.png" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
 					</div>
 <?php endif; ?>
 				</div>

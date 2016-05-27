@@ -35,7 +35,7 @@
 		</div>
 		<div class="user_edit_area">
 			<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
-			<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></p>
+			<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
 			<form action="<?= h($base_path) ?>Users/SavePassword" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<p><input type="password" name="current_password" id="id_current_password" value="" placeholder="current password" required="required" /></p>

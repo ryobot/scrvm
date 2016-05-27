@@ -98,7 +98,7 @@ $sort_links = array(
 		<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
 
 			<div class="displaytable w100per tacenter">
-				<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img16x16" /></div>
+				<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>
 				<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
 <?php if( $is_login ): ?>
 				<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
@@ -155,37 +155,44 @@ $sort_links = array(
 		<a href="<?= h($sort_links["reviews"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["reviews"]["text"]) ?></a>
 	</div>
 <?php foreach($lists as $album): ?>
-	<div class="displaytable w100per album_info">
-		<div class="displaytablecell tacenter w80px">
-			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-				<img
-					class="album_cover"
-					src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
-					alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
-				/>
-			</a>
-<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-			<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit</a></p>
-<?php endif; ?>
-		</div>
-		<div class="displaytablecell vtalgmiddle">
-			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-				<?= h($album["artist"]) ?>
-				/
-				<?= h($album["title"]) ?>
-				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
-			</a>
-			<p>
-<?php if($album["reviews"] > 0): ?>
+	<div class="album_info">
+		<div class="displaytable w100per">
+			<div class="displaytablecell tacenter w80px">
 				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-					<img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" />
-					<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
+					<img
+						class="album_cover"
+						src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
+						alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
+					/>
 				</a>
-<?php endif;?>
-<?php if($is_login): ?>
-			<span class="actions"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album["id"]) ?>">Write a Review</a></span>
+<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+				<div class="actions mgt10px">
+					<a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit</a>
+				</div>
 <?php endif; ?>
-			</p>
+			</div>
+			<div class="displaytablecell vtalgmiddle">
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+					<?= h($album["artist"]) ?> /
+					<?= h($album["title"]) ?>
+					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+				</a>
+<?php if($album["reviews"] > 0): ?>
+				<div>
+					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+						<img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" />
+						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
+					</a>
+				</div>
+<?php endif;?>
+			</div>
+		</div>
+		<div class="displaytable w100per tacenter actions">
+<?php if($is_login): ?>
+			<div class="displaytablecell">
+				<a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album["id"]) ?>">Write a Review</a>
+			</div>
+<?php endif; ?>
 		</div>
 	</div>
 <?php endforeach; ?>

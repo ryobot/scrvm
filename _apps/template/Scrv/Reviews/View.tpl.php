@@ -37,7 +37,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 		</div>
 		<div class="displaytable w100per">
 			<div class="displaytablecell w50px vtalgmiddle">
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</div>
 			<div class="displaytablecell">
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
@@ -71,7 +71,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 			<a href="<?= h($base_path) ?>Users/View?id=<?= h($user["user_id"]) ?>">
 				<img
 					class="user_photo_min vtalgmiddle"
-					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.png" ?>"
+					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.svg" ?>"
 					alt="<?= h($user["username"]) ?>"
 					title="<?= h($user["username"]) ?>"
 				/>

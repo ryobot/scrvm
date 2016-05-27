@@ -54,7 +54,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($favtracks as $favtrack): ?>
 		<div class="displaytable w100per track_info">
 			<div class="displaytablecell w80px">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.png" ?>" alt="" /></a>
+				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>

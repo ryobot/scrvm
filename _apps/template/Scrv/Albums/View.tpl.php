@@ -33,13 +33,13 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 	<div class="album_info">
 		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-		<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>"> Edit </a></p>
+		<p class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album Data</a></p>
 <?php endif; ?>
 		<div class="displaytable w100per">
 			<div class="displaytablecell w120px">
 				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
 			</div>
-			<div class="displaytablecell">
+			<div class="displaytablecell vtalgmiddle pdl10px">
 				<img
 					id="id_fav_album"
 					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
@@ -60,18 +60,20 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 		</div>
 
 <?php if(count($tags) > 0): ?>
-		<!-- tags -->
-		<p class="tags_group">
+			<!-- tags -->
+			<div class="mgt10px mgb10px">
+				<p class="tags_group">
 <?php foreach($tags as $tag):?>
-			<span class="tags"><a
-				href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
-				data-id="<?= h($tag["id"]) ?>"
-				data-tag="<?= h($tag["tag"]) ?>"
-				data-album_id="<?= h($tag["album_id"]) ?>"
-				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-			><?= h($tag["tag"]) ?></a></span>
+					<span class="tags"><a
+						href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
+						data-id="<?= h($tag["id"]) ?>"
+						data-tag="<?= h($tag["tag"]) ?>"
+						data-album_id="<?= h($tag["album_id"]) ?>"
+						data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+					><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
-		</p>
+				</p>
+			</div>
 <?php endif; ?>
 
 <?php if($is_login): ?>
@@ -127,7 +129,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
 			<p>
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
-					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
 				</a>
 				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-

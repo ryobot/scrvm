@@ -44,10 +44,11 @@ class Posts extends Dao
 	{
 		$result = getResultSet();
 		try{
-			$data = $this->_Dao->select(
-				 "SELECT t1.*,t2.username FROM posts t1 "
-				."LEFT JOIN users t2 ON (t1.user_id=t2.id) "
-				."ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
+			$data = $this->_Dao->select("
+				SELECT t1.*,t2.username,t2.img_file AS user_img_file
+				FROM posts t1
+				LEFT JOIN users t2 ON (t1.user_id=t2.id)
+				ORDER BY t1.created DESC LIMIT {$offset},{$limit}"
 			);
 			$data_count = $this->_Dao->select("SELECT count(id) AS cnt FROM posts");
 			$result["status"] = true;
@@ -72,7 +73,8 @@ class Posts extends Dao
 		$result = getResultSet();
 		try{
 			$data = $this->_Dao->select("
-				SELECT t1.*,t2.username FROM posts t1
+				SELECT t1.*,t2.username,t2.img_file AS user_img_file
+				FROM posts t1
 				LEFT JOIN users t2 ON (t1.user_id=t2.id)
 				WHERE t1.id=:id",
 				array("id" => $id,)

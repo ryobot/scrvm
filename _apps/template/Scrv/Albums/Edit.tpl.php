@@ -27,7 +27,7 @@
 	</div>
 <?php endif;?>
 
-	<form id="id_Albums_EditRun" enctype="multipart/form-data" action="javascript:;" method="POST" autocomplete="off">
+	<form id="id_Albums_EditRun" enctype="multipart/form-data" action="javascript:;" method="POST" autocomplete="off" class="form_info">
 		<input type="hidden" name="id" value="<?= h($id) ?>" />
 		<input type="hidden" name="token" value="<?= h($token) ?>" />
 		<table class="w100per" id="id_album_basic_info">

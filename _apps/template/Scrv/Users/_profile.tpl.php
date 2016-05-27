@@ -4,7 +4,7 @@
 		<h3><?= h($user["username"]) ?></h3>
 		<div class="displaytable">
 			<div class="displaytablecell w80px">
-				<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.png" ?>" alt="<?= h($user["username"]) ?>" />
+				<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" />
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>

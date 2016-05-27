@@ -87,9 +87,12 @@ foreach($pager["nav_list"] as $nav) {
 			>返信</span></p>
 <?php endif; ?>
 			<p>
-				(<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>"><?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?></a>
+				<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>">
+					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["user_img_file"]) ? "files/attachment/photo/{$list["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" />
+					<?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?>
+				</a>
 				-
-				<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>)
+				<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>
 			</p>
 		</div>
 <?php endforeach; unset($list) ?>

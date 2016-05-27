@@ -99,6 +99,7 @@ $sort_links = array(
 
 <?php if ( count($lists) > 0 ):?>
 
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>
@@ -113,34 +114,31 @@ $sort_links = array(
 		</ul>
 	</div>
 
-	<table class="w100per every_other_row_even">
-		<tr>
-			<td class="w80px"></td>
-			<td class="taleft">
-				<a href="<?= h($sort_links["artist"]["link"]) ?>"><?= h($sort_links["artist"]["text"]) ?></a>
-				/
-				<a href="<?= h($sort_links["title"]["link"]) ?>"><?= h($sort_links["title"]["text"]) ?></a>
-				( <a href="<?= h($sort_links["year"]["link"]) ?>"><?= h($sort_links["year"]["text"]) ?></a> )
-			</td>
-			<td></td>
-		</tr>
-<?php foreach($lists as $album): ?>
-		<tr>
-			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
-			</td>
-			<td>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
-					<?= h( "{$album["artist"]} / {$album["title"]}") ?>
-					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
-				</a>
-			</td>
-			<td>
-			</td>
-		</tr>
-<?php endforeach; ?>
-	</table>
+	<!-- sort -->
+	<div class="w100per tacenter">
+		<a href="<?= h($sort_links["artist"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort artist" class="img16x16" /><?= h($sort_links["artist"]["text"]) ?></a>
+		/
+		<a href="<?= h($sort_links["title"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort title" class="img16x16" /><?= h($sort_links["title"]["text"]) ?></a>
+		/
+		<a href="<?= h($sort_links["year"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort year" class="img16x16" /><?= h($sort_links["year"]["text"]) ?></a>
+	</div>
 
+	<!-- lists -->
+<?php foreach($lists as $album): ?>
+	<div class="displaytable w100per info">
+		<div class="displaytablecell w80px">
+			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
+		</div>
+		<div class="displaytablecell vtalgmiddle">
+			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+				<?= h( "{$album["artist"]} / {$album["title"]}") ?>
+				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+			</a>
+		</div>
+	</div>
+<?php endforeach; ?>
+
+	<!-- pager -->
 	<div class="tacenter">
 		<ul class="pagination">
 <?php if($pager["prev"]): ?>

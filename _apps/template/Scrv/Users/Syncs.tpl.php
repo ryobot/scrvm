@@ -61,7 +61,7 @@
 <?php endif;?>
 					<p><?= nl2br(linkIt(h($review["body"]))) ?></p>
 					<p>
-						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.png" ?>" alt="<?= h($review["username"]) ?>" />
+						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
 						<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 						<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
 <?php if($review["listening_last"] === "today"): ?>
