@@ -37,6 +37,12 @@ class Syncs extends Base
 		}
 		$user_id = (int)$user_id;
 
+		// 自分のsyncsは表示できない
+		if ($user_id === $this->_login_user_data["id"]) {
+			Server::send404Header("404 not found..");
+			return false;
+		}
+
 		// ユーザ情報取得
 		$login_user_id = $this->_login_user_data["id"];
 		$DaoUsers = new DaoUsers();
