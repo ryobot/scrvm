@@ -101,7 +101,7 @@ $sort_links = array(
 				<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img16x16" /></div>
 				<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
 <?php if( $is_login ): ?>
-				<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
+				<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
 <?php endif; ?>
 			</div>
 
@@ -206,7 +206,15 @@ $sort_links = array(
 	</div>
 
 <?php else:?>
-	<p class="error_message tacenter">not found.</p>
+	<div class="info">
+		<p class="error_message tacenter strong">見つかりませんでした。</p>
+<?php		if ($is_login): ?>
+		<p class="tacenter strong">
+			<a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a>
+			からアルバムを追加できます。
+		</p>
+<?php		endif; ?>
+	</div>
 <?php endif;?>
 
 </div>
@@ -257,6 +265,22 @@ $sort_links = array(
 	// search_index
 	$("#id_search_index_<?= h($index) ?>").addClass("active");
 
+<?php if($is_login): ?>
+	$(".add_album").on("click.js", function(){
+		var href = $(this).attr("href");
+		var type = $("input[name='type']:checked").val();
+		var q = $.trim($("#id_q").val());
+		var query = "";
+		if ( q !== "" && /^(artist|title)$/.test(type) ) {
+			query = "?" + [
+				"type=" + encodeURIComponent(type),
+				"q=" + encodeURIComponent(q)
+			].join("&");
+		}
+		location.href=href+query;
+		return false;
+	});
+<?php endif; ?>
 
 });
 </script>

@@ -211,9 +211,18 @@ li{display:list-item;zoom:normal;}
 	border-top:none;
 }
 
+/* .info */
+.info{
+	background-color: rgba(255,255,255,0.7);
+	margin:5px 0;
+	padding:5px;
+	border:1px solid #CCC;
+	border-radius: 5px
+}
+
 /* .form_ */
 .form_info{
-	background-color: rgba(255,255,255,0.7);
+	background-color: rgba(255,255,255,1);
 	margin:5px 0;
 	padding:5px;
 	border:1px solid #CCC;
@@ -682,3 +691,4 @@ dl.search dd input[type="submit"]:hover{
 .img16x16{width:16px; height:16px;}
 .img24x24{width:24px; height:24px;}
 .img32x32{width:32px; height:32px;}
+.strong{font-weight: bold;}

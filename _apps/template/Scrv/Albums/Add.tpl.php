@@ -30,8 +30,8 @@
 				</div>
 			</div>
 
-			<p><input type="text" name="artist" id="id_artist" value="" placeholder="artist name (required)" required="required"></p>
-			<p><input type="text" name="title" id="id_title" value="" placeholder="album title"></p>
+			<p><input type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="artist name (required)" required="required"></p>
+			<p><input type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="album title"></p>
 			<p><input type="text" name="track" id="id_track" value="" placeholder="track title"></p>
 			<p>※インディーズの新譜はあまりヒットしません。</p>
 			<p class="actions tacenter"><input type="submit" id="id_submit" value="search" /></p>
