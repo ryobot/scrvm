@@ -124,6 +124,18 @@ $sort_links = array(
 	</div>
 
 	<!-- lists -->
+
+<?php if( $is_login ): ?>
+	<div class="info">
+		<div>
+			<a href="<?= h($base_path) ?>Albums/Add?type=artist&q=<?= urlencode($tag) ?>" class="add_album">
+				<img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" />
+				<?= h($tag) ?> の他の Album を追加する
+			</a>
+		</div>
+	</div>
+<?php endif; ?>
+
 <?php foreach($lists as $album): ?>
 	<div class="displaytable w100per info">
 		<div class="displaytablecell w80px">
