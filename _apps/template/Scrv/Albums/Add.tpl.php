@@ -133,6 +133,12 @@
 			}
 			$result.append($("<h4 />").text("album データを選択してください。"));
 			for(var i=0,len=json.length; i<len; i++) {
+
+				// discogs の場合、アーティスト名に (数字) が付くケースがあるので削除しておく
+				if ( val_search_type === "discogs" ) {
+					json[i].artist = $.trim( json[i].artist.replace(/\([0-9]+\)$/, "") );
+				}
+
 				var artist = json[i].artist,
 				title = json[i].title,
 				year = json[i].year === "" || json[i].year === 0 ? "unknown" : json[i].year,
