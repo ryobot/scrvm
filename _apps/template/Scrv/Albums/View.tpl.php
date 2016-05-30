@@ -52,10 +52,11 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
 					data-album_id="<?= h($album_id) ?>"
 					alt="fav album"
+					title="fav album"
 				/>
 				<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
-				<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.png" height="40"/></a>
-				<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.png" height="40"/></a>
+				<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="img32x32" alt="apple music" title="apple music" /></a>
+				<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="img32x32" alt="google play music" title="google play music" /></a>
 			</div>
 		</div>
 
@@ -111,6 +112,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 					data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
 					data-track_id="<?= h($track["id"]) ?>"
 					alt="fav track"
+					title="fav track"
 				/>
 				<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
 			</div>

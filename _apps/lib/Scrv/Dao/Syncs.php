@@ -45,16 +45,18 @@ class Syncs extends Dao
 	{
 		$result = getResultSet();
 		try{
+			// アルバムごとに user_id 重複したものを レビュー作成日昇順で取得
 			$sql = "
 				SELECT t1.*, t2.artist, t2.title, t2.img_file, t2.year, t3.username, t3.img_file as user_img_file
 				FROM reviews t1
 				LEFT JOIN albums t2 ON(t1.album_id=t2.id)
 				LEFT JOIN users t3 ON(t1.user_id=t3.id)
-				WHERE t1.album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid)
-				order by t1.created DESC
+				WHERE t1.album_id IN(SELECT album_id FROM reviews WHERE user_id=:uid1)
+				AND t1.user_id IN (:uid2,:luid)
+				GROUP BY t1.album_id,t1.user_id
+				ORDER BY t1.created DESC
 			";
-//			$params = array("uid" => $login_user_id,);
-			$params = array("uid" => $user_id,);
+			$params = array("uid1" => $user_id,"uid2" => $user_id,"luid" => $login_user_id,);
 			$merge_lists = $this->_Dao->select($sql, $params);
 
 			// album_idごとにまとめて返す

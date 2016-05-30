@@ -72,39 +72,23 @@ class Syncs extends Base
 
 		$UtilSyncs = new UtilSyncs();
 
-		// 自分のuser_idが入っているレビュー一覧のみ抜き取る
-		$reviews_list = array();
-		foreach($sync_reviews_result["data"] as $album_id => $reviews) {
-			foreach( $reviews as $review ) {
-				if ( $review["user_id"] === $login_user_id ) {
-					$reviews_list[$album_id] = $reviews;
-					break;
-				}
-			}
-		}
-
 		// 計算実行。地獄…
+		$reviews_list = $sync_reviews_result["data"];
 		$reviews_with_point = array();
 		$syncs_reviews_point_total = 0;
 		foreach($reviews_list as $album_id => $reviews){
-			// 自分のIDと次のIDが相手のものの場合のみ計算
 			for($i=0,$len=count($reviews);$i<$len;$i++){
 				$current = $reviews[$i];
 				$next = isset($reviews[$i+1]) ? $reviews[$i+1] : null;
 				if ($next === null) {
 					continue;
 				}
-				if ($current["user_id"] !== $login_user_id || $next["user_id"] !== $user_id) {
-					continue;
-				}
-				$calc = $UtilSyncs->calcReviewsPoint(array($next, $current));
-				if ( count($calc) === 0 ) {
-					continue;
-				}
+				$calc = $UtilSyncs->calcReviewsPoint(array($current, $next));
 				$next["sync_point"] = $calc[0]["sync"];
 				$syncs_reviews_point_total += $calc[0]["sync"]["point"];
 				$reviews_with_point[$album_id] = array(
 					"point" => $calc[0]["sync"]["point"],
+					"diff" => $calc[0]["sync"]["diff"],
 					"data" => array(
 						$current,
 						$next,

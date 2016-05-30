@@ -94,32 +94,33 @@ class SyncPoints extends Dao
 	{
 		$sync_point_data = array();
 
+		// レビューが複数存在するアルバムID一覧を取得する
 		$sql = "SELECT t1.id FROM albums t1
 			INNER JOIN reviews t2 ON (t2.album_id=t1.id)
 			GROUP BY t1.id HAVING count(t1.id) > 1
 			ORDER BY t1.id
 		";
-		$params = array();
-
-		// レビューが複数存在するアルバムID一覧を取得する
-		$album_id_lists = $this->_Dao->select($sql, $params);
+		$album_id_lists = $this->_Dao->select($sql);
 		if ( count($album_id_lists) === 0 ) {
 			return $sync_point_data;
 		}
+
 		// album_id ごとに 古いものからレヴューを取得して計算
 		foreach( $album_id_lists as $row ) {
 			$album_id = $row["id"];
+
 			// 複数ユーザレビューがなければスルー
 			$user_count = $this->_Dao->select(
-				"SELECT count(user_id) AS cnt FROM reviews WHERE album_id=:aid GROUP BY user_id"
+				"SELECT user_id FROM reviews WHERE album_id=:aid GROUP BY user_id"
 				,array("aid" => $album_id)
 			);
 			if ( count($user_count) < 2 ) {
 				continue;
 			}
-			// アルバムレビューごとにsyncを計算
+
+			// アルバムレビューごとにsyncを計算。重複user_idはgroup by で除外（先にレビューを書いたIDを優先）
 			$review_list = $this->_Dao->select(
-				"SELECT user_id, listening_last, created FROM reviews WHERE album_id=:aid ORDER BY created"
+				"SELECT * FROM reviews WHERE album_id=:aid GROUP BY user_id ORDER BY created"
 				, array("aid" => $album_id)
 			);
 			$sync_point_result = $this->_Syncs->calcReviewsPoint($review_list);

@@ -36,34 +36,61 @@ class Syncs
 
 		// point = -(diff * x * x) + y
 		$diff = (int)floor(abs($time1-$time2)/(60*60*24));
-		$x = 3;
+		$x = 10;
 		$y = 50;
-		$point = (-1 * $diff * $x * $x) + $y;
+		$point = (-1 * $diff * $x) + $y;
 		$result["diff"] = $is_today ? $diff : null;	// today以外の場合は diff = null
-		$result["point"] = $is_today ? $point : 10;	// today以外の場合は一律 10point
+		$result["point"] = $point <= 0 ? 1 : $point;	// 0以下の場合は一律 1point に変更
 		return $result;
 	}
 
+	public function calcReviewDiff($review_list1, $review_list2)
+	{
+		// 各項目をserialize, array_diff でチェック
+		$seri1 = array();
+		$seri2 = array();
+		foreach($review_list1 as $row1) {
+			$seri1[] = serialize($row1);
+		}
+		foreach($review_list2 as $row2) {
+			$seri2[] = serialize($row2);
+		}
+		// 件数が多い方からarray_diff
+		$diff = array();
+		if ( count($seri1) > count($seri2) ) {
+			$diff = array_diff($seri1, $seri2);
+		} else {
+			$diff = array_diff($seri2, $seri1);
+		}
+		$result = array();
+		foreach($diff as $row) {
+			$result[] = unserialize($row);
+		}
+		return $result;
+	}
+
+	/**
+	 * calc review point
+	 * @param type $review_list user_idが重複削除されてかつcreated 昇順のリストであること
+	 * @return type
+	 */
 	public function calcReviewsPoint($review_list)
 	{
 		$result = array();
-		for($i=0, $len=count($review_list); $i<$len; $i++){
-			$current = $review_list[$i];
-			$next = isset($review_list[$i+1]) ? $review_list[$i+1] : null;
-			if ( $next === null ) {
-				break;
-			}
-			if ($current["user_id"] === $next["user_id"]) {
-				continue;
-			}
-			// pointが0以上の場合のみ
-			$sync = $this->calcPoint($current["created"], $next["created"], $next["listening_last"]);
-			if ($sync["point"] > 0) {
-				$result[] = array(
-					"user_id" => $current["user_id"],
-					"user_com_id" => $next["user_id"],
-					"sync" => $sync,
-				);
+		// 全ての組み合わせを計算
+		foreach( $review_list as $idx1 => $review1 ) {
+			foreach( $review_list as $idx2 => $review2 ) {
+				if ( $idx1 === $idx2 ) {
+					continue;
+				}
+				$sync = $this->calcPoint($review1["created"], $review2["created"]);
+				if ($sync["point"] > 0) {
+					$result[] = array(
+						"user_id" => $review1["user_id"],
+						"user_com_id" => $review2["user_id"],
+						"sync" => $sync,
+					);
+				}
 			}
 		}
 		return $result;
