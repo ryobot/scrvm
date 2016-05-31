@@ -34,14 +34,8 @@
 				}).css({
 					cursor:"pointer"
 				}).append(
-					$("<img class='' />").attr({
+					$("<img />").attr({
 						src : img_url
-					}),
-					$("<img class='absolute img32x32' />").attr({
-						src : BASE_PATH + "img/youtube.svg",
-					}).css({
-						top:"5px",
-						left:"5px"
 					})
 				).on("click.js", function(){
 					var id = $(this).attr("data_youtube_id");
