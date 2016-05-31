@@ -187,13 +187,16 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 <script>
 ;$(function(){
 
-	// 検索文字列の title に [Bonus Track]って入ってると正しく検索できないから除去しておく
-	$("#id_term").val(
-		$("#id_term").val().replace(/\s*\[\s*Bonus\s*Track\s*\]\s*$/i, "")
-	);
-
 	var ARTIST = $("#id_term").attr("data-artist");
 	var TITLE = $("#id_term").attr("data-title");
+
+	// title に []があると検索がうまくいかないから削除
+	var _tmp_title = TITLE.replace(/\[.+?\]/, "");
+	if ( _tmp_title !== "" ) {
+		$("#id_term").val( ARTIST + " " + _tmp_title );
+	} else {
+		$("#id_term").val( ARTIST + " " + TITLE.replace(/[\[\]]/g, "") );
+	}
 
 	// tag_data
 	$(".tags > a").each(function(){
