@@ -2,6 +2,14 @@
 
 ;$(function(){
 
+	// menu
+	$("#dropmenu_normal").on("click",function(){
+		$(".dropmenu").toggle();
+	});
+	$("#id_logout").on("click.js",function(){
+		$("#id_form_logout").submit();
+	});
+
 	// レビュー内の youtubeリンクを展開
 	$(".review_comment").each(function(){
 		var $this = $(this);

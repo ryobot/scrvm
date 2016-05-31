@@ -33,16 +33,6 @@
 			</ul>
 		</div>
 		<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
-		<script>
-			;$(function(){
-				$("#dropmenu_normal").on("click",function(){
-					$(".dropmenu").toggle();
-				});
-				$("#id_logout").on("click.js",function(){
-					$("#id_form_logout").submit();
-				});
-			});
-		</script>
 	</div>
 </div>
 
