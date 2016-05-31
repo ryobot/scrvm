@@ -53,7 +53,7 @@
 
 <?php foreach($reviews["data"] as $review): ?>
 		<div class="w100per info">
-			<p><?= nl2br(linkIt(h($review["body"]))) ?></p>
+			<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
 			<div class="displaytable w100per">
 				<div class="displaytablecell w50px">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
@@ -68,7 +68,6 @@
 			</div>
 		</div>
 <?php endforeach; unset($review); ?>
-
 
 	</div>
 <?php endforeach; unset($album_id, $reviews); ?>

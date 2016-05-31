@@ -28,7 +28,7 @@
 
 	<div class="user_edit">
 		<div class="displaytable w100per user_edit_menu">
-			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/Edit">編集</a></div>
+			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/Edit">プロフィール編集</a></div>
 			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></div>
 			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></div>
 			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/ConnectTwitter">twitter 連携</a></div>

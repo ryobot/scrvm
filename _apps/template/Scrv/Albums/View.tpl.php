@@ -157,7 +157,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 				</span>
 			</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<p class="actions">
+			<p class="actions mgt10px">
 				<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
 				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 			</p>
@@ -187,7 +187,6 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 <script>
 ;$(function(){
 
-	var BASE_PATH = "<?= h($base_path) ?>";
 	var ARTIST = $("#id_term").attr("data-artist");
 	var TITLE = $("#id_term").attr("data-title");
 

@@ -94,7 +94,7 @@ foreach($pager["nav_list"] as $nav) {
 					</span>
 				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
-				<p class="actions">
+				<p class="actions mgt10px">
 					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>

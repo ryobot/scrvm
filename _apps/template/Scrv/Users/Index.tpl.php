@@ -102,12 +102,12 @@ $sort_links = array(
 
 		<!-- sort -->
 		<div class="w100per tacenter">
-			<a href="<?= h($sort_links["username"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort username" class="img16x16" /><?= h($sort_links["username"]["text"]) ?></a>
+			<a href="<?= h($sort_links["username"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort username" class="img16x16" /><?= $sort_links["username"]["text"] ?></a>
 			/
-			<a href="<?= h($sort_links["review_count"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["review_count"]["text"]) ?></a>
+			<a href="<?= h($sort_links["review_count"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= $sort_links["review_count"]["text"] ?></a>
 <?php if($is_login):?>
 			/
-			<a href="<?= h($sort_links["sync_point"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort sync points" class="img16x16" /><?= h($sort_links["sync_point"]["text"]) ?></a>
+			<a href="<?= h($sort_links["sync_point"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort sync points" class="img16x16" /><?= $sort_links["sync_point"]["text"] ?></a>
 <?php endif; ?>
 		</div>
 

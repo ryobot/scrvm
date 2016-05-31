@@ -61,7 +61,6 @@ foreach($pager["nav_list"] as $nav) {
 					</a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
-<!--					<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>-->
 					<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
 						<?= h($review["artist"]) ?><br />
 						<?= h($review["title"]) ?>
@@ -104,7 +103,7 @@ foreach($pager["nav_list"] as $nav) {
 			</p>
 <?php endif; ?>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-			<p class="actions">
+			<p class="actions mgt10px">
 				<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
 				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 			</p>
@@ -142,13 +141,13 @@ foreach($pager["nav_list"] as $nav) {
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
 			if(confirm("are you sure ?")){
-				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
+				$.ajax( BASE_PATH + "Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Reviews";
+					location.href = BASE_PATH + "Reviews";
 				})
 				.fail(function(e){
 					alert("system error.");
@@ -174,7 +173,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php if($is_login): ?>
 		$this.on("click.js", function(){
 			var review_id = $(this).attr("data-review_id");
-			$.ajax( "<?= h($base_path) ?>Reviews/Fav", {
+			$.ajax( BASE_PATH + "Reviews/Fav", {
 				method : 'POST',
 				dataType : 'json',
 				data : { review_id : review_id }
@@ -195,8 +194,7 @@ foreach($pager["nav_list"] as $nav) {
 		});
 <?php endif; ?>
 
-	});
-
+});
 
 });
 </script>
