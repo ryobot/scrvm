@@ -155,7 +155,7 @@ class Index extends Base
 			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],
 			"pager" => $pager,
-			"most_prev_link" => $most_next_link,
+			"most_prev_link" => $most_prev_link,
 			"prev_link" => $prev_link,
 			"next_link" => $next_link,
 			"most_next_link" => $most_next_link,
@@ -165,6 +165,7 @@ class Index extends Base
 
 		// ajaxの場合
 		if ($ajax === "1") {
+			header("Content-Type:text/plain; charset=utf-8");
 			$this->_Template->assign($assign_data)->display("Albums/Index_Ajax.tpl.php");
 			return true;
 		}
