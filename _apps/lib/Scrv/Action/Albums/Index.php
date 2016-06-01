@@ -30,6 +30,7 @@ class Index extends Base
 		$sort = Server::get("sort", "reviews"); // defalut reviews
 		$order = Server::get("order", "desc");  // default desc
 		$page = Server::get("page", "1");
+		$ajax = Server::get("ajax", "");
 
 		// page 設定
 		if ( ! ctype_digit($page) ) {
@@ -69,8 +70,83 @@ class Index extends Base
 
 		// pager
 		$Pager = new Pager();
+		$pager = $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5);
 
-		$this->_Template->assign(array(
+		// pager リンク用
+		$_base_url = "{$this->_BasePath}Albums";
+		$_base_params = array(
+			"q" => $q,
+			"type" => $type,
+			"stype" => $stype,
+			"index" => $index,
+		);
+		$most_prev_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+			"page" => "1",
+			"sort"   => $sort,
+			"order"  => $order,
+		)));
+		$prev_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+			"page" => $pager["now_page"]-1,
+			"sort"   => $sort,
+			"order"  => $order,
+		)));
+		$next_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+			"page" => $pager["now_page"]+1,
+			"sort"   => $sort,
+			"order"  => $order,
+		)));
+		$most_next_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+			"page" => $pager["max_page"],
+			"sort"   => $sort,
+			"order"  => $order,
+		)));
+		$nav_list = array();
+		foreach($pager["nav_list"] as $nav) {
+			$nav_list[] = array(
+				"active" => $nav["active"],
+				"page" => $nav["page"],
+				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+					"page" => $nav["page"],
+					"sort"   => $sort,
+					"order"  => $order,
+				))),
+			);
+		}
+
+		// ソート用リンク
+		$order_type = $order === "asc" ? "desc" : "asc";
+		$sort_links = array(
+			"reviews" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+					"sort"   => "reviews",
+					"order"  => $order_type,
+				))),
+				"text" => $sort === "reviews" ? "[Reviews]" : "Reviews",
+			),
+			"artist" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+					"sort"   => "artist",
+					"order"  => $order_type,
+				))),
+				"text" => $sort === "artist" ? "[Artist]" : "Artist",
+			),
+			"title" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+					"sort"   => "title",
+					"order"  => $order_type,
+				))),
+				"text" => $sort === "title" ? "[Title]" : "Title",
+			),
+			"year" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+					"sort"   => "year",
+					"order"  => $order_type,
+				))),
+				"text" => $sort === "year" ? "[Year]" : "Year",
+			),
+		);
+
+		$assign_data = array(
 			"q" => $q,
 			"type" => $type,
 			"index" => $index,
@@ -78,8 +154,22 @@ class Index extends Base
 			"sort" => $sort,
 			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],
-			"pager" => $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5),
-		))->display("Albums/Index.tpl.php");
+			"pager" => $pager,
+			"most_prev_link" => $most_next_link,
+			"prev_link" => $prev_link,
+			"next_link" => $next_link,
+			"most_next_link" => $most_next_link,
+			"nav_list" => $nav_list,
+			"sort_links" => $sort_links,
+		);
+
+		// ajaxの場合
+		if ($ajax === "1") {
+			$this->_Template->assign($assign_data)->display("Albums/Index_Ajax.tpl.php");
+			return true;
+		}
+
+		$this->_Template->assign($assign_data)->display("Albums/Index.tpl.php");
 		return true;
 	}
 }

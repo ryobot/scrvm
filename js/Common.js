@@ -1,5 +1,18 @@
 // Common.js
 
+/**
+ * html_build_query
+ * @param {Object} params
+ * @returns {String}
+ */
+var hbq = function(params){
+	var arr = [];
+	for(var k in params) {
+		arr.push(k + "=" + encodeURIComponent(params[k]));
+	}
+	return arr.join("&");
+};
+
 ;$(function(){
 
 	// menu
@@ -59,6 +72,5 @@
 			$this.append($youtube_frame);
 		}
 	});
-
 
 });
