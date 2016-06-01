@@ -27,12 +27,7 @@
 <?php endif;?>
 
 	<div class="user_edit">
-		<div class="displaytable w100per user_edit_menu">
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/Edit">編集</a></div>
-			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></div>
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></div>
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/ConnectTwitter">twitter 連携</a></div>
-		</div>
+<?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 		<div class="user_edit_area">
 			<p><?= h($login_user_data["username"]) ?> のパスワードを変更します。</p>
 			<p><img class="user_photo" src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>

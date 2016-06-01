@@ -19,13 +19,7 @@
 	<h2>Create Invite</h2>
 
 	<div class="user_edit">
-
-		<div class="displaytable w100per user_edit_menu">
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/Edit">編集</a></div>
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/EditPassword">パスワード変更</a></div>
-			<div class="displaytablecell active"><a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク作成</a></div>
-			<div class="displaytablecell"><a href="<?= h($base_path) ?>Users/ConnectTwitter">twitter 連携</a></div>
-		</div>
+<?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 		<div class="user_edit_area">
 <?php if($login_user_data["role"] !== "admin"): ?>
 			<p>リンク生成回数：残り <span id="id_can_be_invited_count"><?= h($can_be_invited_count) ?></span> 回</p>
