@@ -43,7 +43,7 @@ class CreateInvite extends Base
 
 		$this->_Template->assign(array(
 			"token" => $token,
-			"can_be_invited_count" => (int)$this->_common_ini["invites"]["max_invited_count"] - $invited_count,
+			"can_be_invited_count" => (int)self::$_common_ini["invites"]["max_invited_count"] - $invited_count,
 		))->display("Users/CreateInvite.tpl.php");
 
 		return true;

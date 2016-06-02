@@ -27,7 +27,7 @@ class Search extends Base
 			return false;
 		}
 
-		$GMS = new GoogleMusicSearch($this->_common_ini["googleplaymusic"]["api_url"]);
+		$GMS = new GoogleMusicSearch(self::$_common_ini["googleplaymusic"]["api_url"]);
 		$result = $GMS->searchAlbum($q);
 
 		header("Content-Type:application/json; charset=utf-8");

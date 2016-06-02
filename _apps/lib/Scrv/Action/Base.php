@@ -75,16 +75,16 @@ class Base extends Scrv\Base
 		parent::__construct();
 
 		// セッション開始
-		$this->_Session = new Session( $this->_common_ini["session"] );
+		$this->_Session = new Session( self::$_common_ini["session"] );
 		$this->_Session->start();
 
 		// テンプレートインスタンス生成
 		$this->_Template = new Template();
-		$this->_Template->template_dir = __DIR__ . "/../../../" . $this->_common_ini["common"]["template_dir"];
+		$this->_Template->template_dir = __DIR__ . "/../../../" . self::$_common_ini["common"]["template_dir"];
 
 		// 基底関連
-		$this->_BaseTitle = $this->_common_ini["common"]["base_title"];
-		$this->_BasePath = $this->_common_ini["common"]["base_path"];
+		$this->_BaseTitle = self::$_common_ini["common"]["base_title"];
+		$this->_BasePath = self::$_common_ini["common"]["base_path"];
 
 		// ログイン関連
 		// ログイン時は有効時間チェック
@@ -92,12 +92,12 @@ class Base extends Scrv\Base
 		if ( $is_login ) {
 			// 有効時間を超えていたらセッション破棄(ログアウト)
 			$expires = $this->_Session->get(Scrv\SessionKeys::LOGIN_EXPIRES);
-			if ( $expires < $this->_nowTimestamp ) {
+			if ( $expires < self::$_nowTimestamp ) {
 				$this->_Session->init();
 				$this->_Session->destroy();
 			} else {
 				$timeout = $this->_Session->get(Scrv\SessionKeys::LOGIN_TIMEOUT);
-				$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $this->_nowTimestamp + $timeout);
+				$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, self::$_nowTimestamp + $timeout);
 			}
 		}
 		$this->_is_login = $is_login;
@@ -107,7 +107,7 @@ class Base extends Scrv\Base
 		$this->_Template->assign(array(
 			"base_title" => $this->_BaseTitle,
 			"base_path" => $this->_BasePath,
-			"now_timestamp" => $this->_nowTimestamp,
+			"now_timestamp" => self::$_nowTimestamp,
 			"is_login" => $this->_is_login,
 			"login_user_data" => $this->_login_user_data,
 		));

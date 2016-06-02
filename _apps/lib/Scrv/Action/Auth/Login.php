@@ -45,15 +45,15 @@ class Login extends Base
 		}
 
 //		// スーパーユーザの場合はログイン済みとして処理、トップにリダイレクト
-//		if ( $post_params["username"] === $this->_common_ini["root"]["username"]
-//			&& $post_params["password"] === $this->_common_ini["root"]["password"]
+//		if ( $post_params["username"] === self::$_common_ini["root"]["username"]
+//			&& $post_params["password"] === self::$_common_ini["root"]["password"]
 //		) {
 //			$this->_Session->init();
 //			$this->_Session->regenerate();
 //			$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 //			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, array(
 //				"id" => 0,
-//				"username" => $this->_common_ini["root"]["username"],
+//				"username" => self::$_common_ini["root"]["username"],
 //				"role" => "admin",
 //				"favalbum_count" => null,
 //				"favtrack_count" => null,
@@ -94,8 +94,8 @@ class Login extends Base
 		$timeout = 30 * 60;
 		if ( $post_params["autologin"] === "1" ) {
 			// timeout を伸ばす
-			$timeout = isset($this->_common_ini["session"]["session.gc_maxlifetime"])
-								? (int)$this->_common_ini["session"]["session.gc_maxlifetime"]
+			$timeout = isset(self::$_common_ini["session"]["session.gc_maxlifetime"])
+								? (int)self::$_common_ini["session"]["session.gc_maxlifetime"]
 								: 30 * 60;
 			session_set_cookie_params($timeout);
 		}
@@ -105,7 +105,7 @@ class Login extends Base
 		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $login_result["data"]);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_TIMEOUT, $timeout);
-		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + $this->_nowTimestamp);
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + self::$_nowTimestamp);
 		Server::redirect($this->_BasePath . $after_url_logined);
 
 		return true;

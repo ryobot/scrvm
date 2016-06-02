@@ -27,7 +27,7 @@ class Syncs extends Dao
 	{
 		parent::__construct();
 		$this->_Dao = new Dao();
-		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+		if ( ! $this->_Dao->connect(self::$_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
 			exit;
 		}

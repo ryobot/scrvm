@@ -32,7 +32,7 @@ class Search extends Base
 			return false;
 		}
 
-		$Itunes = new Itunes($this->_common_ini["itunes"]["api_url"]);
+		$Itunes = new Itunes(self::$_common_ini["itunes"]["api_url"]);
 		$result = $Itunes->searchAlbums($term, $country_list);
 
 		header("Content-Type:application/json; charset=utf-8");

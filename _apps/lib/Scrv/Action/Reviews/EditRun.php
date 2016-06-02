@@ -128,8 +128,8 @@ class EditRun extends Base
 	{
 		$result = getResultSet();
 		$tmhOAuth = new \tmhOAuth( array(
-			'consumer_key'    => $this->_common_ini["twitter"]['consumer_key'],
-			'consumer_secret' => $this->_common_ini["twitter"]['consumer_secret'],
+			'consumer_key'    => self::$_common_ini["twitter"]['consumer_key'],
+			'consumer_secret' => self::$_common_ini["twitter"]['consumer_secret'],
 			'user_token'      => $this->_login_user_data["twitter_user_token"],
 			'user_secret'     => $this->_login_user_data["twitter_user_secret"],
 		) );

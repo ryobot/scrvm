@@ -28,7 +28,7 @@ class Users extends Dao
 	{
 		parent::__construct();
 		$this->_Dao = new Dao();
-		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+		if ( ! $this->_Dao->connect(self::$_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
 			exit;
 		}
@@ -143,8 +143,8 @@ class Users extends Dao
 			$password_hash = $Password->makePasswordHash(
 				$username,
 				$password,
-				$this->_common_ini["password"]["hash_seed"],
-				(int)$this->_common_ini["password"]["hash_count"]
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
 			);
 			// 登録
 			$this->_Dao->insert(
@@ -235,8 +235,8 @@ class Users extends Dao
 			$current_password_hash = $Password->makePasswordHash(
 				$username,
 				$current_password,
-				$this->_common_ini["password"]["hash_seed"],
-				(int)$this->_common_ini["password"]["hash_count"]
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
 			);
 
 			// 存在チェック user_id, current_password
@@ -249,8 +249,8 @@ class Users extends Dao
 			$password_hash = $Password->makePasswordHash(
 				$username,
 				$password,
-				$this->_common_ini["password"]["hash_seed"],
-				(int)$this->_common_ini["password"]["hash_count"]
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
 			);
 			$sql = "UPDATE users SET password=:pwd,modified=now() WHERE id=:uid";
 			$params = array(

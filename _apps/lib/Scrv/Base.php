@@ -17,13 +17,13 @@ class Base
 	 * 共通設定ini格納用連想配列
 	 * @var array
 	 */
-	protected $_common_ini = array();
+	protected static $_common_ini = null;
 
 	/**
 	 * スクリプト開始時のタイムスタンプ
 	 * @var type
 	 */
-	protected $_nowTimestamp = null;
+	protected static $_nowTimestamp = null;
 
 	/**
 	 * 設定ファイル格納さきディレクトリパスを返す
@@ -40,17 +40,16 @@ class Base
 	 */
 	public function __construct()
 	{
-		// 共通設定ファイル読み込み処理
+		if ( isset( self::$_common_ini, self::$_nowTimestamp ) ) {
+			return true;
+		}
 		$ini_file = $this->getConfigDir() . "common.ini";
 		if ( ! is_readable($ini_file) ) {
 			echo "config load error.";
 			exit;
 		}
-		$this->_common_ini = parse_ini_file( $ini_file, true );
-
-		// 現在タイムスタンプ取得
-		$this->_nowTimestamp = time();
-
+		self::$_common_ini = parse_ini_file( $ini_file, true );
+		self::$_nowTimestamp = time();
 		return true;
 	}
 

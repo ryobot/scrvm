@@ -28,7 +28,7 @@ class Auth extends Dao
 	{
 		parent::__construct();
 		$this->_Dao = new Dao();
-		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+		if ( ! $this->_Dao->connect(self::$_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
 			exit;
 		}
@@ -51,8 +51,8 @@ class Auth extends Dao
 			$password_hash = $Password->makePasswordHash(
 				$username,
 				$password,
-				$this->_common_ini["password"]["hash_seed"],
-				(int)$this->_common_ini["password"]["hash_count"]
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
 			);
 			$user_result = $this->_Dao->select(
 				"SELECT * FROM users WHERE username=:username AND password=:password_hash",

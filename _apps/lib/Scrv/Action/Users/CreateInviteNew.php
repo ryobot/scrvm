@@ -50,7 +50,7 @@ class CreateInviteNew extends Base
 			$result["status"] = true;
 			$result["data"] = array(
 				"created_link" => Server::getFullHostUrl() . "{$this->_BasePath}Invites?hash={$hash}",
-				"can_be_invited_count" => (int)$this->_common_ini["invites"]["max_invited_count"] - $current_user_data["invited_count"],
+				"can_be_invited_count" => (int)self::$_common_ini["invites"]["max_invited_count"] - $current_user_data["invited_count"],
 			);
 		} else {
 			$result["messages"] = $user_result["messages"];

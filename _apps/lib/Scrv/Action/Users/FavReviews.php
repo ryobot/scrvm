@@ -44,7 +44,7 @@ class FavReviews extends Base
 		if ( ! ctype_digit($page) ) {
 			$page = "1";
 		}
-		$limit = (int)$this->_common_ini["search"]["limit"];
+		$limit = (int)self::$_common_ini["search"]["limit"];
 		$offset = ((int)$page-1) * $limit;
 
 		// favreviews情報取得

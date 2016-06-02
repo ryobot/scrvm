@@ -56,8 +56,8 @@ class Twitter extends Base
 	private function _auth($authenticate, $is_ok_url)
 	{
 		$tmhOAuth = new \tmhOAuth( array(
-			'consumer_key' => $this->_common_ini["twitter"]['consumer_key'],
-			'consumer_secret' => $this->_common_ini["twitter"]['consumer_secret'],
+			'consumer_key' => self::$_common_ini["twitter"]['consumer_key'],
+			'consumer_secret' => self::$_common_ini["twitter"]['consumer_secret'],
 		) );
 
 		$api_url = "https://api.twitter.com/oauth/";
@@ -69,7 +69,7 @@ class Twitter extends Base
 		if ($access_token === null) {
 			$access_token = array();
 		}
-		$access_token["update_timestamp"] = $this->_nowTimestamp;
+		$access_token["update_timestamp"] = self::$_nowTimestamp;
 
 		// oauth_verifier param
 		$oauth_verifier = Server::get("oauth_verifier");

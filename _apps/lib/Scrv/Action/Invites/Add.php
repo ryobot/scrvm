@@ -80,7 +80,7 @@ class Add extends Base
 		$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $add_result["data"]);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_TIMEOUT, $timeout);
-		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + $this->_nowTimestamp);
+		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + self::$_nowTimestamp);
 
 		//Server::redirect($this->_BasePath . "Users/View?id=" . $add_result["data"]["id"]);
 		Server::redirect($this->_BasePath . "About");

@@ -27,7 +27,7 @@ class Invites extends Dao
 	{
 		parent::__construct();
 		$this->_Dao = new Dao();
-		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+		if ( ! $this->_Dao->connect(self::$_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
 			exit;
 		}
@@ -49,7 +49,7 @@ class Invites extends Dao
 
 			// ユーザ数が common.ini の上限を超えていたらNG
 			$user_count = $this->_Dao->select("SELECT count(id) AS cnt FROM users");
-			if ( $user_count[0]["cnt"] > (int)$this->_common_ini["invites"]["max_user_count"] ) {
+			if ( $user_count[0]["cnt"] > (int)self::$_common_ini["invites"]["max_user_count"] ) {
 				throw new \Exception("ユーザ数上限に達しているためリンクを生成できません。");
 			}
 
@@ -59,11 +59,11 @@ class Invites extends Dao
 				throw new \Exception("データが見つかりません。");
 			}
 			if ( $role !== "admin"
-				&& (int)$this->_common_ini["invites"]["max_invited_count"] <= $search_result[0]["invited_count"]) {
+				&& (int)self::$_common_ini["invites"]["max_invited_count"] <= $search_result[0]["invited_count"]) {
 				throw new \Exception("招待数の上限を超えているためリンクを生成できません。");
 			}
 
-			$expire_time = $this->_nowTimestamp + (int)$this->_common_ini["invites"]["expire"];
+			$expire_time = self::$_nowTimestamp + (int)self::$_common_ini["invites"]["expire"];
 			$exp = date("Y-m-d H:i:s", $expire_time);
 
 			// 有効期限切れデータ削除
@@ -109,7 +109,7 @@ class Invites extends Dao
 	{
 		$result = getResultSet();
 		try{
-			$expire_time = $this->_nowTimestamp + (int)$this->_common_ini["invites"]["expire"];
+			$expire_time = self::$_nowTimestamp + (int)self::$_common_ini["invites"]["expire"];
 			$exp = date("Y-m-d H:i:s", $expire_time);
 			$data = $this->_Dao->select(
 				"SELECT * FROM invitations WHERE hash=:hash AND expire <= :exp",

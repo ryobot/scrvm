@@ -22,7 +22,8 @@ class Server
 	 */
 	public static function get($key, $default=null)
 	{
-		$value = filter_input(INPUT_GET, $key);
+//		$value = filter_input(INPUT_GET, $key);
+		$value = isset($_GET[$key]) ? $_GET[$key] : null;
 		if ($value === null) {
 			return $default;
 		}

@@ -46,9 +46,9 @@ class SearchArtist extends Base
 	private function _discogs($artist, $title, $track)
 	{
 		$Discogs = new Discogs(
-			$this->_common_ini["discogs"]["api_url"],
-			$this->_common_ini["discogs"]["consumer_key"],
-			$this->_common_ini["discogs"]["consumer_secret"]
+			self::$_common_ini["discogs"]["api_url"],
+			self::$_common_ini["discogs"]["consumer_key"],
+			self::$_common_ini["discogs"]["consumer_secret"]
 		);
 		return $Discogs->search($artist, $title, $track);
 	}
@@ -56,9 +56,9 @@ class SearchArtist extends Base
 	private function _gracenote($artist, $title, $track)
 	{
 		$Gracenote = new Gracenote(
-			$this->_common_ini["gracenote"]["api_url"],
-			$this->_common_ini["gracenote"]["client_id"],
-			$this->_common_ini["gracenote"]["user_id"]
+			self::$_common_ini["gracenote"]["api_url"],
+			self::$_common_ini["gracenote"]["client_id"],
+			self::$_common_ini["gracenote"]["user_id"]
 		);
 		$res = $Gracenote->searchAlbums($artist, $title, $track);
 		$xml = new \SimpleXMLElement($res);

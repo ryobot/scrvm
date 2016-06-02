@@ -28,7 +28,7 @@ class Reviews extends Dao
 	{
 		parent::__construct();
 		$this->_Dao = new Dao();
-		if ( ! $this->_Dao->connect($this->_common_ini["db"]) ) {
+		if ( ! $this->_Dao->connect(self::$_common_ini["db"]) ) {
 			echo $this->_Dao->getErrorMessage();
 			exit;
 		}
@@ -309,7 +309,7 @@ class Reviews extends Dao
 					"body" => $body,
 					"listening_last" => $listening_last,
 					"listening_system" => $listening_system,
-					"now" => date("Y-m-d H:i:s", $this->_nowTimestamp),
+					"now" => date("Y-m-d H:i:s", self::$_nowTimestamp),
 				)
 			);
 
