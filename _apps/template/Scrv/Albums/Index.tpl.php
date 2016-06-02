@@ -18,7 +18,11 @@
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2>Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)</h2>
+	<h2>
+		Albums
+		(<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
+		<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="img16x16 loading displaynone" alt="now loading" />
+	</h2>
 
 	<!-- search tabs -->
 	<div class="search_tab">
@@ -89,7 +93,7 @@
 
 	// incremental search
 	var incSearch = function(){
-		var $q = $("#id_q"), input, type;
+		var $q = $("#id_q"), input, type, $loading = $("#id_loading");
 		clearTimeout(incSearch.timer);
 		incSearch.timer = setTimeout(function(){
 			type = $("input[name='type']:checked").val();
@@ -97,6 +101,7 @@
 			if ( input.length < 2 || (type === incSearch.preType && input === incSearch.preInput) ) {
 				return false;
 			}
+			$loading.fadeIn("fast");
 			$.ajax( BASE_PATH + "Albums", {
 				method : "GET",
 				dataType : "HTML",
@@ -121,6 +126,7 @@
 				alert("system error.");
 			})
 			.always(function(){
+				$loading.fadeOut("fast");
 			});
 			incSearch.preType = type;
 			incSearch.preInput = input;
@@ -132,7 +138,9 @@
 	incSearch.createResult = function(html){
 		$("#id_search_results").html(html);
 	};
-	$("#id_q").on("keyup.js",incSearch);
+	$("#id_q").on("keyup.js",function(){
+		incSearch();
+	});
 	$("input[name='type']").on("click.js", incSearch);
 
 
