@@ -5,15 +5,15 @@
  */
 
 $most_prev_link = $base_path . "Posts";
-$prev_link = $base_path . "Posts?" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = $base_path . "Posts?" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = $base_path . "Posts?" . hbq(array("page" => $pager["max_page"],));
+$prev_link = $base_path . "Posts/Index/page/".($pager["now_page"]-1);
+$next_link = $base_path . "Posts/Index/page/".($pager["now_page"]+1);
+$most_next_link = $base_path . "Posts/Index/page/".$pager["max_page"];
 $nav_list = array();
 foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => $base_path . "Posts?" . hbq(array("page" => $nav["page"],)),
+		"link" => $base_path . "Posts/Index/page/".$nav["page"],
 	);
 }
 
@@ -75,7 +75,7 @@ foreach($pager["nav_list"] as $nav) {
 			<p class="post_body"><?= linkIt(nl2br(h($list["body"])), false) ?></p>
 <?php if(isset($list["reply_id"])): ?>
 <!--					<div>
-						<p><a class="post_reply_source" href="<?= h($base_path) ?>Posts/View?id=<?= h($list["reply_id"]) ?>&amp;type=json">返信元</a></p>
+						<p><a class="post_reply_source" href="<?= h($base_path) ?>Posts/View/id/<?= h($list["reply_id"]) ?>&amp;type=json">返信元</a></p>
 					</div>-->
 <?php endif;?>
 <?php if($is_login ): ?>
@@ -87,12 +87,12 @@ foreach($pager["nav_list"] as $nav) {
 			>返信</span></p>
 <?php endif; ?>
 			<p>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($list["user_id"]) ?>">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($list["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["user_img_file"]) ? "files/attachment/photo/{$list["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" />
 					<?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?>
 				</a>
 				-
-				<span class="post_date"><a href="<?= h($base_path) ?>Posts/View?id=<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>
+				<span class="post_date"><a href="<?= h($base_path) ?>Posts/View/id/<?= h($list["id"]) ?>"><?= h(timeAgoInWords($list["created"])) ?></a></span>
 			</p>
 		</div>
 <?php endforeach; unset($list) ?>
@@ -158,7 +158,7 @@ foreach($pager["nav_list"] as $nav) {
 //						$("<p />").html(postQuote(json.body)),
 //						$("<p />").append(
 //							"(",
-//							$("<a />").attr({href:BASE_URL + "Users/View?id=" + json.user_id}).html(json.username),
+//							$("<a />").attr({href:BASE_URL + "Users/View/id/" + json.user_id}).html(json.username),
 //							" - ",
 //							$("<span class='post_date' />").html(json.created),
 //							")"

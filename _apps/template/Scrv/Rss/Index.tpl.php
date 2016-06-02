@@ -15,7 +15,7 @@ echo "<?xml version='1.0' encoding='UTF-8'?>\n";
 <?php foreach( $reviews as $review ) : ?>
 		<item>
 			<title><?= h( $review["artist"] ) ?> / <?= h( $review["title"] ) ?></title>
-			<link><?= h( $http_host . $base_path . "Reviews/View?id=" . $review["id"] ) ?></link>
+			<link><?= h( $http_host . $base_path . "Reviews/View/id/" . $review["id"] ) ?></link>
 			<pubDate><?= h( date( "c", strtotime($review["created"]) ) ) ?></pubDate>
 			<description>
 				<?= h( $review["body"] === "" ? "(no review)" : $review["body"] ) ?>

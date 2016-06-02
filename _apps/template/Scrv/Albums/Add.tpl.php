@@ -173,7 +173,7 @@
 								}
 								if (json.data.length > 0) {
 									if ( confirm( cache_data["artist"] + " / " + cache_data["title"] + " は登録済みです。\nアルバムページを表示しますか？" ) ) {
-										location.href = "<?= h($base_path) ?>Albums/View?id=" + json.data[0].id;
+										location.href = "<?= h($base_path) ?>Albums/View/id/" + json.data[0].id;
 									}
 									return false;
 								}
@@ -343,7 +343,7 @@
 			if (!json.status) {
 				alert(json.messages.join("\n"));
 			} else {
-				location.href = "<?= h($base_path) ?>Albums/View?id=" + json.data.album_id;
+				location.href = "<?= h($base_path) ?>Albums/View/id/" + json.data.album_id;
 			}
 		})
 		.fail(function(e){

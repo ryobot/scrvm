@@ -42,7 +42,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 		<div class="album_info">
 			<div class="displaytable w100per">
 				<div class="displaytablecell tacenter w80px">
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 						<img
 							class="album_cover"
 							src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
@@ -51,19 +51,19 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 					</a>
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
 					<div class="actions mgt10px">
-						<a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit</a>
+						<a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a>
 					</div>
 <?php endif; ?>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 						<?= h($album["artist"]) ?> /
 						<?= h($album["title"]) ?>
 						(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 					</a>
 <?php if($album["reviews"] > 0): ?>
 					<div>
-						<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+						<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 							<img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" />
 							<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
 						</a>
@@ -74,7 +74,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 			<div class="displaytable w100per tacenter actions">
 <?php if($is_login): ?>
 				<div class="displaytablecell">
-					<a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album["id"]) ?>">Write a Review</a>
+					<a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>">Write a Review</a>
 				</div>
 <?php endif; ?>
 			</div>

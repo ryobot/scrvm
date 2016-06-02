@@ -4,16 +4,16 @@
  * @author mgng
  */
 
-$most_prev_link = "{$base_path}Users/View?id={$user_id}";
-$prev_link = "{$base_path}Users/View?id={$user_id}&" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = "{$base_path}Users/View?id={$user_id}&" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = "{$base_path}Users/View?id={$user_id}&" . hbq(array("page" => $pager["max_page"],));
+$most_prev_link = "{$base_path}Users/View/id/{$user_id}";
+$prev_link = "{$base_path}Users/View/id/{$user_id}/page/".($pager["now_page"]-1);
+$next_link = "{$base_path}Users/View/id/{$user_id}/page/".($pager["now_page"]+1);
+$most_next_link = "{$base_path}Users/View/id/{$user_id}/page/".$pager["max_page"];
 $nav_list = array();
 foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$base_path}Users/View?id={$user_id}&" . hbq(array("page" => $nav["page"],)),
+		"link" => "{$base_path}Users/View/id/{$user_id}/page/".$nav["page"],
 	);
 }
 
@@ -60,8 +60,7 @@ foreach($pager["nav_list"] as $nav) {
 						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 					</div>
 					<div class="displaytablecell vtalgmiddle">
-<!--						<a href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($review["artist"]) ?>"><?= h($review["artist"]) ?></a>-->
-						<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+						<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 							<?= h($review["artist"]) ?><br />
 							<?= h($review["title"]) ?>
 							(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
@@ -72,7 +71,7 @@ foreach($pager["nav_list"] as $nav) {
 					<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
 				</div>
 				<div>
-					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
 						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 					</a>
 <?php if($review["listening_last"] === "today"): ?>
@@ -95,7 +94,7 @@ foreach($pager["nav_list"] as $nav) {
 				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
 				<p class="actions mgt10px">
-					<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
 					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 				</p>
 <?php endif;?>
@@ -138,7 +137,7 @@ foreach($pager["nav_list"] as $nav) {
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Users/View?id=<?= $login_user_data["id"] ?>";
+					location.href="<?= h($base_path) ?>Users/View/id/<?= $login_user_data["id"] ?>";
 				})
 				.fail(function(e){
 					alert("system error.");

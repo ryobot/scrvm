@@ -128,7 +128,7 @@ $sort_links = array(
 <?php if( $is_login ): ?>
 	<div class="info">
 		<div>
-			<a href="<?= h($base_path) ?>Albums/Add?type=artist&q=<?= urlencode($tag) ?>" class="add_album">
+			<a href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= urlencode($tag) ?>" class="add_album">
 				<img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" />
 				<?= h($tag) ?> の他の Album を追加する
 			</a>
@@ -139,10 +139,10 @@ $sort_links = array(
 <?php foreach($lists as $album): ?>
 	<div class="displaytable w100per info">
 		<div class="displaytablecell w80px">
-			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 		</div>
 		<div class="displaytablecell vtalgmiddle">
-			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["id"]) ?>">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 				<?= h( "{$album["artist"]} / {$album["title"]}") ?>
 				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 			</a>

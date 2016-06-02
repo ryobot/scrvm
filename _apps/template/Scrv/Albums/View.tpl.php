@@ -33,7 +33,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 	<div class="album_info">
 		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-		<p class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit?id=<?= h($album["id"]) ?>">Edit Album Data</a></p>
+		<p class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album Data</a></p>
 <?php endif; ?>
 		<div class="displaytable w100per">
 			<div class="displaytablecell w120px">
@@ -66,7 +66,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 				<p class="tags_group">
 <?php foreach($tags as $tag):?>
 					<span class="tags"><a
-						href="<?= h($base_path) ?>Albums/Tag?tag=<?= urlencode($tag["tag"]) ?>"
+						href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
 						data-id="<?= h($tag["id"]) ?>"
 						data-tag="<?= h($tag["tag"]) ?>"
 						data-album_id="<?= h($tag["album_id"]) ?>"
@@ -123,19 +123,19 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 	<!-- reviews -->
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php if($is_login): ?>
-	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add?id=<?= h($album_id) ?>">Write a Review</a></p>
+	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album_id) ?>">Write a Review</a></p>
 <?php endif; ?>
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
 		<div class="review">
 			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
 			<p>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
 				</a>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-
-				<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>">
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 				</a>
 <?php if($review["listening_last"] === "today"): ?>
@@ -158,7 +158,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 			</p>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 			<p class="actions mgt10px">
-				<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
 				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 			</p>
 <?php endif;?>
@@ -241,7 +241,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>";
+					location.href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>";
 				})
 				.fail(function(e){
 					alert("system error.");

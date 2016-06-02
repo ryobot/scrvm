@@ -56,12 +56,12 @@ foreach($pager["nav_list"] as $nav) {
 		<div class="info">
 			<div class="displaytable w100per">
 				<div class="displaytablecell w80px vtalgmiddle">
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 					</a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
-					<p><a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<?= h($review["artist"]) ?><br />
 						<?= h($review["title"]) ?>
 						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
@@ -72,10 +72,10 @@ foreach($pager["nav_list"] as $nav) {
 				<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
 			</div>
 			<p>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-
-				<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a></span>
+				<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a></span>
 <?php if($review["listening_last"] === "today"): ?>
 				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
@@ -96,7 +96,7 @@ foreach($pager["nav_list"] as $nav) {
 			</p>
 <?php if( $review["reviews_count"] - 1 > 0 ): ?>
 			<p class="taright">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 					<span class="vtalgmiddle">&raquo; other <?= $review["reviews_count"] - 1 ?></span>
 					<img src="<?= h($base_path) ?>img/reviews.svg" width="16px" height="16px" alt="reviews" />
 				</a>
@@ -104,7 +104,7 @@ foreach($pager["nav_list"] as $nav) {
 <?php endif; ?>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
 			<p class="actions mgt10px">
-				<a href="<?= h($base_path) ?>Reviews/Edit?id=<?= h($review["id"]) ?>">edit</a>
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
 				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
 			</p>
 <?php endif;?>

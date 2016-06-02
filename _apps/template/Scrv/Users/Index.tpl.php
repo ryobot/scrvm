@@ -119,12 +119,12 @@ $sort_links = array(
 			</h3>
 			<div class="displaytable w100per vtalgmiddle">
 				<div class="displaytablecell w80px vtalgmiddle">
-					<a href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
+					<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
 <?php if($list["review_count"] > 0): ?>
 					<div class="displaytablecell">
-						<a class="reviews" href="<?= h($_base_url) ?>/View?id=<?= h($list["id"]) ?>">
+						<a class="reviews" href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>">
 							<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
 							<?= h($list["review_count"]) ?> reviews
 						</a>
@@ -133,7 +133,7 @@ $sort_links = array(
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
 					<div class="displaytablecella">
-						<a class="syncs" href="<?= h($_base_url) ?>/Syncs?id=<?= h($list["id"]) ?>">
+						<a class="syncs" href="<?= h($_base_url) ?>/Syncs/id/<?= h($list["id"]) ?>">
 							<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
 							<?= h($list["sync_point"]) ?> pt
 						</a>
@@ -141,7 +141,7 @@ $sort_links = array(
 <?php endif; ?>
 <?php if(isset($list["has_invited_user_id"])): ?>
 					<div>
-						&laquo; invited from <a href="<?= h($_base_url) ?>/View?id=<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
+						&laquo; invited from <a href="<?= h($_base_url) ?>/View/id/<?= h($list["has_invited_user_id"]) ?>"><?= h($list["has_invited_username"]) ?></a>
 						<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["has_invited_username"]) ?>" />
 					</div>
 <?php endif; ?>

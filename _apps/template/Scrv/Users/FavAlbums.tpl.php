@@ -4,17 +4,17 @@
  * @author mgng
  */
 
-$_base_url = "{$base_path}Users/FavAlbums?id={$user_id}";
+$_base_url = "{$base_path}Users/FavAlbums/id/{$user_id}";
 $most_prev_link = "{$_base_url}";
-$prev_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = "{$_base_url}&" . hbq(array("page" => $pager["max_page"],));
+$prev_link = "{$_base_url}/page/".($pager["now_page"]-1);
+$next_link = "{$_base_url}/page/".($pager["now_page"]+1);
+$most_next_link = "{$_base_url}/page/".$pager["max_page"];
 $nav_list = array();
 foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$_base_url}&" . hbq(array("page" => $nav["page"],)),
+		"link" => "{$_base_url}/page/".$nav["page"],
 	);
 }
 
@@ -54,10 +54,10 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($favalbums as $favalbum): ?>
 		<div class="displaytable w100per album_info">
 			<div class="displaytablecell w80px">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>"><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img class="album_cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>
 			<div class="displaytablecell vtalgmiddle">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favalbum["id"]) ?>">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
 					<?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?>
 					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
 				</a>

@@ -41,7 +41,7 @@
 				<img class="album_cover" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
 			</div>
 			<div class="displaytablecell vtalgmiddle">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album_id) ?>"><?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?> (<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)</a>
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>"><?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?> (<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)</a>
 				<div>
 					<span class="sync_point_days">
 						between <?= h($reviews["diff"]+1) ?> days =
@@ -59,7 +59,7 @@
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
 				</div>
 				<div class="displaytablecell vtalgmiddle">
-					<a href="<?= h($base_path) ?>Users?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 					<span class="post_date"><?= h(timeAgoInWords($review["created"])) ?></span>
 <?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
@@ -86,7 +86,7 @@
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 			</div>
 			<div class="displaytablecell vtalgmiddle">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($album["album_id"]) ?>">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["album_id"]) ?>">
 					<?= h("{$album["artist"]} / {$album["title"]}") ?>
 					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 				</a>
@@ -110,7 +110,7 @@
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 				<div><strong><?= h($track["track_title"]) ?></strong></div>
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($track["album_id"]) ?>">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($track["album_id"]) ?>">
 					<?= h("{$track["artist"]} / {$track["title"]}") ?>
 					(<?= isset($track["year"]) && $track["year"] !== "" ? h($track["year"]) : "unknown" ?>)
 				</a> : tr.<?= h($track["track_num"]) ?>
@@ -124,18 +124,6 @@
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>
-
-<script>
-//;$(function() {
-//	$(".sync_menu a").on("click.js",function(){
-//		var href= $(this).attr("href");
-//		var target = $(href === "#" || href === "" ? 'html' : href);
-//		var position = target.offset().top;
-//		$('body,html').animate({scrollTop:position}, 250, 'swing');
-//    return false;
-//  });
-//});
-</script>
 
 </body>
 </html>

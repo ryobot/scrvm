@@ -4,17 +4,17 @@
  * @author mgng
  */
 
-$_base_url = "{$base_path}Users/FavTracks?id={$user_id}";
+$_base_url = "{$base_path}Users/FavTracks/id/{$user_id}";
 $most_prev_link = "{$_base_url}";
-$prev_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = "{$_base_url}&" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = "{$_base_url}&" . hbq(array("page" => $pager["max_page"],));
+$prev_link = "{$_base_url}/page/".($pager["now_page"]-1);
+$next_link = "{$_base_url}/page/".($pager["now_page"]+1);
+$most_next_link = "{$_base_url}/page/".$pager["max_page"];
 $nav_list = array();
 foreach($pager["nav_list"] as $nav) {
 	$nav_list[] = array(
 		"active" => $nav["active"],
 		"page" => $nav["page"],
-		"link" => "{$_base_url}&" . hbq(array("page" => $nav["page"],)),
+		"link" => "{$_base_url}/page/".$nav["page"],
 	);
 }
 
@@ -54,12 +54,12 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($favtracks as $favtrack): ?>
 		<div class="displaytable w100per track_info">
 			<div class="displaytablecell w80px">
-				<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>"><img class="album_cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>
 				<div>
-					<a href="<?= h($base_path) ?>Albums/View?id=<?= h($favtrack["album_id"]) ?>">
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
 						<?= h($favtrack["artist"]) ?> / <?= h($favtrack["title"]) ?>
 						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
 					</a> : tr.<?= h($favtrack["track_num"]) ?>

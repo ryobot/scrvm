@@ -33,7 +33,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 			<?= h($review_title) ?>
 		</h3>
 		<div class="w100per">
-			<a href="<?= h($base_path) ?>Albums/View?id=<?= h($review["album_id"]) ?>">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 				<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 			</a>
 		</div>
@@ -44,12 +44,12 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 		</div>
 		<div class="displaytable w100per">
 			<div class="displaytablecell w50px vtalgmiddle">
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			</div>
 			<div class="displaytablecell">
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				<div class="post_date">
-					<a href="<?= h($base_path) ?>Reviews/View?id=<?= h($review["id"]) ?>"><?= date('Y年n月j日 H時i分',strtotime($review["created"])) ?></a>
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= date('Y年n月j日 H時i分',strtotime($review["created"])) ?></a>
 <?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
@@ -75,7 +75,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 		<div class="fav_review_user_lists w100per">
 			<p>faved by</p>
 <?php		foreach($favreviews_user_lists as $user): ?>
-			<a href="<?= h($base_path) ?>Users/View?id=<?= h($user["user_id"]) ?>">
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($user["user_id"]) ?>">
 				<img
 					class="user_photo_min vtalgmiddle"
 					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.svg" ?>"

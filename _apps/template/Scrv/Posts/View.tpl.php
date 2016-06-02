@@ -23,7 +23,7 @@
 			<h4><?= h($post["title"]) ?></h4>
 			<p><?= linkIt(nl2br(h($post["body"]))) ?></p>
 			<p>
-				<a href="<?= h($base_path) ?>Users/View?id=<?= h($post["user_id"]) ?>">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($post["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($post["user_img_file"]) ? "files/attachment/photo/{$post["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($post["username"]) ?>" />
 					<?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?>
 				</a>
