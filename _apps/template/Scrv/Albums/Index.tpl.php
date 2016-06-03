@@ -137,6 +137,8 @@
 	incSearch.preInput = null;
 	incSearch.createResult = function(html){
 		$("#id_search_results").html(html);
+		// 再bindしないと + 検索動かない
+		bindAddAlbum();
 	};
 	$("#id_q").on("keyup.js",function(){
 		incSearch();
@@ -167,21 +169,27 @@
 	// search_index
 	$("#id_search_index_<?= h($index) ?>").addClass("active");
 
+	// addAlbum
+	var bindAddAlbum = function(){
+		// 一旦削除してからon
+		$(".add_album").off("click.js").on("click.js", function(){
+			var href = $(this).attr("href");
+			var type = $("input[name='type']:checked").val();
+			var q = $.trim($("#id_q").val());
+			var query = "";
+			if ( q !== "" && /^(artist|title)$/.test(type) ) {
+				query = "?" + [
+					"type=" + encodeURIComponent(type),
+					"q=" + encodeURIComponent(q)
+				].join("&");
+			}
+			location.href=href+query;
+			return false;
+		});
+	};
+
 <?php if($is_login): ?>
-	$(".add_album").on("click.js", function(){
-		var href = $(this).attr("href");
-		var type = $("input[name='type']:checked").val();
-		var q = $.trim($("#id_q").val());
-		var query = "";
-		if ( q !== "" && /^(artist|title)$/.test(type) ) {
-			query = "?" + [
-				"type=" + encodeURIComponent(type),
-				"q=" + encodeURIComponent(q)
-			].join("&");
-		}
-		location.href=href+query;
-		return false;
-	});
+	bindAddAlbum();
 <?php endif; ?>
 
 });
