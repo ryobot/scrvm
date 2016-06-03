@@ -541,8 +541,14 @@ dl.search dd input[type="submit"]:hover{
 	color: #FFF;
 	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
 	font-weight: bold;
-	margin: 5px 0;
+	margin-right: 1em;;
 	padding: 2px 5px;
+}
+.sync_artists:after{
+	content:"/";
+}
+.sync_artists:last-child:after{
+	content:"";
 }
 
 /* tags */

@@ -27,6 +27,21 @@
 		<div class="displaytablecell w33per"><a href="#id_title_sync_tracks">Tracks : <?= count($syncs["tracks"])*2 ?>pt</a></div>
 	</div>-->
 
+	<!-- sync artists -->
+	<h4 id="id_title_sync_artists">
+		Artists (<?= count( $syncs["artists"] ) ?>)
+		: ? pt
+	</h4>
+<?php if (count( $syncs["artists"] ) > 0):?>
+	<div class="w100per info">
+<?php foreach($syncs["artists"] as $artist): ?>
+		<span class="sync_artists">
+			<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($artist["artist"]) ?>"><?= h($artist["artist"]) ?></a>
+		</span>
+<?php endforeach; unset($artist); ?>
+	</div>
+<?php endif; ?>
+
 	<!-- sync review -->
 	<h4 id="id_title_sync_reviews">
 		Reviews (<?= count( $syncs["reviews"] ) ?>)

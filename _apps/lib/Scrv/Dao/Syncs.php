@@ -34,6 +34,31 @@ class Syncs extends Dao
 		return true;
 	}
 
+	public function artists($user_id, $login_user_id)
+	{
+		$result = getResultSet();
+		try{
+			// 自分がレビューを書いているアーティストと相手がレビューを書いているアーティスト名一覧
+			$sql = "
+				SELECT t1.artist FROM albums t1
+				INNER JOIN reviews t2 ON(t1.id=t2.album_id AND t2.user_id=:luid)
+				WHERE t1.artist IN (
+					SELECT t1.artist FROM albums t1
+					INNER JOIN reviews t2 ON (t1.id=t2.album_id AND t2.user_id=:uid)
+					GROUP BY t1.artist
+				)
+				GROUP BY t1.artist
+			";
+			$params = array("uid" => $user_id,"luid" => $login_user_id,);
+			$artists_list = $this->_Dao->select($sql, $params);
+			$result["status"] = true;
+			$result["data"] = $artists_list;
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
 	/**
 	 * syncs albums
 	 * @param int $user_id

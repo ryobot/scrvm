@@ -54,6 +54,11 @@ class Syncs extends Base
 
 		// sync一覧取得
 		$DaoSyncs = new DaoSyncs();
+		$sync_artists_result = $DaoSyncs->artists($user_id, $login_user_id);
+		if ( !$sync_artists_result["status"] ) {
+			Server::send404Header("db error.");
+			return false;
+		}
 		$sync_reviews_result = $DaoSyncs->reviews($user_id, $login_user_id);
 		if ( !$sync_reviews_result["status"] ) {
 			Server::send404Header("db error.");
@@ -102,6 +107,7 @@ class Syncs extends Base
 			"user" => $user_result["data"],
 			"syncs_reviews_point_total" => $syncs_reviews_point_total,
 			"syncs" => array(
+				"artists" => $sync_artists_result["data"],
 				"reviews" => $reviews_with_point,
 				"albums" => $sync_albums_result["data"],
 				"tracks" => $sync_tracks_result["data"],
