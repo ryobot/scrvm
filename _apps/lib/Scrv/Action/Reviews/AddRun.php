@@ -55,7 +55,7 @@ class AddRun extends Base
 		$check_result = $this->_checkPostParams($post_params);
 		if ( ! $check_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $check_result["messages"]);
-			Server::redirect($this->_BasePath . "Reviews/Add?id=" . urlencode($post_params["album_id"]));
+			Server::redirect($this->_BasePath . "Reviews/Add/id/" . urlencode($post_params["album_id"]));
 			return false;
 		}
 
@@ -70,7 +70,7 @@ class AddRun extends Base
 		);
 		if ( !$add_result["status"] ){
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $add_result["messages"]);
-			Server::redirect($this->_BasePath . "Reviews/Add?id=" . urlencode($post_params["album_id"]));
+			Server::redirect($this->_BasePath . "Reviews/Add/id/" . urlencode($post_params["album_id"]));
 			return false;
 		}
 
@@ -86,7 +86,7 @@ class AddRun extends Base
 
 		// alubums.viewにリダイレクト
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
-		Server::redirect($this->_BasePath . "Albums/View?id={$post_params["album_id"]}");
+		Server::redirect($this->_BasePath . "Albums/View/id/{$post_params["album_id"]}");
 
 		return true;
 	}
@@ -136,7 +136,7 @@ class AddRun extends Base
 		$content = "{$artist}/{$title}\n{$body}";
 		$hashtag = "#scrv";
 		$perma_link = "";
-//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "Albums/View?id={$album_id}";
+//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "Albums/View/id/{$album_id}";
 
 		$status = "{$content}\n{$hashtag}\n{$perma_link}";
 		$status_length = mb_strlen($status);

@@ -82,7 +82,7 @@ class Add extends Base
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_TIMEOUT, $timeout);
 		$this->_Session->set(Scrv\SessionKeys::LOGIN_EXPIRES, $timeout + self::$_nowTimestamp);
 
-		//Server::redirect($this->_BasePath . "Users/View?id=" . $add_result["data"]["id"]);
+		//Server::redirect($this->_BasePath . "Users/View/id/" . $add_result["data"]["id"]);
 		Server::redirect($this->_BasePath . "About");
 		return true;
 	}

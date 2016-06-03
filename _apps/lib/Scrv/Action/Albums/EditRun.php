@@ -54,7 +54,7 @@ class EditRun extends Base
 		$check_result = $this->_checkPostParams($post_params, $tracks);
 		if ( ! $check_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $check_result["messages"]);
-			Server::redirect($this->_BasePath . "Albums/Edit?id={$post_params["id"]}");
+			Server::redirect($this->_BasePath . "Albums/Edit/id/{$post_params["id"]}");
 			return false;
 		}
 
@@ -62,7 +62,7 @@ class EditRun extends Base
 		$upload_result = $this->_checkFileUpload("file", $this->_login_user_data["id"]);
 		if ( ! $upload_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $upload_result["messages"]);
-			Server::redirect($this->_BasePath . "Albums/Edit?id={$post_params["id"]}");
+			Server::redirect($this->_BasePath . "Albums/Edit/id/{$post_params["id"]}");
 			return false;
 		}
 		$img_file = isset($upload_result["data"]["img_path"]) ? $upload_result["data"]["img_path"] : null;
@@ -80,13 +80,13 @@ class EditRun extends Base
 		);
 		if ( !$save_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $save_result["messages"]);
-			Server::redirect($this->_BasePath . "Albums/Edit?id={$post_params["id"]}");
+			Server::redirect($this->_BasePath . "Albums/Edit/id/{$post_params["id"]}");
 			return false;
 		}
 
 		// 編集ページにリダイレクト
 		$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("保存しました。"));
-		Server::redirect($this->_BasePath . "Albums/Edit?id={$post_params["id"]}");
+		Server::redirect($this->_BasePath . "Albums/Edit/id/{$post_params["id"]}");
 		return true;
 	}
 

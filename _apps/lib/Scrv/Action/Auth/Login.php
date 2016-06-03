@@ -87,7 +87,7 @@ class Login extends Base
 		$after_url_logined = $this->_Session->get(Scrv\SessionKeys::URL_AFTER_LOGINED);
 		$this->_Session->clear(Scrv\SessionKeys::URL_AFTER_LOGINED);
 		if ( !isset($after_url_logined) ){
-			$after_url_logined = "Users/View?id=" . $login_result["data"]["id"];
+			$after_url_logined = "Users/View/id/" . $login_result["data"]["id"];
 		}
 
 		// 自動ログインの場合の処理

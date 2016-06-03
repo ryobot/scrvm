@@ -48,7 +48,7 @@ class Add extends Base
 
 		// tagが空の場合はなにもせずに戻す
 		if ( $tag === "" ) {
-			Server::redirect($this->_BasePath . "Albums/View?id={$album_id}");
+			Server::redirect($this->_BasePath . "Albums/View/id/{$album_id}");
 			return false;
 		}
 
@@ -59,7 +59,7 @@ class Add extends Base
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $tags_result["messages"]);
 		}
 
-		Server::redirect($this->_BasePath . "Albums/View?id={$album_id}");
+		Server::redirect($this->_BasePath . "Albums/View/id/{$album_id}");
 		return true;
 	}
 }

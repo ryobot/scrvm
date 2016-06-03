@@ -7,7 +7,7 @@
 namespace lib\Util;
 
 /**
- * メール送信クラス
+ * Images class
  * @author mgng
  * @package lib\Util
  */
