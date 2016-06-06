@@ -143,6 +143,9 @@ iframe{max-width: 100%};
 	text-align: center;
 	display: table-cell;
 }
+.menu_block:hover{
+	background:rgba(255,255,255,1.0);
+}
 
 /*------------*/
 #dropmenu_normal{
@@ -683,6 +686,32 @@ dl.search dd input[type="submit"]:hover{
 @keyframes spin {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(360deg);}
+}
+
+/* .drop_zone */
+.drop_zone{
+	border:2px dotted #AAA;
+	border-radius: 5px;
+	margin: 0;
+	padding: 5px;
+	cursor: pointer;
+}
+.drop_zone_drag{
+	margin: 0;
+	padding: 5px;
+	border: 2px dotted #666;
+	border-radius: 5px;
+	background: #FE9;
+	color: #444;
+	cursor: pointer;
+}
+.drop_zone_dragged{
+	margin: 0;
+	padding: 5px;
+	border: 2px dotted #666;
+	background: #dfA;
+	color: #444;
+	cursor: pointer;
 }
 
 /*-----------*/
