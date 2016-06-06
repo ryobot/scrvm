@@ -31,16 +31,14 @@
 		<div class="user_edit_area">
 			<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
-				<p><h3><?= h($login_user_data["username"]) ?></h3></p>
-
+				<h3><?= h($login_user_data["username"]) ?></h3>
 				<div class="displaytable w100per drop_zone" id="id_drop_zone">
-					<div class="displaytablecell mgr5px w120px">
+					<div class="displaytablecell user_photo">
 						<img
-							class="user_photo"
 							src="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>"
-							alt=""
+							alt="<?= h($login_user_data["username"]) ?>"
 							id="id_user_photo"
-							data-src_org=""<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>""
+							data-src_org="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>"
 						/>
 					</div>
 					<div class="displaytablecell">

@@ -39,7 +39,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 			<a href="<?= h($sort_links["reviews"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["reviews"]["text"]) ?></a>
 		</div>
 <?php foreach($lists as $album): ?>
-		<div class="album_info">
+		<div class="info">
 			<div class="displaytable w100per">
 				<div class="displaytablecell tacenter album_cover">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">

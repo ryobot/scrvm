@@ -127,7 +127,7 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 <?php endif; ?>
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<div class="review">
+		<div class="info">
 			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
 			<p>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">

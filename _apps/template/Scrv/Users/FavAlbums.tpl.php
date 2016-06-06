@@ -52,7 +52,7 @@ foreach($pager["nav_list"] as $nav) {
 	</div>
 
 <?php foreach($favalbums as $favalbum): ?>
-		<div class="displaytable w100per album_info">
+		<div class="displaytable w100per info">
 			<div class="displaytablecell album_cover">
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>

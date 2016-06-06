@@ -54,49 +54,49 @@ foreach($pager["nav_list"] as $nav) {
 	<!-- reviews -->
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<div class="review">
-				<div class="displaytable">
-					<div class="displaytablecell album_cover">
-						<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-					</div>
-					<div class="displaytablecell vtalgmiddle">
-						<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-							<?= h($review["artist"]) ?><br />
-							<?= h($review["title"]) ?>
-							(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-						</a></p>
-					</div>
+		<div class="info">
+			<div class="displaytable">
+				<div class="displaytablecell album_cover">
+					<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 				</div>
-				<div class="review_comment">
-					<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
+				<div class="displaytablecell vtalgmiddle">
+					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+						<?= h($review["artist"]) ?><br />
+						<?= h($review["title"]) ?>
+						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+					</a></p>
 				</div>
-				<div>
-					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-						<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-					</a>
+			</div>
+			<div class="review_comment">
+				<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
+			</div>
+			<div>
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
+					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+				</a>
 <?php if($review["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif;?>
-					<span class="fav_reviews_wrapper">
-						<img
-							class="fav_review vtalgmiddle img16x16"
-							src="<?= h($base_path) ?>img/fav_off.svg"
-							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-							data-review_id="<?= h($review["id"]) ?>"
-							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-							alt="fav review"
-							title="fav review"
-						/>
-						<span class="fav_reviews_count"></span>
-					</span>
-				</div>
+				<span class="fav_reviews_wrapper">
+					<img
+						class="fav_review vtalgmiddle img16x16"
+						src="<?= h($base_path) ?>img/fav_off.svg"
+						data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+						data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+						data-review_id="<?= h($review["id"]) ?>"
+						data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+						data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+						alt="fav review"
+						title="fav review"
+					/>
+					<span class="fav_reviews_count"></span>
+				</span>
+			</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
-				<p class="actions mgt10px">
-					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
-					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-				</p>
+			<p class="actions mgt10px">
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
+				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
+			</p>
 <?php endif;?>
 		</div>
 <?php		endforeach; ?>

@@ -65,6 +65,40 @@
 		height: auto;
 	}
 
+	/* .user_photo */
+	.user_photo{
+		width:70px;
+		padding: 3px;
+	}
+	.user_photo img{
+		width:60px;
+		height:auto;
+		border-radius: 3px;
+	}
+
+	/* .user_edit */
+	.user_edit_menu div{
+		padding:5px;
+		margin: 0 5px;
+		background: rgba(230,230,230,0.7);
+		border-radius: 5px 5px 0 0;
+		border:1px solid #CCC;
+		text-align:center;
+		font-size:90%;
+	}
+	.user_edit_menu div.active{
+		background: rgba(255,255,255,0.7);
+		border-bottom:none;
+	}
+	.user_edit_area{
+		padding:5px;
+		margin: 0;
+		background: rgba(255,255,255,0.7);
+		border-radius: 0 0 5px 5px;
+		border:1px solid #CCC;
+		border-top:none;
+	}
+
 	/* .link_page_top */
 	.link_page_top{
 		bottom: 40px;

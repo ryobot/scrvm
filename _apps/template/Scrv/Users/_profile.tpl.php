@@ -3,8 +3,8 @@
 	<div class="user_profile w100per">
 		<h3><?= h($user["username"]) ?></h3>
 		<div class="displaytable">
-			<div class="displaytablecell w80px">
-				<img class="user_photo" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" />
+			<div class="displaytablecell user_photo">
+				<img src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" />
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>

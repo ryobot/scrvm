@@ -113,13 +113,13 @@ $sort_links = array(
 
 		<!-- lists -->
 <?php foreach($lists as $list): ?>
-		<div class="user_profile w100per">
+		<div class="info w100per">
 			<h3>
 				<?= h($list["username"]) ?>
 			</h3>
 			<div class="displaytable w100per vtalgmiddle">
-				<div class="displaytablecell w80px vtalgmiddle">
-					<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img class="user_photo" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
+				<div class="displaytablecell user_photo vtalgmiddle">
+					<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">
 <?php if($list["review_count"] > 0): ?>

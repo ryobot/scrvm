@@ -413,7 +413,15 @@ dl.search dd input[type="submit"]:hover{
 }
 
 /* .user_photo */
-.user_photo{height:65px;border-radius: 5px;}
+.user_photo{
+	width:120px;
+	padding: 4px;
+}
+.user_photo img{
+	width:100px;
+	height:auto;
+	border-radius: 5px;
+}
 .user_photo_min{height:30px;border-radius: 3px;}
 .user_profile{
 	background: rgba(255,255,255,0.7);
