@@ -36,7 +36,7 @@
 				<p><input type="password" name="current_password" id="id_current_password" value="" placeholder="current password" required="required" /></p>
 				<p><input type="password" name="password" id="id_password" value="" placeholder="new password" required="required" /></p>
 				<p><input type="password" name="password_re" id="id_password_re" value="" placeholder="retype new password" required="required" /></p>
-				<p class="actions"><input type="submit" value="save" ></p>
+				<p class="actions"><input type="submit" value=" 保存する " ></p>
 			</form>
 		</div>
 	</div>
