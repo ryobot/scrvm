@@ -138,8 +138,8 @@ $sort_links = array(
 
 <?php foreach($lists as $album): ?>
 	<div class="displaytable w100per info">
-		<div class="displaytablecell w80px">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><img class="album_cover" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
+		<div class="displaytablecell album_cover">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><img src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 		</div>
 		<div class="displaytablecell vtalgmiddle">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">

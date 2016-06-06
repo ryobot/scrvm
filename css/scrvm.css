@@ -4,26 +4,23 @@
 *{
 	margin:0;padding:0;
 	-webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
 	background: #fff;
-/*	color: #003d4c;*/
-    background-image: url("../img/noisy-texture-a50.png");
-    text-shadow: 0px 0px 3px #DDD;
+	background-image: url("../img/noisy-texture-a50.png");
+	text-shadow: 0px 0px 3px #DDD;
 	color: #012;
-/*	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;*/
 	font-family:'lucida grande',verdana,helvetica,arial,"游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
-	line-height: 1.5em;
-	font-size:90%;
+	line-height: 1.6em;
+	font-size:95%;
 	margin: 0;
 	word-wrap:break-word;
 }
 
 h1,h2,h3,h4,h5,h6{font-size: 125%;margin: 0.4em 0;}
-
 h2{font-size: 125%;color:#D30;}
 h3{font-size: 120%;color:#267;}
 h4{font-size: 115%;color:#498;}
@@ -36,9 +33,7 @@ a:hover{color:#C50;text-decoration: underline;}
 p{padding:3px 0;}
 
 table{border-collapse: collapse;}
-
 tr{}
-
 td,th{
 	vertical-align: top;
 	margin:0;
@@ -69,20 +64,20 @@ input[type="text"],input[type="password"], textarea{
 	width: 100%;
 }
 
-img{max-width: 100%; vertical-align: middle;}
+img{max-width: 100%; vertical-align: middle; height: auto;}
 img.album_view_cover {width: 120px;}
 
 ul,ol,dl{list-style:none;}
 li{display:list-item;zoom:normal;}
 iframe{max-width: 100%};
 
-/*------------*/
+/* #container */
 #container{
 	margin:0;
 	padding:0;
 }
 
-/*------------*/
+/* .header */
 .header{
 	padding:5px;
 	margin: 0;
@@ -96,24 +91,25 @@ iframe{max-width: 100%};
 	padding:0;
 }
 .header_title{
-    font-size:100%;
-    background-image: url("../img/headphone_icon_S.png");
-    background-repeat: no-repeat;
-    height: 50px;
-    padding: 18px 0  0 55px;
-    margin: 0;
+	font-size:100%;
+	background-image: url("../img/headphone_icon_S.png");
+	background-repeat: no-repeat;
+	height: 50px;
+	padding: 18px 0  0 55px;
+	margin: 0;
 	-webkit-box-sizing: initial;
   -moz-box-sizing: initial;
   box-sizing: initial;
 }
 .header_title a{text-decoration: none;}
 
-/*------------*/
+/* .footer */
 .footer{
 	padding:5px;
+	background-color: rgba(255,255,255,1.0);
 }
 
-/*------------*/
+/* .copyright */
 .copyright{
 	text-align: right;
 	font-style: italic;
@@ -124,7 +120,7 @@ iframe{max-width: 100%};
 	padding:5px;
 }
 
-/*------------*/
+/* .menu */
 .menu{
 	margin:0;
 	padding:0;
@@ -133,8 +129,8 @@ iframe{max-width: 100%};
 	background:rgba(255,255,255,0.5);
 }
 .menu img{
-	width:16px;
-	height:16px;
+	width:24px;
+	height:24px;
 }
 .menu_block{
 	margin:0;
@@ -218,8 +214,8 @@ iframe{max-width: 100%};
 /* .info */
 .info{
 	background-color: rgba(255,255,255,0.7);
-	margin:5px 0;
-	padding:5px;
+	margin:15px 0;
+	padding:10px;
 	border:1px solid #CCC;
 	border-radius: 5px
 }
@@ -469,11 +465,15 @@ dl.search dd input[type="submit"]:hover{
 	background-color: #FED;
 }
 .album_cover {
-	margin:0.2em;
-	width:60px;
+	width:140px;
+}
+.album_cover img {
+	margin:5px;
+	width:120px;
+	height: auto;
 	transition: opacity .2s;
 }
-.album_cover:hover {
+.album_cover img:hover {
 	opacity: 0.7;
 }
 .album_search_cover_result{

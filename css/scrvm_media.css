@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+/** media query max-width:480px */
+@media only screen and (max-width:480px){
+
+	body {
+		font-size:90%;
+	}
+
+	/*---------*/
+	h1,h2,h3,h4,h5,h6{margin: 0.2em 0;}
+
+	/* .header */
+	.header{
+		padding:2px;
+	}
+	.header_title{
+		background-image: url("../img/headphone_icon_mini.png");
+		background-position: left center;
+		height:40px;
+		padding-left:25px;
+	}
+
+	/* .menu */
+	.menu img{
+		width:16px;
+		height:16px;
+	}
+	.menu_block{
+		font-size:80%;
+	}
+
+	/* .search_tab */
+	.search_tab img{
+		width:20px;
+		height:20px;
+	}
+	.search_tab div.tab {
+		padding:2px;
+	}
+	.search_tab div.search_type {
+		padding:5px;
+	}
+	.search_tab div.tabContent {
+		padding: 3px;
+	}
+	.search_tab ul.search_index li a {
+		width:2em;
+		padding: 2px 4px;
+	}
+
+	/* .info */
+	.info{
+		margin:7px 0;
+		padding:5px;
+	}
+
+	/* album_cover */
+	.album_cover {
+		width:80px;
+	}
+	.album_cover img {
+		margin:3px;
+		width:64px;
+		height: auto;
+	}
+
+	/* .link_page_top */
+	.link_page_top{
+		bottom: 40px;
+	}
+
+
+}

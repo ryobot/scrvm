@@ -55,9 +55,9 @@ foreach($pager["nav_list"] as $nav) {
 <?php foreach($reviews as $review): ?>
 		<div class="info">
 			<div class="displaytable w100per">
-				<div class="displaytablecell w80px vtalgmiddle">
+				<div class="displaytablecell album_cover vtalgmiddle">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-						<img class="album_cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+						<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 					</a>
 				</div>
 				<div class="displaytablecell vtalgmiddle">

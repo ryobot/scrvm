@@ -52,8 +52,8 @@
 	<div class="w100per info mgb10px">
 
 		<div class="displaytable w100per">
-			<div class="displaytablecell w80px">
-				<img class="album_cover" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
+			<div class="displaytablecell album_cover">
+				<img src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>"><?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?> (<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)</a>

@@ -41,10 +41,9 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 <?php foreach($lists as $album): ?>
 		<div class="album_info">
 			<div class="displaytable w100per">
-				<div class="displaytablecell tacenter w80px">
+				<div class="displaytablecell tacenter album_cover">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 						<img
-							class="album_cover"
 							src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
 							alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
 						/>

@@ -15,5 +15,6 @@
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />
 <link rel="alternate" type="application/rss+xml" title="feed" href="<?= h($base_path) ?>Rss" />
 <link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v28" />
+<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm_media.css?v28" />
 <script>var BASE_PATH = "<?= h($base_path) ?>";</script>
 <script src="<?= $base_path ?>js/Common.js?v3"></script>

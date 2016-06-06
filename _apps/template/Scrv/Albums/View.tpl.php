@@ -36,10 +36,10 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 		<p class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album Data</a></p>
 <?php endif; ?>
 		<div class="displaytable w100per">
-			<div class="displaytablecell w120px">
-				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" class="album_view_cover" />
+			<div class="displaytablecell album_cover">
+				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
 			</div>
-			<div class="displaytablecell vtalgmiddle pdl10px">
+			<div class="displaytablecell vtalgmiddle">
 				<img
 					id="id_fav_album"
 					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
