@@ -28,7 +28,7 @@
 					<?= isset($post["username"]) ? h($post["username"]) : "(delete user)" ?>
 				</a>
 				-
-				<span class="post_date"><?= h( date("Y年m月d日 H時i分",strtotime($post["created"]))) ?></span>
+				<span class="post_date"><?= h( date("Y年n月j日 H時i分",strtotime($post["created"]))) ?></span>
 			</p>
 		</div>
 	</div>

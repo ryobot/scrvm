@@ -57,14 +57,83 @@ class Index extends Base
 			return false;
 		}
 
+		// pager関連
 		$Pager = new Pager();
+		$pager = $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5);
+
+		$_base_url = $this->_BasePath . "Users/Index";
+		$most_prev_link = "{$_base_url}/" . hbq2(array(
+			"page"  => "1",
+			"sort"  => $sort,
+			"order" => $order,
+		));
+		$prev_link = "{$_base_url}/" . hbq2(array(
+			"page"  => $pager["now_page"]-1,
+			"sort"  => $sort,
+			"order" => $order,
+		));
+		$next_link = "{$_base_url}/" . hbq2(array(
+			"page"  => $pager["now_page"]+1,
+			"sort"  => $sort,
+			"order" => $order,
+		));
+		$most_next_link = "{$_base_url}/" . hbq2(array(
+			"page"  => $pager["max_page"],
+			"sort"  => $sort,
+			"order" => $order,
+		));
+		$nav_list = array();
+		foreach($pager["nav_list"] as $nav) {
+			$nav_list[] = array(
+				"active" => $nav["active"],
+				"page" => $nav["page"],
+				"link" => "{$_base_url}/" . hbq2(array(
+					"page" => $nav["page"],
+					"sort"   => $sort,
+					"order"  => $order,
+				)),
+			);
+		}
+
+		// ソート用リンク
+		$order_type = $order === "asc" ? "desc" : "asc";
+		$sort_links = array(
+			"username" => array(
+				"link" => "{$_base_url}/" . hbq2(array(
+					"sort"   => "username",
+					"order"  => $order_type,
+				)),
+				"text" => $sort === "username" ? "[Name]" : "Name",
+			),
+			"review_count" => array(
+				"link" => "{$_base_url}/" . hbq2(array(
+					"sort"   => "review_count",
+					"order"  => $order_type,
+				)),
+				"text" => $sort === "review_count" ? "[Reviews]" : "Reviews",
+			),
+			"sync_point" => array(
+				"link" => "{$_base_url}/" . hbq2(array(
+					"sort"   => "sync_point",
+					"order"  => $order_type,
+				)),
+				"text" => $sort === "sync_point" ? "[SyncPoint]" : "SyncPoint",
+			),
+		);
 
 		$this->_Template->assign(array(
 			"sort" => $sort,
 			"order" => $order,
 			"lists" => $lists_result["data"]["lists"],
 			"lists_count" => $lists_result["data"]["lists_count"],
-			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
+			"pager" => $pager,
+			"most_prev_link" => $most_prev_link,
+			"prev_link" => $prev_link,
+			"next_link" => $next_link,
+			"most_next_link" => $most_next_link,
+			"nav_list" => $nav_list,
+			"order_type" => $order_type,
+			"sort_links" => $sort_links,
 		))->display("Users/Index.tpl.php");
 
 		return true;

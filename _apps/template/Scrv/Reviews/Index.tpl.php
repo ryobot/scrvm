@@ -4,19 +4,6 @@
  * @author mgng
  */
 
-$most_prev_link = $base_path;
-$prev_link = $base_path . "?" . hbq(array("page" => $pager["now_page"]-1,));
-$next_link = $base_path . "?" . hbq(array("page" => $pager["now_page"]+1,));
-$most_next_link = $base_path . "?" . hbq(array("page" => $pager["max_page"],));
-$nav_list = array();
-foreach($pager["nav_list"] as $nav) {
-	$nav_list[] = array(
-		"active" => $nav["active"],
-		"page" => $nav["page"],
-		"link" => $base_path . "?" . hbq(array("page" => $nav["page"],)),
-	);
-}
-
 ?>
 <!doctype html>
 <html lang="ja">

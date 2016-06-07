@@ -52,6 +52,19 @@ class Index extends Base
 
 		// pager
 		$Pager = new Pager();
+		$pager = $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5);
+		$most_prev_link = "{$this->_BasePath}Posts";
+		$prev_link = "{$this->_BasePath}Posts/Index/page/".($pager["now_page"]-1);
+		$next_link = "{$this->_BasePath}Posts/Index/page/".($pager["now_page"]+1);
+		$most_next_link = "{$this->_BasePath}Posts/Index/page/".$pager["max_page"];
+		$nav_list = array();
+		foreach($pager["nav_list"] as $nav) {
+			$nav_list[] = array(
+				"active" => $nav["active"],
+				"page" => $nav["page"],
+				"link" => "{$this->_BasePath}Posts/Index/page/".$nav["page"],
+			);
+		}
 
 		$this->_Template->assign(array(
 			"post_params" => $post_params,
@@ -59,7 +72,12 @@ class Index extends Base
 			"token" => $token,
 			"lists" => $lists_result["data"]["lists"],
 			"lists_count" => $lists_result["data"]["lists_count"],
-			"pager" => $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5),
+			"pager" => $pager,
+			"most_prev_link" => $most_prev_link,
+			"prev_link" => $prev_link,
+			"next_link" => $next_link,
+			"most_next_link" => $most_next_link,
+			"nav_list" => $nav_list,
 		))->display("Posts/Index.tpl.php");
 
 		return true;

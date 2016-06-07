@@ -73,29 +73,29 @@ class Index extends Base
 		$pager = $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5);
 
 		// pager リンク用
-		$_base_url = "{$this->_BasePath}Albums";
+		$_base_url = "{$this->_BasePath}Albums/Index";
 		$_base_params = array(
 			"q" => $q,
 			"type" => $type,
 			"stype" => $stype,
 			"index" => $index,
 		);
-		$most_prev_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+		$most_prev_link = "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 			"page" => "1",
 			"sort"   => $sort,
 			"order"  => $order,
 		)));
-		$prev_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+		$prev_link = "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 			"page" => $pager["now_page"]-1,
 			"sort"   => $sort,
 			"order"  => $order,
 		)));
-		$next_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+		$next_link = "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 			"page" => $pager["now_page"]+1,
 			"sort"   => $sort,
 			"order"  => $order,
 		)));
-		$most_next_link = "{$_base_url}?" . hbq(array_merge($_base_params, array(
+		$most_next_link = "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 			"page" => $pager["max_page"],
 			"sort"   => $sort,
 			"order"  => $order,
@@ -105,7 +105,7 @@ class Index extends Base
 			$nav_list[] = array(
 				"active" => $nav["active"],
 				"page" => $nav["page"],
-				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+				"link" => "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 					"page" => $nav["page"],
 					"sort"   => $sort,
 					"order"  => $order,
@@ -117,28 +117,28 @@ class Index extends Base
 		$order_type = $order === "asc" ? "desc" : "asc";
 		$sort_links = array(
 			"reviews" => array(
-				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+				"link" => "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 					"sort"   => "reviews",
 					"order"  => $order_type,
 				))),
 				"text" => $sort === "reviews" ? "[Reviews]" : "Reviews",
 			),
 			"artist" => array(
-				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+				"link" => "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 					"sort"   => "artist",
 					"order"  => $order_type,
 				))),
 				"text" => $sort === "artist" ? "[Artist]" : "Artist",
 			),
 			"title" => array(
-				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+				"link" => "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 					"sort"   => "title",
 					"order"  => $order_type,
 				))),
 				"text" => $sort === "title" ? "[Title]" : "Title",
 			),
 			"year" => array(
-				"link" => "{$_base_url}?" . hbq(array_merge($_base_params, array(
+				"link" => "{$_base_url}/" . hbq2(array_merge($_base_params, array(
 					"sort"   => "year",
 					"order"  => $order_type,
 				))),

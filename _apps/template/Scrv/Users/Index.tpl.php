@@ -5,65 +5,6 @@
  */
 
 $_base_url = $base_path . "Users";
-$most_prev_link = "{$_base_url}?" . hbq(array(
-	"page"  => "1",
-	"sort"  => $sort,
-	"order" => $order,
-));
-$prev_link = "{$_base_url}?" . hbq(array(
-	"page"  => $pager["now_page"]-1,
-	"sort"  => $sort,
-	"order" => $order,
-));
-$next_link = "{$_base_url}?" . hbq(array(
-	"page"  => $pager["now_page"]+1,
-	"sort"  => $sort,
-	"order" => $order,
-));
-$most_next_link = "{$_base_url}?" . hbq(array(
-	"page"  => $pager["max_page"],
-	"sort"  => $sort,
-	"order" => $order,
-));
-
-$nav_list = array();
-foreach($pager["nav_list"] as $nav) {
-	$nav_list[] = array(
-		"active" => $nav["active"],
-		"page" => $nav["page"],
-		"link" => "{$_base_url}?" . hbq(array(
-			"page" => $nav["page"],
-			"sort"   => $sort,
-			"order"  => $order,
-		)),
-	);
-}
-
-// ソート用リンク
-$order_type = $order === "asc" ? "desc" : "asc";
-$sort_links = array(
-	"username" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"sort"   => "username",
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "username" ? "[Name]" : "Name",
-	),
-	"review_count" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"sort"   => "review_count",
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "review_count" ? "[Reviews]" : "Reviews",
-	),
-	"sync_point" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"sort"   => "sync_point",
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "sync_point" ? "[SyncPoint]" : "SyncPoint",
-	),
-);
 
 ?>
 <!doctype html>
@@ -113,7 +54,7 @@ $sort_links = array(
 
 		<!-- lists -->
 <?php foreach($lists as $list): ?>
-		<div class="info w100per">
+		<div class="user_block">
 			<h3>
 				<?= h($list["username"]) ?>
 			</h3>

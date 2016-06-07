@@ -4,19 +4,6 @@
  * @author mgng
  */
 
-$most_prev_link = $base_path . "Posts";
-$prev_link = $base_path . "Posts/Index/page/".($pager["now_page"]-1);
-$next_link = $base_path . "Posts/Index/page/".($pager["now_page"]+1);
-$most_next_link = $base_path . "Posts/Index/page/".$pager["max_page"];
-$nav_list = array();
-foreach($pager["nav_list"] as $nav) {
-	$nav_list[] = array(
-		"active" => $nav["active"],
-		"page" => $nav["page"],
-		"link" => $base_path . "Posts/Index/page/".$nav["page"],
-	);
-}
-
 ?>
 <!doctype html>
 <html lang="ja">

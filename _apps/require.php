@@ -65,23 +65,30 @@ function convertEOL($string, $to = "\n")
 }
 
 /**
- * 内部エンコーディングと外部エンコーディングの違いを吸収したhttp_build_queryのショートカット
+ * http_build_query shortcut
  * @param array $params
  * @return string
  */
 function hbq(array $params)
 {
 	return http_build_query($params);
-//	$internal_enc = ini_get("mbstring.internal_encoding");
-//	$output_enc = ini_get("mbstring.http_output");
-//	if ( $internal_enc === $output_enc ) {
-//		return http_build_query($params);
-//	}
-//	$_tmp = array();
-//	foreach($params as $key=>$val){
-//		$_tmp[$key] = mb_convert_encoding($val, $output_enc, $internal_enc);
-//	}
-//	return http_build_query($_tmp);
+}
+
+/**
+ * path 最適化したものを返す
+ * @param array $params
+ * @param string $separator default "/"
+ * @return string
+ */
+function hbq2(array $params, $separator = "/")
+{
+	$buf = array();
+	foreach($params as $k => $v) {
+		if ($v !== null && $v !== "") {
+			$buf[] = "{$k}{$separator}" . urlencode($v);
+		}
+	}
+	return implode($separator, $buf);
 }
 
 /**
