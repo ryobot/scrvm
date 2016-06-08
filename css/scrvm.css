@@ -20,7 +20,7 @@ body {
 	word-wrap:break-word;
 }
 
-h1,h2,h3,h4,h5,h6{font-size: 125%;margin: 0.4em 0;}
+h1,h2,h3,h4,h5,h6{font-size: 125%;margin:0; padding:5px;}
 h2{font-size: 125%;color:#D30;}
 h3{font-size: 120%;color:#267;}
 h4{font-size: 115%;color:#498;}
@@ -105,8 +105,7 @@ iframe{max-width: 100%};
 
 /* .footer */
 .footer{
-	padding:5px;
-	background-color: rgba(255,255,255,1.0);
+	padding:10px;
 }
 
 /* .copyright */
@@ -117,7 +116,7 @@ iframe{max-width: 100%};
 
 /*------------*/
 .contents{
-	padding:5px;
+	padding:10px 0;
 }
 
 /* .menu */
@@ -126,7 +125,6 @@ iframe{max-width: 100%};
 	padding:0;
 	width:100%;
 	display: table;
-	background:rgba(255,255,255,0.5);
 }
 .menu img{
 	width:24px;
@@ -138,9 +136,10 @@ iframe{max-width: 100%};
 	width:25%;
 	text-align: center;
 	display: table-cell;
+	background-color: #FFF;
 }
 .menu_block:hover{
-	background:rgba(255,255,255,1.0);
+	background-color: rgba(255,255,255,0);
 }
 
 /*------------*/
@@ -187,7 +186,7 @@ iframe{max-width: 100%};
 
 /* .user_edit */
 .user_edit{
-	margin:5px 0;
+	margin:5px;
 	padding: 5px 0;
 }
 .user_edit_menu div{
@@ -223,23 +222,21 @@ iframe{max-width: 100%};
 /* .info */
 .info{
 	background-color: rgba(255,255,255,0.7);
-	margin:15px 0;
 	padding:10px;
-	border:1px solid #CCC;
-	border-radius: 5px
+	border-top:1px solid #CCC;
+}
+.info:last-child{
+	border-bottom:1px solid #CCC;
 }
 
 /* .form_ */
 .form_info{
-	background-color: rgba(255,255,255,1);
-	margin:5px 0;
 	padding:5px;
-	border:1px solid #CCC;
-	border-radius: 5px
 }
 
 /* .tabs */
 .search_tab{
+	padding:5px;
 }
 .search_tab div.tab {
 	background-color: rgba(220,220,220,1.0);
@@ -320,8 +317,10 @@ ul.pagination li a {
 	float: left;
 	padding: 4px 10px;
 	text-decoration: none;
-	transition: background-color .3s;
-	border: 1px solid #ddd;
+	transition: background-color .2s;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	border-left: 1px solid #CCC;
 	background-color: #FFF;
 }
 .pagination li:first-child a {
@@ -331,6 +330,7 @@ ul.pagination li a {
 .pagination li:last-child a {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+	border-right: 1px solid #CCC;
 }
 ul.pagination li a.active {
 	background-color: #4CAF50;
@@ -571,6 +571,13 @@ dl.search dd input[type="submit"]:hover{
 	content:"";
 }
 
+.sync_review{
+	margin:10px 0;
+	padding:10px;
+	background-color:#EEF;
+	border: 1px solid #DDE;
+}
+
 /* tags */
 .tag_group{
 	width:100%;
@@ -733,7 +740,7 @@ dl.search dd input[type="submit"]:hover{
 
 /*-----------*/
 .about_content{
-/*    padding: 5px 20px 20px;*/
+	margin: 5px;
 		padding: 10px;
     font-weight: bold;
 		background-color: rgba(255,255,255,0.7);

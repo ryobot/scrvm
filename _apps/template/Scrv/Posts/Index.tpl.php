@@ -28,13 +28,15 @@
 <?php endif;?>
 
 <?php if($is_login ): ?>
-	<form action="<?= h($base_path) ?>Posts/Add" method="POST">
-		<input type="hidden" name="token" value="<?= h($token) ?>" />
-		<input type="hidden" name="reply_id" id="id_reply_id" value="" />
-		<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
-		<p><textarea name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
-		<p class="actions"><input type="submit" value="Save Post" ></p>
-	</form>
+	<div class="form_info">
+		<form action="<?= h($base_path) ?>Posts/Add" method="POST">
+			<input type="hidden" name="token" value="<?= h($token) ?>" />
+			<input type="hidden" name="reply_id" id="id_reply_id" value="" />
+			<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
+			<p><textarea name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
+			<p class="actions"><input type="submit" value="Save Post" ></p>
+		</form>
+	</div>
 <?php endif;?>
 
 <?php if(count($lists) > 0): ?>

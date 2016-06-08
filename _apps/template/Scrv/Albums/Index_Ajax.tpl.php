@@ -38,6 +38,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 			/
 			<a href="<?= h($sort_links["reviews"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["reviews"]["text"]) ?></a>
 		</div>
+
 <?php foreach($lists as $album): ?>
 		<div class="info">
 			<div class="displaytable w100per">
@@ -70,13 +71,11 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 <?php endif;?>
 				</div>
 			</div>
-			<div class="displaytable w100per tacenter actions">
 <?php if($is_login): ?>
-				<div class="displaytablecell">
-					<a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>">Write a Review</a>
-				</div>
-<?php endif; ?>
+			<div class="w100per actions tacenter">
+				<a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>">Write a Review</a>
 			</div>
+<?php endif; ?>
 		</div>
 <?php endforeach; ?>
 

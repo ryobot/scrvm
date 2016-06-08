@@ -49,8 +49,7 @@
 	</h4>
 <?php if (count( $syncs["reviews"] ) > 0):?>
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
-	<div class="w100per info mgb10px">
-
+	<div class="info">
 		<div class="displaytable w100per">
 			<div class="displaytablecell album_cover">
 				<img src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
@@ -65,9 +64,8 @@
 				</div>
 			</div>
 		</div>
-
 <?php foreach($reviews["data"] as $review): ?>
-		<div class="w100per info">
+		<div class="w100per sync_review">
 			<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
 			<div class="displaytable w100per">
 				<div class="displaytablecell w50px">
@@ -96,7 +94,7 @@
 <?php if (count( $syncs["albums"] ) > 0):?>
 	<div>
 <?php foreach($syncs["albums"] as $album): ?>
-		<div class="displaytable w100per album_info">
+		<div class="displaytable w100per info">
 			<div class="displaytablecell w80px">
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" />
 			</div>
@@ -119,7 +117,7 @@
 <?php if (count( $syncs["tracks"] ) > 0):?>
 	<div>
 <?php foreach($syncs["tracks"] as $track): ?>
-		<div class="displaytable w100per track_info">
+		<div class="displaytable w100per info">
 			<div class="displaytablecell w80px">
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
 			</div>

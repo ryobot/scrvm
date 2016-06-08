@@ -30,8 +30,8 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 <?php endif;?>
 
 	<!-- album info -->
-	<div class="album_info">
-		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
+	<h2><?= h($view_title) ?> (<?= h($view_year) ?>)</h2>
+	<div class="info">
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
 		<p class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album Data</a></p>
 <?php endif; ?>
@@ -91,34 +91,32 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 	</div>
 
 	<!-- track_info -->
-	<div class="track_info w100per">
 <?php foreach($tracks as $track): ?>
-		<div class="displaytable w100per track">
-			<div class="displaytablecell w30px">
-				<?= $track["track_num"] ?>.
-			</div>
-			<div class="displaytablecell">
-				<?= $track["track_title"] ?>
-			</div>
-			<div class="displaytablecell w80px taleft">
-				<img
-					class="img32x32 fav_track<?= $is_login ? "" : "_nologin" ?>"
-<?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
-					src="<?= h($base_path) ?>img/favtracks_on.svg"
-<?php else:?>
-					src="<?= h($base_path) ?>img/favtracks_off.svg"
-<?php endif;?>
-					data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
-					data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
-					data-track_id="<?= h($track["id"]) ?>"
-					alt="fav track"
-					title="fav track"
-				/>
-				<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
-			</div>
+	<div class="displaytable w100per info">
+		<div class="displaytablecell w30px">
+			<?= $track["track_num"] ?>.
 		</div>
-<?php endforeach;?>
+		<div class="displaytablecell">
+			<?= $track["track_title"] ?>
+		</div>
+		<div class="displaytablecell w80px taleft">
+			<img
+				class="img32x32 fav_track<?= $is_login ? "" : "_nologin" ?>"
+<?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
+				src="<?= h($base_path) ?>img/favtracks_on.svg"
+<?php else:?>
+				src="<?= h($base_path) ?>img/favtracks_off.svg"
+<?php endif;?>
+				data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
+				data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
+				data-track_id="<?= h($track["id"]) ?>"
+				alt="fav track"
+				title="fav track"
+			/>
+			<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
+		</div>
 	</div>
+<?php endforeach;?>
 
 	<!-- reviews -->
 	<h3>Reviews (<?= count($reviews) ?>)</h3>

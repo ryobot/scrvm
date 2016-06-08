@@ -40,7 +40,6 @@ $_base_url = $base_path . "Users";
 
 	<!-- user lists -->
 	<div class="lists">
-
 		<!-- sort -->
 		<div class="w100per tacenter">
 			<a href="<?= h($sort_links["username"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort username" class="img16x16" /><?= $sort_links["username"]["text"] ?></a>
@@ -54,7 +53,7 @@ $_base_url = $base_path . "Users";
 
 		<!-- lists -->
 <?php foreach($lists as $list): ?>
-		<div class="user_block">
+		<div class="info">
 			<h3>
 				<?= h($list["username"]) ?>
 			</h3>
