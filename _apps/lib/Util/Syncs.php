@@ -40,7 +40,7 @@ class Syncs
 		$y = 50;
 		$point = (-1 * $diff * $x) + $y;
 		$result["diff"] = $is_today ? $diff : null;	// today以外の場合は diff = null
-		$result["point"] = $point <= 0 ? 1 : $point;	// 0以下の場合は一律 1point に変更
+		$result["point"] = $point <= 0 ? 5 : $point;	// 0以下の場合は一律 5point に変更
 		return $result;
 	}
 
