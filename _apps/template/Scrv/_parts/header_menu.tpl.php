@@ -49,9 +49,16 @@
 		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
 		<div>Users</div>
 	</a></div>
+<?php if( $is_login ):?>
 	<div class="menu_block"><a href="<?= h($base_path) ?>Posts">
 		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="posts" /></div>
 		<div>Posts</div>
 	</a></div>
+<?php else: ?>
+	<div class="menu_block"><a href="<?= h($base_path) ?>About">
+		<div><img src="<?= h($base_path) ?>img/about.svg" alt="about" /></div>
+		<div>About</div>
+	</a></div>
+<?php endif; ?>
 </div>
 

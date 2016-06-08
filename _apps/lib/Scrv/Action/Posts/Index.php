@@ -24,6 +24,9 @@ class Index extends Base
 	 */
 	public function run()
 	{
+		// ログインしてなければログイン画面に
+		$this->isNotLogined($this->_BasePath . "Auth");
+
 		// セッション値取得
 		$post_params = $this->_Session->get(Scrv\SessionKeys::POST_PARAMS);
 		$error_messages = $this->_Session->get(Scrv\SessionKeys::ERROR_MESSAGES);

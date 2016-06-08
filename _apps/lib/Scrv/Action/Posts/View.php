@@ -21,6 +21,9 @@ class View extends Base
 	 */
 	public function run()
 	{
+		// ログインしてなければログイン画面に
+		$this->isNotLogined($this->_BasePath . "Auth");
+
 		$type = Server::get("type", "");
 		$id = Server::get("id", "");
 		if ( ! ctype_digit($id) ) {
