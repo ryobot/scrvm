@@ -37,28 +37,46 @@
 </div>
 
 <div class="menu">
-	<div class="menu_block"><a href="<?= h($base_path) ?>">
+	<div class="menu_block" data-menu="Reviews"><a href="<?= h($base_path) ?>">
 		<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>
-		<div>Reviews</div>
+		<span>Reviews</span>
 	</a></div>
-	<div class="menu_block"><a href="<?= h($base_path) ?>Albums">
+	<div class="menu_block" data-menu="Albums"><a href="<?= h($base_path) ?>Albums">
 		<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>
-		<div>Albums</div>
+		<span>Albums</span>
 	</a></div>
-	<div class="menu_block"><a href="<?= h($base_path) ?>Users">
+	<div class="menu_block" data-menu="Users"><a href="<?= h($base_path) ?>Users">
 		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
-		<div>Users</div>
+		<span>Users</span>
 	</a></div>
 <?php if( $is_login ):?>
-	<div class="menu_block"><a href="<?= h($base_path) ?>Posts">
-		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="posts" /></div>
-		<div>Posts</div>
+	<div class="menu_block" data-menu="Posts"><a href="<?= h($base_path) ?>Posts">
+		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
+		<span>Posts</span>
 	</a></div>
 <?php else: ?>
-	<div class="menu_block"><a href="<?= h($base_path) ?>About">
-		<div><img src="<?= h($base_path) ?>img/about.svg" alt="about" /></div>
-		<div>About</div>
-	</a></div>
 <?php endif; ?>
+	<div class="menu_block" data-menu="About"><a href="<?= h($base_path) ?>About">
+		<div><img src="<?= h($base_path) ?>img/about.svg" alt="About" /></div>
+		<span>About</span>
+	</a></div>
 </div>
+
+<script>
+;$(function(){
+	// menu 幅揃えとactive
+	var $div = $(".menu_block");
+	var width = Math.floor(100/$div.length);
+	var path = location.pathname.replace(new RegExp("^"+BASE_PATH), "");
+	if ( path === "" ) {
+		path = "Reviews";
+	}
+	$div.each(function(){
+		$(this).css({width : width + "%"});
+		if ( path.match($(this).attr("data-menu")) ) {
+			$(this).addClass("menu_block_active");
+		}
+	});
+});
+</script>
 

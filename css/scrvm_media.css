@@ -102,5 +102,10 @@
 		bottom: 40px;
 	}
 
+}
 
+@media only screen and (max-width:320px){
+	.menu_block span{
+		display:none;
+	}
 }
