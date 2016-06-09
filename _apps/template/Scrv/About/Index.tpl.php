@@ -64,6 +64,11 @@
 		<p>右上 user の「edit」 &gt; 招待リンク生成 &gt; メールに貼って友達に送る。</p>
 	</div>
 
+	<h3>改善案など・・・</h3>
+	<div class="about_content">
+		<p>「ここが使いにくい・わかりにくい」「こういう機能がほしい」「バグってる」などあれば、<a href="<?= h($base_path) ?>Posts">Posts</a> に書き込んでください。</p>
+	</div>
+
 </div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
