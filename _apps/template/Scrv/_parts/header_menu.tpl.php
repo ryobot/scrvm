@@ -39,41 +39,41 @@
 <div class="menu">
 	<div class="menu_block" data-menu="Reviews"><a href="<?= h($base_path) ?>">
 		<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>
-		<span>Reviews</span>
+		<div class="text">Reviews</div>
 	</a></div>
 	<div class="menu_block" data-menu="Albums"><a href="<?= h($base_path) ?>Albums">
 		<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>
-		<span>Albums</span>
+		<div class="text">Albums</div>
 	</a></div>
 	<div class="menu_block" data-menu="Users"><a href="<?= h($base_path) ?>Users">
 		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
-		<span>Users</span>
+		<div class="text">Users</div>
 	</a></div>
 <?php if( $is_login ):?>
 	<div class="menu_block" data-menu="Posts"><a href="<?= h($base_path) ?>Posts">
 		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
-		<span>Posts</span>
+		<div class="text">Posts</div>
 	</a></div>
 <?php else: ?>
 <?php endif; ?>
 	<div class="menu_block" data-menu="About"><a href="<?= h($base_path) ?>About">
 		<div><img src="<?= h($base_path) ?>img/about.svg" alt="About" /></div>
-		<span>About</span>
+		<div class="text">About</div>
 	</a></div>
 </div>
 
 <script>
 ;$(function(){
-	// menu 幅揃えとactive
-	var $div = $(".menu_block");
-	var width = Math.floor(100/$div.length);
+	// 幅揃えとactive
+	var $menu_block = $(".menu_block");
+	var width = Math.floor(100/$menu_block.length);
 	var path = location.pathname.replace(new RegExp("^"+BASE_PATH), "");
 	if ( path === "" ) {
 		path = "Reviews";
 	}
-	$div.each(function(){
+	$menu_block.each(function(){
 		$(this).css({width : width + "%"});
-		if ( path.match($(this).attr("data-menu")) ) {
+		if ( path.match( new RegExp( "^" + $(this).attr("data-menu") ) ) ) {
 			$(this).addClass("menu_block_active");
 		}
 	});

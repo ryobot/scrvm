@@ -63,6 +63,11 @@
 		height: auto;
 	}
 
+	/* .user_menu_list */
+	.user_menu_list_block{
+		font-size:80%;
+	}
+
 	/* .user_photo */
 	.user_photo{
 		width:70px;
@@ -105,7 +110,11 @@
 }
 
 @media only screen and (max-width:320px){
-	.menu_block span{
+	.menu_block .text{
+		display:none;
+	}
+
+	.user_menu_list_block .text{
 		display:none;
 	}
 }
