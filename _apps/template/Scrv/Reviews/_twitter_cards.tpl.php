@@ -10,3 +10,4 @@
 <meta name="twitter:title" value="<?= h($review_title) ?>" />
 <meta name="twitter:description" content="<?= h($review["body"]) ?>" />
 <meta name="twitter:image:src" content="<?= h(\lib\Util\Server::getFullHostUrl() . $album_image_path) ?>" />
+<meta name="twitter:url" content="<?= h(\lib\Util\Server::getFullHostUrl() . \lib\Util\Server::env("REQUEST_URI")) ?>" />

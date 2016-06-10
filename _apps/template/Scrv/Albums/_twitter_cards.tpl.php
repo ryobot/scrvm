@@ -10,3 +10,4 @@
 <meta name="twitter:title" value="<?= h("$view_title ({$view_year})") ?>" />
 <meta name="twitter:description" content="<?= h("$view_title ({$view_year})") ?>" />
 <meta name="twitter:image:src" content="<?= h(\lib\Util\Server::getFullHostUrl() . $album_image_path) ?>" />
+<meta name="twitter:url" content="<?= h(\lib\Util\Server::getFullHostUrl() . \lib\Util\Server::env("REQUEST_URI")) ?>" />
