@@ -32,7 +32,10 @@ foreach($pager["nav_list"] as $nav) {
 
 	<?php require __DIR__ . "/_profile.tpl.php" ?>
 
-	<h3>Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)</h3>
+	<h3>
+		<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" title="reviews" />
+		Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)
+	</h3>
 
 <?php if (count($reviews) > 0): ?>
 

@@ -61,6 +61,10 @@ class Router extends Base
 		if ( $reqest_uri === "" ) {
 			return $routing;
 		}
+
+		// short url 対応
+		$this->_runShortUrl($reqest_uri);
+
 		// split
 		$parsed = preg_split("/".preg_quote($sep, $sep)."/u", $reqest_uri);
 		$action = $parsed[0];
@@ -84,6 +88,38 @@ class Router extends Base
 			}
 		}
 		return $routing;
+	}
+
+	/**
+	 * run short url
+	 * @param string $request_uri
+	 * @return null
+	 */
+	private function _runShortUrl($request_uri)
+	{
+		$base = Server::getFullHostUrl() . self::$_common_ini["common"]["base_path"];
+		// r/[digit] → Reviews/View/[digit]
+		if ( preg_match("/\Ar\/([0-9]+)\z/", $request_uri, $match) === 1 ) {
+			$url = "{$base}Reviews/View/id/". (int)$match[1];
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: {$url}");
+			exit;
+		}
+		// u/[digit] → Users/View/[digit]
+		if ( preg_match("/\Au\/([0-9]+)\z/", $request_uri, $match) === 1 ) {
+			$url = "{$base}Users/View/id/". (int)$match[1];
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: {$url}");
+			exit;
+		}
+		// a/[digit] → Albums/View/[digit]
+		if ( preg_match("/\Aa\/([0-9]+)\z/", $request_uri, $match) === 1 ) {
+			$url = "{$base}Albums/View/id/". (int)$match[1];
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: {$url}");
+			exit;
+		}
+		return null;
 	}
 
 }

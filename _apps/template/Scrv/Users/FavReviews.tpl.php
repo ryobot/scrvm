@@ -33,7 +33,10 @@ foreach($pager["nav_list"] as $nav) {
 
 	<?php require __DIR__ . "/_profile.tpl.php" ?>
 
-	<h3>Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)</h3>
+	<h3>
+		<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="fav reviews" title="fav reviews" />
+		Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)
+	</h3>
 
 <?php if(count($favreviews) > 0): ?>
 
