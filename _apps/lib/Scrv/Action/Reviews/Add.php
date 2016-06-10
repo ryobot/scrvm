@@ -55,6 +55,7 @@ class Add extends Base
 			"album_id" => $album_id,
 			"album" => $album_result["data"]["album"],
 			"tracks" => $album_result["data"]["tracks"],
+			"reviews" => $album_result["data"]["reviews"],
 			"post_params" => $post_params,
 			"error_messages" => $error_messages,
 		))->display("Reviews/Add.tpl.php");

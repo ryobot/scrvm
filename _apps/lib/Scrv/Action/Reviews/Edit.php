@@ -72,6 +72,7 @@ class Edit extends Base
 			"review_id" => $review_id,
 			"album" => $album_result["data"]["album"],
 			"tracks" => $album_result["data"]["tracks"],
+			"reviews" => $album_result["data"]["reviews"],
 			"post_params" => $post_params,
 			"error_messages" => $error_messages,
 		))->display("Reviews/Edit.tpl.php");

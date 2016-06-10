@@ -5,6 +5,7 @@
 
 	body {
 		font-size:90%;
+		line-height: 1.5em;
 	}
 
 	/*---------*/
@@ -52,6 +53,11 @@
 	/* .info */
 	.info{
 		padding:5px;
+	}
+
+	/* .review_comment */
+	.review_comment{
+		padding: 5px 0;
 	}
 
 	/* album_cover */

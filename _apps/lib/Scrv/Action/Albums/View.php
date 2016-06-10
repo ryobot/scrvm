@@ -45,7 +45,6 @@ class View extends Base
 		$view_result = $DaoAlbums->view((int)$id, $own_user_id);
 		if (!$view_result["status"]) {
 			Server::send404Header("not found..");
-			print_r($view_result);
 			return false;
 		}
 
@@ -59,7 +58,6 @@ class View extends Base
 			$favalbums_result = $DaoAlbums->favalbums((int)$id, $this->_login_user_data["id"]);
 			if (!$favtracks_result["status"] || !$favalbums_result["status"]) {
 				Server::send404Header("not found...");
-				print_r($favalbums_result);
 				return false;
 			}
 			foreach($favtracks_result["data"] as $data) {

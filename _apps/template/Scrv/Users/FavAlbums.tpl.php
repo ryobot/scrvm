@@ -61,7 +61,8 @@ foreach($pager["nav_list"] as $nav) {
 			</div>
 			<div class="displaytablecell vtalgmiddle">
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
-					<?= h($favalbum["artist"]) ?> / <?= h($favalbum["title"]) ?>
+					<?= h($favalbum["artist"]) ?><br />
+					<?= h($favalbum["title"]) ?>
 					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
 				</a>
 			</div>

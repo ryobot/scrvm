@@ -486,7 +486,7 @@ dl.search dd input[type="submit"]:hover{
 	border-radius: 5px
 }
 .review_comment{
-	padding: 1em 0;
+	padding: 10px 0;
 }
 
 /* .fav_ */
@@ -615,7 +615,7 @@ dl.search dd input[type="submit"]:hover{
 
 .sync_review{
 	margin:10px 0;
-	padding:10px;
+	padding:5px;
 	background-color:#EEF;
 	border: 1px solid #DDE;
 }
@@ -864,3 +864,4 @@ dl.search dd input[type="submit"]:hover{
 .relative{position: relative;}
 .absolute{position: absolute;}
 .fixed{position: fixed;}
+.filter_invert{filter:invert(100%);}

@@ -60,12 +60,15 @@ foreach($pager["nav_list"] as $nav) {
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>"><img src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>
 			<div class="displaytablecell vtalgmiddle">
-				<div><strong><?= h($favtrack["track_title"]) ?></strong></div>
+				<div>
+					<strong><?= h($favtrack["track_num"]) ?>. <?= h($favtrack["track_title"]) ?></strong>
+				</div>
 				<div>
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
-						<?= h($favtrack["artist"]) ?> / <?= h($favtrack["title"]) ?>
+						<?= h($favtrack["artist"]) ?><br />
+						<?= h($favtrack["title"]) ?>
 						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
-					</a> : tr.<?= h($favtrack["track_num"]) ?>
+					</a>
 				</div>
 			</div>
 		</div>
