@@ -5,7 +5,7 @@
  */
 ?>
 <!-- twitter cards -->
-<meta name="twitter:card" value="summary_large_image" />
+<meta name="twitter:card" value="summary" />
 <meta name="twitter:site" value="@ryobotnotabot" />
 <meta name="twitter:title" value="<?= h($review_title) ?>" />
 <meta name="twitter:description" content="<?= h($review["body"]) ?>" />

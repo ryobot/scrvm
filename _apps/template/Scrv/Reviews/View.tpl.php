@@ -18,8 +18,8 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 	(by <?= h($review["username"]) ?>)
 	| <?= h($base_title) ?> :: Reviews
 </title>
-<?php require __DIR__ . '/../_parts/ogp.tpl.php'; ?>
-<?php require __DIR__ . '/../_parts/twitter_cards.tpl.php'; ?>
+<?php require __DIR__ . '/_ogp.tpl.php'; ?>
+<?php require __DIR__ . '/_twitter_cards.tpl.php'; ?>
 </head>
 <body>
 

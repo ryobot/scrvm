@@ -6,6 +6,7 @@
 
 $view_title = "{$album["artist"]} / {$album["title"]}";
 $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "unknown";
+$album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{$base_path}img/no_image.png" : "{$base_path}files/covers/{$album["img_file"]}";
 
 ?>
 <!doctype html>
@@ -13,6 +14,8 @@ $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($view_title) ?> | <?= h($base_title) ?> :: Albums :: View</title>
+<?php require __DIR__ . '/_ogp.tpl.php'; ?>
+<?php require __DIR__ . '/_twitter_cards.tpl.php'; ?>
 </head>
 <body>
 
