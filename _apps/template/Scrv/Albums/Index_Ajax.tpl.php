@@ -58,11 +58,18 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 					</a>
 				</div>
 <?php if($album["reviews"] > 0): ?>
-				<div class="displaytablecell w80px tacenter vtalgmiddle" title="add review">
+				<div class="displaytablecell w80px tacenter vtalgmiddle">
+<?php if ($is_login): ?>
 					<a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>">
 						<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
 						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
 					</a>
+<?php else: ?>
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
+						<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
+						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
+					</a>
+<?php endif; ?>
 				</div>
 <?php endif;?>
 			</div>
