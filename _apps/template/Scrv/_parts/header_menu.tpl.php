@@ -29,7 +29,6 @@
 <?php else: ?>
 				<li><a href="<?= h($base_path) ?>Auth">Login</a></li>
 <?php endif; ?>
-				<li><a href="<?= h($base_path) ?>About">About/Help</a></li>
 			</ul>
 		</div>
 		<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
