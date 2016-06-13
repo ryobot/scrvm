@@ -63,15 +63,13 @@
 
 <script>
 ;$(function(){
-	// 幅揃えとactive
+	// active
 	var $menu_block = $(".menu_block");
-	var width = Math.floor(100/$menu_block.length);
 	var path = location.pathname.replace(new RegExp("^"+BASE_PATH), "");
 	if ( path === "" ) {
 		path = "Reviews";
 	}
 	$menu_block.each(function(){
-		$(this).css({width : width + "%"});
 		if ( path.match( new RegExp( "^" + $(this).attr("data-menu") ) ) ) {
 			$(this).addClass("menu_block_active");
 		}

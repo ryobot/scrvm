@@ -40,12 +40,10 @@
 
 <script>
 ;$(function(){
-	// 幅揃えとactive
+	// active
 	var $user_menu_list_block = $(".user_menu_list_block");
-	var width = Math.floor( 100 / $user_menu_list_block.length );
 	var path = location.pathname;
 	$user_menu_list_block.each(function(){
-		$(this).css({width : width + "%"});
 		if ( path.match(new RegExp("^"+BASE_PATH+"Users/"+$(this).attr("data-menu"))) ) {
 			$(this).addClass("user_menu_list_block_active");
 		}

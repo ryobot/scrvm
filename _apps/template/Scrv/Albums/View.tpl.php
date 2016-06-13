@@ -35,14 +35,14 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<!-- album info -->
 	<h2><?= h($view_title) ?> (<?= h($view_year) ?>)</h2>
 	<div class="album_info">
-		<div class="displaytable w100per">
-			<div class="displaytablecell album_cover tacenter">
+		<div class="info">
+			<div class="cover">
 				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-				<p class="actions"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a></p>
+				<p class="actions mgt10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a></p>
 <?php endif; ?>
 			</div>
-			<div class="displaytablecell vtalgmiddle">
+			<div class="detail">
 				<img
 					id="id_fav_album"
 					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
@@ -65,46 +65,42 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if(count($tags) > 0): ?>
 		<!-- tags -->
-		<div class="mgt10px mgb10px">
-			<p class="tags_group">
+		<div class="tags_group">
 <?php foreach($tags as $tag):?>
-				<span class="tags"><a
-					href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
-					data-id="<?= h($tag["id"]) ?>"
-					data-tag="<?= h($tag["tag"]) ?>"
-					data-album_id="<?= h($tag["album_id"]) ?>"
-					data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-				><?= h($tag["tag"]) ?></a></span>
+			<span class="tags"><a
+				href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
+				data-id="<?= h($tag["id"]) ?>"
+				data-tag="<?= h($tag["tag"]) ?>"
+				data-album_id="<?= h($tag["album_id"]) ?>"
+				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+			><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
-			</p>
 		</div>
 <?php endif; ?>
 
 <?php if($is_login): ?>
 		<!-- add tag form -->
-		<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
-			<input type="hidden" name="token" value="<?= h($token) ?>" />
-			<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-			<dl class="search">
-				<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
-				<dd><input type="submit" value="add tag" /></dd>
-			</dl>
-		</form>
+		<div class="tags_form">
+			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+				<input type="hidden" name="token" value="<?= h($token) ?>" />
+				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+				<dl class="search">
+					<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
+					<dd><input type="submit" value="add tag" /></dd>
+				</dl>
+			</form>
+		</div>
 <?php endif;?>
 	</div>
 
 	<!-- track_info -->
 <?php foreach($tracks as $track): ?>
 	<div class="track_info">
-		<div class="num">
-			<?= $track["track_num"] ?>.
-		</div>
-		<div class="title">
-			<?= $track["track_title"] ?>
-		</div>
+		<div class="num"><?= $track["track_num"] ?>. </div>
+		<div class="title"><?= $track["track_title"] ?></div>
 		<div class="fav">
 			<img
-				class="img32x32 fav_track<?= $is_login ? "" : "_nologin" ?>"
+				class="fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
 				src="<?= h($base_path) ?>img/favtracks_on.svg"
 <?php else:?>
@@ -128,7 +124,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif; ?>
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<div class="info">
+		<div class="review">
 			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
 			<p>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">

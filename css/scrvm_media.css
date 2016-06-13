@@ -87,6 +87,14 @@
 		height: auto;
 	}
 
+	/* .tags_ */
+	.tags_group{
+		padding:0 5px;
+	}
+	.tags_form{
+		padding:0 5px
+	}
+
 	/* .track_info */
 	.track_info{
 		padding:5px;
@@ -109,15 +117,6 @@
 	}
 
 	/* .user_edit */
-	.user_edit_menu div{
-		padding:5px;
-		margin: 0 5px;
-		background: rgba(230,230,230,0.7);
-		border-radius: 5px 5px 0 0;
-		border:1px solid #CCC;
-		text-align:center;
-		font-size:90%;
-	}
 	.user_edit_menu div.active{
 		background: rgba(255,255,255,0.7);
 		border-bottom:none;

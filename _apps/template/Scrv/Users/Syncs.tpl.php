@@ -23,11 +23,11 @@
 		Syncs : <?= isset($user["sync_point"]) ? h($user["sync_point"]) : "0" ?>pt
 	</h3>
 
-<!--	 sync menu
-	<div class="displaytable w100per sync_menu tacenter">
-		<div class="displaytablecell w33per"><a href="#id_title_sync_reviews">Reviews : <?= h($syncs_reviews_point_total) ?>pt</a></div>
-		<div class="displaytablecell w33per"><a href="#id_title_sync_albums">Albums : <?= count($syncs["albums"])*5 ?>pt</a></div>
-		<div class="displaytablecell w33per"><a href="#id_title_sync_tracks">Tracks : <?= count($syncs["tracks"])*2 ?>pt</a></div>
+	<!-- syncs menu -->
+<!--	<div class="sync_menu_list">
+		<div class="sync_menu"><a href="#id_title_sync_reviews">Reviews<br /><?= h($syncs_reviews_point_total) ?>pt</a></div>
+		<div class="sync_menu"><a href="#id_title_sync_albums">Albums<br /><?= count($syncs["albums"])*5 ?>pt</a></div>
+		<div class="sync_menu"><a href="#id_title_sync_tracks">Tracks<br /><?= count($syncs["tracks"])*2 ?>pt</a></div>
 	</div>-->
 
 	<!-- sync artists -->
@@ -55,19 +55,19 @@
 	</h4>
 	<div>
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
-		<div class="info">
-			<div class="displaytable w100per">
-				<div class="displaytablecell album_cover">
+		<div>
+			<div class="album_info">
+				<div class="cover">
 					<img src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" alt="<?= h("{$reviews["data"][0]["artist"]} / {$reviews["data"][0]["title"]}") ?>" />
 				</div>
-				<div class="displaytablecell vtalgmiddle">
+				<div class="detail">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>">
 						<?= h("{$reviews["data"][0]["artist"]}") ?><br />
 						<?= h("{$reviews["data"][0]["title"]}") ?>
 						(<?= isset($reviews["data"][0]["year"]) ? h($reviews["data"][0]["year"]) : "unknown" ?>)
 					</a>
 				</div>
-				<div class="displaytablecell w30px tacenter">
+				<div class="reviews">
 					<img
 						src="<?= h($base_path) ?>img/toggle.svg"
 						class="sync_review_detail_button"
@@ -79,15 +79,15 @@
 					/>
 				</div>
 			</div>
-			<div class="sync_review_detai displaynone" id="id_sync_review_detail_<?= h($album_id) ?>">
-				<div>
+			<div class="displaynone w100per" id="id_sync_review_detail_<?= h($album_id) ?>">
+				<div class="tacenter">
 					<span class="sync_point_days">
 						between <?= h($reviews["diff"]+1) ?> days =
 						<?= h($reviews["point"]) ?> pt
 					</span>
 				</div>
 <?php foreach($reviews["data"] as $review): ?>
-				<div class="w100per sync_review">
+				<div class="sync_review">
 					<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
 					<div class="displaytable w100per">
 						<div class="displaytablecell w50px">
@@ -138,16 +138,17 @@
 	</h4>
 	<div>
 <?php foreach($syncs["tracks"] as $track): ?>
-		<div class="displaytable w100per info">
-			<div class="displaytablecell w80px">
+		<div class="album_info">
+			<div class="cover">
 				<img class="album_search_cover_result" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" />
 			</div>
-			<div class="displaytablecell vtalgmiddle">
-				<div><strong><?= h($track["track_title"]) ?></strong></div>
+			<div class="detail">
+				<div><strong><?= h($track["track_num"]) ?>. <?= h($track["track_title"]) ?></strong></div>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($track["album_id"]) ?>">
-					<?= h("{$track["artist"]} / {$track["title"]}") ?>
+					<?= h("{$track["artist"]}") ?><br />
+					<?= h("{$track["title"]}") ?>
 					(<?= isset($track["year"]) && $track["year"] !== "" ? h($track["year"]) : "unknown" ?>)
-				</a> : tr.<?= h($track["track_num"]) ?>
+				</a>
 			</div>
 		</div>
 <?php endforeach; unset($track); ?>

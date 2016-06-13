@@ -40,14 +40,14 @@
 	<!-- review list -->
 	<div class="reviews">
 <?php foreach($reviews as $review): ?>
-		<div class="info">
-			<div class="displaytable w100per">
-				<div class="displaytablecell album_cover vtalgmiddle">
+		<div class="album_info">
+			<div class="info">
+				<div class="cover">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 					</a>
 				</div>
-				<div class="displaytablecell vtalgmiddle">
+				<div class="detail">
 					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<?= h($review["artist"]) ?><br />
 						<?= h($review["title"]) ?>

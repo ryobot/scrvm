@@ -53,7 +53,7 @@ $_base_url = $base_path . "Users";
 
 		<!-- lists -->
 <?php foreach($lists as $list): ?>
-		<div class="info">
+		<div class="user_list">
 			<h3>
 				<?= h($list["username"]) ?>
 			</h3>

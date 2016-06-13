@@ -59,7 +59,7 @@
 	<!-- posts -->
 	<div class="lists w100per">
 <?php foreach($lists as $list): ?>
-		<div class="info">
+		<div class="post">
 			<h4><?= h($list["title"]) ?></h4>
 			<p class="post_body"><?= linkIt(nl2br(h($list["body"])), false) ?></p>
 <?php if(isset($list["reply_id"])): ?>

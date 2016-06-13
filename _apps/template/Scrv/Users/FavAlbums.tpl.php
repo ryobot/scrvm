@@ -55,18 +55,18 @@ foreach($pager["nav_list"] as $nav) {
 	</div>
 
 <?php foreach($favalbums as $favalbum): ?>
-		<div class="displaytable w100per info">
-			<div class="displaytablecell album_cover">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-			</div>
-			<div class="displaytablecell vtalgmiddle">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
-					<?= h($favalbum["artist"]) ?><br />
-					<?= h($favalbum["title"]) ?>
-					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
-				</a>
-			</div>
+	<div class="album_info">
+		<div class="cover">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 		</div>
+		<div class="detail">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
+				<?= h($favalbum["artist"]) ?><br />
+				<?= h($favalbum["title"]) ?>
+				(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
+			</a>
+		</div>
+	</div>
 <?php endforeach; ?>
 
 	<div class="tacenter">
