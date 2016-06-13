@@ -28,7 +28,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 			</ul>
 		</div>
 
-		<!-- album lists -->
+		<!-- album order -->
 		<div class="w100per tacenter">
 			<a href="<?= h($sort_links["artist"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort artist" class="img16x16" /><?= h($sort_links["artist"]["text"]) ?></a>
 			/
@@ -39,47 +39,45 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 			<a href="<?= h($sort_links["reviews"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort reviews" class="img16x16" /><?= h($sort_links["reviews"]["text"]) ?></a>
 		</div>
 
+		<!-- album lists -->
+		<div class="album_lists" id="id_album_lists">
 <?php foreach($lists as $album): ?>
-		<div class="info">
-			<div class="displaytable w100per">
-				<div class="displaytablecell tacenter album_cover vtalgmiddle">
+			<div class="album_info">
+				<div class="cover">
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 						<img
 							src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
 							alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
 						/>
 					</a>
-				</div>
-				<div class="displaytablecell vtalgmiddle">
-					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
-						<?= h($album["artist"]) ?><br />
-						<?= h($album["title"]) ?>
-						(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
-					</a>
-				</div>
-<?php if($album["reviews"] > 0): ?>
-				<div class="displaytablecell w80px tacenter vtalgmiddle">
-<?php if ($is_login): ?>
-					<a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>">
-						<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
-						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
-					</a>
-<?php else: ?>
-					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
-						<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
-						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
-					</a>
-<?php endif; ?>
-				</div>
-<?php endif;?>
-			</div>
 <?php if ($is_login && $album["create_user_id"] === $login_user_data["id"]): ?>
-			<div class="w100per actions tacenter mgt10px">
-				<a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album Data</a>
-			</div>
+					<div class="w100per actions tacenter mgt10px">
+						<a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a>
+					</div>
 <?php endif; ?>
-		</div>
+				</div>
+				<div class="detail">
+					<div class="album_artist"><a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($album["artist"]) ?>"><?= h($album["artist"]) ?></a></div>
+					<div class="album_title"><a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><?= h($album["title"]) ?></a></div>
+					<div class="album_year"><a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</a></div>
+				</div>
+				<div class="reviews">
+<?php if($album["reviews"] > 0): ?>
+					<a
+<?php if ($is_login): ?>
+						href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>"
+<?php else: ?>
+						href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"
+<?php endif; ?>
+					>
+						<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
+						<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
+					</a>
+<?php endif;?>
+				</div>
+			</div>
 <?php endforeach; ?>
+		</div>
 
 		<!-- pager -->
 		<div class="tacenter">

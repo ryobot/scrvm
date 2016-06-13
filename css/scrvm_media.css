@@ -60,6 +60,23 @@
 		padding: 10px 0;
 	}
 
+	/* .album_info */
+	.album_info{
+		padding: 5px;
+	}
+	.album_info .cover{
+		width:80px;
+	}
+	.album_info .cover img{
+		width:80px;
+	}
+	.album_info .detail{
+		padding: 5px;
+	}
+	.album_info .reviews{
+		padding: 5px;
+	}
+
 	/* album_cover */
 	.album_cover {
 		width:80px;
@@ -68,6 +85,11 @@
 		margin:3px;
 		width:64px;
 		height: auto;
+	}
+
+	/* .track_info */
+	.track_info{
+		padding:5px;
 	}
 
 	/* .user_menu_list */
