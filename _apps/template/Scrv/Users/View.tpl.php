@@ -57,12 +57,12 @@ foreach($pager["nav_list"] as $nav) {
 	<!-- reviews -->
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<div class="info">
-			<div class="displaytable">
-				<div class="displaytablecell album_cover">
+		<div class="album_info">
+			<div class="info">
+				<div class="cover">
 					<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 				</div>
-				<div class="displaytablecell vtalgmiddle">
+				<div class="detail">
 					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<?= h($review["artist"]) ?><br />
 						<?= h($review["title"]) ?>

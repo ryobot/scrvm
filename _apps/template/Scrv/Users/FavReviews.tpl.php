@@ -57,29 +57,29 @@ foreach($pager["nav_list"] as $nav) {
 	<!-- reviews -->
 	<div class="w100per">
 <?php foreach($favreviews as $favreview): ?>
-		<div class="info">
-				<div class="displaytable">
-					<div class="displaytablecell album_cover">
-						<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-					</div>
-					<div class="displaytablecell vtalgmiddle">
-						<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($favreview["artist"]) ?>"><?= h($favreview["artist"]) ?></a>
-						<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
-							<?= h($favreview["title"]) ?>
-							(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
-						</a></p>
-					</div>
+		<div class="album_info">
+			<div class="info">
+				<div class="cover">
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 				</div>
-				<div class="review_comment">
-					<?= $favreview["body"] === "" || $favreview["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($favreview["body"]))) ?>
+				<div class="detail">
+					<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($favreview["artist"]) ?>"><?= h($favreview["artist"]) ?></a>
+					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
+						<?= h($favreview["title"]) ?>
+						(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
+					</a></p>
 				</div>
-				<p>
-					<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
-					<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
-					-
-					<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
+			</div>
+			<div class="review_comment">
+				<?= $favreview["body"] === "" || $favreview["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($favreview["body"]))) ?>
+			</div>
+			<p>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
+				-
+				<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
 <?php if($favreview["listening_last"] === "today"): ?>
-					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
+				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
 <?php endif; ?>
 		</div>
 <?php endforeach; ?>

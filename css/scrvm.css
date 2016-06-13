@@ -697,9 +697,9 @@ dl.search dd input[type="submit"]:hover{
 }
 .sync_point_days{
 	background: #e99 none repeat scroll 0 0;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #FFF;
-	font-family: "Gill Sans","lucida grande",helvetica,arial,sans-serif;
+	
 	font-weight: bold;
 	margin-right: 1em;;
 	padding: 2px 5px;
@@ -713,10 +713,13 @@ dl.search dd input[type="submit"]:hover{
 
 .sync_review{
 	width:100%;
-	margin:5px;
 	padding:5px;
 	background-color:rgba(255,255,255,0.7);
 	border: 1px solid #CCC;
+	border-bottom: none;
+}
+.sync_review:last-child{
+	border-bottom: 1px solid #CCC;
 }
 
 

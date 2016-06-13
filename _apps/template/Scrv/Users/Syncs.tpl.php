@@ -79,7 +79,7 @@
 					/>
 				</div>
 			</div>
-			<div class="displaynone w100per" id="id_sync_review_detail_<?= h($album_id) ?>">
+			<div class="info displaynone" id="id_sync_review_detail_<?= h($album_id) ?>">
 				<div class="tacenter">
 					<span class="sync_point_days">
 						between <?= h($reviews["diff"]+1) ?> days =
