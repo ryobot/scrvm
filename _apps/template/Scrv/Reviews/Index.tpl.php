@@ -130,6 +130,7 @@
 
 <script>
 ;$(function(){
+
 	$(".review_delete").each(function(){
 		var $del = $(this);
 		var delete_id = $del.attr("data-delete_id");

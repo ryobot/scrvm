@@ -34,9 +34,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 	<!-- album info -->
 	<div class="album_info">
-		<h2>
-			<?= h($view_title) ?> (<?= h($view_year) ?>)
-		</h2>
+		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
 		<div class="info">
 			<div class="cover">
 				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
@@ -156,6 +154,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 					/>
 					<span class="fav_reviews_count"></span>
 				</div>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
+				</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 				<div>
 					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
@@ -238,13 +239,13 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
 			if(confirm("are you sure ?")){
-				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
+				$.ajax( BASE_PATH + "Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>";
+					location.href = BASE_PATH + "Albums/View/id/<?= h($album_id) ?>";
 				})
 				.fail(function(e){
 					alert("system error.");

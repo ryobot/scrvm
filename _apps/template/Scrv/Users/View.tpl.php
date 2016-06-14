@@ -143,26 +143,25 @@ foreach($pager["nav_list"] as $nav) {
 
 <script>
 ;$(function(){
+
 	$(".review_delete").each(function(){
 		var $del = $(this);
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
 			if(confirm("are you sure ?")){
-
-				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
+				$.ajax( BASE_PATH + "Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Users/View/id/<?= $login_user_data["id"] ?>";
+					location.href = BASE_PATH + "Users/View/id/<?= $login_user_data["id"] ?>";
 				})
 				.fail(function(e){
 					alert("system error.");
 				})
 				.always(function(){
 				});
-
 			}
 			return false;
 		});

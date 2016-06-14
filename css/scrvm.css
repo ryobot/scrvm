@@ -211,13 +211,36 @@ iframe{max-width: 100%};
 
 /* .user_list */
 .user_list{
+}
+
+/* .user_info */
+.user_info{
 	background-color: rgba(255,255,255,0.7);
 	padding:5px;
 	border-top:1px solid #CCC;
+/*	width:100%;*/
 }
-.user_list:last-child{
+.user_info:last-child{
 	border-bottom:1px solid #CCC;
 }
+.user_info .cover{
+	display: table-cell;
+	width:140px;
+	height:auto;
+	text-align: center;
+	vertical-align: middle;
+}
+.user_info .cover img{
+	width:120px;
+	height:auto;
+	border-radius: 5px;
+}
+.user_info .detail{
+	display: table-cell;
+	vertical-align: middle;
+	padding-left:10px;
+}
+
 
 /* .user_edit */
 .user_edit{
@@ -671,15 +694,15 @@ dl.search dd input[type="submit"]:hover{
 	padding: 5px 0;
 	vertical-align: middle;
 }
+.reaction_area div{
+	opacity:0.65;
+}
+.reaction_area div:hover{
+	opacity:1.0;
+}
 .reaction_area img{
 	width:20px;
 	height:20px;
-}
-.reaction_area div{
-	filter:opacity(65%);
-}
-.reaction_area div:hover{
-	filter:opacity(100%);
 }
 
 /* .itunes_ */

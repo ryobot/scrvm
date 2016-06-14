@@ -79,9 +79,14 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 					</span>
 				</a>
 			</div>
-<!--			<div>
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
-			</div>-->
+<?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
+			<div>
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+			</div>
+			<div>
+				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
+			</div>
+<?php endif;?>
 		</div>
 
 <?php if(count($favreviews_user_lists) > 0): ?>
@@ -108,18 +113,19 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 
 <script>
 ;$(function(){
+
 	$(".review_delete").each(function(){
 		var $del = $(this);
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
 			if(confirm("are you sure ?")){
-				$.ajax( "<?= h($base_path) ?>Reviews/Del", {
+				$.ajax( BASE_PATH + "Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
 					data : { id : delete_id }
 				})
 				.done(function(json){
-					location.href="<?= h($base_path) ?>Reviews";
+					location.href = BASE_PATH + "Reviews";
 				})
 				.fail(function(e){
 					alert("system error.");
