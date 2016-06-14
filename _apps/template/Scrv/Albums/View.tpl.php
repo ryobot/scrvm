@@ -33,24 +33,26 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif;?>
 
 	<!-- album info -->
-	<h2><?= h($view_title) ?> (<?= h($view_year) ?>)</h2>
 	<div class="album_info">
+		<h2>
+			<?= h($view_title) ?> (<?= h($view_year) ?>)
+		</h2>
 		<div class="info">
 			<div class="cover">
 				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
 <?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-				<p class="actions mgt10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a></p>
+				<div class="actions mgt10px taleft"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a></div>
 <?php endif; ?>
 			</div>
 			<div class="detail">
 				<img
 					id="id_fav_album"
 					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
-				<?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
+<?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
 					src="<?= h($base_path) ?>img/favalbums_on.svg"
-				<?php else:?>
+<?php else:?>
 					src="<?= h($base_path) ?>img/favalbums_off.svg"
-				<?php endif;?>
+<?php endif;?>
 					data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
 					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
 					data-album_id="<?= h($album_id) ?>"
@@ -126,7 +128,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php foreach($reviews as $review): ?>
 		<div class="review">
 			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
-			<p>
+			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
 				</a>
@@ -138,7 +140,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php if($review["listening_last"] === "today"): ?>
 				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-				<span class="fav_reviews_wrapper">
+			</div>
+			<div class="reaction_area">
+				<div class="fav_reviews_wrapper">
 					<img
 						class="fav_review vtalgmiddle img16x16"
 						src="<?= h($base_path) ?>img/fav_off.svg"
@@ -151,14 +155,16 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 						title="fav review"
 					/>
 					<span class="fav_reviews_count"></span>
-				</span>
-			</p>
+				</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<p class="actions mgt10px">
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-			</p>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+				</div>
+				<div>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
+				</div>
 <?php endif;?>
+			</div>
 		</div>
 <?php endforeach; ?>
 	</div>

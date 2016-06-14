@@ -129,14 +129,12 @@ class Reviews extends Dao
 				t1.*
 				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
 				,t3.username,t3.img_file AS user_img_file
-				,count(t4.id) as reviews_count
-				,count(t5.id) as fav_reviews_count
+				,(SELECT count(t4.id) FROM reviews t4 WHERE t1.album_id=t4.album_id) as reviews_count
+				,(SELECT count(t5.id) FROM favreviews t5 WHERE t1.id=t5.review_id) as fav_reviews_count
 				{$my_fav_select}
 				FROM reviews t1
 				INNER JOIN albums t2 ON(t1.album_id=t2.id)
 				INNER JOIN users t3 ON(t1.user_id=t3.id)
-				LEFT JOIN reviews t4 ON(t1.album_id = t4.album_id)
-				LEFT JOIN favreviews t5 ON(t1.id=t4.id AND t1.id=t5.review_id)
 				{$my_fav_sql}
 				WHERE t1.id=:id
 				GROUP BY t1.id",
@@ -205,6 +203,7 @@ class Reviews extends Dao
 				t1.*
 				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
 				,t3.username,t3.img_file as user_img_file
+				,(SELECT count(t4.id) FROM reviews t4 WHERE t1.album_id=t4.album_id) as reviews_count
 				,count(t5.id) as fav_reviews_count
 				{$my_fav_select}
 				FROM reviews t1

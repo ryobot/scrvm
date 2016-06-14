@@ -137,13 +137,14 @@ $sort_links = array(
 <?php endif; ?>
 
 <?php foreach($lists as $album): ?>
-	<div class="displaytable w100per info">
-		<div class="displaytablecell album_cover">
+	<div class="album_info">
+		<div class="cover">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><img src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>" /></a>
 		</div>
-		<div class="displaytablecell vtalgmiddle">
+		<div class="detail">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
-				<?= h( "{$album["artist"]} / {$album["title"]}") ?>
+				<?= h( "{$album["artist"]}") ?><br />
+				<?= h( "{$album["title"]}") ?><br />
 				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 			</a>
 		</div>

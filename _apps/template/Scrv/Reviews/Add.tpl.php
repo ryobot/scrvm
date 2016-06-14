@@ -27,9 +27,17 @@
 	</div>
 <?php endif;?>
 
-	<div class="review">
+	<div class="album_info">
+
 		<h3><?= h($album["artist"]) ?> / <?= h($album["title"]) ?> (<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)</h3>
-		<p><img src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h($album["artist"]) ?> / <?= h($album["title"]) ?>" /></p>
+
+		<div class="info">
+			<div class="cover">
+				<img src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h($album["artist"]) ?> / <?= h($album["title"]) ?>" />
+			</div>
+			<div class="detail">
+			</div>
+		</div>
 
 		<form action="<?= h($base_path) ?>Reviews/AddRun" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
@@ -60,26 +68,24 @@
 
 	<!-- reviews -->
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
-	<div class="w100per">
 <?php foreach($reviews as $review): ?>
-		<div class="info">
-			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
-			<p>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
-					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
-				</a>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-				-
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-				</a>
+	<div class="review">
+		<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
+		<div>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
+				<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
+			</a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+			-
+			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
+				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+			</a>
 <?php if($review["listening_last"] === "today"): ?>
-				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-			</p>
 		</div>
-<?php endforeach; ?>
 	</div>
+<?php endforeach; ?>
 
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

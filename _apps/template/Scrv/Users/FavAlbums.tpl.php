@@ -62,7 +62,7 @@ foreach($pager["nav_list"] as $nav) {
 		<div class="detail">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
 				<?= h($favalbum["artist"]) ?><br />
-				<?= h($favalbum["title"]) ?>
+				<?= h($favalbum["title"]) ?><br />
 				(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
 			</a>
 		</div>

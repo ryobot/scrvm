@@ -5,7 +5,7 @@
  */
 
 $year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown";
-$review_title = "{$review["artist"]} / {$review["title"]} ({$year})";
+$review_title = "{$review["artist"]} / {$review["title"]}";
 $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
 
 ?>
@@ -28,15 +28,17 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2><?= h($review_title) ?></h2>
-	<div class="info w100per">
-		<div class="w100per">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-				<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-			</a>
+	<div class="album_info">
+		<h3><?= h($review_title) ?> (<?= h($year) ?>)</h3>
+		<div class="info">
+			<div class="cover">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+					<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+				</a>
+			</div>
+			<div class="detail">
+			</div>
 		</div>
-
-
 		<div class="review_comment">
 			<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
 		</div>
@@ -51,22 +53,35 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <?php if($review["listening_last"] === "today"): ?>
 					<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-					<span class="fav_reviews_wrapper">
-						<img
-							class="fav_review vtalgmiddle img16x16"
-							src="<?= h($base_path) ?>img/fav_off.svg"
-							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-							data-review_id="<?= h($review["id"]) ?>"
-							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-							alt="fav review"
-							title="fav review"
-						/>
-						<span class="fav_reviews_count"></span>
-					</span>
 				</div>
 			</div>
+		</div>
+		<div class="reaction_area">
+			<div class="fav_reviews_wrapper">
+				<img
+					class="fav_review vtalgmiddle img16x16"
+					src="<?= h($base_path) ?>img/fav_off.svg"
+					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+					data-review_id="<?= h($review["id"]) ?>"
+					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+					alt="fav review"
+					title="fav review"
+				/>
+				<span class="fav_reviews_count"></span>
+			</div>
+			<div>
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+					<span class="vtalgmiddle">
+						<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+						<?= $review["reviews_count"] ?>
+					</span>
+				</a>
+			</div>
+<!--			<div>
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
+			</div>-->
 		</div>
 
 <?php if(count($favreviews_user_lists) > 0): ?>

@@ -57,9 +57,11 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 <?php endif; ?>
 				</div>
 				<div class="detail">
-					<div class="album_artist"><a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($album["artist"]) ?>"><?= h($album["artist"]) ?></a></div>
-					<div class="album_title"><a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"><?= h($album["title"]) ?></a></div>
-					<div class="album_year"><a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)</a></div>
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
+						<?= h($album["artist"]) ?><br />
+						<?= h($album["title"]) ?><br />
+						(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+					</a>
 				</div>
 				<div class="reviews">
 <?php if($album["reviews"] > 0): ?>

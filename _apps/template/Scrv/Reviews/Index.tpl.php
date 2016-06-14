@@ -50,7 +50,7 @@
 				<div class="detail">
 					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 						<?= h($review["artist"]) ?><br />
-						<?= h($review["title"]) ?>
+						<?= h($review["title"]) ?><br />
 						(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
 					</a></p>
 				</div>
@@ -58,7 +58,7 @@
 			<div class="review_comment">
 				<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
 			</div>
-			<p>
+			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-
@@ -66,7 +66,9 @@
 <?php if($review["listening_last"] === "today"): ?>
 				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
-				<span class="fav_reviews_wrapper">
+			</div>
+			<div class="reaction_area">
+				<div class="fav_reviews_wrapper">
 					<img
 						class="fav_review vtalgmiddle img16x16"
 						src="<?= h($base_path) ?>img/fav_off.svg"
@@ -79,22 +81,27 @@
 						title="fav review"
 					/>
 					<span class="fav_reviews_count"></span>
-				</span>
-			</p>
-<?php if( $review["reviews_count"] - 1 > 0 ): ?>
-			<p class="taright">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<span class="vtalgmiddle">&raquo; other <?= $review["reviews_count"] - 1 ?></span>
-					<img src="<?= h($base_path) ?>img/reviews.svg" width="16px" height="16px" alt="reviews" />
-				</a>
-			</p>
-<?php endif; ?>
+				</div>
+				<div>
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+						<span class="vtalgmiddle">
+							<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+							<?= $review["reviews_count"] ?>
+						</span>
+					</a>
+				</div>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
+				</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-			<p class="actions mgt10px">
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-			</p>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+				</div>
+				<div>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
+				</div>
 <?php endif;?>
+			</div>
 		</div>
 <?php endforeach; ?>
 	</div>

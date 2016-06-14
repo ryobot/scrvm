@@ -5,7 +5,6 @@
 
 	body {
 		font-size:90%;
-		line-height: 1.5em;
 	}
 
 	/*---------*/
@@ -52,7 +51,12 @@
 
 	/* .info */
 	.info{
-		padding:10px;
+	}
+
+	/* .reaction_area */
+	.reaction_area img{
+		width:16px;
+		height:16px;
 	}
 
 	/* .review_comment */
@@ -62,7 +66,7 @@
 
 	/* .album_info */
 	.album_info{
-		padding: 5px;
+		padding: 10px 5px;
 	}
 	.album_info .cover{
 		width:80px;
@@ -73,8 +77,13 @@
 	.album_info .detail{
 		padding: 5px;
 	}
+	.album_info .detail img{
+		width:24px;
+		height:24px;
+	}
 	.album_info .reviews{
 		padding: 5px;
+		width:50px;
 	}
 
 	/* album_cover */
@@ -98,6 +107,13 @@
 	/* .track_info */
 	.track_info{
 		padding:5px;
+	}
+	.track_info .fav{
+		width: 60px;
+	}
+	.track_info .fav img{
+		width:20px;
+		height:20px;
 	}
 
 	/* .user_menu_list */

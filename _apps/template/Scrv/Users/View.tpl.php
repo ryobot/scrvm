@@ -80,7 +80,9 @@ foreach($pager["nav_list"] as $nav) {
 <?php if($review["listening_last"] === "today"): ?>
 				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif;?>
-				<span class="fav_reviews_wrapper">
+			</div>
+			<div class="reaction_area">
+				<div class="fav_reviews_wrapper">
 					<img
 						class="fav_review vtalgmiddle img16x16"
 						src="<?= h($base_path) ?>img/fav_off.svg"
@@ -93,14 +95,27 @@ foreach($pager["nav_list"] as $nav) {
 						title="fav review"
 					/>
 					<span class="fav_reviews_count"></span>
-				</span>
-			</div>
+				</div>
+				<div>
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+						<span class="vtalgmiddle">
+							<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+							<?= $review["reviews_count"] ?>
+						</span>
+					</a>
+				</div>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/link.svg" class="img16x16" alt="perma link" /></a>
+				</div>
 <?php if($is_login && $user_id === $login_user_data["id"]): ?>
-			<p class="actions mgt10px">
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>">edit</a>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete">delete</a>
-			</p>
+				<div>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+				</div>
+				<div>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
+				</div>
 <?php endif;?>
+			</div>
 		</div>
 <?php		endforeach; ?>
 	</div>
