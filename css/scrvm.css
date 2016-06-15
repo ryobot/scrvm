@@ -673,6 +673,8 @@ dl.search dd input[type="submit"]:hover{
 
 /*  */
 .reaction_area{
+	font-weight: bold;
+	color: #06C;
 	display:-webkit-box;
   display:-ms-flexbox;
   display:-webkit-flex;
