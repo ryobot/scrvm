@@ -36,11 +36,11 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<div class="album_info">
 		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
 		<div class="info">
+<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+			<div class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album</a></div>
+<?php endif; ?>
 			<div class="cover">
 				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
-<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
-				<div class="actions mgt10px taleft"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit</a></div>
-<?php endif; ?>
 			</div>
 			<div class="detail">
 				<img
@@ -84,10 +84,10 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-				<dl class="search">
-					<dt><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></dt>
-					<dd><input type="submit" value="add tag" /></dd>
-				</dl>
+				<div class="add_tag">
+					<div class="input"><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></div>
+					<div class="submit actions"><input type="submit" value="add tag" /></div>
+				</div>
 			</form>
 		</div>
 <?php endif;?>

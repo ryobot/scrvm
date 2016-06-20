@@ -65,6 +65,7 @@ class Index extends Base
 			"next_link" => $next_link,
 			"most_next_link" => $most_next_link,
 			"nav_list" => $nav_list,
+			"_description" => "生活に音楽が欠かせない全ての人へ。聴いて、記録して、誰かとSyncする。音楽の新しい楽しみ方がここにあります。",
 		))->display("Reviews/Index.tpl.php");
 		return true;
 	}

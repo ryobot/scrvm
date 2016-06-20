@@ -38,9 +38,10 @@ class EditRun extends Base
 		foreach( $post_params as &$val ) {
 			$val = convertEOL(mb_trim($val), "\n");
 		}
+		// tracks は jsonでわたってくる
 		$tracks = Server::postArray("tracks");
 		foreach( $tracks as &$track ) {
-			$track= convertEOL(mb_trim($track), "\n");
+			$track = json_decode( convertEOL(mb_trim($track), "\n") );
 		}
 
 		// sess_tokenチェック
@@ -93,7 +94,8 @@ class EditRun extends Base
 	/**
 	 * post params check
 	 * @param array $post_params
-	 * @return resultSet
+	 * @param array $tracks 各配列は stdObject
+	 * @return type
 	 */
 	private function _checkPostParams(array $post_params, array $tracks)
 	{
@@ -114,9 +116,14 @@ class EditRun extends Base
 		// tracks
 		foreach($tracks as $idx => $track) {
 			$num = $idx + 1;
-			if ( $track === "" ) {
+
+			if ( ! isset( $track->id, $track->track_title ) ) {
+				$check_result["messages"]["track_{$num}"] = "tr.{$num} が不正です。";
+				break;
+			}
+			if ( $track->track_title === "" ) {
 				$check_result["messages"]["track_{$num}"] = "tr.{$num} が未入力です。";
-			} else if (mb_strlen($track) > 50 ) {
+			} else if (mb_strlen($track->track_title) > 50 ) {
 				$check_result["messages"]["track_{$num}"] = "tr.{$num} は50文字以内で入力してください。";
 			}
 		}

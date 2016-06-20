@@ -531,16 +531,17 @@ class Albums extends Dao
 			}
 			$this ->_Dao->update($update_sql,$update_params);
 			// update tracks
-			foreach( $tracks as $idx => $track_title ) {
+			foreach( $tracks as $idx => $track ) {
 				$track_num = $idx+1;
 				$this->_Dao->update("
 					UPDATE tracks
-					SET track_title=:track_title
-					WHERE album_id=:album_id AND track_num=:track_num",
+					SET track_title=:track_title, track_num=:track_num
+					WHERE album_id=:album_id AND id=:id",
 					array(
-						"track_title" => $track_title,
-						"album_id" => $id,
+						"track_title" => $track->track_title,
 						"track_num" => $track_num,
+						"album_id" => $id,
+						"id" => $track->id,
 					)
 				);
 			}

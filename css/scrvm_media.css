@@ -53,6 +53,11 @@
 		padding: 2px 4px;
 	}
 
+	/* .pagination */
+	ul.pagination li a {
+		padding: 3px 8px;
+	}
+
 	/* .info */
 	.info{
 		padding:5px;
@@ -60,8 +65,8 @@
 
 	/* .reaction_area */
 	.reaction_area img{
-		width:16px;
-		height:16px;
+		width:14px;
+		height:14px;
 	}
 
 	/* .review_comment */
