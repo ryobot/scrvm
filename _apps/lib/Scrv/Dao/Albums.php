@@ -533,17 +533,32 @@ class Albums extends Dao
 			// update tracks
 			foreach( $tracks as $idx => $track ) {
 				$track_num = $idx+1;
-				$this->_Dao->update("
-					UPDATE tracks
-					SET track_title=:track_title, track_num=:track_num
-					WHERE album_id=:album_id AND id=:id",
-					array(
-						"track_title" => $track->track_title,
-						"track_num" => $track_num,
-						"album_id" => $id,
-						"id" => $track->id,
-					)
-				);
+				// track->id がない場合はinsert
+				if ( $track->id === "" ) {
+					$this->_Dao->insert("
+						INSERT INTO tracks
+						(artist,album_id,track_num,track_title,created)
+						values(:artist,:album_id,:track_num,:track_title,now())",
+						array(
+							"artist" => $track->artist,
+							"album_id" => $id,
+							"track_num" => $track_num,
+							"track_title" => $track->track_title,
+						)
+					);
+				} else {
+					$this->_Dao->update("
+						UPDATE tracks
+						SET track_title=:track_title, track_num=:track_num
+						WHERE album_id=:album_id AND id=:id",
+						array(
+							"track_title" => $track->track_title,
+							"track_num" => $track_num,
+							"album_id" => $id,
+							"id" => $track->id,
+						)
+					);
+				}
 			}
 			$result["status"] = true;
 			$this->_Dao->commit();

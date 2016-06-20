@@ -605,7 +605,11 @@ ul.pagination li a:hover:not(.active){
 }
 .edit_album_base .title{
 	display: table-cell;
-	text-align: right;
+	padding-right:2px;
+	width:50px;
+}
+.edit_album_base .title_num{
+	display: table-cell;
 	padding-right:2px;
 	width:30px;
 }

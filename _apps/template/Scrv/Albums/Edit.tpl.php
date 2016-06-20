@@ -79,8 +79,8 @@
 
 			<div id="id_track_list_wrapper">
 <?php foreach($tracks as $track): ?>
-				<div class="edit_album_base">
-					<div class="title"><?= h($track["track_num"]) ?>.</div>
+				<div class="edit_album_base track_wrap">
+					<div class="title_num"><?= h($track["track_num"]) ?>.</div>
 
 					<div class="data arrow_up">
 						<img src="<?= h($base_path) ?>img/up-arrow.svg" class="img16x16" alt="move up" title="move up" />
@@ -110,14 +110,45 @@
 <?php endforeach; ?>
 			</div>
 
-<!--			<div class="tacenter">
+			<div class="tacenter">
 				add <img id="id_add_track" class="img16x16" src="<?= h($base_path) ?>img/add_track.svg" alt="add track" title="add track" /> track
-			</div>-->
+			</div>
 
 			<p class="actions tacenter mgt10px"><input type="submit" value=" 保存する " id="id_save" /></p>
 
 			<div id="id_tracks_hidden"></div>
 		</form>
+
+		<!-- track template -->
+		<div id="id_track_template" class="displaynone">
+			<div class="edit_album_base track_wrap">
+				<div class="title_num"></div>
+<!--				<div class="data arrow_up">
+					<img src="<?= h($base_path) ?>img/up-arrow.svg" class="img16x16" alt="move up" title="move up" />
+				</div>
+				<div class="data arrow_down">
+					<img src="<?= h($base_path) ?>img/down-arrow.svg" class="img16x16" alt="move down" title="move down" />
+				</div>-->
+				<div class="data track_data">
+					<input
+						type="text"
+						name="_tracks[]"
+						id="id_track_num_"
+						data-id=""
+						data-artist="<?= h($tracks[0]["artist"]) ?>"
+						data-album_id="<?= h($tracks[0]["album_id"]) ?>"
+						data-track_num=""
+						data-track_title=""
+						value=""
+						required="require"
+					/>
+				</div>
+				<div class="data remove">
+					<img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="remove track" title="remove track" />
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 </div>
@@ -170,18 +201,29 @@
 	};
 
 	// up and down
-	$("#id_track_list_wrapper > div.edit_album_base").each(function(){
+	$(".track_wrap").each(function(){
 		var $row = $(this);
 		$row.find(".arrow_up").on("click.js", function(){
-			if ( $row.prev().find(".track_data > input").attr("data-id") ) {
-				$row.insertBefore($row.prev());
-			}
+			$row.insertBefore($row.prev());
 		});
 		$row.find(".arrow_down").on("click.js", function(){
-			if ( $row.next().find(".track_data > input").attr("data-id") ) {
-				$row.insertAfter($row.next());
-			}
+			$row.insertAfter($row.next());
 		});
+	});
+
+	// add track
+	$("#id_add_track").on("click.js", function(){
+		var $track_list = $("#id_track_list_wrapper");
+		var $track_template = $("#id_track_template").children().clone(true);
+		var next_track_count = $track_list.find("div.edit_album_base").length + 1;
+		$track_template.find(".title_num").html(next_track_count + ".");
+		$track_template.find(".track_data > input").attr({id:"id_track_num_" + next_track_count});
+		$track_list.append( $track_template );
+	});
+
+	// remove track
+	$(".remove").on("click.js", function(){
+		$(this).parent().remove();
 	});
 
 	// 保存時
@@ -201,6 +243,8 @@
 				var $track = $(this);
 				var value = JSON.stringify({
 					id:$track.attr("data-id"),
+					album_id:$track.attr("data-album_id"),
+					artist:$track.attr("data-artist"),
 					track_num:$track.attr("data-track_num"),
 					track_title_org:$track.attr("data-track_title"),
 					track_title:$track.val()
