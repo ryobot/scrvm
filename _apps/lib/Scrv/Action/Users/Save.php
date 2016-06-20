@@ -167,10 +167,11 @@ class Save extends Base
 			return $result;
 		}
 
-		// サムネイル作成
+		// 画像リサイズ
 		$Images = new Images();
-		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb80_user.{$ext}", 80, 80, true);
-		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb150_user.{$ext}", 150, 150, true);
+//		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb80_user.{$ext}", 80, 80, true);
+//		$Images->makeThumbnail($to_file_path, "{$photo_dir}thumb150_user.{$ext}", 150, 150, true);
+		$Images->makeThumbnail($to_file_path, "{$photo_dir}user.{$ext}", 300, 300, true);
 
 		$result["status"] = true;
 		$result["data"]["img_file"] = "{$sub_dir}user.{$ext}";

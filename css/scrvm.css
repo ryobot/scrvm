@@ -439,7 +439,7 @@ ul.pagination li a {
 	text-shadow:none;
 	font-weight: normal;
 	transition: background-color .2s;
-	border: 1px solid #CCC;
+	border: 1px solid #BBB;
 	border-radius: 3px;
 	margin:0 1px;
 	background-color: #FFF;
