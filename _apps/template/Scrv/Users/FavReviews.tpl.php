@@ -60,11 +60,11 @@ foreach($pager["nav_list"] as $nav) {
 		<div class="album_info">
 			<div class="info">
 				<div class="cover">
-					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 				</div>
 				<div class="detail">
-					<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($favreview["artist"]) ?>"><?= h($favreview["artist"]) ?></a>
 					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
+						<?= h($favreview["artist"]) ?><br />
 						<?= h($favreview["title"]) ?>
 						(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
 					</a></p>
