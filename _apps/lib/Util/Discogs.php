@@ -58,16 +58,17 @@ class Discogs
 	/**
 	 * search
 	 * @param string $artist
-	 * @param string $title default null
+	 * @param string $title
+	 * @param string $track
+	 * @return array
 	 */
-	public function search($artist, $title=null, $track=null)
+	public function search($artist, $title, $track)
 	{
 		$q = array(
 			"artist" => $artist,
+			"release_title" => $title,
+			"track" => $track,
 		);
-		if (isset($title) && $title !== "") {
-			$q["release_title"] = $title;
-		}
 
 		$url = $this->_api_url . "/database/search?" . http_build_query($q);
 		$res = $this->_request($url);

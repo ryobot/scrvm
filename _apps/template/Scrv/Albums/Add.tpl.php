@@ -30,7 +30,7 @@
 				</div>
 			</div>
 
-			<p><input type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="artist name (required)" required="required" /></p>
+			<p><input type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="artist name" /></p>
 			<p><input type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="album title" /></p>
 			<p><input type="text" name="track" id="id_track" value="" placeholder="track title" /></p>
 			<p>※インディーズの新譜はあまりヒットしません。</p>
@@ -105,8 +105,8 @@
 		var val_title = $.trim($("#id_title").val());
 		var val_track = $.trim($("#id_track").val());
 		var val_search_type = $.trim($('input[name=search_type]:checked').val());
-		if ( val_artist === "" ) {
-			alert("artist名 は必須です。");
+		if ( val_artist === "" && val_title === "" && val_track === "" ) {
+			alert("いずれか必須です。");
 			return;
 		}
 

@@ -28,11 +28,15 @@ class SearchArtist extends Base
 			return false;
 		}
 
-		$artist = mb_trim(Server::post("artist"));
-		$title = mb_trim(Server::post("title"));
-		$track = mb_trim(Server::post("track"));
+		$artist = mb_trim(Server::post("artist", ""));
+		$title = mb_trim(Server::post("title", ""));
+		$track = mb_trim(Server::post("track", ""));
 		$search_type = mb_trim(Server::post("search_type"));
 		$results = array();
+		if ( $artist === "" && $title === "" && $track === "" ) {
+			return $results;
+		}
+
 		if ( $search_type === "discogs" ) {
 			$results = $this->_discogs($artist, $title, $track);
 		} else {
