@@ -61,7 +61,7 @@ $_base_url = $base_path . "Users";
 				</div>
 				<div class="detail">
 <?php if($list["review_count"] > 0): ?>
-					<div class="displaytablecell">
+					<div>
 						<a class="reviews" href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>">
 							<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
 							<?= h($list["review_count"]) ?> reviews
@@ -70,7 +70,7 @@ $_base_url = $base_path . "Users";
 					</div>
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-					<div class="displaytablecella">
+					<div>
 						<a class="syncs" href="<?= h($_base_url) ?>/Syncs/id/<?= h($list["id"]) ?>">
 							<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
 							<?= h($list["sync_point"]) ?> pt

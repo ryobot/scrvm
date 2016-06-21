@@ -29,10 +29,34 @@ var hbq = function(params){
 		var text = $this.text();
 		var regs = {
 			'youtube'  : /https?:\/\/.*?\.youtube\.com\/watch\?v=([a-zA-Z0-9\_\-]+)/ig,
-			'youtube2' : /https?:\/\/youtu\.be\/([a-zA-Z0-9\_\-]+)/ig
+			'youtube2' : /https?:\/\/youtu\.be\/([a-zA-Z0-9\_\-]+)/ig,
+			'twitter'  : /(https:\/\/twitter\.com\/.+?\/status\/[0-9]+)/
 		};
 		var ret_youtube = text.match(regs.youtube)  || [];
 		var ret_youtube2 = text.match(regs.youtube2) || [];
+		var ret_twitter  = text.match(regs.twitter) || [];
+
+		// twitter
+		var arr_twitter = [];
+		for(var i=0,len=ret_twitter.length; i<len; i++){
+			var _tmp = ret_twitter[i].replace(regs.twitter, '$1');
+			if ( $.inArray( _tmp, arr_twitter ) === -1 ) {arr_twitter.push(_tmp);}
+		}
+		if ( arr_twitter.length > 0 ) {
+			for(var i=0,len=arr_twitter.length; i<len; i++){
+				var $div = $("<div />").append(
+					$('<blockquote class="twitter-tweet" data-lang="ja" />').append(
+						$('<p lang="ja" dir="ltr" />').append(
+							$("<a />").attr({href:arr_twitter[i]})
+						)
+					)
+				);
+				$this.append($div);
+			}
+			$this.append($('<script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />'));
+		}
+
+		// youtube
 		var arr = [];
 		for(var i=0,len=ret_youtube.length; i<len; i++){
 			var _tmp = ret_youtube[i].replace(regs.youtube, 'https://i.ytimg.com/vi/$1/default.jpg#$1');

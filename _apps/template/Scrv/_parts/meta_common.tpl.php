@@ -21,4 +21,4 @@
 <link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v20160620_1400" />
 <link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm_media.css?v20160620_1400" />
 <script>var BASE_PATH = "<?= h($base_path) ?>";</script>
-<script src="<?= $base_path ?>js/Common.js?v3"></script>
+<script src="<?= $base_path ?>js/Common.js?v20160621_1100"></script>
