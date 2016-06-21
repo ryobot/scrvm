@@ -44,7 +44,7 @@ var hbq = function(params){
 		}
 		if ( arr_twitter.length > 0 ) {
 			for(var i=0,len=arr_twitter.length; i<len; i++){
-				var $div = $("<div />").append(
+				var $div = $('<div style="margin:10px;" />').append(
 					$('<blockquote class="twitter-tweet" data-lang="ja" />').append(
 						$('<p lang="ja" dir="ltr" />').append(
 							$("<a />").attr({href:arr_twitter[i]})
