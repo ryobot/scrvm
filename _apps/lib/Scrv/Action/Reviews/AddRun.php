@@ -136,8 +136,7 @@ class AddRun extends Base
 		$max_length = 140;
 		$content = "{$artist}/{$title}\n{$body}";
 		$hashtag = "#scrv";
-		$perma_link = "";
-//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "r/{$review_id}";
+		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "r/{$review_id}";
 
 		$status = "{$content}\n{$hashtag}\n{$perma_link}";
 		$status_length = mb_strlen($status);
