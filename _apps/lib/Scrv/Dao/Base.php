@@ -264,6 +264,16 @@ class Base extends Scrv\Base
 	}
 
 	/**
+	 * 最後に挿入したidを返す
+	 * @param string $name
+	 * @return int
+	 */
+	public function lastInsertId($name)
+	{
+		return self::$_pdo->lastInsertId($name);
+	}
+
+	/**
 	 * トランザクションを開始する。
 	 * @return boolean
 	 */

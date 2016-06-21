@@ -80,6 +80,7 @@ class AddRun extends Base
 				$post_params["album_id"],
 				$add_result["data"]["album_data"]["artist"],
 				$add_result["data"]["album_data"]["title"],
+				$add_result["data"]["posted_review_id"],	// 登録したreview ID
 				$post_params["body"]
 			);
 		}
@@ -122,7 +123,7 @@ class AddRun extends Base
 	 * @param string $body
 	 * @return resuktSet
 	 */
-	private function _sendTwtter($album_id, $artist, $title, $body)
+	private function _sendTwtter($album_id, $artist, $title, $review_id, $body)
 	{
 		$result = getResultSet();
 		$tmhOAuth = new \tmhOAuth( array(
@@ -136,14 +137,14 @@ class AddRun extends Base
 		$content = "{$artist}/{$title}\n{$body}";
 		$hashtag = "#scrv";
 		$perma_link = "";
-//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "Albums/View/id/{$album_id}";
+//		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "r/{$review_id}";
 
 		$status = "{$content}\n{$hashtag}\n{$perma_link}";
 		$status_length = mb_strlen($status);
 		if ( $status_length > $max_length ) {
 			$sub_length = $max_length - $status_length;
 			$content = mb_substr($content, 0, $sub_length - 3 ); // ちょっと余裕を持たせて
-			$status = "{$content}…\n\n{$perma_link} {$hashtag}";
+			$status = "{$content}…\n{$hashtag}\n{$perma_link}";
 		}
 
 		$code = $tmhOAuth->request('POST',"https://api.twitter.com/1.1/statuses/update.json",array(

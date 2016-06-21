@@ -312,6 +312,9 @@ class Reviews extends Dao
 				)
 			);
 
+			// 登録した最後のidを取得
+			$posted_review_id = $this->_Dao->lastInsertId("id");
+
 			// 登録後レビューリスト
 			$post_review_list = $this->_Dao->select(
 				"SELECT * FROM reviews WHERE album_id=:aid GROUP BY user_id ORDER BY created DESC",
@@ -327,6 +330,7 @@ class Reviews extends Dao
 			$result["data"] = array(
 				"row_count" => $row_count,
 				"album_data" => $album_result[0],
+				"posted_review_id" => $posted_review_id,
 			);
 			$this->_Dao->commit();
 		} catch( \Exception $ex ) {
