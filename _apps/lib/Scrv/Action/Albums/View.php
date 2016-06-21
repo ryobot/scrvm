@@ -68,9 +68,12 @@ class View extends Base
 			}
 		}
 
+		$album = $view_result["data"]["album"];
+		$view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "unknown";
+
 		$this->_Template->assign(array(
 			"album_id" => $id,
-			"album" => $view_result["data"]["album"],
+			"album" => $album,
 			"tags" => $view_result["data"]["tags"],
 			"token" => $token,
 			"tracks" => $view_result["data"]["tracks"],
@@ -78,6 +81,7 @@ class View extends Base
 			"own_favtracks" => $own_favtracks,
 			"own_favalbums" => $own_favalbums,
 			"error_messages" => $error_messages,
+			"_description" => "{$album["artist"]}/{$album["title"]} ({$view_year})",
 		))->display("Albums/View.tpl.php");
 		return true;
 	}

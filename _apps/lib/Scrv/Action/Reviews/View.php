@@ -46,6 +46,7 @@ class View extends Base
 		$this->_Template->assign(array(
 			"review" => $lists_result["data"],
 			"favreviews_user_lists" => $favreviews_user_lists_result["data"],
+			"_description" => "{$lists_result["data"]["artist"]}/{$lists_result["data"]["title"]} | {$lists_result["data"]["body"]} (by {$lists_result["data"]["username"]})",
 		))->display("Reviews/View.tpl.php");
 		return true;
 	}
