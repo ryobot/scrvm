@@ -196,12 +196,13 @@ iframe{max-width: 100%};
 .dropmenu li{
 	background: #0066cc;
 	padding:10px 5px;
+	text-shadow: none;
 }
 .dropmenu li:hover{
   background: #0099CC;
 }
 .dropmenu li:first-child{
-	border-radius: 5px 0 0 0;
+	border-radius: 5px 5px 0 0;
 }
 .dropmenu li:last-child{
 	border-radius: 0 0 5px 5px;
@@ -819,6 +820,7 @@ ul.pagination li a:hover:not(.active){
 	color: #FFF;
 	margin: 5px 3px;
 	padding: 2px 5px;
+	text-shadow: none;
 }
 .tags a{
 	color:#FFF;
