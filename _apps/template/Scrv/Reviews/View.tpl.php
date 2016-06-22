@@ -4,6 +4,9 @@
  * @author mgng
  */
 
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
+
 $year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown";
 $review_title = "{$review["artist"]} / {$review["title"]}";
 $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
@@ -40,7 +43,10 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 			</div>
 		</div>
 		<div class="review_comment">
-			<p><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></p>
+			<p><?= $review["body"] === "" || $review["body"] === "listening log"
+					? "(no review)"
+					: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+			?></p>
 		</div>
 		<div class="displaytable w100per">
 			<div class="displaytablecell w50px vtalgmiddle">

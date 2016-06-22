@@ -4,12 +4,19 @@
  * @author mgng
  */
 
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
+$add_title = "";
+if ( isset($hash) ) {
+	$add_title = " :: #{$hash}";
+}
+
 ?>
 <!doctype html>
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Reviews</title>
+<title><?= h($base_title) ?> :: Reviews<?= h($add_title) ?></title>
 </head>
 <body>
 
@@ -18,7 +25,7 @@
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2>Reviews (<?= h($pager["total_count"]) ?>)</h2>
+	<h2>Reviews<?= h($add_title) ?> (<?= h($pager["total_count"]) ?>)</h2>
 
 <?php if(count($reviews) > 0):?>
 
@@ -56,7 +63,10 @@
 				</div>
 			</div>
 			<div class="review_comment">
-				<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
+				<?= $review["body"] === "" || $review["body"] === "listening log"
+					? "(no review)"
+					: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+				?>
 			</div>
 			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>

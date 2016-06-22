@@ -4,6 +4,9 @@
  * @author mgng
  */
 
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
+
 $view_title = "{$album["artist"]} / {$album["title"]}";
 $view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "unknown";
 $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{$base_path}img/no_image.png" : "{$base_path}files/covers/{$album["img_file"]}";
@@ -125,7 +128,11 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<div class="w100per">
 <?php foreach($reviews as $review): ?>
 		<div class="review">
-			<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
+			<div class="review_comment"><?=
+				$review["body"] === "" || $review["body"] === "listening log"
+				? "(no review)"
+				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+			?></div>
 			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />

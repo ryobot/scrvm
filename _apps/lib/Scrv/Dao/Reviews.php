@@ -6,6 +6,7 @@
 
 namespace lib\Scrv\Dao;
 use lib\Scrv\Dao\Base as Dao;
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
 use lib\Util\Syncs as Syncs;
 
 /**
@@ -65,19 +66,28 @@ class Reviews extends Dao
 	 * lists
 	 * @param int $offset
 	 * @param int $limit
+	 * @param int $user_id null OK
+	 * @param string $hashtag default null
 	 * @return resultSet
 	 */
-	public function lists( $offset, $limit, $user_id = null )
+	public function lists( $offset, $limit, $user_id, $hashtag = null )
 	{
 		$result = getResultSet();
 		try{
 			$my_fav_select = "";
 			$my_fav_sql = "";
+			$hashtags_sql = "";
 			$params = array();
+			$params_count = array();
 			if ( isset($user_id) ) {
 				$my_fav_select = ",t6.id as my_fav_id";
 				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:uid)";
 				$params = array("uid" => $user_id);
+			}
+			if ( isset($hashtag) ) {
+				$hashtags_sql = "INNER JOIN hashtags t7 ON(t1.id=t7.review_id AND t7.tag=:hashtag)";
+				$params["hashtag"] = $hashtag;
+				$params_count["hashtag"] = $hashtag;
 			}
 			$data = $this->_Dao->select("
 				SELECT
@@ -90,12 +100,18 @@ class Reviews extends Dao
 				FROM reviews t1
 				INNER JOIN albums t2 ON(t1.album_id=t2.id)
 				INNER JOIN users t3 ON(t1.user_id=t3.id)
+				{$hashtags_sql}
 				{$my_fav_sql}
 				ORDER BY t1.created DESC
 				LIMIT {$offset},{$limit}",
 				$params
 			);
-			$data_count = $this->_Dao->select("SELECT count(id) cnt FROM reviews");
+			$data_count = $this->_Dao->select("
+				SELECT count(t1.id) cnt
+				FROM reviews t1
+				{$hashtags_sql}",
+				$params_count
+			);
 			$result["status"] = true;
 			$result["data"] = array(
 				"reviews" => $data,
@@ -298,7 +314,7 @@ class Reviews extends Dao
 				array("aid" => $album_id)
 			);
 
-			// 登録
+			// 登録, 登録した最後のidを取得
 			$row_count = $this->_Dao->insert(
 				 "INSERT INTO reviews (album_id,user_id,body,listening_last,listening_system,created) "
 				."VALUES(:album_id,:user_id,:body,:listening_last,:listening_system,:now)",
@@ -311,9 +327,10 @@ class Reviews extends Dao
 					"now" => date("Y-m-d H:i:s", self::$_nowTimestamp),
 				)
 			);
-
-			// 登録した最後のidを取得
 			$posted_review_id = $this->_Dao->lastInsertId("id");
+
+			// ハッシュタグ更新処理
+			$this->_updateHashTags($posted_review_id, $user_id, $body);
 
 			// 登録後レビューリスト
 			$post_review_list = $this->_Dao->select(
@@ -341,6 +358,39 @@ class Reviews extends Dao
 			$this->_Dao->rollBack();
 		}
 		return $result;
+	}
+
+	/**
+	 * レビュー内ハッシュタグ更新処理（delete insert）
+	 * @param int $review_id
+	 * @param int $user_id
+	 * @param string $body
+	 * @return boolean
+	 */
+	private function _updateHashTags($review_id, $user_id, $body)
+	{
+		$this->_Dao->delete(
+			"DELETE FROM hashtags WHERE review_id=:rid AND create_user_id=:uid",
+			array("rid" => $review_id, "uid" => $user_id,)
+		);
+		$ReviewsParse = new ReviewsParse();
+		$hashTags = $ReviewsParse->hashTags($body);
+		if ( count($hashTags) === 0 ) {
+			return true;
+		}
+		foreach($hashTags as $tag) {
+			$row_count = $this->_Dao->insert("
+				INSERT INTO hashtags (review_id,create_user_id,tag,created)
+				VALUES(:rid,:uid,:tag,:now)",
+				array(
+					"rid" => $review_id,
+					"uid" => $user_id,
+					"tag" => $tag,
+					"now" => date("Y-m-d H:i:s", self::$_nowTimestamp),
+				)
+			);
+		}
+		return true;
 	}
 
 	private function _syncPointAdd( $pre_review_list, $post_review_list, $operator = "+")
@@ -477,6 +527,10 @@ class Reviews extends Dao
 					"listening_system" => $listening_system,
 				)
 			);
+
+			// ハッシュタグ更新処理
+			$this->_updateHashTags($review_id, $user_id, $body);
+
 			$result["status"] = true;
 			$result["data"] = array(
 				"row_count" => $row_count,

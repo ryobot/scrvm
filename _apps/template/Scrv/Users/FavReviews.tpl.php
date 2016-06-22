@@ -4,6 +4,9 @@
  * @author mgng
  */
 
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
+
 $_base_url = "{$base_path}Users/FavReviews/id/{$user_id}";
 $most_prev_link = "{$_base_url}";
 $prev_link = "{$_base_url}/page/".($pager["now_page"]-1);
@@ -70,9 +73,12 @@ foreach($pager["nav_list"] as $nav) {
 					</a></p>
 				</div>
 			</div>
-			<div class="review_comment">
-				<?= $favreview["body"] === "" || $favreview["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($favreview["body"]))) ?>
-			</div>
+			<div class="review_comment"><?=
+				$favreview["body"] === "" || $favreview["body"] === "listening log"
+				? "(no review)"
+//				: nl2br(linkIt(h($favreview["body"])))
+				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
+			?></div>
 			<p>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>

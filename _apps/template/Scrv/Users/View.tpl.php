@@ -4,6 +4,9 @@
  * @author mgng
  */
 
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
+
 $most_prev_link = "{$base_path}Users/View/id/{$user_id}";
 $prev_link = "{$base_path}Users/View/id/{$user_id}/page/".($pager["now_page"]-1);
 $next_link = "{$base_path}Users/View/id/{$user_id}/page/".($pager["now_page"]+1);
@@ -70,9 +73,11 @@ foreach($pager["nav_list"] as $nav) {
 					</a></p>
 				</div>
 			</div>
-			<div class="review_comment">
-				<?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?>
-			</div>
+			<div class="review_comment"><?=
+				$review["body"] === "" || $review["body"] === "listening log"
+				? "(no review)"
+				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+			?></div>
 			<div>
 				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
 					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>

@@ -15,6 +15,14 @@ var hbq = function(params){
 
 ;$(function(){
 
+	// 未ログイン時の処理 XXX 重要な変更はサーバサイドで行うこと
+	if (!this.IS_LOGINED) {
+		$(".reaction_area").css({
+			filter:"grayscale(100%)",
+			"-webkit-filter":"grayscale(100%)"
+		});
+	}
+
 	// menu
 	$("#dropmenu_normal").on("click",function(){
 		$(".dropmenu").toggle();
@@ -23,14 +31,14 @@ var hbq = function(params){
 		$("#id_form_logout").submit();
 	});
 
-	// レビュー内の youtubeリンクを展開
+	// リンクを展開
 	$(".review_comment").each(function(){
 		var $this = $(this);
 		var text = $this.text();
 		var regs = {
 			'youtube'  : /https?:\/\/.*?\.youtube\.com\/watch\?v=([a-zA-Z0-9\_\-]+)/ig,
 			'youtube2' : /https?:\/\/youtu\.be\/([a-zA-Z0-9\_\-]+)/ig,
-			'twitter'  : /(https:\/\/twitter\.com\/.+?\/status\/[0-9]+)/
+			'twitter'  : /(https:\/\/twitter\.com\/.+?\/status\/[0-9]+)/ig
 		};
 		var ret_youtube = text.match(regs.youtube)  || [];
 		var ret_youtube2 = text.match(regs.youtube2) || [];

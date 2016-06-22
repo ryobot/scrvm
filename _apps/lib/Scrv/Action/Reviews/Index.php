@@ -22,6 +22,13 @@ class Index extends Base
 	 */
 	public function run()
 	{
+		// hashtag取得
+		$hash = Server::get("hash", "");
+		$hash = mb_trim($hash);
+		if ( $hash === "" ) {
+			$hash = null;
+		}
+
 		// offset設定
 		$page = Server::get("page", "1");
 		if ( ! ctype_digit($page) ) {
@@ -33,26 +40,31 @@ class Index extends Base
 		// レビュー一覧取得
 		$my_user_id = isset($this->_login_user_data) ? $this->_login_user_data["id"] : null;
 		$DaoReviews = new DaoReviews();
-		$lists_result = $DaoReviews->lists($offset, $limit, $my_user_id);
+		$lists_result = $DaoReviews->lists($offset, $limit, $my_user_id, $hash);
 		if ( !$lists_result["status"] ) {
 			Server::send404Header("not found");
 			return false;
 		}
 
 		// pager
+		$params = array();
+		if ( $hash !== "" ) {
+			$params["hash"] = $hash;
+		}
 		$Pager = new Pager();
 		$pager = $Pager->getPager((int)$page, $lists_result["data"]["reviews_count"], $limit, 5);
-		$_base_path = $this->_BasePath . "Reviews";
+		$_base_path = $this->_BasePath . "Reviews/Index/";
 		$most_prev_link = $_base_path;
-		$prev_link = "{$_base_path}/Index/" . hbq2(array("page" => $pager["now_page"]-1,));
-		$next_link = "{$_base_path}/Index/" . hbq2(array("page" => $pager["now_page"]+1,));
-		$most_next_link = "{$_base_path}/Index/" . hbq2(array("page" => $pager["max_page"],));
+
+		$prev_link = $_base_path . hbq2( array_merge(array("page" => $pager["now_page"]-1), $params) );
+		$next_link = $_base_path . hbq2( array_merge(array("page" => $pager["now_page"]+1), $params) );
+		$most_next_link = $_base_path . hbq2( array_merge(array("page" => $pager["max_page"]), $params) );
 		$nav_list = array();
 		foreach($pager["nav_list"] as $nav) {
 			$nav_list[] = array(
 				"active" => $nav["active"],
 				"page" => $nav["page"],
-				"link" => "{$_base_path}/Index/" . hbq2(array("page" => $nav["page"],)),
+				"link" => $_base_path . hbq2( array_merge(array("page" => $nav["page"]), $params) ),
 			);
 		}
 
@@ -65,6 +77,7 @@ class Index extends Base
 			"next_link" => $next_link,
 			"most_next_link" => $most_next_link,
 			"nav_list" => $nav_list,
+			"hash" => $hash,
 			"_description" => "生活に音楽が欠かせない全ての人へ。聴いて、記録して、誰かとSyncする。音楽の新しい楽しみ方がここにあります。",
 		))->display("Reviews/Index.tpl.php");
 		return true;
