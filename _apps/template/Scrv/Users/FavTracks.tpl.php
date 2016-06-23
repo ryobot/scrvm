@@ -23,7 +23,7 @@ foreach($pager["nav_list"] as $nav) {
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($user["username"]) ?> | <?= h($base_title) ?> :: Users :: FavTracks</title>
+<title><?= h($user["username"]) ?> - Users::FavTracks - <?= h($base_title) ?></title>
 </head>
 <body><div id="container">
 

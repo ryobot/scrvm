@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: New User</title>
+<title>New User - <?= h($base_title) ?></title>
 </head>
 <body>
 <div id="container">

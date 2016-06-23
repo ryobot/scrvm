@@ -16,7 +16,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($view_title) ?> | <?= h($base_title) ?> :: Albums :: View</title>
+<title><?= h($view_title) ?> - Albums::View - <?= h($base_title) ?></title>
 <?php require __DIR__ . '/_ogp.tpl.php'; ?>
 <?php require __DIR__ . '/_twitter_cards.tpl.php'; ?>
 </head>

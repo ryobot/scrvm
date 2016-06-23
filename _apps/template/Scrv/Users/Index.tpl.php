@@ -11,7 +11,7 @@ $_base_url = $base_path . "Users";
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Users</title>
+<title>Users - <?= h($base_title) ?></title>
 </head>
 <body>
 <div id="container">

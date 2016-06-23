@@ -8,7 +8,7 @@ use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
 $ReviewsParse = new ReviewsParse();
 $add_title = "";
 if ( isset($hash) ) {
-	$add_title = " :: #{$hash}";
+	$add_title = "::#{$hash}";
 }
 
 ?>
@@ -16,11 +16,23 @@ if ( isset($hash) ) {
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Reviews<?= h($add_title) ?></title>
+<title>Reviews<?= h($add_title) ?> - <?= h($base_title) ?></title>
+<!-- ogp -->
+<meta property="og:sitename" content="<?= h($base_title) ?>" />
+<meta property="og:title" content="<?= h($base_title) ?>" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:description" content="<?= h($_description) ?>" />
+<meta property="og:url" content="<?= h(\lib\Util\Server::getFullHostUrl() . $base_path) ?>" />
+<meta property="og:image" content="<?= h(\lib\Util\Server::getFullHostUrl() . "{$base_path}img/headphone_icon_S.png") ?>" />
+<!-- twitter cards -->
+<meta name="twitter:card" value="summary" />
+<meta name="twitter:site" value="@ryobotnotabot" />
+<meta name="twitter:title" value="<?= h($base_title) ?>" />
+<meta name="twitter:description" content="<?= h($_description) ?>" />
+<meta name="twitter:url" content="<?= h(\lib\Util\Server::getFullHostUrl() . $base_path) ?>" />
+<meta name="twitter:image:src" content="<?= h(\lib\Util\Server::getFullHostUrl() . "{$base_path}img/headphone_icon_S.png") ?>" />
 </head>
-<body>
-
-<div id="container">
+<body><div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">

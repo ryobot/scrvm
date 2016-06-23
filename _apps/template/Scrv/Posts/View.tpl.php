@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Posts :: id:<?= h($id) ?></title>
+<title>Posts::id::<?= h($id) ?> - <?= h($base_title) ?></title>
 </head>
 <body>
 <div id="container">
@@ -16,7 +16,7 @@
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2>Posts (id:<?= h($id) ?>)</h2>
+	<h2>Posts::id::<?= h($id) ?></h2>
 
 	<div class="lists w100per">
 		<div class="post">

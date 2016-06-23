@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Albums :: Add</title>
+<title>Albums::Add - <?= h($base_title) ?></title>
 </head>
 <body>
 

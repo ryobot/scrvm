@@ -54,18 +54,26 @@ var hbq = function(params){
 		}
 		if ( arr_vimeo.length > 0 ) {
 			for(var i=0,len=arr_vimeo.length; i<len; i++){
-				var vimeo_id = arr_vimeo[i];
-				var $vimeo_iframe = $('<div />').attr({
-					id : "id_vimeo_" + vimeo_id
-				}).append(
-					$("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen />").attr({
-						frameborder:0,
-						width:320,
-						height:240,
-						src:"https://player.vimeo.com/video/" + vimeo_id
-					})
-				);
-				$this.append($vimeo_iframe);
+				var $div = $("<div class='playmovie' />").append(
+					$("<img />").attr({
+						src : BASE_PATH + "img/vimeo.svg",
+						class : "img24x24"
+					}),
+					$("<span />").text(" play movie")
+				).on("click.js", function(){
+					var vimeo_id = arr_vimeo[i];
+					$(this).after(
+						$("<div />").append(
+							$("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen />").attr({
+								frameborder:0,
+								width:640,
+								height:480,
+								src:"https://player.vimeo.com/video/" + vimeo_id + "?byline=0&portrait=0"
+							})
+						)
+					).remove();
+				});
+				$this.append($div);
 			}
 		}
 
@@ -99,35 +107,32 @@ var hbq = function(params){
 			var _tmp = ret_youtube2[i].replace(regs.youtube2, 'https://i.ytimg.com/vi/$1/default.jpg#$1');
 			if ( $.inArray( _tmp, arr ) === -1 ) {arr.push(_tmp);}
 		}
-		if ( arr.length === 0 ) {
-			return;
-		}
-		for(var i=0,len=arr.length; i<len; i++){
-			var _tmp = arr[i].split("#");
-			var img_url = _tmp[0];
-			var youtube_id = _tmp[1];
-			var $youtube_frame = $("<div class='relative mgt10px mgb10px' />").append(
-				$("<span class='youtube_img' />").attr({
-					data_youtube_id : youtube_id
-				}).css({
-					cursor:"pointer"
-				}).append(
+		if ( arr.length > 0 ) {
+			for(var i=0,len=arr.length; i<len; i++){
+				var _tmp = arr[i].split("#");
+				var img_url = _tmp[0];
+				var youtube_id = _tmp[1];
+				var $div = $("<div class='playmovie' />").append(
 					$("<img />").attr({
-						src : img_url
-					})
+						src : BASE_PATH + "img/youtube.svg",
+						class : "img24x24"
+					}),
+					$("<span />").text(" play movie")
 				).on("click.js", function(){
-					var id = $(this).attr("data_youtube_id");
-					$(this).hide().after(
-						$("<iframe allowfullscreen />").attr({
-							class : "youtube_iframe",
-							frameborder : "0",
-							src : "https://www.youtube-nocookie.com/embed/" + id + "?rel=0"
-						})
-					);
-				})
-			);
-			$this.append($youtube_frame);
+					$(this).after(
+						$("<div />").append(
+							$("<iframe allowfullscreen />").attr({
+								class : "youtube_iframe",
+								frameborder : "0",
+								src : "https://www.youtube-nocookie.com/embed/" + youtube_id + "?rel=0"
+							})
+						)
+					).remove();
+				});
+				$this.append($div);
+			}
 		}
+
 	});
 
 });

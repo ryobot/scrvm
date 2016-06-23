@@ -86,7 +86,7 @@ $sort_links = array(
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Albums :: Tag :: <?= h($tag) ?></title>
+<title>Albums::Tag::<?= h($tag) ?> - <?= h($base_title) ?></title>
 </head>
 <body>
 

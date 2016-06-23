@@ -9,7 +9,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title><?= h($base_title) ?> :: Posts</title>
+<title>Posts - <?= h($base_title) ?></title>
 </head>
 <body>
 <div id="container">
