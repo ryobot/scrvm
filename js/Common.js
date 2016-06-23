@@ -38,11 +38,36 @@ var hbq = function(params){
 		var regs = {
 			'youtube'  : /https?:\/\/.*?\.youtube\.com\/watch\?v=([a-zA-Z0-9\_\-]+)/ig,
 			'youtube2' : /https?:\/\/youtu\.be\/([a-zA-Z0-9\_\-]+)/ig,
+			'vimeo' : /https?:\/\/vimeo\.com\/([a-zA-Z0-9]+)/ig,
 			'twitter'  : /(https:\/\/twitter\.com\/.+?\/status\/[0-9]+)/ig
 		};
 		var ret_youtube = text.match(regs.youtube)  || [];
 		var ret_youtube2 = text.match(regs.youtube2) || [];
+		var ret_vimeo = text.match(regs.vimeo) || [];
 		var ret_twitter  = text.match(regs.twitter) || [];
+
+		// vimeo
+		var arr_vimeo = [];
+		for(var i=0,len=ret_vimeo.length; i<len; i++){
+			var _tmp = ret_vimeo[i].replace(regs.vimeo, '$1');
+			if ( $.inArray( _tmp, arr_vimeo ) === -1 ) {arr_vimeo.push(_tmp);}
+		}
+		if ( arr_vimeo.length > 0 ) {
+			for(var i=0,len=arr_vimeo.length; i<len; i++){
+				var vimeo_id = arr_vimeo[i];
+				var $vimeo_iframe = $('<div />').attr({
+					id : "id_vimeo_" + vimeo_id
+				}).append(
+					$("<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen />").attr({
+						frameborder:0,
+						width:320,
+						height:240,
+						src:"https://player.vimeo.com/video/" + vimeo_id
+					})
+				);
+				$this.append($vimeo_iframe);
+			}
+		}
 
 		// twitter
 		var arr_twitter = [];

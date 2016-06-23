@@ -26,4 +26,4 @@
 		this.IS_LOGINED = <?= $is_login ? "true" : "false" ?>;
 	});
 </script>
-<script src="<?= $base_path ?>js/Common.js?v20160623_1000"></script>
+<script src="<?= $base_path ?>js/Common.js?v20160623_1100"></script>
