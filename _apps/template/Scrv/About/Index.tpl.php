@@ -38,6 +38,12 @@
 		</div>
 	</div>
 
+	<h3>how to join</h3>
+	<div class="about_content">
+		<p>このサイトは招待制です。参加希望の方は、既存のユーザに声をかけてみてくださいね。</p>
+<!--		<p>お問い合わせは xxx まで。</p>-->
+	</div>
+
 	<h3>何か音楽を聴いたら・・・</h3>
 	<div class="about_content">
 		<p><a href="<?= h($base_path) ?>Albums"><img src="<?= h($base_path) ?>img/albums.svg" class="img16x16" alt="Albums" /> Albums</a> &raquo; <img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img16x16" /> で追加。</p>

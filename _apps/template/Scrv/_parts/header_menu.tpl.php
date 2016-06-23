@@ -23,6 +23,9 @@
 		<div class="dropmenu">
 			<ul>
 <?php if( $is_login ):?>
+<?php if( $login_user_data["role"] === "admin" ):?>
+				<li><a href="<?= h($base_path) ?>Admin">*admin*</a></li>
+<?php endif; ?>
 				<li><a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>">profile</a></li>
 				<li><a href="<?= h($base_path) ?>Users/Edit">edit</a></li>
 				<li><a id="id_logout" href="javascript:;">Logout</a></li>

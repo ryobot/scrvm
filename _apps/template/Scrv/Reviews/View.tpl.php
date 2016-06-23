@@ -112,7 +112,22 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <?php endif; ?>
 
 	</div>
+
 </div>
+
+<!-- music search 用 -->
+<div id="id_itunes_search_results"></div>
+<div id="id_gpm_search_results"></div>
+<input
+	type="hidden"
+	name="term"
+	id="id_term"
+	value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
+	data-artist="<?= h($review["artist"]) ?>"
+	data-title="<?= h($review["title"]) ?>"
+/>
+<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

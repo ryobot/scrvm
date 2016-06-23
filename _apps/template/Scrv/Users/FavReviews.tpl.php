@@ -28,35 +28,34 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($user["username"]) ?> | <?= h($base_title) ?> :: Users :: FavReviews</title>
 </head>
-<body>
-<div id="container">
+<body><div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
-
 	<?php require __DIR__ . "/_profile.tpl.php" ?>
+</div>
 
-	<h3>
-		<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="fav reviews" title="fav reviews" />
-		Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)
-	</h3>
+<h3>
+	<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="fav reviews" title="fav reviews" />
+	Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)
+</h3>
 
 <?php if(count($favreviews) > 0): ?>
-
-	<div class="tacenter">
-		<ul class="pagination">
+<div class="tacenter">
+	<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-		</ul>
-	</div>
+	</ul>
+</div>
 
+<div class="contents">
 	<!-- reviews -->
 	<div class="w100per">
 <?php foreach($favreviews as $favreview): ?>
@@ -76,7 +75,6 @@ foreach($pager["nav_list"] as $nav) {
 			<div class="review_comment"><?=
 				$favreview["body"] === "" || $favreview["body"] === "listening log"
 				? "(no review)"
-//				: nl2br(linkIt(h($favreview["body"])))
 				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
 			?></div>
 			<p>
@@ -90,27 +88,25 @@ foreach($pager["nav_list"] as $nav) {
 		</div>
 <?php endforeach; ?>
 	</div>
+</div>
 
-	<div class="tacenter">
-		<ul class="pagination">
+<div class="tacenter">
+	<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-		</ul>
-	</div>
+	</ul>
+</div>
 
 <?php endif; ?>
 
-</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
-
-</body>
+</div></body>
 </html>
