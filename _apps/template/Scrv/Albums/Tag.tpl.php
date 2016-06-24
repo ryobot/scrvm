@@ -94,46 +94,46 @@ $sort_links = array(
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
-
 	<h2>Albums Tag &quot;<?= h($tag) ?>&quot; (<?= h($pager["total_count"]) ?>)</h2>
+</div>
 
 <?php if ( count($lists) > 0 ):?>
 
-	<!-- pager -->
-	<div class="tacenter">
-		<ul class="pagination">
+<!-- pager -->
+<div class="tacenter">
+	<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-		</ul>
-	</div>
+	</ul>
+</div>
 
-	<!-- sort -->
-	<div class="w100per tacenter">
-		<a href="<?= h($sort_links["artist"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort artist" class="img16x16" /><?= h($sort_links["artist"]["text"]) ?></a>
-		/
-		<a href="<?= h($sort_links["title"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort title" class="img16x16" /><?= h($sort_links["title"]["text"]) ?></a>
-		/
-		<a href="<?= h($sort_links["year"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort year" class="img16x16" /><?= h($sort_links["year"]["text"]) ?></a>
-	</div>
-
-	<!-- lists -->
+<!-- sort -->
+<div class="w100per tacenter">
+	<a href="<?= h($sort_links["artist"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort artist" class="img16x16" /><?= h($sort_links["artist"]["text"]) ?></a>
+	/
+	<a href="<?= h($sort_links["title"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort title" class="img16x16" /><?= h($sort_links["title"]["text"]) ?></a>
+	/
+	<a href="<?= h($sort_links["year"]["link"]) ?>"><img src="<?= h($base_path) ?>img/sort.svg" alt="sort year" class="img16x16" /><?= h($sort_links["year"]["text"]) ?></a>
+</div>
 
 <?php if( $is_login ): ?>
-	<div class="info tacenter">
-		<a href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= urlencode($tag) ?>" class="add_album">
-			<img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img16x16" />
-			<?= h($tag) ?> の他の Album を追加する
-		</a>
-	</div>
+<div class="info tacenter actions">
+	<a href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= urlencode($tag) ?>" class="add_album">
+		<img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img16x16" />
+		<?= h($tag) ?> の他の Album を追加する
+	</a>
+</div>
 <?php endif; ?>
 
+<!-- lists -->
+<div class="contents">
 <?php foreach($lists as $album): ?>
 	<div class="album_info">
 		<div class="cover">
@@ -148,27 +148,27 @@ $sort_links = array(
 		</div>
 	</div>
 <?php endforeach; ?>
+</div>
 
-	<!-- pager -->
-	<div class="tacenter">
-		<ul class="pagination">
+<!-- pager -->
+<div class="tacenter">
+	<ul class="pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-		</ul>
-	</div>
+	</ul>
+</div>
 
 <?php else:?>
 	<p class="error_message tacenter">not found.</p>
 <?php endif;?>
 
-</div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

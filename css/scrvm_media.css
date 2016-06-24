@@ -2,6 +2,20 @@
 
 /** media query max-width:480px */
 @media only screen and (max-width:700px){
+	/* review_list */
+	.review_list{
+		display: block;
+	}
+	.review_list .album_info{
+		width:100%;
+		border:none;
+		border-top:1px solid #ACD;
+		margin:0px;
+		border-radius: initial;
+	}
+	.review_list .album_info:last-child{
+		border-bottom:1px solid #ACD;
+	}
 }
 
 /** media query max-width:480px */

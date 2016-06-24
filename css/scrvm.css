@@ -249,7 +249,6 @@ iframe{max-width: 100%};
 	padding-left:10px;
 }
 
-
 /* .user_edit */
 .user_edit{
 	margin:5px;
@@ -318,6 +317,36 @@ iframe{max-width: 100%};
 	background-color: rgba(255,255,255,0.5);
 	border-top:1px solid #ACF;
 	border-bottom:1px solid #ACF;
+}
+
+/* review_list */
+.review_list{
+	width:100%;
+	height:auto;
+
+	display:-webkit-box;
+  display:-ms-flexbox;
+  display:-webkit-flex;
+	display: flex;
+	-webkit-box-direction:row;
+	-webkit-flex-direction:row;
+	flex-direction:row;
+	-ms-flex-wrap:wrap;
+	-webkit-flex-wrap:wrap;
+	flex-wrap:wrap;
+	-webkit-justify-content:space-around;
+	justify-content:space-around;
+	-webkit-align-items:stretch;
+	align-items:stretch;
+	-webkit-align-content:space-around;
+	align-content:space-around;
+}
+.review_list .album_info{
+	width:49%;
+	height:auto;
+	border:1px solid #ACD;
+	margin:2px;
+	border-radius: 4px;
 }
 
 /* .tabs */
@@ -424,6 +453,11 @@ iframe{max-width: 100%};
 }
 .user_menu_list_block_active{
 	border-bottom:2px solid #09D;
+}
+
+/* .pager */
+.pager{
+	text-align: center;
 }
 
 /* .pagination */
@@ -563,6 +597,7 @@ ul.pagination li a:hover:not(.active){
 	padding:10px;
 	display: table;
 	width:100%;
+	height:auto;
 	border-top:1px solid #ACD;
 }
 .album_info:last-child{

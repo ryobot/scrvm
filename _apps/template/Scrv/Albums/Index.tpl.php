@@ -16,55 +16,50 @@
 <div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
 
-	<h2>
-		Albums
-		(<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
-		<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="img16x16 loading displaynone" alt="now loading" />
-	</h2>
+<h2>
+	Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
+	<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="img16x16 loading displaynone" alt="now loading" />
+</h2>
 
-	<!-- search tabs -->
-	<div class="search_tab">
-		<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
-
-			<!-- search type and add album tabs -->
-			<div class="displaytable w100per tacenter">
-				<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>
-				<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
+<!-- search tabs -->
+<div class="search_tab">
+	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
+		<!-- search type and add album tabs -->
+		<div class="displaytable w100per tacenter">
+			<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>
+			<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
 <?php if( $is_login ): ?>
-				<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
+			<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
 <?php endif; ?>
-			</div>
+		</div>
+		<!-- artist or album -->
+		<div class="displaytable w100per tacenter search_type">
+			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label></div>
+			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label></div>
+		</div>
+		<div class="tabContent active">
+			<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
+			<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>
+		</div>
+		<div class="tabContent">
+			<ul class="search_index">
+	<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
+				<li><a id="id_search_index_<?= h(strtoupper($alpha)) ?>" href="javascript:;" data-search_index="<?= h(strtoupper($alpha)) ?>"><?= h(strtoupper($alpha)) ?></a></li>
+	<?php endforeach; unset($alpha); ?>
+			</ul>
+		</div>
+		<input type="hidden" name="stype" id="id_stype" value="search" />
+		<input type="hidden" name="index" id="id_search_index" value="" />
+	</form>
+</div>
 
-			<!-- artist or album -->
-			<div class="displaytable w100per tacenter search_type">
-				<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label></div>
-				<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label></div>
-			</div>
-
-			<div class="tabContent active">
-				<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
-				<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>
-			</div>
-			<div class="tabContent">
-				<ul class="search_index">
-		<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
-					<li><a id="id_search_index_<?= h(strtoupper($alpha)) ?>" href="javascript:;" data-search_index="<?= h(strtoupper($alpha)) ?>"><?= h(strtoupper($alpha)) ?></a></li>
-		<?php endforeach; unset($alpha); ?>
-				</ul>
-			</div>
-
-			<input type="hidden" name="stype" id="id_stype" value="search" />
-			<input type="hidden" name="index" id="id_search_index" value="" />
-		</form>
-	</div>
-
+<div class="contents">
 	<div id="id_search_results">
 <?php require __DIR__ . '/Index_Ajax.tpl.php'; ?>
 	</div>
-
 </div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 </div>

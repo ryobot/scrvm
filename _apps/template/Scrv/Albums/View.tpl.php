@@ -122,9 +122,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 </div>
 
 
+<!-- reviews -->
+<h3>Reviews (<?= count($reviews) ?>)</h3>
 <div class="contents">
-	<!-- reviews -->
-	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php if($is_login): ?>
 	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album_id) ?>">Add Review</a></p>
 <?php endif; ?>
