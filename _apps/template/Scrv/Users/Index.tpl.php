@@ -23,7 +23,7 @@ $_base_url = $base_path . "Users";
 <?php if(count($lists) > 0): ?>
 
 <!-- pager -->
-<div class="tacenter">
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
@@ -49,53 +49,51 @@ $_base_url = $base_path . "Users";
 </div>
 
 <!-- lists -->
-<div class="contents">
-	<div class="user_list">
+<div class="user_list">
 <?php foreach($lists as $list): ?>
-		<div class="user_info">
-			<h3>
-				<?= h($list["username"]) ?>
-				<?php if($list["role"] === "admin"): ?>(admin)<?php endif; ?>
-			</h3>
-			<div class="cover">
-				<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
-			</div>
-			<div class="detail">
+	<div class="user_info">
+		<h3>
+			<?= h($list["username"]) ?>
+			<?php if($list["role"] === "admin"): ?>(admin)<?php endif; ?>
+		</h3>
+		<div class="cover">
+			<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
+		</div>
+		<div class="detail">
 <?php if(isset($list["profile"]) && $list["profile"] !== ""): ?>
-				<div class="mgb10px"><?= h($list["profile"]) ?></div>
+			<div class="mgb10px"><?= linkIt(h($list["profile"])) ?></div>
 <?php endif; ?>
 <?php if($list["review_count"] > 0): ?>
-				<span>
-					<a class="reviews" href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>">
-						<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
-						<?= h($list["review_count"]) ?>
-					</a>
-				</span>
-				&nbsp;&nbsp;
+			<span>
+				<a class="reviews" href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>">
+					<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+					<?= h($list["review_count"]) ?>
+				</a>
+			</span>
+			&nbsp;&nbsp;
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-				<span>
-					<a class="syncs" href="<?= h($_base_url) ?>/Syncs/id/<?= h($list["id"]) ?>">
-						<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
-						<?= h($list["sync_point"]) ?> pt
-					</a>
-				</span>
-<?php endif; ?>
-			</div>
-<?php if(isset($list["has_invited_user_id"])): ?>
-			<div style="padding:10px 10px 10px 20px;">
-				<img src="<?= h($base_path) ?>img/invited_from.svg" alt="invited from" class="img16x16" />
-				invited from
-				<a href="<?= h($_base_url) ?>/View/id/<?= h($list["has_invited_user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["has_invited_username"]) ?>" /></a>
-			</div>
+			<span>
+				<a class="syncs" href="<?= h($_base_url) ?>/Syncs/id/<?= h($list["id"]) ?>">
+					<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
+					<?= h($list["sync_point"]) ?> pt
+				</a>
+			</span>
 <?php endif; ?>
 		</div>
-<?php endforeach; unset($list) ?>
+<?php if(isset($list["has_invited_user_id"])): ?>
+		<div style="padding:10px 10px 10px 20px;">
+			<img src="<?= h($base_path) ?>img/invited_from.svg" alt="invited from" class="img16x16" />
+			invited from
+			<a href="<?= h($_base_url) ?>/View/id/<?= h($list["has_invited_user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["has_invited_username"]) ?>" /></a>
+		</div>
+<?php endif; ?>
 	</div>
+<?php endforeach; unset($list) ?>
 </div>
 
 <!-- pager -->
-<div class="tacenter">
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>

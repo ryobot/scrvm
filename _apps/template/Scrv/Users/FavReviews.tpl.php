@@ -41,7 +41,8 @@ foreach($pager["nav_list"] as $nav) {
 </h3>
 
 <?php if(count($favreviews) > 0): ?>
-<div class="tacenter">
+
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
@@ -55,42 +56,42 @@ foreach($pager["nav_list"] as $nav) {
 	</ul>
 </div>
 
-<div class="contents">
-	<!-- reviews -->
-	<div class="w100per">
+
+<!-- reviews -->
+<div class="review_list">
 <?php foreach($favreviews as $favreview): ?>
-		<div class="album_info">
-			<div class="info">
-				<div class="cover">
-					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-				</div>
-				<div class="detail">
-					<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
-						<?= h($favreview["artist"]) ?><br />
-						<?= h($favreview["title"]) ?>
-						(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
-					</a></p>
-				</div>
+	<div class="album_info">
+		<div class="info">
+			<div class="cover">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
 			</div>
-			<div class="review_comment"><?=
-				$favreview["body"] === "" || $favreview["body"] === "listening log"
-				? "(no review)"
-				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
-			?></div>
-			<p>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
-				-
-				<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
-<?php if($favreview["listening_last"] === "today"): ?>
-				<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
-<?php endif; ?>
+			<div class="detail">
+				<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
+					<?= h($favreview["artist"]) ?><br />
+					<?= h($favreview["title"]) ?>
+					(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
+				</a></p>
+			</div>
 		</div>
-<?php endforeach; ?>
+		<div class="review_comment"><?=
+			$favreview["body"] === "" || $favreview["body"] === "listening log"
+			? "(no review)"
+			: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
+		?></div>
+		<p>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
+			-
+			<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
+<?php if($favreview["listening_last"] === "today"): ?>
+			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
+<?php endif; ?>
 	</div>
+<?php endforeach; ?>
 </div>
 
-<div class="tacenter">
+
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>

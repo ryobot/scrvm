@@ -40,7 +40,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 </div>
 
 <!-- album lists -->
-<div class="album_lists" id="id_album_lists">
+<div class="review_list" id="id_album_lists">
 <?php foreach($lists as $album): ?>
 	<div class="album_info">
 		<div class="cover">

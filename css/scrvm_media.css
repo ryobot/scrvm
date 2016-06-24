@@ -16,6 +16,21 @@
 	.review_list .album_info:last-child{
 		border-bottom:1px solid #ACD;
 	}
+
+	/* review_list */
+	.user_list{
+		display: block;
+	}
+	.user_list .user_info{
+		width:100%;
+		border:none;
+		border-top:1px solid #ACD;
+		margin:0px;
+		border-radius: initial;
+	}
+	.user_list .user_info:last-child{
+		border-bottom:1px solid #ACD;
+	}
 }
 
 /** media query max-width:480px */

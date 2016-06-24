@@ -39,7 +39,8 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if(count($favalbums) > 0): ?>
 
-<div class="tacenter">
+
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
@@ -54,23 +55,25 @@ foreach($pager["nav_list"] as $nav) {
 </div>
 
 <div class="contents">
+	<div class="review_list">
 <?php foreach($favalbums as $favalbum): ?>
-	<div class="album_info">
-		<div class="cover">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+		<div class="album_info">
+			<div class="cover">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+			</div>
+			<div class="detail">
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
+					<?= h($favalbum["artist"]) ?><br />
+					<?= h($favalbum["title"]) ?><br />
+					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
+				</a>
+			</div>
 		</div>
-		<div class="detail">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
-				<?= h($favalbum["artist"]) ?><br />
-				<?= h($favalbum["title"]) ?><br />
-				(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
-			</a>
-		</div>
-	</div>
 <?php endforeach; ?>
+	</div>
 </div>
 
-<div class="tacenter">
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>

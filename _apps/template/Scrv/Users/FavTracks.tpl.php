@@ -38,7 +38,8 @@ foreach($pager["nav_list"] as $nav) {
 </h3>
 
 <?php if(count($favtracks) > 0): ?>
-<div class="tacenter">
+
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
@@ -52,29 +53,29 @@ foreach($pager["nav_list"] as $nav) {
 	</ul>
 </div>
 
-<div class="contents">
+<div class="review_list">
 <?php foreach($favtracks as $favtrack): ?>
-		<div class="album_info">
-			<div class="cover">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>"><img src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+	<div class="album_info">
+		<div class="cover">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>"><img src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+		</div>
+		<div class="detail">
+			<div>
+				<strong><?= h($favtrack["track_num"]) ?>. <?= h($favtrack["track_title"]) ?></strong>
 			</div>
-			<div class="detail">
-				<div>
-					<strong><?= h($favtrack["track_num"]) ?>. <?= h($favtrack["track_title"]) ?></strong>
-				</div>
-				<div>
-					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
-						<?= h($favtrack["artist"]) ?><br />
-						<?= h($favtrack["title"]) ?>
-						(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
-					</a>
-				</div>
+			<div>
+				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
+					<?= h($favtrack["artist"]) ?><br />
+					<?= h($favtrack["title"]) ?>
+					(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
+				</a>
 			</div>
 		</div>
+	</div>
 <?php endforeach; ?>
 </div>
 
-<div class="tacenter">
+<div class="pager">
 	<ul class="pagination">
 <?php if($pager["prev"]): ?>
 		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>

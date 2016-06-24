@@ -38,7 +38,7 @@
 	</div>
 </div>
 
-<div class="menu">
+<div class="menu flexbox_row">
 	<div class="menu_block" data-menu="Reviews"><a href="<?= h($base_path) ?>">
 		<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>
 		<div class="text">Reviews</div>
