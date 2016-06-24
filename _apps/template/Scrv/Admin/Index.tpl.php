@@ -20,7 +20,7 @@
 
 	<h2>Admin</h2>
 	<ul>
-		<li><a href="<?= h($base_path) ?>Admin/EditUsers">ユーザ編集</a></li>
+		<li><a href="<?= h($base_path) ?>Admin/EditUsers">EditUsers</a></li>
 	</ul>
 
 </div>

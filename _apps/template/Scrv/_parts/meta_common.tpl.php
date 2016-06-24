@@ -4,8 +4,8 @@
  * @author mgng
  */
 ?>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="keywords" content="syncreview,scrv,music,diary" />
 <?php if ( isset($_description) ): ?>
