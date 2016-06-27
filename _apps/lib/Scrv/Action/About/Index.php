@@ -20,20 +20,7 @@ class Index extends Base
 	 */
 	public function run()
 	{
-		// キャッシュ設定
-		$cache_setting = array(
-			"created" => self::$_nowTimestamp,
-			"expire" => 10, // 10秒キャッシュ
-			"request_uri" => Server::env("REQUEST_URI"),
-		);
-		$cache_contents = $this->_Template->getCache( $cache_setting["request_uri"]);
-		if ( $cache_contents ) {
-			header("X-Cached-Contents: " . $cache_setting["expire"]);
-			echo $cache_contents;
-			return true;
-		}
-
-		$this->_Template->setCache($cache_setting)->assign(array())->display("About/Index.tpl.php");
+		$this->_Template->assign(array())->display("About/Index.tpl.php");
 		return true;
 	}
 

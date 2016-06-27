@@ -22,19 +22,6 @@ class Index extends Base
 	 */
 	public function run()
 	{
-		// キャッシュ設定
-		$cache_setting = array(
-			"created" => self::$_nowTimestamp,
-			"expire" => 3, // 3秒キャッシュ
-			"request_uri" => Server::env("REQUEST_URI"),
-		);
-		$cache_contents = $this->_Template->getCache( $cache_setting["request_uri"]);
-		if ( $cache_contents ) {
-			header("X-Cached-Contents: " . $cache_setting["expire"]);
-			echo $cache_contents;
-			return true;
-		}
-
 		// hashtag取得
 		$hash = Server::get("hash", "");
 		$hash = mb_trim($hash);
@@ -81,7 +68,7 @@ class Index extends Base
 			);
 		}
 
-		$this->_Template->setCache($cache_setting)->assign(array(
+		$this->_Template->assign(array(
 			"reviews" => $lists_result["data"]["reviews"],
 			"reviews_count" => $lists_result["data"]["reviews_count"],
 			"pager" => $pager,
