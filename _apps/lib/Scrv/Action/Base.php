@@ -81,6 +81,7 @@ class Base extends Scrv\Base
 		// テンプレートインスタンス生成
 		$this->_Template = new Template();
 		$this->_Template->template_dir = __DIR__ . "/../../../" . self::$_common_ini["common"]["template_dir"];
+		$this->_Template->cache_dir = __DIR__ . "/../../../" . self::$_common_ini["common"]["cache_dir"];
 
 		// 基底関連
 		$this->_BaseTitle = self::$_common_ini["common"]["base_title"];

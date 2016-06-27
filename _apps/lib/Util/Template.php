@@ -20,10 +20,22 @@ class Template
 	public $template_dir = "";
 
 	/**
+	 * テンプレートキャッシュディレクトリ
+	 * @var string
+	 */
+	public $cache_dir = "";
+
+	/**
 	 * アサイン変数
 	 * @var array
 	 */
 	protected $_assign_data = array();
+
+	/**
+	 * キャッシュ設定
+	 * @var array
+	 */
+	protected $_cache_setting = array();
 
 	/**
 	 * コンストラクタ
@@ -41,6 +53,78 @@ class Template
 	public function __destruct()
 	{
 		return true;
+	}
+
+	/**
+	 * キャッシュ設定
+	 * @param array $setting
+	 * @return \lib\Util\Template
+	 */
+	public function setCache(array $setting=array())
+	{
+		$this->_cache_setting = $setting;
+		return $this;
+	}
+
+	/**
+	 * キャッシュを取得する
+	 * @param type $request_uri
+	 * @return type
+	 */
+	public function getCache($request_uri)
+	{
+		$cache_file_path = $this->_makeCacheFilePath($request_uri);
+		// キャッシュファイルが存在しない、読み込めない
+		if ( ! is_file($cache_file_path) || ! is_readable($cache_file_path) ) {
+			return null;
+		}
+		$cache = unserialize(file_get_contents($cache_file_path));
+		// シリアライズ失敗
+		if ( $cache === false ) {
+			return null;
+		}
+		// キャッシュライフタイムを超えている
+		$now = time();
+		if ( $now > $cache["created"] + $cache["expire"] ) {
+			return null;
+		}
+		// キャッシュを返す
+		return $cache["contents"];
+	}
+
+	/**
+	 * キャッシュを生成する
+	 * @param string $contents
+	 * @return null
+	 */
+	private function _makeCache($contents)
+	{
+		if ( count($this->_cache_setting) === 0 ) {
+			return null;
+		}
+		$seri = serialize(array_merge($this->_cache_setting, array("contents" => $contents)));
+		$cache_file_path = $this->_makeCacheFilePath($this->_cache_setting["request_uri"]);
+		// 最初にディレクトリを作成、失敗したら何もしない
+		if ( ! is_dir(dirname($cache_file_path)) && ! mkdir(dirname($cache_file_path), 0777, true) ) {
+			return null;
+		}
+		file_put_contents( $cache_file_path, $seri );
+		return null;
+	}
+
+	/**
+	 * リクエストURIから生成したキャッシュファイルフルパスを返す
+	 * @param string $request_uri
+	 * @return string
+	 */
+	private function _makeCacheFilePath($request_uri)
+	{
+		// ディレクトリ部分を取得
+		$dir = dirname($request_uri);
+		// ..が続いたりは削除
+		$dir = preg_replace("/\.\.\//", "", $dir);
+		// パスを生成
+		return $this->cache_dir . $dir . "/" . sha1($request_uri);
 	}
 
 	/**
@@ -85,37 +169,12 @@ class Template
 		extract( $this->_assign_data );
 		ob_start();
 		require $this->template_dir . $template;
-		$_contents = ob_get_contents();
+		$contents = ob_get_contents();
 		ob_end_clean();
-		$contents = $this->_includeSsi($_contents);
+		$this->_makeCache($contents);
 		if ( $is_display ) {
 			echo $contents;
 		}
-		return $contents;
-	}
-
-	/**
-	 * $contentsから SSI 記述を正規表現で抜き出し該当SSIファイルを埋め込んで返却する。
-	 * @param string $contents 文字列
-	 * @return string
-	 * @see \lib\Util\Server
-	 */
-	private function _includeSsi($contents)
-	{
-//		$pattern = '/<\!\-\-\s*#include\s+virtual\s*=\s*\"(.+?)"\s*\-\->/uis';
-//		$matches = array();
-//		preg_match_all($pattern, $contents, $matches);
-//		if ( count( $matches ) === 0 ) {
-//			return $contents;
-//		}
-//		$doc_root = \lib\Util\Server::env("DOCUMENT_ROOT");
-//		for($i=0, $len = count($matches[0]); $i<$len; $i++) {
-//			$search = $matches[0][$i];
-//			$path = $matches[1][$i];
-//			$buf = file_get_contents( $doc_root . $path );
-//			$from_enc = mb_detect_encoding($buf, mb_detect_order());
-//			$contents = str_replace($search, mb_convert_encoding($buf, "UTF-8", $from_enc), $contents);
-//		}
 		return $contents;
 	}
 
