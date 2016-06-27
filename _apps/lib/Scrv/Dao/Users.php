@@ -60,12 +60,14 @@ class Users extends Dao
 				,t3.favalbums_count
 				,t4.reviews_count
 				,t5.favreviews_count
+				,t7.username AS has_invited_username, t7.img_file AS has_invited_img_file
 				,{$syncs_column}
 				FROM users t1
 				LEFT JOIN(SELECT user_id,count(id) AS favtracks_count  FROM favtracks  GROUP BY user_id)t2 ON(t1.id=t2.user_id)
 				LEFT JOIN(SELECT user_id,count(id) AS favalbums_count  FROM favalbums  GROUP BY user_id)t3 ON(t1.id=t3.user_id)
 				LEFT JOIN(SELECT user_id,count(id) AS reviews_count    FROM reviews    GROUP BY user_id)t4 ON(t1.id=t4.user_id)
 				LEFT JOIN(SELECT user_id,count(id) AS favreviews_count FROM favreviews GROUP BY user_id)t5 ON(t1.id=t5.user_id)
+				LEFT JOIN users t7 ON(t7.id=t1.has_invited_user_id)
 				{$syncs_sql}
 				WHERE t1.id=:user_id",
 				$params

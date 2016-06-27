@@ -10,6 +10,13 @@
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
 				<?= nl2br(linkIt(h($user["profile"]))) ?>
 <?php endif;?>
+<?php if(isset($user["has_invited_username"])): ?>
+				<div style="padding:10px 0">
+					( invited from
+					<a href="<?= h($base_path) ?>u/<?= h($user["has_invited_user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($user["has_invited_img_file"]) ? "files/attachment/photo/{$user["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["has_invited_username"]) ?>" title="<?= h($user["has_invited_username"]) ?>" /></a>
+					)
+				</div>
+<?php endif; ?>
 			</div>
 		</div>
 		<div class="user_menu_list">
