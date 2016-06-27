@@ -998,6 +998,10 @@ ul.pagination li a:hover:not(.active){
 	right: 10px;
 	bottom: 25px;
 }
+.link_page_top img{
+	width:32px;
+	height:32px;
+}
 .link_page_top img:hover{
 	filter: invert(100%);
 	transition: filter .3s;

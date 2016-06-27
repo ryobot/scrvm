@@ -204,6 +204,10 @@
 	.link_page_top{
 		bottom: 40px;
 	}
+	.link_page_top img{
+		width:24px;
+		height:24px;
+	}
 
 }
 

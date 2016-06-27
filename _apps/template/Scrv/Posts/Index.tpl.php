@@ -29,7 +29,7 @@
 
 <?php if($is_login ): ?>
 	<div class="form_info">
-		<form action="<?= h($base_path) ?>Posts/Add" method="POST">
+		<form action="<?= h($base_path) ?>Posts/Add" method="POST" autocomplete="off">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="reply_id" id="id_reply_id" value="" />
 			<p><input type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>

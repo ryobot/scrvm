@@ -24,7 +24,7 @@
 
 <!-- search tabs -->
 <div class="search_tab">
-	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET">
+	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET" autocomplete="off">
 		<!-- search type and add album tabs -->
 		<div class="displaytable w100per tacenter">
 			<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>

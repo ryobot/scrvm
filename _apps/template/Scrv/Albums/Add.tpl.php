@@ -20,7 +20,7 @@
 	<h2>Add Album</h2>
 
 	<div class="form_info">
-		<form id="id_Albums_SearchArtist" action="javascript:;" method="POST">
+		<form id="id_Albums_SearchArtist" action="javascript:;" method="POST" autocomplete="off">
 			<div class="displaytable w100per tacenter">
 				<div class="displaytablecell w50per">
 					<label><input type="radio" name="search_type" id="id_search_type_gracenote" value="gracenote" checked="checked"> <img src="<?= h($base_path) ?>img/logo_gracenote.png" alt="gracenote" title="gracenote" class="w80px" /></label>
