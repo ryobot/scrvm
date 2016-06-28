@@ -57,6 +57,18 @@ class Index extends Base
 			return false;
 		}
 
+		// Etag用ハッシュ取得
+		$etag = $this->_Template->getEtag(print_r($lists_result, 1));
+		// キャッシュヘッダとETagヘッダ出力
+		header("Cache-Control: max-age=60");
+		header("ETag: {$etag}");
+		// etagが同じなら304
+		$client_etag = Server::env("HTTP_IF_NONE_MATCH");
+		if ( $etag ===  $client_etag) {
+			header( 'HTTP', true, 304 );
+			return true;
+		}
+
 		// pager関連
 		$Pager = new Pager();
 		$pager = $Pager->getPager((int)$page, $lists_result["data"]["lists_count"], $limit, 5);
