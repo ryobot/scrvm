@@ -93,6 +93,16 @@ class Template
 	}
 
 	/**
+	 * get Etag
+	 * @param string $string
+	 * @return string
+	 */
+	public function getEtag($string)
+	{
+		return sha1($string);
+	}
+
+	/**
 	 * キャッシュを生成する
 	 * @param string $contents
 	 * @return null
@@ -124,7 +134,7 @@ class Template
 		// ..が続いたりは削除
 		$dir = preg_replace("/\.\.\//", "", $dir);
 		// パスを生成
-		return $this->cache_dir . $dir . "/" . sha1($request_uri);
+		return $this->cache_dir . $dir . "/" . $this->getEtag($request_uri);
 	}
 
 	/**

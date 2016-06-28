@@ -199,6 +199,7 @@ class Reviews extends Dao
 	 * @param integer $user_id
 	 * @param integer $offset
 	 * @param integer $limit
+	 * @param int $own_user_id
 	 * @return resultSet
 	 */
 	public function view( $user_id, $offset, $limit, $own_user_id=null )
@@ -242,7 +243,64 @@ class Reviews extends Dao
 	}
 
 	/**
-	 * view
+	 * view by date
+	 * @param integer $user_id
+	 * @param integer $offset
+	 * @param integer $limit
+	 * @param int $own_user_id
+	 * @return resultSet
+	 */
+	public function viewByDate( $user_id, $offset, $limit, $own_user_id=null, $date=null )
+	{
+		$result = getResultSet();
+		try{
+			$my_fav_select = "";
+			$my_fav_sql = "";
+			$date_sql = "";
+			$params = array("user_id" => $user_id,);
+			if ( isset($own_user_id) ) {
+				$my_fav_select = ",t6.id as my_fav_id";
+				$my_fav_sql = "LEFT JOIN favreviews t6 ON(t1.id=t6.review_id AND t6.user_id=:ouid)";
+				$params["ouid"] = $own_user_id;
+			}
+			if ( isset($date) ) {
+				$year = substr($date, 0, 4);
+				$month = substr($date, 4, 2);
+				$Datetime = new \DateTime("{$year}-{$month}-01");
+				$date_sql = "AND :date_from <= t1.created AND t1.created < :date_to";
+				$params["date_from"] = $Datetime->format("Y-m-d 00:00:00");
+				$params["date_to"] = $Datetime->add(new \DateInterval("P1M"))->format("Y-m-d 00:00:00");
+			}
+			$data = $this->_Dao->select("
+				SELECT
+				t1.*
+				,t2.artist,t2.title,t2.img_url,t2.img_file,t2.year,t2.favalbum_count,t2.tracks
+				,t3.username,t3.img_file as user_img_file
+				,(SELECT count(t4.id) FROM reviews t4 WHERE t1.album_id=t4.album_id) as reviews_count
+				,count(t5.id) as fav_reviews_count
+				{$my_fav_select}
+				FROM reviews t1
+				INNER JOIN albums t2 ON (t1.album_id=t2.id)
+				INNER JOIN users t3 ON (t1.user_id=t3.id)
+				LEFT JOIN favreviews t5 ON(t1.id=t5.review_id)
+				{$my_fav_sql}
+				WHERE t1.user_id=:user_id
+				{$date_sql}
+				GROUP BY t1.id
+				ORDER BY t1.created DESC
+				LIMIT {$offset},{$limit}",
+				$params
+			);
+			$result["status"] = true;
+			$result["data"] = $data;
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
+	 * favReviews
 	 * @param integer $user_id
 	 * @param integer $offset
 	 * @param integer $limit

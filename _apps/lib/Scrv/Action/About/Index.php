@@ -20,7 +20,21 @@ class Index extends Base
 	 */
 	public function run()
 	{
-		$this->_Template->assign(array())->display("About/Index.tpl.php");
+		$contents = $this->_Template->assign(array())->display("About/Index.tpl.php", false);
+
+		// Etag用ハッシュ取得
+		$etag = $this->_Template->getEtag($contents);
+		// キャッシュヘッダとETagヘッダ出力
+		header("Cache-Control: max-age=60");
+		header("ETag: {$etag}");
+		// etagが同じなら304
+		$client_etag = Server::env("HTTP_IF_NONE_MATCH");
+		if ( $etag === $client_etag ) {
+			header( 'HTTP', true, 304 );
+			return true;
+		}
+
+		echo $contents;
 		return true;
 	}
 
