@@ -467,6 +467,39 @@ iframe{max-width: 100%};
 	background-color: #AAA;
 }
 
+/* .search_box */
+.search_box{
+	display: table;
+	position: relative;
+	width:100%;
+}
+.search_box_text{
+	display: table-cell;
+	width:100%;
+}
+.search_box_text input[type="text"]{
+	display: table-cell;
+	width:100%;
+	height:auto;
+}
+.search_box_button{
+	display: table-cell;
+	width:50px;
+	min-width: 50px;
+	cursor: pointer;
+	border:1px solid #AAA;
+	border-radius: 4px;
+	text-align:center;
+}
+.search_box_button:hover{
+	background-color: #CDF;
+}
+.search_box_button img{
+	width:24px;
+	height:24px;
+	vertical-align: middle;
+}
+
 /* .user_menu_list */
 .user_menu_list {
 	width:100%;

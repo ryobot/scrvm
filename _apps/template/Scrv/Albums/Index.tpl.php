@@ -25,6 +25,7 @@
 <!-- search tabs -->
 <div class="search_tab">
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET" autocomplete="off">
+
 		<!-- search type and add album tabs -->
 		<div class="displaytable w100per tacenter">
 			<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>
@@ -33,15 +34,21 @@
 			<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
 <?php endif; ?>
 		</div>
+
 		<!-- artist or album -->
 		<div class="displaytable w100per tacenter search_type">
-			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" />artist</label></div>
-			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" />title</label></div>
+			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" /> artist</label></div>
+			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
 		</div>
 		<div class="tabContent active">
-			<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
-			<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>
+<!--			<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
+			<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>-->
+			<div class="search_box">
+				<div class="search_box_text"><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></div>
+				<div class="search_box_button"><a href="javascript:;" id="id_search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" /></a></div>
+			</div>
 		</div>
+
 		<div class="tabContent">
 			<ul class="search_index">
 	<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
@@ -49,6 +56,7 @@
 	<?php endforeach; unset($alpha); ?>
 			</ul>
 		</div>
+
 		<input type="hidden" name="stype" id="id_stype" value="search" />
 		<input type="hidden" name="index" id="id_search_index" value="" />
 	</form>

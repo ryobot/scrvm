@@ -29,12 +29,10 @@
 	<div class="user_edit">
 <?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 		<div class="user_edit_area">
-<?php if (isset($sess_twitter_access_token["oauth_token"])): ?>
-			<p>現在 twitter 連携中です。連携を解除するには、以下手順を実行してください。</p>
-			<ul style="list-style: disc;margin-left:1.5em;">
-				<li>パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す。</li>
-				<li>syncreview をログアウト → 再ログイン。</li>
-			</ul>
+<?php if (isset($login_user_data["twitter_user_id"])): ?>
+			<p>twitter連携を完全に解除するには、以下ボタンでの解除＋パソコンから twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> で scrv の許可を取り消す作業が必要です。</p>
+			<p class="actions"><a href="javascript:;" id="id_users_twitter_disconnect">twitter 連携を解除する</a></p>
+			<form id="id_users_twitter_disconnect_form" action="<?= h($base_path) ?>Users/DisconnectTwitter" method="POST"></form>
 <?php else: ?>
 			<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
 			<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
@@ -51,10 +49,19 @@
 
 <script>
 ;$(function(){
+
+	$("#id_users_twitter_disconnect").on("click.js", function(){
+		if (confirm("twitter 連携を解除しますか？")) {
+			$("#id_users_twitter_disconnect_form").submit();
+		}
+		return false;
+	});
+
 	$("#id_users_twitter").on("click.js", function(){
 		$("#id_users_twitter_form").submit();
 		return false;
 	});
+
 });
 </script>
 

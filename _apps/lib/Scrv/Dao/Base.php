@@ -47,11 +47,18 @@ class Base extends Scrv\Base
 	protected $_con_settings = array();
 
 	/**
+	 * クエリキャッシュ用ディレクトリ
+	 * @var string
+	 */
+	protected $_cache_dir = "";
+
+	/**
 	 * コンストラクタ
 	 */
 	public function __construct()
 	{
 		parent::__construct();
+		$this->_cache_dir = __DIR__ . "/../../../" . self::$_common_ini["common"]["db_cache_dir"];
 	}
 
 	/**
@@ -180,19 +187,37 @@ class Base extends Scrv\Base
 
 	/**
 	 * sqlと埋め込むパラメータを渡してSQLを実行、結果セットを返す。
+	 *
+	 * $cache_setting の形式は以下の通り。
+	 * キャッシュファイルは、file_index + sha1(sql+パラメータ) で作成される。
+	 * <pre>
+	 * [
+	 *	"is_cache" => boolean
+	 *	"expire" => キャッシュさせる秒数
+	 *	"index" => キャッシュファイル接頭辞(任意。なければ空文字設定)
+	 * ]
+	 * </pre>
+	 *
+	 *
 	 * @param string $sql SQL文 パラメータは名前付きプレースホルダで指定する
 	 * @param array $params 連想配列(key=>value)で埋め込むパラメータを指定。valueは明示的に型指定(string,int等)を行うこと。
+	 * @param array $cache_setting 実行結果をキャッシュするかの設定
 	 * @return array
 	 */
-	public function select($sql, array $params=array())
+	public function select($sql, array $params=array(), array $cache_setting=array())
 	{
-		//$stmt = $this->_pdo->prepare($sql);
+		// キャッシュ有効な場合はファイル検索
+		if ( isset($cache_setting["is_cache"]) && $cache_setting["is_cache"] ) {
+
+		}
+
 		$stmt = self::$_pdo->prepare($sql);
 		foreach( $params as $key => $value ) {
 			$stmt->bindValue(":{$key}", $value, $this->_getDataType($value));
 		}
 		$stmt->execute();
-		return $stmt->fetchAll();
+		$result = $stmt->fetchAll();
+		return $result;
 	}
 
 	/**

@@ -314,4 +314,35 @@ class Users extends Dao
 		return $result;
 	}
 
+	/**
+	 * clear twitter
+	 * @param int $user_id
+	 * @return resultSet
+	 */
+	public function clearTwitter($user_id)
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			$row_count = $this->_Dao->update("
+				UPDATE users
+				SET twitter_user_id=null,twitter_user_token=null,twitter_user_secret=null,modified=now()
+				WHERE id=:uid",
+				array("uid" => $user_id,)
+			);
+			// 最新のユーザデータを取得して返す
+			$current_user_data = $this->_Dao->select(
+				"SELECT * FROM users WHERE id=:uid",
+				array("uid" => $user_id,)
+			);
+			$result["status"] = true;
+			$result["data"]["user_data"] = $current_user_data[0];
+			$this->_Dao->commit();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
 }
