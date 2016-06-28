@@ -58,7 +58,7 @@ class Base extends Scrv\Base
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_cache_dir = __DIR__ . "/../../../" . self::$_common_ini["common"]["db_cache_dir"];
+		$this->_cache_dir = __DIR__ . "/../../../" . self::$_common_ini["db"]["cache_dir"];
 	}
 
 	/**
@@ -186,18 +186,49 @@ class Base extends Scrv\Base
 	}
 
 	/**
+	 * DBキャッシュファイルパスを返す
+	 * @param string $sql
+	 * @param array $params
+	 * @param string $index
+	 * @return string
+	 */
+	private function _getCacheFile($sql, array $params, $index = "")
+	{
+		return $this->_cache_dir . "{$index}_" . sha1($sql . print_r($params, 1));
+	}
+
+	/**
+	 * キャッシュファイルを作成する
+	 * @param string $filepath
+	 * @param string $contents
+	 * @param integer $expire キャッシュ秒数
+	 */
+	private function _makeCacheFile($filepath, $contents, $expire)
+	{
+		file_put_contents($filepath, $contents, LOCK_EX);
+		touch($filepath, self::$_nowTimestamp + $expire);
+		// XXX キャッシュが溜まってしまうのでゴミを削除
+		// 暫定で作成から1時間経過していたら削除
+		$gc_sec = (int)self::$_common_ini["db"]["cache_gc_sec"];
+		foreach(glob($this->_cache_dir . "*") as $cache_file){
+			if (filemtime($cache_file) + $gc_sec < self::$_nowTimestamp ) {
+				unlink($cache_file);
+			}
+		}
+	}
+
+	/**
 	 * sqlと埋め込むパラメータを渡してSQLを実行、結果セットを返す。
 	 *
 	 * $cache_setting の形式は以下の通り。
-	 * キャッシュファイルは、file_index + sha1(sql+パラメータ) で作成される。
+	 * キャッシュファイルは、index + sha1(sql+パラメータ配列) で作成される。
 	 * <pre>
 	 * [
-	 *	"is_cache" => boolean
+	 *	"enabled" => boolean
 	 *	"expire" => キャッシュさせる秒数
-	 *	"index" => キャッシュファイル接頭辞(任意。なければ空文字設定)
+	 *	"index" => キャッシュファイル名接頭辞。使わない場合は空文字を設定
 	 * ]
 	 * </pre>
-	 *
 	 *
 	 * @param string $sql SQL文 パラメータは名前付きプレースホルダで指定する
 	 * @param array $params 連想配列(key=>value)で埋め込むパラメータを指定。valueは明示的に型指定(string,int等)を行うこと。
@@ -207,8 +238,12 @@ class Base extends Scrv\Base
 	public function select($sql, array $params=array(), array $cache_setting=array())
 	{
 		// キャッシュ有効な場合はファイル検索
-		if ( isset($cache_setting["is_cache"]) && $cache_setting["is_cache"] ) {
-
+		// 存在するかつ有効期限内であれば返す
+		if ( isset($cache_setting["enabled"]) && $cache_setting["enabled"] ) {
+			$cache_file_path = $this->_getCacheFile($sql, $params, $cache_setting["index"]);
+			if ( is_readable($cache_file_path) && filemtime($cache_file_path) + $cache_setting["expire"] > self::$_nowTimestamp ) {
+				return unserialize(file_get_contents($cache_file_path));
+			}
 		}
 
 		$stmt = self::$_pdo->prepare($sql);
@@ -217,6 +252,13 @@ class Base extends Scrv\Base
 		}
 		$stmt->execute();
 		$result = $stmt->fetchAll();
+
+		if ( isset($cache_setting["enabled"]) && $cache_setting["enabled"] ) {
+			$seri = serialize($result);
+			$cache_file_path = $this->_getCacheFile($sql, $params, $cache_setting["index"]);
+			$this->_makeCacheFile($cache_file_path, $seri, $cache_setting["expire"]);
+		}
+
 		return $result;
 	}
 

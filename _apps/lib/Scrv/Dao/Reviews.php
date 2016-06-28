@@ -74,6 +74,14 @@ class Reviews extends Dao
 	{
 		$result = getResultSet();
 		try{
+
+			// DBファイルキャッシュ設定
+			$db_cache_setting = array(
+				"enabled" => true,
+				"expire" => 3,
+				"index" => "Review_index",
+			);
+
 			$my_fav_select = "";
 			$my_fav_sql = "";
 			$hashtags_sql = "";
@@ -104,13 +112,15 @@ class Reviews extends Dao
 				{$my_fav_sql}
 				ORDER BY t1.created DESC
 				LIMIT {$offset},{$limit}",
-				$params
+				$params,
+				$db_cache_setting
 			);
 			$data_count = $this->_Dao->select("
 				SELECT count(t1.id) cnt
 				FROM reviews t1
 				{$hashtags_sql}",
-				$params_count
+				$params_count,
+				$db_cache_setting
 			);
 			$result["status"] = true;
 			$result["data"] = array(
