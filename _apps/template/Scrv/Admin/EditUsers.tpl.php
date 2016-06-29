@@ -20,6 +20,21 @@
 		<h2>Admin::EditUsers</h2>
 	</div>
 
+	<!-- pager -->
+	<div class="pager">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+<?php endif;?>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+<?php endif;?>
+		</ul>
+	</div>
+
 	<div class="contents">
 <?php foreach($users as $user): ?>
 		<div
@@ -54,6 +69,21 @@
 			</div>
 		</div>
 <?php endforeach; ?>
+	</div>
+
+	<!-- pager -->
+	<div class="pager">
+		<ul class="pagination">
+<?php if($pager["prev"]): ?>
+			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+<?php endif;?>
+<?php foreach($nav_list as $nav): ?>
+			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+<?php endforeach; ?>
+<?php if($pager["next"]): ?>
+			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+<?php endif;?>
+		</ul>
 	</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

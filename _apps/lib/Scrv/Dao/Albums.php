@@ -81,8 +81,16 @@ class Albums extends Dao
 			$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$where} {$group_by} {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 		}
-		$albums_result = $this->_Dao->select($sql, $params);
-		$albums_count_result = $this->_Dao->select($sql_count, $params);
+
+		// DBファイルキャッシュ設定
+		$db_cache_setting = array(
+			"enabled" => true,
+			"expire" => 3,
+			"index" => "Albums_Index_ListsByIndex",
+		);
+
+		$albums_result = $this->_Dao->select($sql, $params, $db_cache_setting);
+		$albums_count_result = $this->_Dao->select($sql_count, $params, $db_cache_setting);
 		$result["status"] = true;
 		$result["data"] = array(
 			"lists" => $albums_result,
@@ -107,8 +115,16 @@ class Albums extends Dao
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
 			$params = array("q"=>"%".$this->_Dao->escapeForLike($q)."%");
 		}
-		$albums_result = $this->_Dao->select($sql, $params);
-		$albums_count_result = $this->_Dao->select($sql_count, $params);
+
+		// DBファイルキャッシュ設定
+		$db_cache_setting = array(
+			"enabled" => true,
+			"expire" => 3,
+			"index" => "Albums_Index_ListsBySearch",
+		);
+
+		$albums_result = $this->_Dao->select($sql, $params, $db_cache_setting);
+		$albums_count_result = $this->_Dao->select($sql_count, $params, $db_cache_setting);
 		$result["status"] = true;
 		$result["data"] = array(
 			"lists" => $albums_result,

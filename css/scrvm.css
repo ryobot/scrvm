@@ -15,7 +15,6 @@ body {
 	background-image: url("../img/noisy-texture-a50.png");
 	text-shadow: 0px 0px 3px #DDD;
 	color: #012;
-/*	font-family: 'lucida grande',verdana,helvetica,arial,"游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;*/
 	font-family: 'Ubuntu','lucida grande',verdana,helvetica,arial,"游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
 	line-height: 1.6em;
 	font-size:100%;
@@ -212,6 +211,7 @@ iframe{max-width: 100%};
 	position: absolute;
 	right : 0;
 	margin : 0;
+	z-index: 2;
 }
 .dropmenu li{
 	background: #0066cc;
@@ -240,9 +240,6 @@ iframe{max-width: 100%};
 
 /* .user_list */
 .user_list{
-}
-
-.user_list{
 	width:100%;
 	height:auto;
 
@@ -265,9 +262,11 @@ iframe{max-width: 100%};
 }
 .user_list .user_info{
 	width:49%;
+	width:-webkit-calc(50% - 2px);
+	width:calc(50% - 2px);
 	height:auto;
 	border:1px solid #ACD;
-	margin:2px;
+	margin:1px;
 	border-radius: 4px;
 }
 
@@ -392,10 +391,12 @@ iframe{max-width: 100%};
 	align-content:space-around;
 }
 .review_list .album_info{
-	width:49%;
+	width: 49%;
+	width: calc(50% - 2px);
+	width: -webkit-calc(50% - 2px);
 	height:auto;
 	border:1px solid #ACD;
-	margin:2px;
+	margin:1px;
 	border-radius: 4px;
 }
 
@@ -451,12 +452,12 @@ iframe{max-width: 100%};
 	color: black;
 	float: left;
 	width:2.5em;
-	margin:3px;
+	margin:1px;
 	padding: 4px 8px;
 	text-decoration: none;
 	border: 1px solid #AAA;
-	transition: .3s;
-	border-radius: 3px;
+	transition: .2s;
+	border-radius: 2px;
 }
 .search_tab ul.search_index li a.active {
 	background-color: #4CAF50;
@@ -675,7 +676,6 @@ ul.pagination li a:hover:not(.active){
 .album_info{
 	background-color: rgba(255,255,255,0.7);
 	padding:10px;
-	display: table;
 	width:100%;
 	height:auto;
 	border-top:1px solid #ACD;
@@ -837,7 +837,7 @@ ul.pagination li a:hover:not(.active){
 	align-items:stretch;
 	border-top:1px solid #EEE;
 	margin-top:10px;
-	padding: 5px 0;
+	padding: 2px 0;
 	vertical-align: middle;
 }
 .reaction_area div{

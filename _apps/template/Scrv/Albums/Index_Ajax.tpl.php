@@ -102,7 +102,7 @@ $("#id_total_count").text(<?= h($pager["total_count"]) ?>);
 <?php		if ($is_login): ?>
 	<p class="tacenter strong">
 		<a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a>
-		からアルバムを追加できます。
+		でアルバムを追加できます。
 	</p>
 <?php		endif; ?>
 </div>

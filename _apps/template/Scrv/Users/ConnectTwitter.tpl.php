@@ -30,7 +30,7 @@
 <?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 		<div class="user_edit_area">
 <?php if (isset($login_user_data["twitter_user_id"])): ?>
-			<p>twitter連携を完全に解除するには、以下ボタンでの解除＋パソコンから twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> で scrv の許可を取り消す作業が必要です。</p>
+			<p>twitter連携を完全に解除するには、以下ボタンでtwitterの連携を解除したのち、パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す作業が必要です。</p>
 			<p class="actions"><a href="javascript:;" id="id_users_twitter_disconnect">twitter 連携を解除する</a></p>
 			<form id="id_users_twitter_disconnect_form" action="<?= h($base_path) ?>Users/DisconnectTwitter" method="POST"></form>
 <?php else: ?>
