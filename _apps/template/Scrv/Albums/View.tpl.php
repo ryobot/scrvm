@@ -133,9 +133,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php foreach($reviews as $review): ?>
 		<div class="review">
 			<div class="review_comment"><?=
-				$review["body"] === "" || $review["body"] === "listening log"
-				? "(no review)"
-				: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+				$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
 			?></div>
 			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">

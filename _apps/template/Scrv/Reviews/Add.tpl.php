@@ -70,7 +70,7 @@
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php foreach($reviews as $review): ?>
 	<div class="review">
-		<div class="review_comment"><?= $review["body"] === "" || $review["body"] === "listening log" ? "(no review)" : nl2br(linkIt(h($review["body"]))) ?></div>
+		<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
 		<div>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
 				<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />

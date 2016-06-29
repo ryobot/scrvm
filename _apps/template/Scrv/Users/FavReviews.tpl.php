@@ -74,9 +74,7 @@ foreach($pager["nav_list"] as $nav) {
 			</div>
 		</div>
 		<div class="review_comment"><?=
-			$favreview["body"] === "" || $favreview["body"] === "listening log"
-			? "(no review)"
-			: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
+			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
 		?></div>
 		<p>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>

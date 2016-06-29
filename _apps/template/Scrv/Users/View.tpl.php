@@ -71,9 +71,7 @@ foreach($pager["nav_list"] as $nav) {
 			</div>
 		</div>
 		<div class="review_comment"><?=
-			$review["body"] === "" || $review["body"] === "listening log"
-			? "(no review)"
-			: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
 		?></div>
 		<div>
 			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">

@@ -44,13 +44,9 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 			<div class="detail">
 			</div>
 		</div>
-		<div class="review_comment">
-			<p><?= $review["body"] === "" || $review["body"] === "listening log"
-					? "(no review)"
-					: $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
-			?></p>
-		</div>
-
+		<div class="review_comment"><?=
+			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
+		?></div>
 		<div>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
