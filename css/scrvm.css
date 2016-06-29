@@ -108,8 +108,8 @@ iframe{max-width: 100%};
 	padding: 18px 0  0 55px;
 	margin: 0;
 	-webkit-box-sizing: initial;
-  -moz-box-sizing: initial;
-  box-sizing: initial;
+	-moz-box-sizing: initial;
+	box-sizing: initial;
 }
 .header_title a{text-decoration: none;}
 
@@ -132,8 +132,8 @@ iframe{max-width: 100%};
 /* .flexbox */
 .flexbox_row{
 	display:-webkit-box;
-  display:-ms-flexbox;
-  display:-webkit-flex;
+	display:-ms-flexbox;
+	display:-webkit-flex;
 	display: flex;
 	-webkit-box-direction:row;
 	-webkit-flex-direction:row;
@@ -156,8 +156,8 @@ iframe{max-width: 100%};
 	width:100%;
 
 	display:-webkit-box;
-  display:-ms-flexbox;
-  display:-webkit-flex;
+	display:-ms-flexbox;
+	display:-webkit-flex;
 	display: flex;
 	-webkit-box-direction:row;
 	-webkit-flex-direction:row;
@@ -199,11 +199,11 @@ iframe{max-width: 100%};
 	cursor:pointer;
 }
 .dropmenu{
-  *zoom: 1;
-  width: 100%;
-  margin: 0;
+	*zoom: 1;
+	width: 100%;
+	margin: 0;
 	margin-top:5px;
-  padding: 0;
+	padding: 0;
 	display:none;
 	position:relative;
 }
@@ -219,7 +219,7 @@ iframe{max-width: 100%};
 	text-shadow: none;
 }
 .dropmenu li:hover{
-  background: #0099CC;
+	background: #0099CC;
 }
 .dropmenu li:first-child{
 	border-radius: 5px 5px 0 0;
@@ -244,8 +244,8 @@ iframe{max-width: 100%};
 	height:auto;
 
 	display:-webkit-box;
-  display:-ms-flexbox;
-  display:-webkit-flex;
+	display:-ms-flexbox;
+	display:-webkit-flex;
 	display: flex;
 	-webkit-box-direction:row;
 	-webkit-flex-direction:row;
@@ -253,17 +253,17 @@ iframe{max-width: 100%};
 	-ms-flex-wrap:wrap;
 	-webkit-flex-wrap:wrap;
 	flex-wrap:wrap;
-	-webkit-justify-content:space-between;
-	justify-content:space-between;
+	-webkit-justify-content:space-around;
+	justify-content:space-around;
 	-webkit-align-items:stretch;
 	align-items:stretch;
 	-webkit-align-content:space-around;
 	align-content:space-around;
 }
 .user_list .user_info{
-	width:49%;
-	width:-webkit-calc(50% - 2px);
-	width:calc(50% - 2px);
+	width:32%;
+	width:-webkit-calc(33% - 1px);
+	width:calc(33% - 1px);
 	height:auto;
 	border:1px solid #ACD;
 	margin:1px;
@@ -307,8 +307,8 @@ iframe{max-width: 100%};
 	width:100%;
 
 	display:-webkit-box;
-  display:-ms-flexbox;
-  display:-webkit-flex;
+	display:-ms-flexbox;
+	display:-webkit-flex;
 	display: flex;
 	-webkit-box-direction:row;
 	-webkit-flex-direction:row;
@@ -1002,8 +1002,10 @@ ul.pagination li a:hover:not(.active){
 .post_body a{
 	word-break : break-all;
 }
-.post_date{color:#678;}
-.post_date a{color:#678;}
+.post_date,
+.post_date a{
+	color:#678;font-weight: normal;
+}
 .post_reply{
 	cursor:pointer;
 	font-weight:bold;

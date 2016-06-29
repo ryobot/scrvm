@@ -68,17 +68,17 @@ class Index extends Base
 			return false;
 		}
 
-//		// Etag用ハッシュ取得 (ログイン状況も絡めること)
-//		$etag = $this->_Template->getEtag(print_r($albums_result, 1));
-//		// キャッシュヘッダとETagヘッダ出力
-//		header("Cache-Control: max-age=60");
-//		header("ETag: {$etag}");
-//		// etagが同じなら304
-//		$client_etag = Server::env("HTTP_IF_NONE_MATCH");
-//		if ( $etag ===  $client_etag) {
-//			header( 'HTTP', true, 304 );
-//			return true;
-//		}
+		// Etag用ハッシュ取得 (ログイン状況も絡めておく)
+		$etag = $this->_Template->getEtag(print_r($albums_result, 1) . print_r($this->_login_user_data, 1));
+		// キャッシュヘッダとETagヘッダ出力
+		header("Cache-Control: max-age=60");
+		header("ETag: {$etag}");
+		// etagが同じなら304
+		$client_etag = Server::env("HTTP_IF_NONE_MATCH");
+		if ( $etag ===  $client_etag) {
+			header( 'HTTP', true, 304 );
+			return true;
+		}
 
 		// pager
 		$Pager = new Pager();

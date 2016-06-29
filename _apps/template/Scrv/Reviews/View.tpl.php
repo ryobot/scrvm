@@ -16,6 +16,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
+<link rel="canonical" href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>" />
 <title>
 	<?= h($review_title) ?>
 	(by <?= h($review["username"]) ?>)

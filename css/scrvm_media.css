@@ -1,7 +1,23 @@
 @charset "UTF-8";
 
-/** media query max-width:480px */
+/** media query max-width:900px */
+@media only screen and (max-width:900px){
+
+	body {
+		font-size:88%;
+	}
+
+	.user_info .cover{
+		width:100px;
+	}
+	.user_info .cover img{
+		width:90px;
+	}
+}
+
+/** media query max-width:700px */
 @media only screen and (max-width:700px){
+
 	/* review_list */
 	.review_list{
 		display: block;
@@ -18,27 +34,21 @@
 	}
 
 	/* review_list */
-	.user_list{
-		display: block;
-	}
 	.user_list .user_info{
-		width:100%;
-		border:none;
-		border-top:1px solid #ACD;
-		margin:0px;
-		border-radius: initial;
+		width:48%;
+		width:-webkit-calc(50% - 2px);
+		width:calc(50% - 2px);
 	}
-	.user_list .user_info:last-child{
-		border-bottom:1px solid #ACD;
+	.user_info .cover{
+		width:80px;
+	}
+	.user_info .cover img{
+		width:70px;
 	}
 }
 
 /** media query max-width:480px */
 @media only screen and (max-width:480px){
-
-	body {
-		font-size:88%;
-	}
 
 	/*---------*/
 	h1,h2,h3,h4,h5,h6{margin: 0.2em 0;}
@@ -101,6 +111,17 @@
 	/* .review_comment */
 	.review_comment{
 		padding: 10px 0;
+	}
+
+	.user_list .user_info{
+		width:100%;
+		border:none;
+		border-top:1px solid #ACD;
+		margin:0px;
+		border-radius: initial;
+	}
+	.user_list .user_info:last-child{
+		border-bottom:1px solid #ACD;
 	}
 
 	/* .user_info */
