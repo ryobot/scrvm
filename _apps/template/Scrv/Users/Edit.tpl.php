@@ -29,6 +29,8 @@
 	<div class="user_edit">
 <?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 		<div class="user_edit_area">
+
+			<!-- profile -->
 			<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<h3><?= h($login_user_data["username"]) ?></h3>
@@ -47,10 +49,21 @@
 					</div>
 				</div>
 				<p class="actions displaynone"><input type="file" name="file" id="id_file" accept="image/*" /></p>
-
 				<p><textarea name="profile" id="id_profile" placeholder="your profile"><?= isset($login_user_data["profile"]) ? h($login_user_data["profile"]) : "" ?></textarea></p>
 				<p class="actions"><input type="submit" value=" 保存する " ></p>
 			</form>
+
+			<div class="mgt10px mgb10px"><hr /></div>
+
+			<!-- username -->
+			<form action="<?= h($base_path) ?>Users/SaveUsername" method="POST" id="id_form_changeusername">
+				<input type="hidden" name="token" value="<?= h($token) ?>" />
+				<h3>ユーザ名を変更する</h3>
+				<div class="mgb10px"><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" data-username_org="<?= h($login_user_data["username"]) ?>" placeholder="new username" /></div>
+				<div class="mgb10px"><input type="password" name="password" id="id_password" placeholder="current password" /></div>
+				<div class="actions"><input type="submit" value=" 変更する " ></div>
+			</form>
+
 		</div>
 	</div>
 
@@ -88,7 +101,6 @@
 		fileReader.onloadend = function( event ){
 		};
 	});
-
 	var checkFileFormat = function( type, size ) {
 		if ( ! type.match( /^image\/(gif|png|jpeg)$/i ) ) {
 			alert( "画像形式が不正です。\n(allowed jpeg/png/gif)" );
@@ -99,6 +111,19 @@
 	var displayImage = function(base64){
 		$("#id_user_photo").attr({src:base64});
 	};
+
+	// username変更
+	$("#id_form_changeusername").on("submit.js", function(){
+		var username = $.trim($("#id_username").val());
+		var password = $.trim($("#id_password").val());
+		if ( username === "" || password === "" ) {
+			alert("ユーザ名またはパスワードが入力されていません。");
+			return false;
+		}
+		$(this).submit();
+		return false;
+	});
+
 </script>
 
 </body>

@@ -44,28 +44,6 @@ class Login extends Base
 			return false;
 		}
 
-//		// スーパーユーザの場合はログイン済みとして処理、トップにリダイレクト
-//		if ( $post_params["username"] === self::$_common_ini["root"]["username"]
-//			&& $post_params["password"] === self::$_common_ini["root"]["password"]
-//		) {
-//			$this->_Session->init();
-//			$this->_Session->regenerate();
-//			$this->_Session->set(Scrv\SessionKeys::IS_LOGIN, true);
-//			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, array(
-//				"id" => 0,
-//				"username" => self::$_common_ini["root"]["username"],
-//				"role" => "admin",
-//				"favalbum_count" => null,
-//				"favtrack_count" => null,
-//				"img_file" => null,
-//				"created" => "2016-01-01 00:00:00",
-//				"modifiled" => null,
-//				"review_count" => 0,
-//			));
-//			Server::redirect($this->_BasePath);
-//			return true;
-//		}
-
 		// post_params チェック
 		$check_result = $this->_checkPostParams($post_params);
 		if ( ! $check_result["status"] ) {

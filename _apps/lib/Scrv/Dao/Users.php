@@ -221,6 +221,73 @@ class Users extends Dao
 	}
 
 	/**
+	 * save username
+	 * @param int $user_id
+	 * @param string $org_username
+	 * @param string $new_username
+	 * @param string $current_password
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function saveUsername($user_id, $org_username, $new_username, $current_password)
+	{
+		$result = getResultSet();
+		$this->_Dao->beginTransaction();
+		try{
+			// 自分のuser_id以外で$usernameが存在するか
+			$is_user_exists = $this->_Dao->select(
+				"SELECT * FROM users WHERE username=:uname AND id<>:uid",
+				array("uname" => $new_username, "uid" => $user_id)
+			);
+			if ( count($is_user_exists) > 0 ) {
+				throw new \Exception("{$new_username} は既に存在します。");
+			}
+
+			// パスワードが正しいかチェック
+			$Password = new Password();
+			$current_password_hash = $Password->makePasswordHash(
+				$org_username,
+				$current_password,
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
+			);
+			$user_result = $this->_Dao->select(
+				"SELECT * FROM users WHERE id=:uid AND password=:pwd",
+				array("uid"=>$user_id,"pwd" => $current_password_hash)
+			);
+			if ( count($user_result) === 0 ) {
+				throw new \Exception("パスワードが一致しません。");
+			}
+
+			// 更新処理
+			$password_hash = $Password->makePasswordHash(
+				$new_username,
+				$current_password,
+				self::$_common_ini["password"]["hash_seed"],
+				(int)self::$_common_ini["password"]["hash_count"]
+			);
+			$row_count = $this->_Dao->update(
+				"UPDATE users SET username=:uname, password=:pwd, modified=now() WHERE id=:uid",
+				array(
+					"uname" => $new_username,
+					"pwd" => $password_hash,
+					"uid" => $user_id,
+				)
+			);
+			$result["status"] = true;
+			$result["data"]["row_count"] = $row_count;
+			$this->_Dao->commit();
+		} catch( \Exception $ex ) {
+			$result["messages"][] = $ex->getMessage();
+			$this->_Dao->rollBack();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+			$this->_Dao->rollBack();
+		}
+		return $result;
+	}
+
+	/**
 	 * save password
 	 * @param type $user_id
 	 * @param type $password

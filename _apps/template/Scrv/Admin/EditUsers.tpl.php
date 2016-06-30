@@ -35,7 +35,7 @@
 		</ul>
 	</div>
 
-	<div class="contents">
+	<div class="user_list">
 <?php foreach($users as $user): ?>
 		<div
 			class="user_info"
