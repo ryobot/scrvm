@@ -10,6 +10,11 @@
 	AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
 </IfModule>
 
+# secure
+Header add X-Content-Type-Options "nosniff"
+Header add X-Frame-Options "SAMEORIGIN"
+Header add X-XSS-Protection "1; mode=block"
+
 ### mod_rewrite
 RewriteEngine On
 RewriteBase /scrvm/
@@ -20,7 +25,7 @@ RewriteRule ^ index.php [QSA,L]
 ### php
 php_flag  display_errors On
 php_flag short_open_tag On
-php_value default_charset "UTF=8"
+php_value default_charset "UTF-8"
 php_value mbstring.language Japanese
 php_value mbstring.internal_encoding UTF-8
 php_value mbstring.http_input pass
