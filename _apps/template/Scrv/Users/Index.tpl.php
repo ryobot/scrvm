@@ -52,10 +52,7 @@ $_base_url = $base_path . "Users";
 <div class="user_list">
 <?php foreach($lists as $list): ?>
 	<div class="user_info">
-		<h3>
-			<?= h($list["username"]) ?>
-			<?php if($list["role"] === "admin"): ?>(admin)<?php endif; ?>
-		</h3>
+		<h3><?= h($list["username"]) ?></h3>
 		<div class="cover">
 			<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
 		</div>

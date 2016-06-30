@@ -41,8 +41,6 @@
 			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
 		</div>
 		<div class="tabContent active">
-<!--			<p><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></p>
-			<p class="actions"><a href="javascript:;" id="id_search">Search</a></p>-->
 			<div class="search_box">
 				<div class="search_box_text"><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></div>
 				<div class="search_box_button"><a href="javascript:;" id="id_search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" /></a></div>
@@ -50,11 +48,16 @@
 		</div>
 
 		<div class="tabContent">
-			<ul class="search_index">
+			<div class="search_index">
 	<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
-				<li><a id="id_search_index_<?= h(strtoupper($alpha)) ?>" href="javascript:;" data-search_index="<?= h(strtoupper($alpha)) ?>"><?= h(strtoupper($alpha)) ?></a></li>
+				<a
+					class="index"
+					id="id_search_index_<?= h(strtoupper($alpha)) ?>"
+					href="javascript:;"
+					data-search_index="<?= h(strtoupper($alpha)) ?>"
+				><?= h(strtoupper($alpha)) ?></a>
 	<?php endforeach; unset($alpha); ?>
-			</ul>
+			</div>
 		</div>
 
 		<input type="hidden" name="stype" id="id_stype" value="search" />
@@ -157,7 +160,7 @@
 	});
 
 	// search index click
-	$(".search_index > li > a").on("click.js", function(){
+	$(".search_index > .index").on("click.js", function(){
 		var $this = $(this);
 		$("#id_q").val("");
 		$("#id_search_index").val($this.attr("data-search_index"));

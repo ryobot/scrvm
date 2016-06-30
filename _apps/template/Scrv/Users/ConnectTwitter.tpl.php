@@ -8,7 +8,7 @@
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title>Users::Edit - <?= h($base_title) ?></title>
+<title>Users::ConnectTwitter - <?= h($base_title) ?></title>
 </head>
 <body>
 <div id="container">
@@ -16,7 +16,7 @@
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 <div class="contents">
 
-	<h2>Edit User</h2>
+	<h2>Connect Twitter</h2>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
