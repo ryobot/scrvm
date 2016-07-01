@@ -17,7 +17,7 @@
 		</a>
 <?php endif; ?>
 		<span id="dropmenu_normal">
-			<img src="<?= h($base_path)?>img/menu.svg" width="32" height="32" alt="menu" title="menu" />
+			<img src="<?= h($base_path)?>img/menu.svg" class="img24x24" alt="menu" title="menu" />
 		</span>
 
 		<div class="dropmenu">
@@ -47,6 +47,12 @@
 		<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>
 		<div class="text">Albums</div>
 	</a></div>
+<?php if( $is_login ):?>
+	<div class="menu_block" data-menu="Activity"><a href="<?= h($base_path) ?>Activity">
+		<div><img src="<?= h($base_path) ?>img/activity.svg" alt="Activity" /></div>
+		<div class="text">Activity</div>
+	</a></div>
+<?php endif; ?>
 	<div class="menu_block" data-menu="Users"><a href="<?= h($base_path) ?>Users">
 		<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
 		<div class="text">Users</div>
@@ -56,7 +62,6 @@
 		<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
 		<div class="text">Posts</div>
 	</a></div>
-<?php else: ?>
 <?php endif; ?>
 	<div class="menu_block" data-menu="About"><a href="<?= h($base_path) ?>About">
 		<div><img src="<?= h($base_path) ?>img/about.svg" alt="About" /></div>
