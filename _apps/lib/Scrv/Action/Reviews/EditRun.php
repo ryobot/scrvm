@@ -9,6 +9,7 @@ use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Reviews as DaoReviews;
 use lib\Scrv\Helper\Reviews\PostTwitter as PostTwitter;
+use lib\Scrv\Helper\Reviews\SituationList as SituationList;
 use lib\Util\Server as Server;
 
 /**
@@ -102,12 +103,27 @@ class EditRun extends Base
 	{
 		$check_result = getResultSet();
 
+		$SituationList = new SituationList();
+		$situation_list = $SituationList->getList();
+
 		if ( preg_match( "/\A(today|recently)\z/", $post_params["listening_last"] ) !== 1 ) {
 			$check_result["messages"]["listening_last"] = "listening date が未入力です。";
 		}
-		if ( preg_match( "/\A(home|headphones|car|other)\z/", $post_params["listening_system"] ) !== 1 ) {
+
+//		if ( preg_match( "/\A(home|headphones|car|other)\z/", $post_params["listening_system"] ) !== 1 ) {
+//			$check_result["messages"]["listening_system"] = "listening system が未入力です。";
+//		}
+		$check_listening_system = false;
+		foreach($situation_list as $list) {
+			if ( $list["value"] === $post_params["listening_system"] ){
+				$check_listening_system = true;
+				break;
+			}
+		}
+		if ( ! $check_listening_system ) {
 			$check_result["messages"]["listening_system"] = "listening system が未入力です。";
 		}
+
 		if ( mb_strlen($post_params["body"]) > 1000 ) {
 			$check_result["messages"]["body"] = "review は1000文字以内で入力してください。";
 		}

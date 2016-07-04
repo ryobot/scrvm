@@ -9,6 +9,7 @@ use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Reviews as DaoReviews;
 use lib\Scrv\Dao\Albums as DaoAlbums;
+use lib\Scrv\Helper\Reviews\SituationList as SituationList;
 use lib\Util\Server as Server;
 use lib\Util\Password as Password;
 
@@ -57,7 +58,7 @@ class Edit extends Base
 		$this->_Session->clear(Scrv\SessionKeys::ERROR_MESSAGES);
 
 		// POST params がなければ DBの値
-		if ( !isset($post_params) ) {
+		if ( !isset($post_params) || !isset($post_params["review_id"]) ) {
 			$post_params = $review_result["data"];
 		}
 
@@ -66,6 +67,10 @@ class Edit extends Base
 		$token = $Password->makeRandomHash($this->_Session->id());
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
+		// situasion list 取得
+		$SituationList = new SituationList();
+		$situation_list = $SituationList->getList();
+
 		$this->_Template->assign(array(
 			"token" => $token,
 			"album_id" => $album_id,
@@ -73,6 +78,7 @@ class Edit extends Base
 			"album" => $album_result["data"]["album"],
 			"tracks" => $album_result["data"]["tracks"],
 			"reviews" => $album_result["data"]["reviews"],
+			"situation_list" => $situation_list,
 			"post_params" => $post_params,
 			"error_messages" => $error_messages,
 		))->display("Reviews/Edit.tpl.php");

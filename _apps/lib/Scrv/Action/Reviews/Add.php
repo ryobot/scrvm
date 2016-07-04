@@ -8,6 +8,7 @@ namespace lib\Scrv\Action\Reviews;
 use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Albums as DaoAlbums;
+use lib\Scrv\Helper\Reviews\SituationList as SituationList;
 use lib\Util\Server as Server;
 use lib\Util\Password as Password;
 
@@ -50,12 +51,17 @@ class Add extends Base
 		$token = $Password->makeRandomHash($this->_Session->id());
 		$this->_Session->set(Scrv\SessionKeys::CSRF_TOKEN, $token);
 
+		// situasion list 取得
+		$SituationList = new SituationList();
+		$situation_list = $SituationList->getList();
+
 		$this->_Template->assign(array(
 			"token" => $token,
 			"album_id" => $album_id,
 			"album" => $album_result["data"]["album"],
 			"tracks" => $album_result["data"]["tracks"],
 			"reviews" => $album_result["data"]["reviews"],
+			"situation_list" => $situation_list,
 			"post_params" => $post_params,
 			"error_messages" => $error_messages,
 		))->display("Reviews/Add.tpl.php");

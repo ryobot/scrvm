@@ -42,18 +42,9 @@
 		<form action="<?= h($base_path) ?>Reviews/AddRun" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="album_id" value="<?= h($album_id) ?>">
-			<p id="id_listening_last_group">
-				いつ聴いた？
-				<label><input type="radio" name="listening_last" value="today" id="id_listening_last_today" checked="checked">今日</label>
-				<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">最近</label>
-			</p>
-			<p id="id_listening_system_group">
-				再生方法は？
-				<label><input type="radio" name="listening_system" value="home" id="id_listening_system_home" checked="checked"> <img src="<?= h($base_path) ?>img/home.svg" alt="home" class="img32x32" /></label>
-				<label><input type="radio" name="listening_system" value="headphones" id="id_listening_system_headphones"> <img src="<?= h($base_path) ?>img/headphones.svg" alt="headphones" class="img32x32" /></label>
-				<label><input type="radio" name="listening_system" value="car" id="id_listening_system_car"> <img src="<?= h($base_path) ?>img/car.svg" alt="car" class="img32x32" /></label>
-				<label><input type="radio" name="listening_system" value="other" id="id_listening_system_other"> <img src="<?= h($base_path) ?>img/other.svg" alt="other" class="img32x32" /></label>
-			</p>
+
+<?php require __DIR__ . '/_radio_parts.tpl.php'; ?>
+
 <?php if(isset($login_user_data["twitter_user_id"])): ?>
 			<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
 			<p>※twitterへ投稿する場合、140文字を超えても投稿はできますが一部省略されます。</p>
@@ -81,7 +72,7 @@
 				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 			</a>
 <?php if($review["listening_last"] === "today"): ?>
-			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 		</div>
 	</div>

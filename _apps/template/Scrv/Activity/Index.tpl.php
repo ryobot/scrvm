@@ -24,15 +24,19 @@
 	<div class="user_menu_list cursorpointer">
 		<div class="user_menu_list_block" data-menu="FavReviews" id="id_fav_review">
 			<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="reviews" title="reviews" />
+			<div>Review</div>
 		</div>
 		<div class="user_menu_list_block" data-menu="FavTracks" id="id_fav_tracks">
 			<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="img16x16" alt="fav tracks" title="fav tracks" />
+			<div>Track</div>
 		</div>
 		<div class="user_menu_list_block" data-menu="FavAlbums" id="id_fav_albums">
 			<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="img16x16" alt="fav albums" title="fav albums" />
+			<div>Album</div>
 		</div>
 		<div class="user_menu_list_block" data-menu="Users" id="id_new_user">
 			<img src="<?= h($base_path) ?>img/user.svg" class="img16x16" alt="new users" title="new users" />
+			<div>User</div>
 		</div>
 	</div>
 </div>
