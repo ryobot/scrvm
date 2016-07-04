@@ -11,6 +11,7 @@
 	<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">最近</label>
 </p>
 <div id="id_listening_system_group" class="mgb10px">
+	<div><label>select : </label></div>
 <?php foreach( $situation_list as $list ): ?>
 	<input
 		type="radio"
