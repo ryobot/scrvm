@@ -43,17 +43,8 @@
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="album_id" value="<?= h($album_id) ?>">
 			<input type="hidden" name="review_id" value="<?= h($review_id) ?>">
-<?php require __DIR__ . '/_radio_parts.tpl.php'; ?>
+<?php require __DIR__ . '/_review_form_parts.tpl.php'; ?>
 
-<?php if(isset($login_user_data["twitter_user_id"])): ?>
-			<p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
-			<p>※twitterへ投稿する場合、140文字を超えても投稿はできますが一部省略されます。</p>
-<?php endif; ?>
-			<p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= h($post_params["body"]) ?></textarea></p>
-			<p class="actions">
-				<input type="submit" value="Save Review" />
-				<span id="id_review_counter"></span>
-			</p>
 		</form>
 	</div>
 
@@ -72,7 +63,7 @@
 				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 			</a>
 <?php if($review["listening_last"] === "today"): ?>
-			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 		</div>
 	</div>
@@ -86,7 +77,7 @@
 <script>
 ;$(function(){
 	$("#id_listening_last_<?= h($post_params["listening_last"]) ?>").prop("checked", "checked");
-	$("#id_listening_system_<?= h($post_params["listening_system"]) ?>").prop("checked", "checked");
+	$("#id_listening_system_<?= h($post_params["listening_system"]) ?>").prop("checked", "checked").trigger("click.js");
 });
 </script>
 <script src="<?= h($base_path)?>js/Reviews.write.js?v1"></script>

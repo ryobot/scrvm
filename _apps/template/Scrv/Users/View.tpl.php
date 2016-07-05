@@ -78,7 +78,7 @@ foreach($pager["nav_list"] as $nav) {
 				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
 			</a>
 <?php if($review["listening_last"] === "today"): ?>
-			<img class="vtalgmiddle img16x16" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif;?>
 		</div>
 		<div class="reaction_area">

@@ -617,6 +617,11 @@ ul.pagination li a:hover:not(.active){
 .review_comment{
 	padding: 10px 0;
 }
+.situation{
+	vertical-align: middle;
+	width:20px;
+	height:20px;
+}
 
 /* .playmovie */
 .playmovie {
