@@ -508,15 +508,20 @@ iframe{max-width: 100%};
 	width:25%;
 	flex: 0 1 auto;
 }
+.user_menu_list_block:hover{
+	border-bottom:2px solid #09D;
+}
 .user_menu_list_block a{
 	text-decoration: none;
 }
-.user_menu_list_block:hover{
-	border-bottom:2px solid #09D;
+.user_menu_list_block img{
+	width:20px;
+	height:20px;
 }
 .user_menu_list_block_active{
 	border-bottom:2px solid #09D;
 }
+
 
 /* .pager */
 .pager{
