@@ -19,7 +19,6 @@
 
 <?php if(count($lists) > 0):?>
 
-
 <div class="info mgb5px">
 	<div class="user_menu_list cursorpointer">
 		<div class="user_menu_list_block" data-menu="FavReviews" id="id_fav_review">

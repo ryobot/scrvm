@@ -24,46 +24,97 @@
 	Chart
 </h3>
 
-<h4><?= h($type) ?> (<?= h($from) ?> ～ <?= h($to) ?>)</h4>
-
 <div class="contents">
 
-	<canvas id="id_chart" style="background-color: rgba(255,255,255,0.5);"></canvas>
+	<h4>Top <?= count($chart_data["reviews_artist"]["labels"]) ?> Artist Chart</h4>
+	<canvas id="id_chart_reviews_artist" style="background-color: rgba(255,255,255,0.5);"></canvas>
+
+	<h4>Reviews (<?= h($from) ?> ～ <?= h($to) ?>)</h4>
+	<canvas id="id_chart_reviews" style="background-color: rgba(255,255,255,0.5);"></canvas>
+
+	<h4>Hourly (<?= h($from) ?> ～ <?= h($to) ?>)</h4>
+	<canvas id="id_chart_reviews_hourly" style="background-color: rgba(255,255,255,0.5);"></canvas>
+
 	<script>
 		;$(function(){
 
-			var ctx = $("#id_chart");
-			var data = <?= json_encode($chartjs_json_data) ?>;
-			var options = {
-				responsive : true,
-				legend:{
-					display:false
+			var chart_data = <?= json_encode($chart_data) ?>;
+			var style = {
+				reviews_artist : {
+					backgroundColor :"rgba(120,200,0,0.5)",
+					borderColor : "rgba(120,200,0,0.9)",
+					borderWidth : 1
 				},
-				scales: {
-					yAxes: [{
+				reviews : {
+					backgroundColor :"rgba(0,120,200,0.5)",
+					borderColor : "rgba(0,120,200,0.9)",
+					borderWidth : 1
+				},
+				reviews_hourly : {
+					backgroundColor :"rgba(200,0,120,0.5)",
+					borderColor : "rgba(200,0,120,0.9)",
+					borderWidth : 1
+				}
+			};
+			var options = {
+				reviews_artist : {
+					legend:{ display:false },
+					scales: {
+						xAxes: [{
+							ticks: {
+								min:0,
+								stepSize: 1,
+								beginAtZero:true
+							}
+						}]
+					}
+				},
+				reviews : {
+					legend:{display:false},
+					scales: {
+						yAxes: [{
+							ticks: {
+								min:0,
+								stepSize: 1,
+								beginAtZero:true
+							}
+						}]
+					}
+				},
+				reviews_hourly : {
+					legend:{ display:false },
+					scale: {
 						ticks: {
 							min:0,
-							stepSize: 1,
+							//stepSize: 1,
 							beginAtZero:true
 						}
-					}]
+					}
 				}
 			};
 
-			// 各typeに応じて変更？
-			$.extend(data.datasets[0], {
-				backgroundColor :"rgba(0,120,200,0.5)",
-				borderColor : "rgba(0,120,200,0.9)",
-				borderWidth : 2
+			$.extend(chart_data.reviews_artist.datasets[0], style.reviews_artist);
+			$.extend(chart_data.reviews.datasets[0], style.reviews);
+			$.extend(chart_data.reviews_hourly.datasets[0], style.reviews_hourly);
+
+			var chartArtist = new Chart($("#id_chart_reviews_artist"), {
+				type : "horizontalBar",
+				data : chart_data.reviews_artist,
+				options: options.reviews_artist
 			});
 
-			var myChart = new Chart(ctx, {
+			var chartReviews = new Chart($("#id_chart_reviews"), {
 				type : "bar",
-				data : data,
-				options: options
+				data : chart_data.reviews,
+				options: options.reviews
 			});
 
-			console.log(myChart);
+			var chartReviewsHour = new Chart($("#id_chart_reviews_hourly"), {
+				type : "radar",
+				data : chart_data.reviews_hourly,
+				options: options.reviews_hourly
+			});
+
 		});
 	</script>
 

@@ -27,11 +27,9 @@ class Chart extends Base
 		$this->_Session->clear(Scrv\SessionKeys::POST_PARAMS);
 
 		$user_id = Server::get("id", "");
-		$type = Server::get("type", "reviews");
 		$start = Server::get("start", "0");
 		$is_json = Server::get("json");
 		if ( !ctype_digit($user_id)
-			|| preg_match("/\A(reviews|)\z/", $type) !== 1
 			|| !ctype_digit($start) || (int)$start < 0
 		) {
 			Server::send404Header("404 not found.");
@@ -49,75 +47,112 @@ class Chart extends Base
 
 		// 一覧取得
 		$DaoUsersChart = new DaoUsersChart();
-		$lists_result = $DaoUsersChart->get($user_id, $type, (int)$start);
+		$lists_result = $DaoUsersChart->get($user_id, (int)$start);
 		if ( ! $lists_result["status"] ) {
 			Server::send404Header("db error.");
 			return false;
 		}
 
-		if ( $is_json === "1" ) {
-			header("Content-Type:application/json; charset=UTF-8");
-			echo json_encode($lists_result);
-			return true;
-		}
-
-		// start- end の配列を作成
 		$now = self::$_nowTimestamp;
 		$start_dt = new \DateTime(date("Y-m-d", $now));
 		$end_dt = new \DateTime(date("Y-m-d", $now));
-		$start_dt->sub(new \DateInterval('P'.((int)$start).'M'));
-		$end_dt->sub(new \DateInterval('P'.(1+(int)$start).'M'));
-		$_start = $start_dt->getTimestamp();
-		$_end = $end_dt->getTimestamp();
-		$date_list = array();
-		for( $i=$_end; $i<=$_start; $i += 60*60*24 ){
-			$date_list[date("Y-m-d", $i)] = array();
+		$_start = $start_dt->sub(new \DateInterval('P'.((int)$start).'M'))->getTimestamp();
+		$_end = $end_dt->sub(new \DateInterval('P'.(1+(int)$start).'M'))->getTimestamp();
+
+		$params = array(
+			"user_id" => (int)$user_id,
+			"user" => $user_result["data"],
+			"from" => date("Y年n月j日", $_end),
+			"to" => date("Y年n月j日", $_start),
+			"chart_data" => array(
+				"reviews_artist" => $this->_makeReviewsArtist($lists_result["data"]["reviews_artist"]),
+				"reviews" => $this->_makeReviews($lists_result["data"]["reviews"], $_start, $_end),
+				"reviews_hourly" => $this->_makeReviewsHourly($lists_result["data"]["reviews_hourly"]),
+			),
+		);
+
+		if ( $is_json === "1" ) {
+			header("Content-Type:application/json; charset=UTF-8");
+			echo json_encode($params);
+			return true;
 		}
 
-		foreach($lists_result["data"]["list"] as $list) {
+		$this->_Template->assign($params)->display("Users/Chart.tpl.php");
+		return true;
+	}
+
+	private function _makeReviewsArtist($data_list)
+	{
+		$labels = array();
+		$_data = array();
+		foreach($data_list as $row) {
+			$labels[] = $row["artist"];
+			$_data[] = $row["count"];
+		}
+		return array(
+			"labels" => $labels,
+			"datasets" => array(
+				array(
+					"label" => "reviews artist",
+					"data" => $_data,
+				),
+			),
+		);
+	}
+
+	private function _makeReviews($data, $start, $end)
+	{
+		$date_list = array();
+		for( $i=$end; $i<=$start; $i += 86400 ){
+			$date_list[date("Y-m-d", $i)] = array();
+		}
+		foreach($data as $list) {
 			if (array_key_exists($list["date"], $date_list) ) {
 				$date_list[$list["date"]] = $list;
 			}
 		}
 
-//		// Etag用ハッシュ取得
-//		$etag = $this->_Template->getEtag(print_r($lists_result, 1));
-//		// キャッシュヘッダとETagヘッダ出力
-//		header("Cache-Control: max-age=60");
-//		header("ETag: {$etag}");
-//		// etagが同じなら304
-//		$client_etag = Server::env("HTTP_IF_NONE_MATCH");
-//		if ( $etag ===  $client_etag) {
-//			header( 'HTTP', true, 304 );
-//			return true;
-//		}
-
-		$this->_Template->assign(array(
-			"user_id" => (int)$user_id,
-			"user" => $user_result["data"],
-			"from" => date("Y年n月j日", $_end),
-			"to" => date("Y年n月j日", $_start),
-			"type" => $type,
-			"list" => $date_list,
-			"chartjs_json_data" => $this->_convertChartJsJsonData($date_list, $type),
-		))->display("Users/Chart.tpl.php");
-
-		return true;
-	}
-
-	private function _convertChartJsJsonData($data_list, $type)
-	{
 		$labels = array();
 		$_data = array();
-		foreach($data_list as $key => $row) {
-			$labels[] = date("n月j日", strtotime($key));
+		foreach($date_list as $date => $row) {
+			$labels[] = date("n月j日", strtotime($date));
 			$_data[] = isset($row["count"]) ? $row["count"] : 0;
 		}
 		return array(
 			"labels" => $labels,
 			"datasets" => array(
 				array(
-					"label" => $type,
+					"label" => "reviews",
+					"data" => $_data,
+				),
+			),
+		);
+	}
+
+	private function _makeReviewsHourly($data_list)
+	{
+		// 0から23までの配列を作成、マージ
+		$hour_list = array();
+		for($i=0;$i<=23;$i++){
+			$hour_list[$i] = array("hour" => "{$i}", "count" => 0);
+		}
+		foreach($data_list as $list){
+			if ( isset( $hour_list[(int)$list["hour"]] ) ) {
+				$hour_list[(int)$list["hour"]] = $list;
+			}
+		}
+
+		$labels = array();
+		$_data = array();
+		foreach($hour_list as $hour => $row) {
+			$labels[] = "{$hour}時";
+			$_data[] = $row["count"];
+		}
+		return array(
+			"labels" => $labels,
+			"datasets" => array(
+				array(
+					"label" => "reviews hourely",
 					"data" => $_data,
 				),
 			),

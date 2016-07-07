@@ -76,7 +76,13 @@ $_base_url = $base_path . "Users";
 					<?= h($list["sync_point"]) ?> pt
 				</a>
 			</span>
+			&nbsp;&nbsp;
 <?php endif; ?>
+			<span>
+				<a class="chart" href="<?= h($_base_url) ?>/Chart/id/<?= h($list["id"]) ?>">
+					<img src="<?= h($base_path) ?>img/chart.svg" class="img16x16" alt="chart" />
+				</a>
+			</span>
 		</div>
 <?php if(isset($list["has_invited_user_id"])): ?>
 		<div style="padding:10px 10px 10px 20px;">
