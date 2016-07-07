@@ -68,6 +68,7 @@ class Chart extends Base
 				"reviews_artist" => $this->_makeReviewsArtist($lists_result["data"]["reviews_artist"]),
 				"reviews" => $this->_makeReviews($lists_result["data"]["reviews"], $_start, $_end),
 				"reviews_hourly" => $this->_makeReviewsHourly($lists_result["data"]["reviews_hourly"]),
+				"syncs" => $this->_makeSyncs($lists_result["data"]["syncs"]),
 			),
 		);
 
@@ -153,6 +154,25 @@ class Chart extends Base
 			"datasets" => array(
 				array(
 					"label" => "reviews hourely",
+					"data" => $_data,
+				),
+			),
+		);
+	}
+
+	private function _makeSyncs($data_list)
+	{
+		$labels = array();
+		$_data = array();
+		foreach($data_list as $row) {
+			$labels[] = $row["username"];
+			$_data[] = $row["sync_point"];
+		}
+		return array(
+			"labels" => $labels,
+			"datasets" => array(
+				array(
+					"label" => "syncs",
 					"data" => $_data,
 				),
 			),

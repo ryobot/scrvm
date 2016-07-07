@@ -26,6 +26,9 @@
 
 <div class="contents">
 
+	<h4>Top <?= count($chart_data["syncs"]["labels"]) ?> Sync Users</h4>
+	<canvas id="id_chart_syncs" style="background-color: rgba(255,255,255,0.5);"></canvas>
+
 	<h4>Top <?= count($chart_data["reviews_artist"]["labels"]) ?> Artist Chart</h4>
 	<canvas id="id_chart_reviews_artist" style="background-color: rgba(255,255,255,0.5);"></canvas>
 
@@ -40,6 +43,11 @@
 
 			var chart_data = <?= json_encode($chart_data) ?>;
 			var style = {
+				syncs : {
+					backgroundColor :"rgba(120,0,200,0.5)",
+					borderColor : "rgba(120,0,200,0.9)",
+					borderWidth : 1
+				},
 				reviews_artist : {
 					backgroundColor :"rgba(120,200,0,0.5)",
 					borderColor : "rgba(120,200,0,0.9)",
@@ -57,6 +65,9 @@
 				}
 			};
 			var options = {
+				syncs : {
+					legend:{ display:false }
+				},
 				reviews_artist : {
 					legend:{ display:false },
 					scales: {
@@ -86,16 +97,22 @@
 					scale: {
 						ticks: {
 							min:0,
-							//stepSize: 1,
 							beginAtZero:true
 						}
 					}
 				}
 			};
 
+			$.extend(chart_data.syncs.datasets[0], style.syncs);
 			$.extend(chart_data.reviews_artist.datasets[0], style.reviews_artist);
 			$.extend(chart_data.reviews.datasets[0], style.reviews);
 			$.extend(chart_data.reviews_hourly.datasets[0], style.reviews_hourly);
+
+			var chartSyncs = new Chart($("#id_chart_syncs"), {
+				type : "horizontalBar",
+				data : chart_data.syncs,
+				options: options.syncs
+			});
 
 			var chartArtist = new Chart($("#id_chart_reviews_artist"), {
 				type : "horizontalBar",
@@ -114,6 +131,8 @@
 				data : chart_data.reviews_hourly,
 				options: options.reviews_hourly
 			});
+
+
 
 		});
 	</script>

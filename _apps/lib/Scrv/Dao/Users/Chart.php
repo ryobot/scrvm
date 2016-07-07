@@ -49,6 +49,7 @@ class Chart extends Dao
 				"reviews_artist" => $this->_reviewsArtist($user_id),
 				"reviews" => $this->_reviews($user_id, $start),
 				"reviews_hourly" => $this->_reviewsHourly($user_id, $start),
+				"syncs" => $this->_syncs($user_id),
 			);
 			$result["status"] = true;
 			$result["data"] = $list;
@@ -103,13 +104,14 @@ class Chart extends Dao
 					(from_unixtime(:now2) - INTERVAL :itv2 MONTH)
 			GROUP BY date
 			ORDER BY created ASC",
-		array(
-			"uid" => $user_id,
-			"now1" => self::$_nowTimestamp,
-			"now2" => self::$_nowTimestamp,
-			"itv1" => $start + 1,
-			"itv2" => $start,
-		));
+			array(
+				"uid" => $user_id,
+				"now1" => self::$_nowTimestamp,
+				"now2" => self::$_nowTimestamp,
+				"itv1" => $start + 1,
+				"itv2" => $start,
+			)
+		);
 	}
 
 	/**
@@ -131,13 +133,38 @@ class Chart extends Dao
 					(from_unixtime(:now2) - INTERVAL :itv2 MONTH)
 			GROUP BY hour
 			ORDER BY hour ASC",
-		array(
-			"uid" => $user_id,
-			"now1" => self::$_nowTimestamp,
-			"now2" => self::$_nowTimestamp,
-			"itv1" => $start + 1,
-			"itv2" => $start,
-		));
+			array(
+				"uid" => $user_id,
+				"now1" => self::$_nowTimestamp,
+				"now2" => self::$_nowTimestamp,
+				"itv1" => $start + 1,
+				"itv2" => $start,
+			)
+		);
+	}
+
+	/**
+	 *
+	 * @param int $user_id
+	 * @param int $offset
+	 * @param int $limit
+	 * @return array
+	 */
+	private function _syncs($user_id, $offset = 0, $limit = 15)
+	{
+		return $this->_Dao->select("
+			SELECT t1.id, t1.user_com_id, t1.sync_point,t2.username,t2.img_file
+			FROM syncs t1
+			INNER JOIN users t2 ON (t1.user_com_id=t2.id)
+			WHERE t1.user_id=:uid AND t1.sync_point > 0
+			ORDER BY sync_point DESC
+			LIMIT :offset, :limit",
+			array(
+				"uid" => $user_id,
+				"offset" => $offset,
+				"limit" => $limit,
+			)
+		);
 	}
 
 
