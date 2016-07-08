@@ -193,7 +193,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		data-artist="<?= h($album["artist"]) ?>"
 		data-title="<?= h($album["title"]) ?>"
 	/>
-	<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
+	<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
 
 </div>
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>

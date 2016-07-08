@@ -97,7 +97,8 @@
 
 	function createGPMListenUrl(url) {
 		var match = url.match(/id=(.+)/);
-		return match ? "https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0" : url;
+//		return match ? "https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0" : url;
+		return match ? "https://play.google.com/music/m/" + match[1] : url;
 	}
 
 	function createLink(url,artist,title) {

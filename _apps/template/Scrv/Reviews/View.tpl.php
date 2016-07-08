@@ -122,7 +122,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 	data-artist="<?= h($review["artist"]) ?>"
 	data-title="<?= h($review["title"]) ?>"
 />
-<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
+<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
