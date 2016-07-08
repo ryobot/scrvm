@@ -542,7 +542,7 @@ ul.pagination li a {
 	text-shadow:none;
 	font-weight: normal;
 	transition: background-color .2s;
-	border: 1px solid #BBB;
+	border: 1px solid #ACD;
 	border-radius: 3px;
 	margin:0 1px;
 	background-color: #FFF;
@@ -610,6 +610,11 @@ ul.pagination li a:hover:not(.active){
 }
 .user_photo_min{height:30px;border-radius: 3px;}
 
+/* .chart */
+.chart canvas{
+	background-color: rgba(255,255,255,0.5);
+}
+
 /* .review */
 .review{
 	background-color: rgba(255,255,255,0.7);
@@ -644,7 +649,6 @@ ul.pagination li a:hover:not(.active){
 }
 .playmovie:hover{
 	background-color: #CCD;
-
 }
 .playmovie a{
 	text-decoration: none;

@@ -41,8 +41,6 @@
 				title: json.results[i].collectionName
 			});
 		}
-		// ソート
-		results = sortSearchLists(ARTIST, TITLE, results);
 		for(i=0; i<len; i++) {
 			var result = results[i];
 			$table.append(
@@ -77,7 +75,7 @@
 			$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
 		}
 		var $table = $("<div />").attr({class:"w100per gpm_info"});
-		var results = sortSearchLists(ARTIST, TITLE, json);
+		var results = json;
 		for(; i<len; i++) {
 			var result = results[i];
 			var listen_url = createGPMListenUrl(result.url);
@@ -97,7 +95,6 @@
 
 	function createGPMListenUrl(url) {
 		var match = url.match(/id=(.+)/);
-//		return match ? "https://play.google.com/music/listen?view=" + match[1] + "_cid&authuser=0" : url;
 		return match ? "https://play.google.com/music/m/" + match[1] : url;
 	}
 
@@ -106,40 +103,6 @@
 			href:url,
 			target:"blank"
 		}).text("♪ " + artist + " / " + title);
-	}
-
-	// うーん…
-	function sortSearchLists(artist, title, lists) {
-		return lists;
-		var escapeRegExp = function(string) {
-			return string.replace(/([.*+?^=!:${}()|[\]\/\\])/g, "\\$1");
-		};
-		var _lists = [].concat(lists);
-		var results = [];
-		var reg1 = new RegExp( "^" + escapeRegExp(artist) + "$", "i" ),
-		reg2 = new RegExp( "^" + escapeRegExp(title) + "$", "i" ),
-		reg3 = new RegExp( "^" + escapeRegExp(artist), "i" );
-		// 完全一致
-		for(var i=0,len=_lists.length; i<len; i++) {
-			if ( reg1.test(_lists[i].artist) && reg2.test(_lists[i].title) ) {
-				results.push(_lists[i]);
-				_lists.splice(i,1);
-				len--;
-			}
-		}
-		// artist 前方一致
-		for(var i=0,len=_lists.length; i<len; i++) {
-			if ( reg3.test(_lists[i].artist) ) {
-				results.push(_lists[i]);
-				_lists.splice(i,1);
-				len--;
-			}
-		}
-		// 残り
-		for(var i=0,len=_lists.length; i<len; i++) {
-			results.push(_lists[i]);
-		}
-		return results;
 	}
 
 });
