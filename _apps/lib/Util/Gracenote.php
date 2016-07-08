@@ -110,6 +110,7 @@ class Gracenote
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT,        10);
 		curl_setopt($ch, CURLOPT_POST,           true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,     $body );
 		curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: text/plain'));
