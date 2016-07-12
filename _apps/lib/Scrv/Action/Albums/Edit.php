@@ -40,7 +40,9 @@ class Edit extends Base
 			Server::send404Header("server error.");
 			return false;
 		}
-		if ( $album_result["data"]["album"]["create_user_id"] !== $this->_login_user_data["id"] ) {
+		if ( $this->_login_user_data["role"] !== "admin"
+			&& $album_result["data"]["album"]["create_user_id"] !== $this->_login_user_data["id"]
+		) {
 			Server::send404Header("server error..");
 			return false;
 		}

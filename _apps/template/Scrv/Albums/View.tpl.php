@@ -40,7 +40,10 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<div class="album_info">
 		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
 		<div class="info">
-<?php if ( $is_login && $album["create_user_id"] === $login_user_data["id"] ): ?>
+<?php
+	if ( $login_user_data["role"] === "admin"
+		|| ($is_login && $album["create_user_id"] === $login_user_data["id"])
+): ?>
 			<div class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album</a></div>
 <?php endif; ?>
 			<div class="cover">

@@ -526,8 +526,10 @@ class Albums extends Dao
 		try{
 			// check album exist
 			$search_result = $this->_Dao->select(
-				"SELECT * FROM albums WHERE id=:id AND create_user_id=:uid",
-				array("id"=>$id, "uid"=>$user_id,)
+//				"SELECT * FROM albums WHERE id=:id AND create_user_id=:uid",
+//				array("id"=>$id, "uid"=>$user_id,)
+				"SELECT * FROM albums WHERE id=:id",
+				array("id"=>$id,)
 			);
 			if ( count($search_result) === 0 ) {
 				throw new \Exception("該当のアルバムが見つかりません。");
