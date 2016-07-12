@@ -6,9 +6,15 @@
 
 use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
 $ReviewsParse = new ReviewsParse();
+$add_title_head = "";
 $add_title = "";
 if ( isset($hash) ) {
-	$add_title = "::#{$hash}";
+	$add_title_head = "::#{$hash}";
+	$add_title = h("::#{$hash}");
+}
+if ( isset($situation) ) {
+	$add_title_head = "::{$situation}";
+	$add_title = " :: <img src='{$base_path}img/situation/".h($situation).".svg' class='img24x24' alt='".h($situation)."' title='".h($situation)."' />";
 }
 
 ?>
@@ -16,7 +22,7 @@ if ( isset($hash) ) {
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
-<title>Reviews<?= h($add_title) ?> - <?= h($base_title) ?></title>
+<title>Reviews<?= h($add_title_head) ?> - <?= h($base_title) ?></title>
 <!-- ogp -->
 <meta property="og:sitename" content="<?= h($base_title) ?>" />
 <meta property="og:title" content="<?= h($base_title) ?>" />
@@ -37,7 +43,7 @@ if ( isset($hash) ) {
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
 <h2>
-	Reviews<?= h($add_title) ?>
+	Reviews<?= $add_title ?>
 	(<?= h($pager["total_count"]) ?>)
 </h2>
 
@@ -85,7 +91,9 @@ if ( isset($hash) ) {
 			-
 			<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a></span>
 <?php if($review["listening_last"] === "today"): ?>
-			<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
+				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			</a>
 <?php endif; ?>
 		</div>
 		<div class="reaction_area">

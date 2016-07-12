@@ -70,7 +70,7 @@ class Reviews extends Dao
 	 * @param string $hashtag default null
 	 * @return resultSet
 	 */
-	public function lists( $offset, $limit, $user_id, $hashtag = null )
+	public function lists( $offset, $limit, $user_id, $hashtag = null, $situation = null )
 	{
 		$result = getResultSet();
 		try{
@@ -85,6 +85,7 @@ class Reviews extends Dao
 			$my_fav_select = "";
 			$my_fav_sql = "";
 			$hashtags_sql = "";
+			$situation_sql = "";
 			$params = array();
 			$params_count = array();
 			if ( isset($user_id) ) {
@@ -96,6 +97,11 @@ class Reviews extends Dao
 				$hashtags_sql = "INNER JOIN hashtags t7 ON(t1.id=t7.review_id AND t7.tag=:hashtag)";
 				$params["hashtag"] = $hashtag;
 				$params_count["hashtag"] = $hashtag;
+			}
+			if ( isset($situation) ) {
+				$situation_sql = "WHERE t1.listening_system=:situation";
+				$params["situation"] = $situation;
+				$params_count["situation"] = $situation;
 			}
 			$data = $this->_Dao->select("
 				SELECT
@@ -110,6 +116,7 @@ class Reviews extends Dao
 				INNER JOIN users t3 ON(t1.user_id=t3.id)
 				{$hashtags_sql}
 				{$my_fav_sql}
+				{$situation_sql}
 				ORDER BY t1.created DESC
 				LIMIT {$offset},{$limit}",
 				$params,
@@ -118,7 +125,8 @@ class Reviews extends Dao
 			$data_count = $this->_Dao->select("
 				SELECT count(t1.id) cnt
 				FROM reviews t1
-				{$hashtags_sql}",
+				{$hashtags_sql}
+				{$situation_sql}",
 				$params_count,
 				$db_cache_setting
 			);

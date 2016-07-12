@@ -29,6 +29,12 @@ class Index extends Base
 			$hash = null;
 		}
 
+		// situation
+		$situation = mb_trim(Server::get("situation", ""));
+		if ( $situation === "" ) {
+			$situation = null;
+		}
+
 		// offset設定
 		$page = Server::get("page", "1");
 		if ( ! ctype_digit($page) ) {
@@ -40,7 +46,7 @@ class Index extends Base
 		// レビュー一覧取得
 		$my_user_id = isset($this->_login_user_data) ? $this->_login_user_data["id"] : null;
 		$DaoReviews = new DaoReviews();
-		$lists_result = $DaoReviews->lists($offset, $limit, $my_user_id, $hash);
+		$lists_result = $DaoReviews->lists($offset, $limit, $my_user_id, $hash, $situation);
 		if ( !$lists_result["status"] ) {
 			Server::send404Header("not found");
 			return false;
@@ -62,6 +68,9 @@ class Index extends Base
 		$params = array();
 		if ( $hash !== "" ) {
 			$params["hash"] = $hash;
+		}
+		if ( $situation !== "" ) {
+			$params["situation"] = $situation;
 		}
 		$Pager = new Pager();
 		$pager = $Pager->getPager((int)$page, $lists_result["data"]["reviews_count"], $limit, 5);
@@ -90,6 +99,7 @@ class Index extends Base
 			"most_next_link" => $most_next_link,
 			"nav_list" => $nav_list,
 			"hash" => $hash,
+			"situation" => $situation,
 			"_description" => "生活に音楽が欠かせない全ての人へ。聴いて、記録して、誰かとSyncする。音楽の新しい楽しみ方がここにあります。",
 		))->display("Reviews/Index.tpl.php");
 		return true;
