@@ -376,11 +376,14 @@ class Reviews extends Dao
 				throw new \Exception("not found.");
 			}
 
-			// 登録前レビューリスト
-			$pre_review_list = $this->_Dao->select(
-				"SELECT * FROM reviews WHERE album_id=:aid GROUP BY user_id ORDER BY created DESC",
-				array("aid" => $album_id)
-			);
+			$review_list_sql = "SELECT * FROM reviews WHERE album_id=:aid GROUP BY user_id ORDER BY created DESC";
+			$review_list_params = array("aid" => $album_id);
+			$sync_artist_list_sql = "SELECT t1.user_id FROM reviews t1 INNER JOIN albums t2 ON (t2.id=t1.album_id) INNER JOIN users t3 ON (t3.id=t1.user_id) WHERE t2.artist IN (SELECT artist FROM albums WHERE id=:aid) GROUP BY t1.user_id";
+			$sync_artist_list_params = array("aid" => $album_id);
+
+			// 登録前レビューリスト, 登録前syncartistリスト
+			$pre_review_list = $this->_Dao->select($review_list_sql,$review_list_params);
+			$pre_sync_artist_list = $this->_Dao->select($sync_artist_list_sql, $sync_artist_list_params);
 
 			// 登録, 登録した最後のidを取得
 			$row_count = $this->_Dao->insert(
@@ -401,14 +404,15 @@ class Reviews extends Dao
 			$this->_updateHashTags($posted_review_id, $user_id, $body);
 
 			// 登録後レビューリスト
-			$post_review_list = $this->_Dao->select(
-				"SELECT * FROM reviews WHERE album_id=:aid GROUP BY user_id ORDER BY created DESC",
-				array("aid" => $album_id)
-			);
+			$post_review_list = $this->_Dao->select($review_list_sql,$review_list_params);
+			$post_sync_artist_list = $this->_Dao->select($sync_artist_list_sql, $sync_artist_list_params);
 
 			// 件数が異なる場合は計算処理
 			if ( count($pre_review_list) !== count($post_review_list) ){
 				$this->_syncPointAdd($pre_review_list, $post_review_list, "+");
+			}
+			if ( count($pre_sync_artist_list) !== count($post_sync_artist_list) ){
+				$this->_syncArtistPointAdd($pre_sync_artist_list, $post_sync_artist_list, "+");
 			}
 
 			$result["status"] = true;
@@ -470,6 +474,37 @@ class Reviews extends Dao
 
 		// 差分を取得
 		$sync_point_diff = $Syncs->calcReviewDiff($pre_sync_point_result, $post_sync_point_result);
+
+		// add point
+		foreach( $sync_point_diff as $row ) {
+			$user_id = $row["user_id"];
+			$user_com_id = $row["user_com_id"];
+			$point = $row["sync"]["point"];
+			// 存在したらupdate、しなければinsert
+			$sync_list = $this->_Dao->select(
+				"SELECT * FROM syncs WHERE user_id=:uid AND user_com_id=:ucid"
+				,array("uid" => $user_id, "ucid" => $user_com_id,)
+			);
+			$sql = "UPDATE syncs SET sync_point = sync_point {$operator} :sp WHERE user_id=:uid AND user_com_id=:ucid";
+			$params = array("uid"=>$user_id, "ucid"=>$user_com_id, "sp"=>$point,);
+			if ( count($sync_list) === 0 ) {
+				$sql = "INSERT INTO syncs (user_id,user_com_id,sync_point) VALUES(:uid,:ucid,:sp)";
+			}
+			$this->_Dao->update($sql, $params);
+		}
+
+		return true;
+	}
+
+	private function _syncArtistPointAdd( $pre_list, $post_list, $operator = "+")
+	{
+		// 変更前変更後のすべての組み合わせを取得
+		$Syncs = new Syncs();
+		$pre_sync_point_result = $Syncs->calcSyncArtistsPoint($pre_list);
+		$post_sync_point_result = $Syncs->calcSyncArtistsPoint($post_list);
+
+		// 差分を取得
+		$sync_point_diff = $Syncs->calcSyncArtistDiff($pre_sync_point_result, $post_sync_point_result);
 
 		// add point
 		foreach( $sync_point_diff as $row ) {

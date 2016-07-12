@@ -62,12 +62,15 @@ class SyncPoints extends Dao
 			$sync_points_favtracks = $this->calcPointsFavTracks();
 			// fav.albums ポイント計算
 			$sync_points_favalbums = $this->calcPointsFavAlbums();
+			// synxartist ポイント計算
+			$sync_points_artists = $this->calcPointSyncArtists();
 
 			// 全ポイントマージ
 			$sync_points = $this->mergePoints(
 				$sync_points_reviews,
 				$sync_points_favtracks,
-				$sync_points_favalbums
+				$sync_points_favalbums,
+				$sync_points_artists
 			);
 
 			// update
@@ -190,6 +193,45 @@ class SyncPoints extends Dao
 			$favalbums_points = $this->_Syncs->calcFavAlbumsPoints($user_id_list);
 			// sync_point_data に加算
 			foreach( $favalbums_points as $key => $point ) {
+				if ( ! isset($sync_point_data[$key]) ) {
+					$sync_point_data[$key] = 0;
+				}
+				$sync_point_data[$key] += $point;
+			}
+		}
+		return $sync_point_data;
+	}
+
+	public function calcPointSyncArtists()
+	{
+		$sync_point_data = array();
+
+		$sql = "SELECT t2.artist, t3.id user_id, t3.username
+			FROM reviews t1
+			INNER JOIN albums t2 ON (t1.album_id=t2.id)
+			INNER JOIN users t3 ON (t1.user_id=t3.id)
+			GROUP BY t2.artist, t3.id
+			ORDER BY t2.artist";
+		$params = array();
+
+		// artistごとにuser_idをまとめる.
+		$list = $this->_Dao->select($sql, $params);
+		$artist_list = array();
+		foreach($list as $row) {
+			$key = $row["artist"];
+			if ( ! isset($artist_list[$key]) ) {
+				$artist_list[$key] = array();
+			}
+			$artist_list[$key][]["user_id"] = $row["user_id"];
+		}
+
+		// 計算
+		foreach($artist_list as $artist => $user_id_list){
+			if ( count($user_id_list) === 1 ) {
+				continue;
+			}
+			$syncartist_points = $this->_Syncs->calcSyncArtistsPoint($user_id_list);
+			foreach( $syncartist_points as $key => $point ) {
 				if ( ! isset($sync_point_data[$key]) ) {
 					$sync_point_data[$key] = 0;
 				}

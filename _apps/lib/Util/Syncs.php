@@ -69,6 +69,23 @@ class Syncs
 		return $result;
 	}
 
+	public function calcSyncArtistDiff($list1, $list2)
+	{
+		// 件数が多い方からarray_diff_assoc
+		$diff = count($list1) > count($list2) ? array_diff_assoc($list1, $list2) : array_diff_assoc($list2, $list1);
+		// user_id, user_com_id, point の形式で返す
+		$result = array();
+		foreach( $diff as $key => $point ) {
+			$tmp = explode("_", $key);
+			$result[] = array(
+				"user_id" => $tmp[0],
+				"user_com_id" => $tmp[1],
+				"sync" => array("point" => $point,)
+			);
+		}
+		return $result;
+	}
+
 	/**
 	 * calc review point
 	 * @param type $review_list user_idが重複削除されてかつcreated 昇順のリストであること
@@ -129,6 +146,25 @@ class Syncs
 					$result[$key] = 0;
 				}
 				$result[$key] += 5;	// fav_albums は 5ポイント
+			}
+		}
+		return $result;
+	}
+
+	public function calcSyncArtistsPoint($user_id_list)
+	{
+		$result = array();
+		for($i=0,$len=count($user_id_list); $i<$len; $i++) {
+			$idx = $user_id_list[$i]["user_id"];
+			for( $j=0;$j<$len; $j++) {
+				if ( $idx === $user_id_list[$j]["user_id"] ) {
+					continue;
+				}
+				$key = "{$idx}_{$user_id_list[$j]["user_id"]}";
+				if ( ! isset($result[$key]) ) {
+					$result[$key] = 0;
+				}
+				$result[$key] += 10;	// sync_artistsは 10pt
 			}
 		}
 		return $result;

@@ -25,13 +25,13 @@
 
 
 <!-- sync artists -->
-<!--<div class="contents">
+<div class="contents">
 	<h4 id="id_title_sync_artists">
 		Artists (<?= count( $syncs["artists"] ) ?>)
-		: ? pt
+		: <?= count($syncs["artists"])*10 ?>pt
 	</h4>
 <?php if (count( $syncs["artists"] ) > 0):?>
-	<div class="w100per info">
+	<div class="pdl10px pdr10px">
 <?php foreach($syncs["artists"] as $artist): ?>
 		<span class="sync_artists">
 			<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($artist["artist"]) ?>"><?= h($artist["artist"]) ?></a>
@@ -39,7 +39,7 @@
 <?php endforeach; unset($artist); ?>
 	</div>
 <?php endif; ?>
-</div>-->
+</div>
 
 
 <!-- sync review -->

@@ -928,7 +928,7 @@ ul.pagination li a:hover:not(.active){
 	padding: 2px 5px;
 }
 .sync_artists:after{
-	content:"/";
+	content:",";
 }
 .sync_artists:last-child:after{
 	content:"";
