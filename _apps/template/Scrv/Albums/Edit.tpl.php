@@ -123,12 +123,6 @@
 		<div id="id_track_template" class="displaynone">
 			<div class="edit_album_base track_wrap">
 				<div class="title_num"></div>
-<!--				<div class="data arrow_up">
-					<img src="<?= h($base_path) ?>img/up-arrow.svg" class="img16x16" alt="move up" title="move up" />
-				</div>
-				<div class="data arrow_down">
-					<img src="<?= h($base_path) ?>img/down-arrow.svg" class="img16x16" alt="move down" title="move down" />
-				</div>-->
 				<div class="data track_data">
 					<input
 						type="text"
