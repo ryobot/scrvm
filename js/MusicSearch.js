@@ -31,7 +31,7 @@
 		if ( len > 0 ) {
 			$search_results.append($("<h3 />").text("iTunes ("+len+")"));
 		}
-		var $table = $("<div />").attr({class:"w100per itunes_info"});
+		var $table = $("<div />");
 		// 詰め直す
 		var results = [];
 		for(; i<len; i++) {
@@ -44,7 +44,7 @@
 		for(i=0; i<len; i++) {
 			var result = results[i];
 			$table.append(
-				$("<div />").attr({class:"data"}).append(
+				$("<div />").attr({class:"itunes_info"}).append(
 					createLink(result.url,result.artist,result.title)
 				)
 			);
@@ -74,13 +74,13 @@
 		if ( len > 0 ) {
 			$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
 		}
-		var $table = $("<div />").attr({class:"w100per gpm_info"});
+		var $table = $("<div />");
 		var results = json;
 		for(; i<len; i++) {
 			var result = results[i];
 			var listen_url = createGPMListenUrl(result.url);
 			$table.append(
-				$("<div />").attr({class:"data"}).append(
+				$("<div />").attr({class:"gpm_info"}).append(
 					createLink(listen_url,result.artist,result.title)
 				)
 			);

@@ -868,6 +868,7 @@ ul.pagination li a:hover:not(.active){
 
 /* .itunes_ */
 .itunes_info{
+	width:100%;
 	background-color: rgba(255,255,255,0.7);
 	margin:0;
 	padding:5px;
@@ -879,6 +880,7 @@ ul.pagination li a:hover:not(.active){
 
 /* .gpm_ */
 .gpm_info{
+	width:100%;
 	background-color: rgba(255,255,255,0.7);
 	margin:0;
 	padding:5px;
