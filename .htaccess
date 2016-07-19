@@ -14,6 +14,7 @@
 Header add X-Content-Type-Options "nosniff"
 Header add X-Frame-Options "SAMEORIGIN"
 Header add X-XSS-Protection "1; mode=block"
+RequestHeader unset Proxy
 
 ### mod_rewrite
 RewriteEngine On
