@@ -56,6 +56,50 @@ class Tag extends Base
 		}
 
 		$Pager = new Pager();
+		$pager = $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5);
+
+		// pager 関連
+		$_base_url = "{$this->_BasePath}Albums/Tag";
+		$page_params = array(
+			"tag" => $tag,
+			"artist" => $artist,
+			"sort"   => $sort,
+			"order"  => $order,
+		);
+		$most_prev_link = "{$_base_url}?" . hbq(array_merge($page_params, array("page" => "1")));
+		$prev_link      = "{$_base_url}?" . hbq(array_merge($page_params, array("page" => $pager["now_page"]-1)));
+		$next_link      = "{$_base_url}?" . hbq(array_merge($page_params, array("page" => $pager["now_page"]+1)));
+		$most_next_link = "{$_base_url}?" . hbq(array_merge($page_params, array("page" => $pager["max_page"])));
+		$nav_list = array();
+		foreach($pager["nav_list"] as $nav) {
+			$nav_list[] = array(
+				"active" => $nav["active"],
+				"page" => $nav["page"],
+				"link" => "{$_base_url}?" . hbq(array_merge($page_params, array("page" => $nav["page"]))),
+			);
+		}
+
+		// ソート用リンク
+		$order_type = $order === "asc" ? "desc" : "asc";
+		$sort_params = array(
+			"tag" => $tag,
+			"artist" => $artist,
+			"order"  => $order_type,
+		);
+		$sort_links = array(
+			"artist" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($sort_params,array("sort"=>"artist"))),
+				"text" => $sort === "artist" ? "[Artist]" : "Artist",
+			),
+			"title" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($sort_params,array("sort"=>"title"))),
+				"text" => $sort === "title" ? "[Title]" : "Title",
+			),
+			"year" => array(
+				"link" => "{$_base_url}?" . hbq(array_merge($sort_params,array("sort"=>"year"))),
+				"text" => $sort === "year" ? "[Year]" : "Year",
+			),
+		);
 
 		$this->_Template->assign(array(
 			"tag" => $tag,
@@ -63,7 +107,13 @@ class Tag extends Base
 			"sort" => $sort,
 			"order" => $order,
 			"lists" => $albums_result["data"]["lists"],
-			"pager" => $Pager->getPager((int)$page, $albums_result["data"]["lists_count"], $limit, 5),
+			"pager" => $pager,
+			"most_prev_link" => $most_prev_link,
+			"prev_link" => $prev_link,
+			"next_link" => $next_link,
+			"most_next_link" => $most_next_link,
+			"nav_list" => $nav_list,
+			"sort_links" => $sort_links,
 		))->display("Albums/Tag.tpl.php");
 		return true;
 	}

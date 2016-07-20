@@ -4,83 +4,6 @@
  * @author mgng
  */
 
-$_base_url = "{$base_path}Albums/Tag";
-$most_prev_link = "{$_base_url}?" . hbq(array(
-	"tag" => $tag,
-	"artist" => $artist,
-	"page" => "1",
-	"sort"   => $sort,
-	"order"  => $order,
-));
-$prev_link = "{$_base_url}?" . hbq(array(
-	"tag" => $tag,
-	"artist" => $artist,
-	"page" => $pager["now_page"]-1,
-	"sort"   => $sort,
-	"order"  => $order,
-));
-$next_link = "{$_base_url}?" . hbq(array(
-	"tag" => $tag,
-	"artist" => $artist,
-	"page" => $pager["now_page"]+1,
-	"sort"   => $sort,
-	"order"  => $order,
-));
-$most_next_link = "{$_base_url}?" . hbq(array(
-	"tag" => $tag,
-	"artist" => $artist,
-	"page" => $pager["max_page"],
-	"sort"   => $sort,
-	"order"  => $order,
-));
-
-$nav_list = array();
-foreach($pager["nav_list"] as $nav) {
-	$nav_list[] = array(
-		"active" => $nav["active"],
-		"page" => $nav["page"],
-		"link" => "{$_base_url}?" . hbq(array(
-			"tag" => $tag,
-			"artist" => $artist,
-			"page" => $nav["page"],
-			"sort"   => $sort,
-			"order"  => $order,
-		)),
-	);
-}
-
-// ソート用リンク
-$order_type = $order === "asc" ? "desc" : "asc";
-$sort_links = array(
-	"artist" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"tag" => $tag,
-			"sort"   => "artist",
-			"artist" => $artist,
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "artist" ? "[Artist]" : "Artist",
-	),
-	"title" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"tag" => $tag,
-			"sort"   => "title",
-			"artist" => $artist,
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "title" ? "[Title]" : "Title",
-	),
-	"year" => array(
-		"link" => "{$_base_url}?" . hbq(array(
-			"tag" => $tag,
-			"sort"   => "year",
-			"artist" => $artist,
-			"order"  => $order_type,
-		)),
-		"text" => $sort === "year" ? "[Year]" : "Year",
-	),
-);
-
 ?>
 <!doctype html>
 <html lang="ja">
@@ -133,7 +56,7 @@ $sort_links = array(
 <?php endif; ?>
 
 <!-- lists -->
-<div class="contents">
+<div class="review_list">
 <?php foreach($lists as $album): ?>
 	<div class="album_info">
 		<div class="cover">
@@ -145,6 +68,20 @@ $sort_links = array(
 				<?= h( "{$album["title"]}") ?><br />
 				(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
 			</a>
+		</div>
+		<div class="reviews">
+<?php if($album["reviews"] > 0): ?>
+			<a
+<?php if ($is_login): ?>
+				href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album["id"]) ?>"
+<?php else: ?>
+				href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>"
+<?php endif; ?>
+			>
+				<span><img src="<?= h($base_path) ?>img/reviews.svg" alt="reviews" class="img16x16" /></span>
+				<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
+			</a>
+<?php endif;?>
 		</div>
 	</div>
 <?php endforeach; ?>

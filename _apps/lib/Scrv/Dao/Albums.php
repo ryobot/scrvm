@@ -227,17 +227,25 @@ class Albums extends Dao
 	{
 		$result = getResultSet();
 		try{
-			$orderby = "ORDER BY {$sort} {$order}";
+			$orderby = "ORDER BY t1.{$sort} {$order}";
 			$offsetlimit = "LIMIT {$offset},{$limit}";
-			$sql = "SELECT * FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$orderby} {$offsetlimit}";
-			$sql_count = "SELECT count(id) as cnt FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag)";
+			$where = "";
 			$params = array("tag" => $tag);
 			if ( $artist !== null && $artist !== "" ) {
 				$where = "AND (artist like :artist ESCAPE '!')";
-				$sql = "SELECT * FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$where} {$orderby} {$offsetlimit}";
-				$sql_count = "SELECT count(id) as cnt FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$where}";
 				$params["artist"] = "%".$this->_Dao->escapeForLike($artist)."%";
 			}
+			$sql = "SELECT
+				t1.*
+				,count(t2.id) AS reviews
+				FROM albums t1
+				INNER JOIN reviews t2 ON (t2.album_id=t1.id)
+				WHERE t1.id IN (SELECT album_id FROM tags WHERE tag=:tag)
+				{$where}
+				GROUP BY t1.id
+				{$orderby}
+				{$offsetlimit}";
+			$sql_count = "SELECT count(id) as cnt FROM albums WHERE id IN (SELECT album_id FROM tags WHERE tag=:tag) {$where}";
 			$albums_result = $this->_Dao->select($sql, $params);
 			$albums_count_result = $this->_Dao->select($sql_count, $params);
 			$result["status"] = true;
