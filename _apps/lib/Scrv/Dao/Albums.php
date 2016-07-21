@@ -239,7 +239,7 @@ class Albums extends Dao
 				t1.*
 				,count(t2.id) AS reviews
 				FROM albums t1
-				INNER JOIN reviews t2 ON (t2.album_id=t1.id)
+				LEFT JOIN reviews t2 ON (t2.album_id=t1.id)
 				WHERE t1.id IN (SELECT album_id FROM tags WHERE tag=:tag)
 				{$where}
 				GROUP BY t1.id
