@@ -1,23 +1,21 @@
 
 	<!-- user profile -->
-	<div class="info_user">
-		<h3><?= h($user["username"]) ?></h3>
-		<div class="displaytable">
-			<div class="displaytablecell user_photo">
-				<img src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" />
-			</div>
-			<div class="displaytablecell vtalgmiddle">
+	<div class="user_info">
+		<div class="cover">
+			<img src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" />
+		</div>
+		<div class="detail">
+			<h3><?= h($user["username"]) ?></h3>
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
-				<?= nl2br(linkIt(h($user["profile"]))) ?>
+			<?= nl2br(linkIt(h($user["profile"]))) ?>
 <?php endif;?>
 <?php if(isset($user["has_invited_username"])): ?>
-				<div style="padding:10px 0">
-					( invited from
-					<a href="<?= h($base_path) ?>u/<?= h($user["has_invited_user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($user["has_invited_img_file"]) ? "files/attachment/photo/{$user["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["has_invited_username"]) ?>" title="<?= h($user["has_invited_username"]) ?>" /></a>
-					)
-				</div>
-<?php endif; ?>
+			<div class="invitedfrom">
+				(invited from
+				<a href="<?= h($base_path) ?>u/<?= h($user["has_invited_user_id"]) ?>"><?= h($user["has_invited_username"]) ?></a>
+				)
 			</div>
+<?php endif; ?>
 		</div>
 		<div class="user_menu_list">
 			<div class="user_menu_list_block" data-menu="View"><a href="<?= h("{$base_path}Users/View/id/{$user_id}") ?>">

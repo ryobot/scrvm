@@ -125,10 +125,6 @@
 	}
 
 	/* .user_info */
-	.user_info{
-	}
-	.user_info:last-child{
-	}
 	.user_info .cover{
 		width:70px;
 	}

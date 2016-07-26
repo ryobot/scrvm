@@ -52,14 +52,11 @@ $_base_url = $base_path . "Users";
 <div class="user_list">
 <?php foreach($lists as $list): ?>
 	<div class="user_info">
-		<h3><?= h($list["username"]) ?></h3>
 		<div class="cover">
 			<a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a>
 		</div>
 		<div class="detail">
-<?php if(isset($list["profile"]) && $list["profile"] !== ""): ?>
-			<div class="mgb10px"><?= linkIt(h($list["profile"])) ?></div>
-<?php endif; ?>
+			<h3><?= h($list["username"]) ?></h3>
 <?php if($list["review_count"] > 0): ?>
 			<span>
 				<a class="reviews" href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>">
@@ -67,30 +64,29 @@ $_base_url = $base_path . "Users";
 					<?= h($list["review_count"]) ?>
 				</a>
 			</span>
-			&nbsp;&nbsp;
 <?php endif; ?>
 <?php if($is_login && isset($list["sync_point"]) && $list["sync_point"] !== 0):?>
-			<span>
+			&nbsp;<span>
 				<a class="syncs" href="<?= h($_base_url) ?>/Syncs/id/<?= h($list["id"]) ?>">
 					<img src="<?= h($base_path) ?>img/sync.svg" class="img16x16" alt="syncs" />
 					<?= h($list["sync_point"]) ?> pt
 				</a>
 			</span>
-			&nbsp;&nbsp;
 <?php endif; ?>
-			<span>
-				<a class="chart" href="<?= h($_base_url) ?>/Chart/id/<?= h($list["id"]) ?>">
-					<img src="<?= h($base_path) ?>img/chart.svg" class="img16x16" alt="chart" />
-				</a>
-			</span>
 		</div>
+		<div class="profile">
+<?php if(isset($list["profile"]) && $list["profile"] !== ""): ?>
+			<?= linkIt(h($list["profile"])) ?>
+<?php endif; ?>
 <?php if(isset($list["has_invited_user_id"])): ?>
-		<div style="padding:10px 10px 10px 20px;">
-			<img src="<?= h($base_path) ?>img/invited_from.svg" alt="invited from" class="img16x16" />
-			invited from
-			<a href="<?= h($_base_url) ?>/View/id/<?= h($list["has_invited_user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($list["has_invited_img_file"]) ? "files/attachment/photo/{$list["has_invited_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["has_invited_username"]) ?>" /></a>
-		</div>
+			<p class="invitedfrom">
+				(invited from
+				<a href="<?= h($_base_url) ?>/View/id/<?= h($list["has_invited_user_id"]) ?>">
+					<?= h($list["has_invited_username"]) ?>
+				</a>)
+			</p>
 <?php endif; ?>
+		</div>
 	</div>
 <?php endforeach; unset($list) ?>
 </div>
