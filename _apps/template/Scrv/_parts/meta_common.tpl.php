@@ -14,10 +14,11 @@
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="icon" />
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />
 <link rel="alternate" type="application/rss+xml" title="feed" href="<?= h($base_path) ?>Rss" />
-<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v20160726_1400" />
-<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm_media.css?v20160726_1400" />
+<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm.css?v20160727_1400" />
+<link rel="stylesheet" href="<?= h($base_path) ?>css/scrvm_media.css?v20160727_1400" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.js"></script>
+<script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.1.2"></script>
 <script>
 	var BASE_PATH = "<?= h($base_path) ?>";
 	$(function(){this.IS_LOGINED = <?= $is_login ? "true" : "false" ?>;});

@@ -29,5 +29,10 @@
 		}, 500);
 		return false;
 	});
+
+	if ( ! /(iPhone|iPad|iPod|Android)/.test(navigator.userAgent) ) {
+		twemoji.parse(document.body);
+	}
+
 });
 </script>
