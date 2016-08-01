@@ -275,6 +275,9 @@
 			alert("system error.");
 		})
 		.always(function(){
+			if ( $submit.attr("disabled") ) {
+				$submit.attr({disabled:false}).val("search");
+			}
 		});
 		return false;
 	});
