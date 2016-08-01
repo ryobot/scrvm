@@ -97,10 +97,147 @@
 ;$(function(){
 
 	var cache_search_result = [];
+	var $result = $("#id_Albums_SearchArtist_result");
+	var $submit = $("#id_submit");
+
+	/**
+	 * jQuery.ajax を jQuery.Defferd でラップした関数
+	 * @param {type} opt
+	 * @returns {Object}
+	 */
+	var myAjax = function(opt){
+		var $ajax = $.ajax(opt);
+		var defer = new $.Deferred();
+		$ajax.done(function(data, status, $ajax){
+			defer.resolveWith(this, arguments);
+		});
+		$ajax.fail(function(data, status, $ajax){
+			defer.resolveWith(this, arguments);
+		});
+		return $.extend({}, $ajax, defer.promise());
+	};
+
+	/**
+	 * discogs search
+	 * @param array url_list
+	 */
+	var discogsSearch = function(url_list){
+		var ajax=[], json=[];
+		// $.ajax をリクエスト数だけ作成
+		for(var i=0,len=url_list.length; i<len; i++){
+			var $ajax = myAjax({
+				url:url_list[i],
+				data:{}
+			}).done(function(res, status){
+				if ( status === "success" ) {
+					json.push(res);
+				}
+			});
+			ajax.push($ajax);
+		}
+		// すべて成功時の処理
+		$.when.apply(null, ajax).done(function(){
+			// discogsデータ作成
+			var result = [];
+			for(var i=0,len=json.length; i<len; i++){
+				var data = json[i];
+				if ( ! data.tracklist || data.tracklist.length === 0 ) {
+					continue;
+				}
+				var tracks = [];
+				for( var j=0,k=data.tracklist.length; j<k; j++ ){
+					tracks.push(data.tracklist[j].title);
+				}
+				result.push({
+					artist: $.trim( data.artists[0].name.replace(/\([0-9]+\)$/, "") ),
+					title : data.title,
+					year : data.year,
+					tracks: tracks
+				});
+			}
+			cache_search_result = result;
+			showAlbumsData(result);
+		});
+		// どこかで失敗時の処理
+		$.when.apply(null, ajax).fail(function(){
+			alert("ajax request error.");
+		});
+	};
+
+	/**
+	 * show albums data
+	 * @param {json} json
+	 */
+	var showAlbumsData = function(json){
+		$result.append($("<h4 />").text("album データを選択してください。"));
+		for(var i=0,len=json.length; i<len; i++) {
+			var artist = json[i].artist,
+			title = json[i].title,
+			year = json[i].year === "" || json[i].year === 0 ? "unknown" : json[i].year,
+			tracks = json[i].tracks,
+			track_list = [];
+			for(var k=0,n=tracks.length; k<n; k++) {
+				track_list.push( k+1 + "." + tracks[k] );
+			}
+			$result.append($("<div class='album_search_result' data-cache_index='"+i+"' />").append(
+				// artist / title (year)
+				$("<p />").css({"font-weight":"bold"}).text( artist + " / " + title + " (" + year + ")" ),
+				// track list
+				$("<p />").text(track_list.join(" / ")),
+				// 選択ボタン
+				$("<p class='tacenter actions' />").append(
+					$("<button data-cache_index='"+i+"'> 選 択 </button>").on("click.js",function(){
+						var cache_index = $(this).attr("data-cache_index");
+						var cache_data = cache_search_result[cache_index];
+						// 最初にアルバム検索
+						$.ajax( BASE_PATH + "Albums/SearchAlbumExists", {
+							method : 'POST',
+							dataType : 'json',
+							data : {
+								artist : cache_data["artist"],
+								title  : cache_data["title"]
+							}
+						})
+						.done(function(json){
+							if (!json.status) {
+								alert(json.messages.join("\n"));
+								return false;
+							}
+							if (json.data.length > 0) {
+								if ( confirm( cache_data["artist"] + " / " + cache_data["title"] + " は登録済みです。\nアルバムページを表示しますか？" ) ) {
+									location.href = BASE_PATH + "Albums/View/id/" + json.data[0].id;
+								}
+								return false;
+							}
+							// 情報をformに反映、他の情報は削除
+							$result.slideToggle("middle");
+							$("#id_add_artist").val(cache_data["artist"]);
+							$("#id_add_title").val(cache_data["title"]);
+							$("#id_add_year").val(cache_data["year"] === "" || cache_data["year"] === 0 ? "" : cache_data["year"]);
+							setTracks(cache_data["tracks"]);
+							$("#id_Albums_SearchArtist_result").html("");
+							$("#id_Albums_AddRun").show();
+							// データを選択してから画像検索
+							var search_q = cache_data["artist"] + ' ' + cache_data["title"];
+							search_q = search_q.replace("'", "\'").replace('"','\"');
+							$("#id_search_q").val(search_q);
+							searchImage(search_q);
+						})
+						.fail(function(e){
+							alert("system error.");
+						})
+						.always(function(){
+						});
+					})
+				)
+			));
+		}
+		$submit.attr({disabled:false}).val("search");
+		$result.slideToggle("middle");
+	};
 
 	// search gracen
 	$("#id_Albums_SearchArtist").on("submit.js", function(){
-
 		var val_artist = $.trim($("#id_artist").val());
 		var val_title = $.trim($("#id_title").val());
 		var val_track = $.trim($("#id_track").val());
@@ -109,11 +246,8 @@
 			alert("いずれか必須です。");
 			return;
 		}
-
-		var $submit = $("#id_submit");
 		$submit.attr({disabled:true}).val("searching...");
-
-		$.ajax( "<?= h($base_path) ?>Albums/SearchArtist", {
+		$.ajax( BASE_PATH + "Albums/SearchArtist", {
 			method : 'POST',
 			dataType : 'json',
 			data : {
@@ -124,89 +258,23 @@
 			}
 		})
 		.done(function(json){
-			var $result = $("#id_Albums_SearchArtist_result");
 			$result.html("").css({display:"none"});
 			cache_search_result = json;
 			if ( json.length === 0 ) {
 				$result.append($("<div class='info error_message tacenter' />").html("見つかりませんでした。")).slideToggle("middle");
 				return;
 			}
-			$result.append($("<h4 />").text("album データを選択してください。"));
-			for(var i=0,len=json.length; i<len; i++) {
-
-				// discogs の場合、アーティスト名に (数字) が付くケースがあるので削除しておく
-				if ( val_search_type === "discogs" ) {
-					json[i].artist = $.trim( json[i].artist.replace(/\([0-9]+\)$/, "") );
-				}
-
-				var artist = json[i].artist,
-				title = json[i].title,
-				year = json[i].year === "" || json[i].year === 0 ? "unknown" : json[i].year,
-				tracks = json[i].tracks,
-				track_list = [];
-				for(var k=0,n=tracks.length; k<n; k++) {
-					track_list.push( k+1 + "." + tracks[k] );
-				}
-				$result.append($("<div class='album_search_result' data-cache_index='"+i+"' />").append(
-					// artist / title (year)
-					$("<p />").css({"font-weight":"bold"}).text( artist + " / " + title + " (" + year + ")" ),
-					// track list
-					$("<p />").text(track_list.join(" / ")),
-					// 選択ボタン
-					$("<p class='tacenter actions' />").append(
-						$("<button data-cache_index='"+i+"'> 選 択 </button>").on("click.js",function(){
-							var cache_index = $(this).attr("data-cache_index");
-							var cache_data = cache_search_result[cache_index];
-							// 最初にアルバム検索
-							$.ajax( "<?= h($base_path) ?>Albums/SearchAlbumExists", {
-								method : 'POST',
-								dataType : 'json',
-								data : {
-									artist : cache_data["artist"],
-									title  : cache_data["title"]
-								}
-							})
-							.done(function(json){
-								if (!json.status) {
-									alert(json.messages.join("\n"));
-									return false;
-								}
-								if (json.data.length > 0) {
-									if ( confirm( cache_data["artist"] + " / " + cache_data["title"] + " は登録済みです。\nアルバムページを表示しますか？" ) ) {
-										location.href = "<?= h($base_path) ?>Albums/View/id/" + json.data[0].id;
-									}
-									return false;
-								}
-								// 情報をformに反映、他の情報は削除
-								$result.slideToggle("middle");
-								$("#id_add_artist").val(cache_data["artist"]);
-								$("#id_add_title").val(cache_data["title"]);
-								$("#id_add_year").val(cache_data["year"] === "" || cache_data["year"] === 0 ? "" : cache_data["year"]);
-								setTracks(cache_data["tracks"]);
-								$("#id_Albums_SearchArtist_result").html("");
-								$("#id_Albums_AddRun").show();
-								// データを選択してから画像検索
-								var search_q = cache_data["artist"] + ' ' + cache_data["title"];
-								search_q = search_q.replace("'", "\'").replace('"','\"');
-								$("#id_search_q").val(search_q);
-								searchImage(search_q);
-							})
-							.fail(function(e){
-								alert("system error.");
-							})
-							.always(function(){
-							});
-						})
-					)
-				));
+			// discogs Search の場合は resourse_url 配列が返されるので、個別に ajax search
+			if ( val_search_type === "discogs" ) {
+				discogsSearch(json);
+				return;
 			}
-			$result.slideToggle("middle");
+			showAlbumsData(json);
 		})
 		.fail(function(e){
 			alert("system error.");
 		})
 		.always(function(){
-			$submit.attr({disabled:false}).val("search");
 		});
 		return false;
 	});
@@ -221,7 +289,7 @@
 		var $isfs = $("#id_image_search_form_submit");
 		$isfs.attr({disabled:true}).val($isfs.attr("data-label_off"));
 
-		$.ajax( "<?= h($base_path) ?>Albums/SearchImage", {
+		$.ajax( BASE_PATH + "Albums/SearchImage", {
 			method : 'POST',
 			dataType : 'json',
 			data : {q : q}
@@ -264,8 +332,7 @@
 		});
 	}
 
-	function setTracks(tracks)
-	{
+	function setTracks(tracks) {
 		var tmp_tracks = [].concat(tracks);	// コピー作っておく
 		var $id_add_tracks = $("#id_add_tracks").html("");
 		var index = 0;
@@ -327,8 +394,7 @@
 			}
 		});
 		var img_url = $.trim($("#id_add_img_url").val());
-
-		$.ajax( "<?= h($base_path) ?>Albums/AddRun", {
+		$.ajax( BASE_PATH + "Albums/AddRun", {
 			method : 'POST',
 			dataType : 'json',
 			data : {
@@ -343,7 +409,7 @@
 			if (!json.status) {
 				alert(json.messages.join("\n"));
 			} else {
-				location.href = "<?= h($base_path) ?>Albums/View/id/" + json.data.album_id;
+				location.href = BASE_PATH + "Albums/View/id/" + json.data.album_id;
 			}
 		})
 		.fail(function(e){

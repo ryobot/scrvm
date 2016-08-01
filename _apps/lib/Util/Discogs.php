@@ -84,18 +84,24 @@ class Discogs
 			$urls[] = $row->resource_url;
 		}
 
-		$responses = $this->_requestMulti($urls);
+		// resource_url が大量の場合、マルチリクエストで重くなるため、
+		// フロントには resource_url の配列を返し、
+		// ブラウザ側でAjaxを使い resource_url にアクセスする
+		// ※ resource_url は Access-Control-Allow-Origin: * ヘッダがついているので クロスドメイン処理可能
+		return $urls;
 
-		$results = array();
-		// 各結果にから詳細情報を取得する
-		foreach($responses as $res){
-			$detail = $this->getDetail($res);
-			if (!$detail) {
-				continue;
-			}
-			$results[] = $detail;
-		}
-		return $results;
+//		$responses = $this->_requestMulti($urls);
+//
+//		$results = array();
+//		// 各結果から詳細情報を取得する
+//		foreach($responses as $res){
+//			$detail = $this->getDetail($res);
+//			if (!$detail) {
+//				continue;
+//			}
+//			$results[] = $detail;
+//		}
+//		return $results;
 	}
 
 	public function getDetail($res)
