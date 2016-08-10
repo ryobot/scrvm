@@ -123,8 +123,8 @@ class EditRun extends Base
 			}
 			if ( $track->track_title === "" ) {
 				$check_result["messages"]["track_{$num}"] = "tr.{$num} が未入力です。";
-			} else if (mb_strlen($track->track_title) > 50 ) {
-				$check_result["messages"]["track_{$num}"] = "tr.{$num} は50文字以内で入力してください。";
+			} else if (mb_strlen($track->track_title) > 100 ) {
+				$check_result["messages"]["track_{$num}"] = "tr.{$num} は100文字以内で入力してください。";
 			}
 		}
 
