@@ -133,11 +133,11 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album_id) ?>">Add Review</a></p>
 <?php endif; ?>
 	<div class="w100per">
-<?php foreach($reviews as $review): ?>
-		<div class="review">
-			<div class="review_comment"><?=
-				$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
-			?></div>
+
+<?php foreach($reviews_thread_by_user_id as $_user_id => $reviews_list): ?>
+<?php		foreach($reviews_list as $idx => $review): ?>
+		<div class="review<?php if($idx > 0): ?> displaynone other_reviews_<?= h($_user_id) ?><?php endif; ?>">
+			<div class="review_comment"><?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?></div>
 			<div>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
 					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
@@ -180,8 +180,34 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				</div>
 <?php endif;?>
 			</div>
+<?php if($idx === 0): ?>
+			<div id="id_more_review_button_<?= h($_user_id) ?>"></div>
+<?php endif;?>
 		</div>
+<?php		endforeach; ?>
+<?php if(count($reviews_list) > 1): ?>
+		<script>
+			;$(function(){
+				$("#id_more_review_button_<?= h($_user_id) ?>").append(
+					$("<p />").attr({
+						class:"actions tacenter mgt10px"
+					}).append(
+						$("<a />").attr({
+							href:"javascript:;"
+						}).text(
+							"more <?= count($reviews_list)-1 ?> reviews"
+						).on("click.js",function(){
+							$(".other_reviews_<?= h($_user_id) ?>").slideToggle();
+							$(this).slideUp("fast");
+						})
+					)
+				);
+			});
+		</script>
+<?php endif; ?>
 <?php endforeach; ?>
+
+
 	</div>
 </div>
 

@@ -48,6 +48,16 @@ class View extends Base
 			return false;
 		}
 
+		// XXX user_id ごとにまとめておく
+		$reviews_thread_by_user_id = array();
+		foreach($view_result["data"]["reviews"] as $row){
+			$user_id = $row["user_id"];
+			if ( !isset($reviews_thread_by_user_id[$user_id]) ){
+				$reviews_thread_by_user_id[$user_id] = array();
+			}
+			$reviews_thread_by_user_id[$user_id][] = $row;
+		}
+
 		// ログインしている場合は自身がfavしたid一覧を取得
 		$own_favtracks = array();
 		$own_favalbums = array();
@@ -78,6 +88,7 @@ class View extends Base
 			"token" => $token,
 			"tracks" => $view_result["data"]["tracks"],
 			"reviews" => $view_result["data"]["reviews"],
+			"reviews_thread_by_user_id" => $reviews_thread_by_user_id,
 			"own_favtracks" => $own_favtracks,
 			"own_favalbums" => $own_favalbums,
 			"error_messages" => $error_messages,
