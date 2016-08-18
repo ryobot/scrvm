@@ -14,6 +14,12 @@ echo "<?xml version='1.0' encoding='UTF-8'?>\n";
 
 <?php foreach( $reviews as $review ) : ?>
 		<item>
+<?php if($review["published"] === 0): ?>
+			<title>この投稿は非表示にされています。</title>
+			<link><?= h( $http_host . $base_path . "Reviews/View/id/" . $review["id"] ) ?></link>
+			<pubDate><?= h( date( "c", strtotime($review["created"]) ) ) ?></pubDate>
+			<description>この投稿は非表示にされています。</description>
+<?php else: ?>
 			<title><?= h( $review["artist"] ) ?> / <?= h( $review["title"] ) ?></title>
 			<link><?= h( $http_host . $base_path . "Reviews/View/id/" . $review["id"] ) ?></link>
 			<pubDate><?= h( date( "c", strtotime($review["created"]) ) ) ?></pubDate>
@@ -21,6 +27,7 @@ echo "<?xml version='1.0' encoding='UTF-8'?>\n";
 				<?= h( $review["body"] === "" ? "(no review)" : $review["body"] ) ?>
 				(by <?= h( $review["username"] ) ?>)
 			</description>
+<?php endif; ?>
 		</item>
 <?php endforeach; ?>
 
