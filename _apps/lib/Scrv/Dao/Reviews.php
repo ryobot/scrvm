@@ -369,11 +369,12 @@ class Reviews extends Dao
 	 * @param int $album_id
 	 * @param string $listening_last
 	 * @param string $listening_system
+	 * @param int $published
 	 * @param string $body
 	 * @return resultSet
 	 * @throws \Exception
 	 */
-	public function add( $user_id, $album_id, $listening_last, $listening_system, $body )
+	public function add( $user_id, $album_id, $listening_last, $listening_system, $published, $body )
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -395,14 +396,15 @@ class Reviews extends Dao
 
 			// 登録, 登録した最後のidを取得
 			$row_count = $this->_Dao->insert(
-				 "INSERT INTO reviews (album_id,user_id,body,listening_last,listening_system,created) "
-				."VALUES(:album_id,:user_id,:body,:listening_last,:listening_system,:now)",
+				 "INSERT INTO reviews (album_id,user_id,body,listening_last,listening_system,published,created) "
+				."VALUES(:album_id,:user_id,:body,:listening_last,:listening_system,:published,:now)",
 				array(
 					"album_id" => $album_id,
 					"user_id" => $user_id,
 					"body" => $body,
 					"listening_last" => $listening_last,
 					"listening_system" => $listening_system,
+					"published" => $published,
 					"now" => date("Y-m-d H:i:s", self::$_nowTimestamp),
 				)
 			);
@@ -599,11 +601,12 @@ class Reviews extends Dao
 	 * @param int $review_id
 	 * @param string $listening_last
 	 * @param string $listening_system
+	 * @param int $published
 	 * @param string $body
 	 * @return resultSet
 	 * @throws \Exception
 	 */
-	public function edit( $user_id, $review_id, $listening_last, $listening_system, $body )
+	public function edit( $user_id, $review_id, $listening_last, $listening_system, $published, $body )
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -627,15 +630,16 @@ class Reviews extends Dao
 			}
 
 			// 登録
-			$row_count = $this->_Dao->insert(
-				 "UPDATE reviews "
-				."SET body=:body,listening_last=:listening_last,listening_system=:listening_system "
-				."WHERE id=:review_id",
+			$row_count = $this->_Dao->insert("
+				UPDATE reviews
+				SET body=:body,listening_last=:listening_last,listening_system=:listening_system,published=:published
+				WHERE id=:review_id",
 				array(
 					"review_id" => $review_id,
 					"body" => $body,
 					"listening_last" => $listening_last,
 					"listening_system" => $listening_system,
+					"published" => $published,
 				)
 			);
 

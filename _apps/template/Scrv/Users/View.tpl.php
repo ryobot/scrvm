@@ -58,17 +58,24 @@ foreach($pager["nav_list"] as $nav) {
 <div class="review_list">
 <?php foreach($reviews as $review): ?>
 	<div class="album_info">
-		<div class="info">
-			<div class="cover">
-				<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-			</div>
-			<div class="detail">
-				<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<?= h($review["artist"]) ?><br />
-					<?= h($review["title"]) ?>
-					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-				</a></p>
-			</div>
+<?php if(
+	($review["published"] === 0 && !$is_login)
+	||
+	($review["published"] === 0 && $is_login && $review["user_id"] !== $login_user_data["id"])
+): ?>
+		<div class="notice">
+			この投稿は非表示にされています。</p>
+		</div>
+<?php else: ?>
+		<div class="cover">
+			<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+		</div>
+		<div class="detail">
+			<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<?= h($review["artist"]) ?><br />
+				<?= h($review["title"]) ?>
+				(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
+			</a></p>
 		</div>
 		<div class="review_comment"><?=
 			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
@@ -84,6 +91,9 @@ foreach($pager["nav_list"] as $nav) {
 <?php endif;?>
 		</div>
 		<div class="reaction_area">
+<?php if($review["published"] === 0): ?>
+			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+<?php endif; ?>
 			<div class="fav_reviews_wrapper">
 				<img
 					class="fav_review vtalgmiddle img16x16"
@@ -118,6 +128,7 @@ foreach($pager["nav_list"] as $nav) {
 			</div>
 <?php endif;?>
 		</div>
+<?php endif; ?>
 	</div>
 <?php		endforeach; ?>
 </div>

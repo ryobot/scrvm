@@ -52,6 +52,16 @@
 	<h3>Reviews (<?= count($reviews) ?>)</h3>
 <?php foreach($reviews as $review): ?>
 	<div class="review">
+<?php if(
+	($review["published"] === 0 && !$is_login)
+	||
+	($review["published"] === 0 && $is_login && $review["user_id"] !== $login_user_data["id"])
+): ?>
+		<div class="notice">
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+			この投稿は非表示にされています。</p>
+		</div>
+<?php else: ?>
 		<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
 		<div>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
@@ -66,6 +76,7 @@
 			<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
 <?php endif; ?>
 		</div>
+<?php endif; ?>
 	</div>
 <?php endforeach; ?>
 

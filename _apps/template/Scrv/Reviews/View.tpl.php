@@ -11,12 +11,20 @@ $year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "un
 $review_title = "{$review["artist"]} / {$review["title"]}";
 $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
 
+$is_unpublished = $review["published"] === 0 && (!$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]));
+if($is_unpublished){
+	$_description = "";
+}
+
 ?>
 <!doctype html>
 <html lang="ja">
 <head>
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <link rel="canonical" href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>" />
+<?php if($is_unpublished): ?>
+<title>この投稿は非表示にされています。</title>
+<?php else: ?>
 <title>
 	<?= h($review_title) ?>
 	(by <?= h($review["username"]) ?>)
@@ -25,6 +33,7 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 </title>
 <?php require __DIR__ . '/_ogp.tpl.php'; ?>
 <?php require __DIR__ . '/_twitter_cards.tpl.php'; ?>
+<?php endif; ?>
 </head>
 <body>
 
@@ -34,19 +43,19 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <div class="contents">
 
 	<div class="album_info">
+<?php if($is_unpublished): ?>
+		<div class="notice">この投稿は非表示にされています。	</div>
+<?php else: ?>
 		<h3><?= h($review_title) ?> (<?= h($year) ?>)</h3>
-		<div class="info">
-			<div class="cover">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-				</a>
-			</div>
-			<div class="detail">
-			</div>
+		<div class="cover">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+			</a>
 		</div>
-		<div class="review_comment"><?=
-			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
-		?></div>
+		<div class="detail"></div>
+		<div class="review_comment">
+			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)	?>
+		</div>
 		<div>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
@@ -61,6 +70,9 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 		</div>
 
 		<div class="reaction_area">
+<?php if($review["published"] === 0): ?>
+			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+<?php endif; ?>
 			<div class="fav_reviews_wrapper">
 				<img
 					class="fav_review vtalgmiddle img16x16"
@@ -108,7 +120,16 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <?php		endforeach;unset($user) ?>
 		</div>
 <?php endif; ?>
-
+		<input
+			type="hidden"
+			name="term"
+			id="id_term"
+			value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
+			data-artist="<?= h($review["artist"]) ?>"
+			data-title="<?= h($review["title"]) ?>"
+		/>
+		<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
+<?php endif; ?>
 	</div>
 
 </div>
@@ -116,15 +137,6 @@ $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$revi
 <!-- music search 用 -->
 <div id="id_itunes_search_results"></div>
 <div id="id_gpm_search_results"></div>
-<input
-	type="hidden"
-	name="term"
-	id="id_term"
-	value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
-	data-artist="<?= h($review["artist"]) ?>"
-	data-title="<?= h($review["title"]) ?>"
-/>
-<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

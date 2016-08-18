@@ -137,11 +137,19 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php foreach($reviews_thread_by_user_id as $_user_id => $reviews_list): ?>
 <?php		foreach($reviews_list as $idx => $review): ?>
 		<div class="review<?php if($idx > 0): ?> displaynone other_reviews_<?= h($_user_id) ?><?php endif; ?>">
+<?php if(
+	$review["published"] === 0
+	&&
+	( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )
+): ?>
+			<div class="notice">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				この投稿は非表示にされています。
+			</div>
+<?php else: ?>
 			<div class="review_comment"><?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?></div>
 			<div>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
-					<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
-				</a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-
 				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
@@ -154,6 +162,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif; ?>
 			</div>
 			<div class="reaction_area">
+<?php if($review["published"] === 0): ?>
+				<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+<?php endif; ?>
 				<div class="fav_reviews_wrapper">
 					<img
 						class="fav_review vtalgmiddle img16x16"
@@ -180,6 +191,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				</div>
 <?php endif;?>
 			</div>
+<?php endif; ?>
 <?php if($idx === 0): ?>
 			<div id="id_more_review_button_<?= h($_user_id) ?>"></div>
 <?php endif;?>
@@ -197,8 +209,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 						}).text(
 							"more <?= count($reviews_list)-1 ?> reviews"
 						).on("click.js",function(){
-							$(".other_reviews_<?= h($_user_id) ?>").slideToggle();
 							$(this).slideUp("fast");
+							$(".other_reviews_<?= h($_user_id) ?>").slideToggle();
 						})
 					)
 				);

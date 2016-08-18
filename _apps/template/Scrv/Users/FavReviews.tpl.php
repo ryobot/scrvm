@@ -61,17 +61,25 @@ foreach($pager["nav_list"] as $nav) {
 <div class="review_list">
 <?php foreach($favreviews as $favreview): ?>
 	<div class="album_info">
-		<div class="info">
-			<div class="cover">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-			</div>
-			<div class="detail">
-				<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
-					<?= h($favreview["artist"]) ?><br />
-					<?= h($favreview["title"]) ?>
-					(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
-				</a></p>
-			</div>
+<?php if(
+	($favreview["published"] === 0 && !$is_login)
+	||
+	($favreview["published"] === 0 && $is_login && $favreview["user_id"] !== $login_user_data["id"])
+): ?>
+		<div class="notice">
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
+			この投稿は非表示にされています。
+		</div>
+<?php else: ?>
+		<div class="cover">
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
+		</div>
+		<div class="detail">
+			<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
+				<?= h($favreview["artist"]) ?><br />
+				<?= h($favreview["title"]) ?>
+				(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
+			</a></p>
 		</div>
 		<div class="review_comment"><?=
 			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
@@ -85,6 +93,7 @@ foreach($pager["nav_list"] as $nav) {
 			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($favreview["listening_system"]) ?>">
 				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
 			</a>
+<?php endif; ?>
 <?php endif; ?>
 	</div>
 <?php endforeach; ?>

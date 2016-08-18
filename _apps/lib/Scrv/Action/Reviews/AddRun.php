@@ -8,8 +8,8 @@ namespace lib\Scrv\Action\Reviews;
 use lib\Scrv as Scrv;
 use lib\Scrv\Action\Base as Base;
 use lib\Scrv\Dao\Reviews as DaoReviews;
+use lib\Scrv\Helper\Reviews\Check as ReviewsCheck;
 use lib\Scrv\Helper\Reviews\PostTwitter as PostTwitter;
-use lib\Scrv\Helper\Reviews\SituationList as SituationList;
 use lib\Util\Server as Server;
 
 /**
@@ -34,6 +34,7 @@ class AddRun extends Base
 			"listening_last" => Server::post("listening_last", ""),
 			"listening_system" => Server::post("listening_system", ""),
 			"send_twitter" => Server::post("send_twitter"),
+			"published" => Server::post("published", "0"),
 			"body" => Server::post("body", ""),
 		);
 		foreach( $post_params as &$val ) {
@@ -51,7 +52,8 @@ class AddRun extends Base
 		}
 
 		// POST params チェック
-		$check_result = $this->_checkPostParams($post_params);
+		$ReviewsCheck = new ReviewsCheck();
+		$check_result = $ReviewsCheck->postParams($post_params);
 		if ( ! $check_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $check_result["messages"]);
 			Server::redirect($this->_BasePath . "Reviews/Add/id/" . urlencode($post_params["album_id"]));
@@ -65,6 +67,7 @@ class AddRun extends Base
 			$post_params["album_id"],
 			$post_params["listening_last"],
 			$post_params["listening_system"],
+			(int)$post_params["published"],
 			$post_params["body"]
 		);
 		if ( !$add_result["status"] ){
@@ -90,44 +93,6 @@ class AddRun extends Base
 		Server::redirect($this->_BasePath . "Albums/View/id/{$post_params["album_id"]}");
 
 		return true;
-	}
-
-	/**
-	 * post params check
-	 * @param array $post_params
-	 * @return resultSet
-	 */
-	private function _checkPostParams(array $post_params)
-	{
-		$check_result = getResultSet();
-
-		$SituationList = new SituationList();
-		$situation_list = $SituationList->getList();
-
-		if ( preg_match( "/\A(today|recently)\z/", $post_params["listening_last"] ) !== 1 ) {
-			$check_result["messages"]["listening_last"] = "listening date が未入力です。";
-		}
-
-//		if ( preg_match( "/\A(home|headphones|car|other)\z/", $post_params["listening_system"] ) !== 1 ) {
-//			$check_result["messages"]["listening_system"] = "listening system が未入力です。";
-//		}
-		$check_listening_system = false;
-		foreach($situation_list as $list) {
-			if ( $list["value"] === $post_params["listening_system"] ){
-				$check_listening_system = true;
-				break;
-			}
-		}
-		if ( ! $check_listening_system ) {
-			$check_result["messages"]["listening_system"] = "listening system が未入力です。";
-		}
-
-		if ( mb_strlen($post_params["body"]) > 1000 ) {
-			$check_result["messages"]["body"] = "review は1000文字以内で入力してください。";
-		}
-
-		$check_result["status"] = count($check_result["messages"]) === 0;
-		return $check_result;
 	}
 
 }
