@@ -32,7 +32,7 @@
 </div>
 <p><textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
 <?php if(isset($login_user_data["twitter_user_id"])): ?>
-<p><label><input type="checkbox" name="published" id="id_published" value="1" <?= $post_params["published"] === 1 ? "checked" : "" ?>> published</label> <span id="id_published_notice"></span></p>
+<p><label><input type="checkbox" name="published" id="id_published" value="1" <?= $post_params["published"] === 0 ? "" : "checked" ?>> published</label> <span id="id_published_notice"></span></p>
 <p><label><input type="checkbox" name="send_twitter" id="id_send_twitter" value="1"> post to twitter</label></p>
 <p id="id_send_twitter_notice" class="notice displaynone">※twitterへ投稿する場合、140文字を超えても投稿はできますが一部省略されます。</p>
 <?php endif; ?>
