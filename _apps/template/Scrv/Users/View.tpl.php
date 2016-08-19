@@ -64,7 +64,7 @@ foreach($pager["nav_list"] as $nav) {
 	($review["published"] === 0 && $is_login && $review["user_id"] !== $login_user_data["id"])
 ): ?>
 		<div class="notice">
-			この投稿は非表示にされています。</p>
+			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
 		<div class="cover">

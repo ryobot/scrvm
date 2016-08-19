@@ -59,7 +59,7 @@
 ): ?>
 		<div class="notice">
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			この投稿は非表示にされています。</p>
+			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
 		<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
