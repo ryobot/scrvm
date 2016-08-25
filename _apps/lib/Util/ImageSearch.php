@@ -34,7 +34,7 @@ class ImageSearch
 		if ( $src === false ) {
 			return array();
 		}
-		preg_match_all("/img\s+data\-src=\"(.+?)\"/is", $src, $m);
+		preg_match_all("/img\s+.+?data\-src=\"(.+?)\"/is", $src, $m);
 		if ( ! isset( $m[1] ) || count($m[1]) === 0 ) {
 			return array();
 		}
