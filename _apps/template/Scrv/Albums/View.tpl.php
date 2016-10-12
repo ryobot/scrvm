@@ -189,7 +189,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif; ?>
 	</div>
 <?php endforeach; ?>
-<?php if(count($reviews) > 2) :?>
+<?php if(count($reviews) > 3) :?>
 	<div class="actions tacenter mgt10px mgb10px">
 		<a href="#" id="id_more_review_button">もっと読む</a>
 	</div>
