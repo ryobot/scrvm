@@ -134,90 +134,73 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif; ?>
 	<div class="w100per">
 
-<?php foreach($reviews_thread_by_user_id as $_user_id => $reviews_list): ?>
-<?php		foreach($reviews_list as $idx => $review): ?>
-		<div class="review<?php if($idx > 0): ?> displaynone other_reviews_<?= h($_user_id) ?><?php endif; ?>">
-<?php if(
-	$review["published"] === 0
-	&&
-	( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )
-): ?>
-			<div class="notice">
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-				この投稿は非表示にされています。
-			</div>
+<?php	 foreach($reviews as $idx => $review): ?>
+	<div class="review <?php if($idx > 2): ?>displaynone other_review<?php endif; ?>">
+<?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
+		<div class="notice">
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+			この投稿は非表示にされています。
+		</div>
 <?php else: ?>
-			<div class="review_comment"><?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?></div>
-			<div>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-				-
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-					<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-				</a>
+		<div class="review_comment"><?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?></div>
+		<div>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+			-
+			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
+				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+			</a>
 <?php if($review["listening_last"] === "today"): ?>
-				<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
-					<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
-				</a>
+			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
+				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			</a>
 <?php endif; ?>
-			</div>
-			<div class="reaction_area">
+		</div>
+		<div class="reaction_area">
 <?php if($review["published"] === 0): ?>
-				<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
 <?php endif; ?>
-				<div class="fav_reviews_wrapper">
-					<img
-						class="fav_review vtalgmiddle img16x16"
-						src="<?= h($base_path) ?>img/fav_off.svg"
-						data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-						data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-						data-review_id="<?= h($review["id"]) ?>"
-						data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-						data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-						alt="fav review"
-						title="fav review"
-					/>
-					<span class="fav_reviews_count"></span>
-				</div>
-				<div>
-					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
-				</div>
-<?php if( $review["user_id"] === $login_user_data["id"] ):?>
-				<div>
-					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
-				</div>
-				<div>
-					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
-				</div>
-<?php endif;?>
+			<div class="fav_reviews_wrapper">
+				<img
+					class="fav_review vtalgmiddle img16x16"
+					src="<?= h($base_path) ?>img/fav_off.svg"
+					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+					data-review_id="<?= h($review["id"]) ?>"
+					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+					alt="fav review"
+					title="fav review"
+				/>
+				<span class="fav_reviews_count"></span>
 			</div>
-<?php endif; ?>
-<?php if($idx === 0): ?>
-			<div id="id_more_review_button_<?= h($_user_id) ?>"></div>
+			<div>
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
+			</div>
+<?php if( $review["user_id"] === $login_user_data["id"] ):?>
+			<div>
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+			</div>
+			<div>
+				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
+			</div>
 <?php endif;?>
 		</div>
-<?php		endforeach; ?>
-<?php if(count($reviews_list) > 1): ?>
-		<script>
-			;$(function(){
-				$("#id_more_review_button_<?= h($_user_id) ?>").append(
-					$("<p />").attr({
-						class:"actions tacenter mgt10px"
-					}).append(
-						$("<a />").attr({
-							href:"javascript:;"
-						}).text(
-							"more <?= count($reviews_list)-1 ?> reviews"
-						).on("click.js",function(){
-							$(this).slideUp("fast");
-							$(".other_reviews_<?= h($_user_id) ?>").slideToggle();
-						})
-					)
-				);
-			});
-		</script>
 <?php endif; ?>
+	</div>
 <?php endforeach; ?>
+<?php if(count($reviews) > 2) :?>
+	<div class="actions tacenter mgt10px mgb10px">
+		<a href="#" id="id_more_review_button">もっと読む</a>
+	</div>
+	<script>
+		;$("#id_more_review_button").on("click.js", function(){
+			$(".other_review").slideToggle("fast");
+			$(this).hide();
+			return false;
+		});
+	</script>
+<?php endif; ?>
 
 
 	</div>
