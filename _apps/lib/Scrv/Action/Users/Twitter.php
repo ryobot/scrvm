@@ -97,8 +97,21 @@ class Twitter extends Base
 			if ($code === 200) {
 				$this->_Session->set(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN, $tmhOAuth->extract_params($tmhOAuth->response['response']));
 				$this->_Session->clear(Scrv\SessionKeys::TWITTER_OAUTH);
-
 				$access_token = $this->_Session->get(Scrv\SessionKeys::TWITTER_ACCESS_TOKEN);
+
+				// 連携済みアカウントがある場合はエラーにする
+				$check_result = $DaoUsers->viewByTwitterUserId($access_token["user_id"]);
+				if ( ! $check_result["status"] ) {
+					$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array($check_result["messages"]));
+					Server::redirect($this->_BasePath . "Users/ConnectTwitter/errorcode/1");
+					return false;
+				}
+				if ( count($check_result["data"]) > 0 ) {
+					$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("そのアカウントは既にtwitter連携済みです。"));
+					Server::redirect($this->_BasePath . "Users/ConnectTwitter/errorcode/2");
+					return false;
+				}
+
 				$save_result = $DaoUsers->saveTwitter(
 					$this->_login_user_data["id"],
 					$access_token["user_id"],

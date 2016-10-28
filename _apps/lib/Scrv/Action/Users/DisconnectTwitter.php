@@ -40,7 +40,7 @@ class DisconnectTwitter extends Base
 		} else {
 			$this->_Session->regenerate();
 			$this->_Session->set(Scrv\SessionKeys::LOGIN_USER_DATA, $current_user_result["data"]["user_data"]);
-			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("twitter連携をクリアしました。"));
+			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, array("twitter連携を解除しました。"));
 		}
 		Server::redirect($this->_BasePath . "Users/ConnectTwitter");
 		return true;

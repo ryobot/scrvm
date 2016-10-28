@@ -36,6 +36,27 @@ class Users extends Dao
 	}
 
 	/**
+	 * twitter_user_id による users テーブル検索
+	 * @param string $twitter_user_id
+	 * @return resultSet
+	 */
+	public function viewByTwitterUserId($twitter_user_id)
+	{
+		$result = getResultSet();
+		try{
+			$data = $this->_Dao->select(
+				"SELECT * FROM users WHERE twitter_user_id=:twitter_user_id",
+				array("twitter_user_id" => $twitter_user_id)
+			);
+			$result["status"] = true;
+			$result["data"] = $data;
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * users view
 	 * @param integer $user_id
 	 * @param integer $login_user_id
@@ -226,10 +247,11 @@ class Users extends Dao
 	 * @param string $org_username
 	 * @param string $new_username
 	 * @param string $current_password
+	 * @param boolean $is_only_twitter_login default false
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function saveUsername($user_id, $org_username, $new_username, $current_password)
+	public function saveUsername($user_id, $org_username, $new_username, $current_password, $is_only_twitter_login = false)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -244,28 +266,31 @@ class Users extends Dao
 			}
 
 			// パスワードが正しいかチェック
-			$Password = new Password();
-			$current_password_hash = $Password->makePasswordHash(
-				$org_username,
-				$current_password,
-				self::$_common_ini["password"]["hash_seed"],
-				(int)self::$_common_ini["password"]["hash_count"]
-			);
-			$user_result = $this->_Dao->select(
-				"SELECT * FROM users WHERE id=:uid AND password=:pwd",
-				array("uid"=>$user_id,"pwd" => $current_password_hash)
-			);
-			if ( count($user_result) === 0 ) {
-				throw new \Exception("パスワードが一致しません。");
+			// twitter連携のみの場合は未チェック
+			$password_hash = null;
+			if (!$is_only_twitter_login) {
+				$Password = new Password();
+				$current_password_hash = $Password->makePasswordHash(
+					$org_username,
+					$current_password,
+					self::$_common_ini["password"]["hash_seed"],
+					(int)self::$_common_ini["password"]["hash_count"]
+				);
+				$user_result = $this->_Dao->select(
+					"SELECT * FROM users WHERE id=:uid AND password=:pwd",
+					array("uid"=>$user_id,"pwd" => $current_password_hash)
+				);
+				if ( count($user_result) === 0 ) {
+					throw new \Exception("パスワードが一致しません。");
+				}
+				$password_hash = $Password->makePasswordHash(
+					$new_username,
+					$current_password,
+					self::$_common_ini["password"]["hash_seed"],
+					(int)self::$_common_ini["password"]["hash_count"]
+				);
 			}
-
 			// 更新処理
-			$password_hash = $Password->makePasswordHash(
-				$new_username,
-				$current_password,
-				self::$_common_ini["password"]["hash_seed"],
-				(int)self::$_common_ini["password"]["hash_count"]
-			);
 			$row_count = $this->_Dao->update(
 				"UPDATE users SET username=:uname, password=:pwd, modified=now() WHERE id=:uid",
 				array(
@@ -393,7 +418,12 @@ class Users extends Dao
 		try{
 			$row_count = $this->_Dao->update("
 				UPDATE users
-				SET twitter_user_id=null,twitter_user_token=null,twitter_user_secret=null,modified=now()
+				SET
+					is_twitter_login=0,
+					twitter_user_id=null,
+					twitter_user_token=null,
+					twitter_user_secret=null,
+					modified=now()
 				WHERE id=:uid",
 				array("uid" => $user_id,)
 			);

@@ -60,10 +60,10 @@ class Base extends Scrv\Base
 	protected $_login_user_data = array();
 
 	/**
-	 * おすすめバナー広告連想配列
-	 * @var array
+	 * twitterログインだけのユーザかどうか
+	 * @var boolean
 	 */
-	protected $_recommend_data = array();
+	protected $_is_only_twitter_login = false;
 
 	/**
 	 * コンストラクタ
@@ -104,6 +104,9 @@ class Base extends Scrv\Base
 		$this->_is_login = $is_login;
 		$this->_login_user_data = $this->_Session->get(Scrv\SessionKeys::LOGIN_USER_DATA);
 
+		// twitterでのみログインしているユーザかどうか
+		$this->_is_only_twitter_login = $is_login && @$this->_login_user_data["password"] === null && @$this->_login_user_data["is_twitter_login"] === 1;
+
 		// テンプレートに埋め込んでおく
 		$this->_Template->assign(array(
 			"base_title" => $this->_BaseTitle,
@@ -111,6 +114,7 @@ class Base extends Scrv\Base
 			"now_timestamp" => self::$_nowTimestamp,
 			"is_login" => $this->_is_login,
 			"login_user_data" => $this->_login_user_data,
+			"is_only_twitter_login" => $this->_is_only_twitter_login,
 		));
 		return true;
 	}

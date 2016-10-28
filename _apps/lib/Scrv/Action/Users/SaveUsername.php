@@ -56,7 +56,8 @@ class SaveUsername extends Base
 			$this->_login_user_data["id"],
 			$this->_login_user_data["username"],
 			$post_params["username"],
-			$post_params["password"]
+			$post_params["password"],
+			$this->_is_only_twitter_login
 		);
 		if ( ! $save_result["status"] ) {
 			$this->_Session->set(Scrv\SessionKeys::ERROR_MESSAGES, $save_result["messages"]);
@@ -92,8 +93,11 @@ class SaveUsername extends Base
 		} else if ( mb_strlen($post_params["username"]) > 50 ){
 			$check_result["messages"]["username"] = "username は50文字以内で入力してください。";
 		}
-		if ( $post_params["password"] === "" ) {
-			$check_result["messages"]["password"] = "password が未入力です。";
+		// twitter ログインのみの場合はパスワードチェックしない
+		if ( ! $this->_is_only_twitter_login ) {
+			if ( $post_params["password"] === "" ) {
+				$check_result["messages"]["password"] = "password が未入力です。";
+			}
 		}
 		$check_result["status"] = count($check_result["messages"]) === 0;
 		return $check_result;

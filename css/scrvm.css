@@ -314,7 +314,7 @@ iframe{max-width: 100%};
 	border:1px solid #CCC;
 	text-align:center;
 	font-size:90%;
-	width: 25%;
+	width: 100%;
 }
 .user_edit_menu div.active{
 	background: rgba(255,255,255,1.0);
@@ -1189,6 +1189,20 @@ ul.pagination li a:hover:not(.active){
 #id_gpm_search_results{
 	display: none;
 	overflow: hidden;
+}
+
+.twitter_login{
+	background-color: #FDD;
+	margin: 5px 0;
+	padding: 5px;
+}
+.twitter_login ul,
+.twitter_login ol{
+	margin:0.5em;
+}
+.twitter_login li{
+	list-style-type: decimal;
+	margin-left:1em;
 }
 
 /*-----------*/

@@ -60,7 +60,9 @@
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<h3>ユーザ名を変更する</h3>
 				<div class="mgb10px"><input type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" data-username_org="<?= h($login_user_data["username"]) ?>" placeholder="new username" /></div>
+<?php if(!$is_only_twitter_login):?>
 				<div class="mgb10px"><input type="password" name="password" id="id_password" placeholder="current password" /></div>
+<?php endif; ?>
 				<div class="actions"><input type="submit" value=" 変更する " ></div>
 			</form>
 
@@ -116,10 +118,17 @@
 	$("#id_form_changeusername").on("submit.js", function(){
 		var username = $.trim($("#id_username").val());
 		var password = $.trim($("#id_password").val());
+<?php if(!$is_only_twitter_login):?>
 		if ( username === "" || password === "" ) {
 			alert("ユーザ名またはパスワードが入力されていません。");
 			return false;
 		}
+<?php else: ?>
+		if ( username === "" ) {
+			alert("ユーザ名が入力されていません。");
+			return false;
+		}
+<?php endif; ?>
 		$(this).submit();
 		return false;
 	});
