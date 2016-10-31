@@ -40,7 +40,8 @@
 
 	<h3>how to join</h3>
 	<div class="about_content">
-		<p>このサイトは招待制です。参加希望の方は、既存のユーザに声をかけてみてくださいね。</p>
+		<p>Twitterアカウントでログインできるようになりました！</p>
+		<p>ログインするとアカウントごとに個別のユーザページが作られます。</p>
 		<p>お問い合わせは <span class="mail">syncreview.info@gmail.com</span> まで。</p>
 	</div>
 
