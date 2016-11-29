@@ -27,8 +27,8 @@ class Index extends Base
 		$type = mb_trim(Server::get("type", ""));
 		$q = mb_trim(Server::get("q", ""));
 		$index = mb_trim(Server::get("index", ""));
-		$sort = Server::get("sort", "reviews"); // defalut reviews
-		$order = Server::get("order", "desc");  // default desc
+		$sort = Server::get("sort", "artist"); // defalut artist
+		$order = Server::get("order", "asc");  // default asc
 		$page = Server::get("page", "1");
 		$ajax = Server::get("ajax", "");
 
@@ -41,10 +41,10 @@ class Index extends Base
 
 		// sort, order設定
 		if ( preg_match("/\A(artist|title|year|reviews)\z/", $sort) !== 1 ) {
-			$sort = "reviews";
+			$sort = "artist";
 		}
 		if ( preg_match("/\A(asc|desc)\z/", $order) !== 1 ) {
-			$order = "desc";
+			$order = "asc";
 		}
 
 		// stype check
