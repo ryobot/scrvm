@@ -103,8 +103,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<!-- track_info -->
 <?php foreach($tracks as $track): ?>
 	<div class="track_info">
-		<div class="num"><?= $track["track_num"] ?>. </div>
-		<div class="title"><?= $track["track_title"] ?></div>
+		<div class="num"><?= h($track["track_num"]) ?>. </div>
+		<div class="title"><?= h($track["track_title"]) ?></div>
 		<div class="fav">
 			<img
 				class="fav_track<?= $is_login ? "" : "_nologin" ?>"
