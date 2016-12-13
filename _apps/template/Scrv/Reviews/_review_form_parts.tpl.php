@@ -13,29 +13,30 @@
 
 
 <div class="mgt10px">
-	<p><a href="#" id="id_np_or_ar_area_toggle">レビュー欄を開く</a></p>
 
-	<div class="displaynone" id="id_np_or_ar_area">
-		<div id="id_listening_system_group" class="mgb10px">
-			<div><label>situation : <span id="id_selected_listening_system">headphones</span></label></div>
+	<div id="id_listening_system_group" class="mgb10px">
+		<div><label>situation : <span id="id_selected_listening_system">headphones</span></label></div>
 <?php foreach( $situation_list as $list ): ?>
-			<input
-				type="radio"
-				name="listening_system"
-				id="id_listening_system_<?= h($list["value"]) ?>"
-				class="cl_listening_system"
-				value="<?= h($list["value"]) ?>"
+		<input
+			type="radio"
+			name="listening_system"
+			id="id_listening_system_<?= h($list["value"]) ?>"
+			class="cl_listening_system"
+			value="<?= h($list["value"]) ?>"
 <?php		if($list["value"] === "headphones"): ?>
-				checked="checked"
+			checked="checked"
 <?php		endif; ?>
-			/>
-			<label for="id_listening_system_<?= h($list["value"]) ?>"><img
-				src="<?= h($base_path . $list["path"]) ?>"
-				alt="<?= h($list["value"]) ?>"
-				title="<?= h($list["value"]) ?>"
-			/></label>
+		/>
+		<label for="id_listening_system_<?= h($list["value"]) ?>"><img
+			src="<?= h($base_path . $list["path"]) ?>"
+			alt="<?= h($list["value"]) ?>"
+			title="<?= h($list["value"]) ?>"
+		/></label>
 <?php endforeach;?>
-		</div>
+	</div>
+
+	<p><a href="#" id="id_np_or_ar_area_toggle">レビュー欄を開く</a></p>
+	<div class="displaynone" id="id_np_or_ar_area">
 		<p>
 			<textarea name="body" id="id_body" cols="30" rows="10" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea>
 			<div class="notice"><span id="id_review_counter"></span></div>
