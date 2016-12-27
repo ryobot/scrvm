@@ -1206,6 +1206,14 @@ ul.pagination li a:hover:not(.active){
 }
 
 /*-----------*/
+.special_info{
+	padding:5px;
+	text-align: center;
+	background-color: rgba(255,255,255,0.4);
+	color: rgb(255,75,0);
+}
+
+/*-----------*/
 .w100per{width:100%;}
 .w50per{width:50%;}
 .w33per{width:33%;}

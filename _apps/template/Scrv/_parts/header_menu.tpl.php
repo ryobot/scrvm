@@ -69,6 +69,8 @@
 	</a></div>
 </div>
 
+<div class="special_info displaynone" id="id_special_info">🎉 Happy New Year ! 🎉</div>
+
 <script>
 ;$(function(){
 	// active
@@ -82,6 +84,10 @@
 			$(this).addClass("menu_block_active");
 		}
 	});
+	var dt = new Date();
+	if (dt.getMonth()+1 === 1 && dt.getDate() === 1) {
+		$("#id_special_info").removeClass("displaynone");
+	}
 });
 </script>
 
