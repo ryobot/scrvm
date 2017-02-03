@@ -29,6 +29,8 @@ class Router extends Base
 		if ( $parsed === null ) {
 			return $instance;
 		}
+		self::$_actionName = $parsed["action"];
+		self::$_runClassName = $parsed["run"];
 		$run_class_name = "\\lib\\Scrv\\Action\\{$parsed["action"]}\\{$parsed["run"]}";
 		if (class_exists($run_class_name) ) {
 			$instance = new $run_class_name;

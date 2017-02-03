@@ -115,6 +115,9 @@ class Base extends Scrv\Base
 			"is_login" => $this->_is_login,
 			"login_user_data" => $this->_login_user_data,
 			"is_only_twitter_login" => $this->_is_only_twitter_login,
+
+			"__action_name" => self::$_actionName,
+			"__run_class_name" => self::$_runClassName,
 		));
 		return true;
 	}

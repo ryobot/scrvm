@@ -26,6 +26,18 @@ class Base
 	protected static $_nowTimestamp = null;
 
 	/**
+	 * 実行アクション名
+	 * @var string
+	 */
+	protected static $_actionName = null;
+
+	/**
+	 * 実行クラス名
+	 * @var string
+	 */
+	protected static $_runClassName = null;
+
+	/**
 	 * 設定ファイル格納さきディレクトリパスを返す
 	 * @return string
 	 */
