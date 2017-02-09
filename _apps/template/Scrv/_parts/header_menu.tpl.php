@@ -33,7 +33,12 @@
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>"><img class="width_30px" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.svg" ?>" /></a>
 <?php endif; ?>
 		</div>
-		<div class="w3-center"><a href="<?= h($base_path) ?>"><?= h($base_title) ?></a></div>
+		<div class="w3-center">
+			<a href="<?= h($base_path) ?>">
+				<img class="width_20px" style="vertical-align: middle;" src="<?= h($base_path) ?>img/headphone_icon_S.png" alt="<?= h($base_title) ?>" />
+				<?= h($base_title) ?>
+			</a>
+		</div>
   </div>
 
 	<!-- top menu -->
