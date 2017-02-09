@@ -12,58 +12,57 @@
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-	<div class="contents">
-		<h2>Admin::EditUsers</h2>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<div class="w3-center w3-padding">
+		<h2 class="w3-xlarge">Admin::EditUsers</h2>
 	</div>
 
+<?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="pager">
-		<ul class="pagination">
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>
+<?php endif; ?>
 
-	<div class="user_list">
+	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($users as $user): ?>
 		<div
-			class="user_info"
+			class="user_info w3-padding flex-item info col"
 			id="id_user_<?= h($user["id"]) ?>"
 			data-user_json="<?= h(json_encode($user)) ?>"
 		>
-			<h3><?= h($user["id"]) ?> :: <?= h($user["username"]) ?></h3>
-			<div class="cover">
-				<img src="<?= h($base_path) ?>files/attachment/photo/<?= h($user["img_file"]) ?>" alt="" onerror="this.src='<?= h($base_path) ?>img/user.svg';" />
-			</div>
-			<div class="detail">
-				<ul>
-					<li><a href="javascript:;" class="open_form_password" data-userid="<?= h($user["id"]) ?>">パスワード変更</a></li>
-					<li><a href="javascript:;" class="open_form_invited_count" data-userid="<?= h($user["id"]) ?>">招待人数クリア</a></li>
-				</ul>
-			</div>
+			<h5><?= h($user["id"]) ?> :: <?= h($user["username"]) ?></h5>
+			<p><img class="cover_user" src="<?= h($base_path) ?>files/attachment/photo/<?= h($user["img_file"]) ?>" alt="" onerror="this.src='<?= h($base_path) ?>img/user.svg';" /></p>
+			<ul>
+				<li><a href="javascript:;" class="open_form_password" data-userid="<?= h($user["id"]) ?>">パスワード変更</a></li>
+				<li><a href="javascript:;" class="open_form_invited_count" data-userid="<?= h($user["id"]) ?>">招待人数クリア</a></li>
+			</ul>
 			<div id="id_form_area_<?= h($user["id"]) ?>">
 				<div class="displaynone" id="id_form_password_<?= h($user["id"]) ?>">
 					<form action="javascript:;" method="post" class="form_password" data-userid="<?= h($user["id"]) ?>">
-						<p>新パスワード : <input type="text" name="password" value="" /></p>
-						<p>新パスワード (再): <input type="text" name="password_re" value="" /></p>
-						<p class="tacenter actions"><input type="submit" value="変更" /></p>
+						<p><input class="w3-input" type="text" name="password" value="" placeholder="新パスワード" /></p>
+						<p><input class="w3-input" type="text" name="password_re" value="" placeholder="新パスワード(再入力)" /></p>
+						<p><input type="submit" value="変更" /></p>
 					</form>
 				</div>
 				<div class="displaynone" id="id_form_invited_count_<?= h($user["id"]) ?>">
 					<form action="javascript:;" method="post" class="form_invited_count" data-userid="<?= h($user["id"]) ?>">
-						<p class="tacenter">現在の招待人数：<span id="id_current_invited_count_<?= h($user["id"]) ?>"><?= h($user["invited_count"]) ?></span></p>
-						<p class="tacenter actions"><input type="submit" value="招待人数をクリアする" /></p>
+						<p>現在の招待人数：<span id="id_current_invited_count_<?= h($user["id"]) ?>"><?= h($user["invited_count"]) ?></span></p>
+						<p><input type="submit" value="招待人数をクリアする" /></p>
 					</form>
 				</div>
 			</div>
@@ -71,24 +70,26 @@
 <?php endforeach; ?>
 	</div>
 
+<?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="pager">
-		<ul class="pagination">
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-			<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
 		</ul>
 	</div>
-
-<?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
+<?php endif; ?>
 
 </div>
+
+<?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 <script>
 ;$(function(){

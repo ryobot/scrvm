@@ -12,21 +12,24 @@
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-<div class="contents">
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
 
-	<h2>Admin</h2>
-	<ul>
-		<li><a href="<?= h($base_path) ?>Admin/EditUsers">EditUsers</a></li>
-	</ul>
+	<div class="w3-center w3-padding">
+		<h2 class="w3-xlarge">Admin</h2>
+	</div>
+
+	<div class="w3-padding info">
+		<ul>
+			<li><a href="<?= h($base_path) ?>Admin/EditUsers">EditUsers</a></li>
+		</ul>
+	</div>
 
 </div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 </body>
 </html>
