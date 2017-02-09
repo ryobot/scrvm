@@ -11,41 +11,42 @@
 <title>Users::ConnectTwitter - <?= h($base_title) ?></title>
 </head>
 <body>
-<div id="container">
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
 
-	<h2>Connect Twitter</h2>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Connect Twitter</h2>
+	</div>
+
+<?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
-	<div class="error_message">
+	<div class="w3-padding w3-center w3-red">
 <?php		foreach($error_messages as $key => $message): ?>
 		<p><?= h($message) ?></p>
 <?php		endforeach; unset($key, $message) ?>
 	</div>
 <?php endif;?>
 
-	<div class="user_edit">
-<?php require __DIR__ . '/_editmenu.tpl.php'; ?>
-		<div class="user_edit_area">
+	<div class="w3-padding w3-center info">
 <?php if (isset($login_user_data["twitter_user_id"])): ?>
-			<p>twitter連携を完全に解除するには、以下ボタンでtwitterの連携を解除したのち、パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す作業が必要です。</p>
-			<p class="actions"><a href="javascript:;" id="id_users_twitter_disconnect">twitter 連携を解除する</a></p>
-			<form id="id_users_twitter_disconnect_form" action="<?= h($base_path) ?>Users/DisconnectTwitter" method="POST"></form>
+		<p>twitter連携を完全に解除するには、以下ボタンでtwitterの連携を解除したのち、パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す作業が必要です。</p>
+		<p><a class="w3-btn" href="javascript:;" id="id_users_twitter_disconnect">twitter 連携を解除する</a></p>
+		<form id="id_users_twitter_disconnect_form" action="<?= h($base_path) ?>Users/DisconnectTwitter" method="POST"></form>
 <?php else: ?>
-			<p class="actions"><a href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
-			<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
-				<input type="hidden" name="authenticate" value="auth" />
-			</form>
+		<p><a class="w3-btn" href="javascript:;" id="id_users_twitter">twitter 連携</a></p>
+		<form id="id_users_twitter_form" action="<?= h($base_path) ?>Users/Twitter" method="POST">
+			<input type="hidden" name="authenticate" value="auth" />
+		</form>
 <?php endif; ?>
-		</div>
 	</div>
-
 </div>
+
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
-
-</div>
 
 <script>
 ;$(function(){

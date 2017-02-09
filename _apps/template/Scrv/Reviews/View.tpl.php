@@ -37,110 +37,103 @@ if($is_unpublished){
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
 
-	<div class="album_info">
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<!-- album info -->
+	<div class="w3-padding w3-center info">
+
 <?php if($is_unpublished): ?>
 		<div class="notice">この投稿は非表示にされています。	</div>
 <?php else: ?>
-		<h3><?= h($review_title) ?> (<?= h($year) ?>)</h3>
-		<div class="cover">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-				<img class="album_view_cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-			</a>
-		</div>
-		<div class="detail"></div>
-		<div class="review_comment">
-			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)	?>
-		</div>
-		<div>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-			<div class="post_date">
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= date('Y年n月j日 H時i分',strtotime($review["created"])) ?></a>
-<?php if($review["listening_last"] === "today"): ?>
-				<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
-					<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
-				</a>
-<?php endif; ?>
-			</div>
-		</div>
 
-		<div class="reaction_area">
+		<img class="cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+		<h5>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<?= h($review_title) ?> (<?= h($year) ?>)
+			</a>
+		</h5>
+
+		<p class="w3-left-align">
+			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
+		</p>
+		<p>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+			-
+			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
+		</p>
+
+		<div class="w3-center reaction_area">
 <?php if($review["published"] === 0): ?>
-			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></span>
 <?php endif; ?>
-			<div class="fav_reviews_wrapper">
-				<img
-					class="fav_review vtalgmiddle img16x16"
-					src="<?= h($base_path) ?>img/fav_off.svg"
-					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-					data-review_id="<?= h($review["id"]) ?>"
-					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-					alt="fav review"
-					title="fav review"
-				/>
-				<span class="fav_reviews_count"></span>
-			</div>
-			<div>
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<span class="vtalgmiddle">
-						<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
-						<?= $review["reviews_count"] ?>
-					</span>
+<?php if($review["listening_last"] === "today"): ?>
+			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="width_25px" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" /></a>
+<?php endif; ?>
+			<span class="fav_reviews_wrapper">
+				<a href="javascript:void(0)">
+					<img
+						class="fav_review"
+						src="<?= h($base_path) ?>img/fav_off.svg"
+						data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+						data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+						data-review_id="<?= h($review["id"]) ?>"
+						data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+						data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+					/>
+					<span class="fav_reviews_count"></span>
 				</a>
-			</div>
+			</span>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<span class="vtalgmiddle">
+					<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+					<?= $review["reviews_count"] ?>
+				</span>
+			</a>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-			<div>
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
-			</div>
-			<div>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
-			</div>
+			<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+			<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" /></a>
 <?php endif;?>
 		</div>
 
+	</div>
+
 <?php if(count($favreviews_user_lists) > 0): ?>
-		<div class="fav_review_user_lists w100per">
-			<p>faved by</p>
+	<div class="w3-padding w3-center info">
+		<p>faved by</p>
+		<p>
 <?php		foreach($favreviews_user_lists as $user): ?>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($user["user_id"]) ?>">
 				<img
-					class="user_photo_min vtalgmiddle"
+					class="width_25px"
 					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.svg" ?>"
 					alt="<?= h($user["username"]) ?>"
-					title="<?= h($user["username"]) ?>"
 				/>
 			</a>
 <?php		endforeach;unset($user) ?>
-		</div>
-<?php endif; ?>
-		<input
-			type="hidden"
-			name="term"
-			id="id_term"
-			value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
-			data-artist="<?= h($review["artist"]) ?>"
-			data-title="<?= h($review["title"]) ?>"
-		/>
-		<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
-<?php endif; ?>
+		</p>
 	</div>
-
+<?php endif; ?>
+	<input
+		type="hidden"
+		name="term"
+		id="id_term"
+		value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
+		data-artist="<?= h($review["artist"]) ?>"
+		data-title="<?= h($review["title"]) ?>"
+	/>
+	<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
+<?php endif; ?>
 </div>
 
 <!-- music search 用 -->
-<div id="id_itunes_search_results"></div>
-<div id="id_gpm_search_results"></div>
+	<div class="w3-padding w3-center info" id="id_itunes_search_results"></div>
+	<div class="w3-padding w3-center info" id="id_gpm_search_results"></div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
-
-</div>
 
 <script>
 ;$(function(){

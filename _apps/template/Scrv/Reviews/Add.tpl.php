@@ -3,6 +3,8 @@
  * Reviews/Add.tpl.php
  * @author mgng
  */
+use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
+$ReviewsParse = new ReviewsParse();
 ?>
 <!doctype html>
 <html lang="ja">
@@ -12,12 +14,14 @@
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
 
-	<h2>Add Review</h2>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Add Review</h2>
+	</div>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
@@ -27,63 +31,53 @@
 	</div>
 <?php endif;?>
 
-	<div class="album_info">
-
-		<h3><?= h($album["artist"]) ?> / <?= h($album["title"]) ?> (<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)</h3>
-
-		<div>
-			<div class="cover">
-				<img src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h($album["artist"]) ?> / <?= h($album["title"]) ?>" />
-			</div>
-			<div class="detail">
-			</div>
-		</div>
-
+	<!-- album info -->
+	<div class="w3-padding w3-center info">
+		<img class="cover" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" />
+		<h5><?= h($album["artist"]) ?> / <?= h($album["title"]) ?> (<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)</h5>
 		<form action="<?= h($base_path) ?>Reviews/AddRun" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="album_id" value="<?= h($album_id) ?>">
-
 <?php require __DIR__ . '/_review_form_parts.tpl.php'; ?>
-
 		</form>
 	</div>
 
+	
 	<!-- reviews -->
-	<h3>Reviews (<?= count($reviews) ?>)</h3>
+	<div class="w3-center">
+		<h4>Reviews (<?= count($reviews) ?>)</h4>
+	</div>
+	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($reviews as $review): ?>
-	<div class="review">
+		<div class="w3-padding w3-center info col">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||
 	($review["published"] === 0 && $is_login && $review["user_id"] !== $login_user_data["id"])
 ): ?>
-		<div class="notice">
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			この投稿は非表示にされています。
-		</div>
+			<div class="notice">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				この投稿は非表示にされています。
+			</div>
 <?php else: ?>
-		<div class="review_comment"><?= nl2br(linkIt(h($review["body"]))) ?></div>
-		<div>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>">
-				<img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" />
-			</a>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-			-
-			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-			</a>
-<?php if($review["listening_last"] === "today"): ?>
-			<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
+			<p class="w3-left-align">
+				<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
+			</p>
+			<p>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				-
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
+			</p>
 <?php endif; ?>
 		</div>
-<?php endif; ?>
-	</div>
 <?php endforeach; ?>
+	</div>
 
 </div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 </body>
 
 <script src="<?= h($base_path)?>js/Reviews.write.js"></script>

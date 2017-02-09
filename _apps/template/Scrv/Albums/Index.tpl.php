@@ -3,7 +3,6 @@
  * Albums/Index.tpl.php
  * @author mgng
  */
-
 ?>
 <!doctype html>
 <html lang="ja">
@@ -13,50 +12,49 @@
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-<h2>
-	Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
-	<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="img16x16 loading displaynone" alt="now loading" />
-</h2>
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">
+			Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
+			<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="width_16px loading displaynone" />
+		</h2>
+	</div>
 
 <!-- search tabs -->
-<div class="search_tab">
+<div class="w3-center w3-padding info">
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET" autocomplete="off">
 
-		<!-- search type and add album tabs -->
-		<div class="displaytable w100per tacenter">
+		<div class="w3-hide">
+			<div id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" title="index" class="width_25px" /></div>
+		</div>
+
+		<div class="w3-hide">
+			<div><label><input type="radio" name="type" id="id_search_type_artist" value="artist" /> artist</label></div>
+			<div><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
+		</div>
+
+		<p>
+			<input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" />
+			<button id="id_search">検索</button>
+		</p>
+
 <?php if( $is_login ): ?>
-			<div class="displaytablecell notab"><a href="<?= h($base_path) ?>Albums/Add" class="add_album"><img src="<?= h($base_path) ?>img/add_album.svg" alt="add album" title="add album" class="img24x24" /></a></div>
+		<p><a href="<?= h($base_path) ?>Albums/Add" class="add_album">アルバムを追加する</a></p>
 <?php endif; ?>
-			<div class="displaytablecell tab active" id="id_stype_search" data-stype="search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" title="search" class="img24x24" /></div>
-			<div class="displaytablecell tab" id="id_stype_index" data-stype="index"><img src="<?= h($base_path) ?>img/index.svg" alt="index" title="index" class="img24x24" /></div>
-		</div>
 
-		<!-- artist or album -->
-		<div class="displaytable w100per tacenter search_type">
-			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_artist" value="artist" /> artist</label></div>
-			<div class="displaytablecell"><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
-		</div>
-		<div class="tabContent active">
-			<div class="search_box">
-				<div class="search_box_text"><input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="artist search" /></div>
-				<div class="search_box_button"><a href="javascript:;" id="id_search"><img src="<?= h($base_path) ?>img/search.svg" alt="search" /></a></div>
-			</div>
-		</div>
-
-		<div class="tabContent">
+		<div class="w3-hide">
 			<div class="search_index">
-	<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
+<?php foreach(array_merge(range("a","z"),range(0,9),array("日")) as $alpha): ?>
 				<a
 					class="index"
 					id="id_search_index_<?= h(strtoupper($alpha)) ?>"
 					href="javascript:;"
 					data-search_index="<?= h(strtoupper($alpha)) ?>"
 				><?= h(strtoupper($alpha)) ?></a>
-	<?php endforeach; unset($alpha); ?>
+<?php endforeach; unset($alpha); ?>
 			</div>
 		</div>
 
@@ -71,9 +69,9 @@
 	</div>
 </div>
 
-<?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
-
 </div>
+
+<?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
 <script>
 ;$(function(){
@@ -96,13 +94,12 @@
 		$("#id_q").attr({placeholder:$(this).val() + " search"});
 	});
 
-
 	// incremental search
 	var incSearch = function(){
 		var $q = $("#id_q"), input, type, $loading = $("#id_loading");
 		clearTimeout(incSearch.timer);
 		incSearch.timer = setTimeout(function(){
-			type = $("input[name='type']:checked").val();
+			type = "artist";
 			input = $.trim($q.val());
 			if ( input.length < 2 || (type === incSearch.preType && input === incSearch.preInput) ) {
 				return false;
@@ -177,11 +174,11 @@
 
 	// addAlbum
 	var bindAddAlbum = function(){
+		var q = $.trim($("#id_q").val());
 		// 一旦削除してからon
 		$(".add_album").off("click.js").on("click.js", function(){
 			var href = $(this).attr("href");
 			var type = $("input[name='type']:checked").val();
-			var q = $.trim($("#id_q").val());
 			var query = "";
 			if ( q !== "" && /^(artist|title)$/.test(type) ) {
 				query = "?" + [
@@ -191,7 +188,7 @@
 			}
 			location.href=href+query;
 			return false;
-		});
+		}).text((q === "" ? "新しく" : "'"+q+"'の") + "アルバムを追加する");
 	};
 
 <?php if($is_login): ?>

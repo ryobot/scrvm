@@ -27,37 +27,41 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($user["username"]) ?> - Users::View - <?= h($base_title) ?></title>
 </head>
-<body><div id="container">
+<body>
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
-	<?php require __DIR__ . "/_profile.tpl.php" ?>
-</div>
 
-<h3>
-	<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" title="reviews" />
-	Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)
-</h3>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+<?php require __DIR__ . "/_profile.tpl.php" ?>
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Reviews (<?= isset($user["reviews_count"]) ? h($user["reviews_count"]) : "0" ?>)</h2>
+	</div>
 
 <?php if (count($reviews) > 0): ?>
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
+<?php endif; ?>
 
-<div class="review_list">
+<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($reviews as $review): ?>
-	<div class="album_info">
+	<div class="w3-padding flex-item info col">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||
@@ -67,65 +71,52 @@ foreach($pager["nav_list"] as $nav) {
 			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
-		<div class="cover">
-			<img src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-		</div>
-		<div class="detail">
-			<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-				<?= h($review["artist"]) ?><br />
-				<?= h($review["title"]) ?>
-				(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : "unknown" ?>)
-			</a></p>
-		</div>
-		<div class="review_comment"><?=
-			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)
-		?></div>
-		<div>
-			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
+		<p><img class="cover" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" /></p>
+		<h5>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<?= h($review["artist"] . " / " . $review["title"]) ?>
+				(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : " unknown " ?>)
 			</a>
-<?php if($review["listening_last"] === "today"): ?>
-			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
-				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
-			</a>
-<?php endif;?>
-		</div>
-		<div class="reaction_area">
+		</h5>
+		<p class="w3-left-align">
+			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
+		</p>
+		<p>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+			-
+			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
+		</p>
+		<div class="w3-center reaction_area">
 <?php if($review["published"] === 0): ?>
-			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></span>
 <?php endif; ?>
-			<div class="fav_reviews_wrapper">
-				<img
-					class="fav_review vtalgmiddle img16x16"
-					src="<?= h($base_path) ?>img/fav_off.svg"
-					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-					data-review_id="<?= h($review["id"]) ?>"
-					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-					alt="fav review"
-					title="fav review"
-				/>
-				<span class="fav_reviews_count"></span>
-			</div>
-			<div>
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<span class="vtalgmiddle">
-						<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
-						<?= $review["reviews_count"] ?>
-					</span>
+<?php if($review["listening_last"] === "today"): ?>
+			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="width_25px" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" /></a>
+<?php endif; ?>
+			<span class="fav_reviews_wrapper">
+				<a href="javascript:void(0)">
+					<img
+						class="fav_review"
+						src="<?= h($base_path) ?>img/fav_off.svg"
+						data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+						data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+						data-review_id="<?= h($review["id"]) ?>"
+						data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+						data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+					/>
+					<span class="fav_reviews_count"></span>
 				</a>
-			</div>
-			<div>
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/link.svg" class="img16x16" alt="perma link" /></a>
-			</div>
-<?php if($is_login && $user_id === $login_user_data["id"]): ?>
-			<div>
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
-			</div>
-			<div>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
-			</div>
+			</span>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
+				<span class="vtalgmiddle">
+					<img src="<?= h($base_path) ?>img/reviews.svg" class="img16x16" alt="reviews" />
+					<?= $review["reviews_count"] ?>
+				</span>
+			</a>
+<?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
+			<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+			<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" /></a>
 <?php endif;?>
 		</div>
 <?php endif; ?>
@@ -133,26 +124,29 @@ foreach($pager["nav_list"] as $nav) {
 <?php		endforeach; ?>
 </div>
 
-
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
+<?php endif; ?>
 
 <?php endif; ?>
 
+</div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 
 <script>
 ;$(function(){

@@ -11,97 +11,106 @@
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title>Activity - <?= h($base_title) ?></title>
 </head>
-<body><div id="container">
+<body>
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
-<h2>Activities within 24 hours</h2>
+<div class="w3-main w3-content w3-padding-4 main">
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Activities within 24 hours</h2>
+	</div>
 
 <?php if(count($lists) > 0):?>
 
-<div class="info mgb5px">
-	<div class="user_menu_list cursorpointer">
-		<div class="user_menu_list_block" data-menu="FavReviews" id="id_fav_review">
-			<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="reviews" title="reviews" />
-			<div>Review(<span id="id_counter_fav_review"></span>)</div>
-		</div>
-		<div class="user_menu_list_block" data-menu="FavTracks" id="id_fav_tracks">
-			<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="img16x16" alt="fav tracks" title="fav tracks" />
-			<div>Track(<span id="id_counter_fav_tracks"></span>)</div>
-		</div>
-		<div class="user_menu_list_block" data-menu="FavAlbums" id="id_fav_albums">
-			<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="img16x16" alt="fav albums" title="fav albums" />
-			<div>Album(<span id="id_counter_fav_albums"></span>)</div>
-		</div>
-		<div class="user_menu_list_block" data-menu="Users" id="id_new_user">
-			<img src="<?= h($base_path) ?>img/user.svg" class="img16x16" alt="new users" title="new users" />
-			<div>User(<span id="id_counter_new_user"></span>)</div>
+	<div class="w3-padding w3-center info">
+		<div class="user_menu_list flex-container cursorpointer">
+			<div class="user_menu_list_block" data-menu="FavReviews" id="id_fav_review">
+				<img src="<?= h($base_path) ?>img/fav_on.svg" class="width_16px" alt="reviews" title="reviews" />
+				<div>Review(<span id="id_counter_fav_review"></span>)</div>
+			</div>
+			<div class="user_menu_list_block" data-menu="FavTracks" id="id_fav_tracks">
+				<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="width_16px" alt="fav tracks" title="fav tracks" />
+				<div>Track(<span id="id_counter_fav_tracks"></span>)</div>
+			</div>
+			<div class="user_menu_list_block" data-menu="FavAlbums" id="id_fav_albums">
+				<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="width_16px" alt="fav albums" title="fav albums" />
+				<div>Album(<span id="id_counter_fav_albums"></span>)</div>
+			</div>
+			<div class="user_menu_list_block" data-menu="Users" id="id_new_user">
+				<img src="<?= h($base_path) ?>img/user.svg" class="width_16px" alt="new users" title="new users" />
+				<div>User(<span id="id_counter_new_user"></span>)</div>
+			</div>
 		</div>
 	</div>
-</div>
 
-<!-- lists -->
-<div class="user_list_activity">
+	<!-- lists -->
+	<div class="w3-padding w3-center user_list_activity">
 <?php foreach($lists as $list): ?>
-	<div class="user_info action_<?= h($list["action"]) ?>">
-		<div class="detail">
+		<div class="user_info action_<?= h($list["action"]) ?>">
+			<div class="detail info">
 <?php		if( $list["action"] === "fav_reviews" ): ?>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
-				<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="fav review" />
-			</div>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>r/<?= h($list["review_id"]) ?>">
-					<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
-				</a>
-				<div>(by <a href="<?= h($base_path) ?>u/<?= h($list["user_id"]) ?>"><?= h($list["username"]) ?></a>)</div>
-			</div>
+				<p>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
+				</p>
+				<p>
+					<img src="<?= h($base_path) ?>img/fav_on.svg" class="width_16px" alt="fav review" />
+					<a href="<?= h($base_path) ?>r/<?= h($list["review_id"]) ?>">
+						<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
+					</a>
+					<div>(by <a href="<?= h($base_path) ?>u/<?= h($list["user_id"]) ?>"><?= h($list["username"]) ?></a>)</div>
+				</p>
 <?php		elseif($list["action"] === "fav_tracks"):?>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
-				<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="img16x16" alt="fav track" />
-			</div>
-			<div class="mgb5px">
-				<div><strong><?= h($list["track_num"]) ?>. <?= h($list["track_title"]) ?></strong></div>
-				<a href="<?= h($base_path) ?>a/<?= h($list["album_id"]) ?>">
-					(<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>)
-				</a>
-			</div>
+				<p>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
+				</p>
+				<p>
+					<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="width_16px" alt="fav track" />
+					<?= h($list["track_num"]) ?>. <?= h($list["track_title"]) ?>
+				</p>
+				<p>
+					<a href="<?= h($base_path) ?>a/<?= h($list["album_id"]) ?>">(<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>)</a>
+				</p>
 <?php		elseif($list["action"] === "fav_albums"):?>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
-				<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="img16x16" alt="fav album" />
-			</div>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>a/<?= h($list["album_id"]) ?>">
-					<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
-				</a>
-			</div>
+				<p>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
+				</p>
+				<p>
+					<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="width_16px" alt="fav album" />
+					<a href="<?= h($base_path) ?>a/<?= h($list["album_id"]) ?>">
+						<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
+					</a>
+				</p>
 <?php		elseif($list["action"] === "new_user"):?>
-			<div class="mgb5px">
-				<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="user_photo_min" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
-				<a href="<?= h($base_path) ?>u/<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
-			</div>
-			<div class="mgb5px">
-				ようこそ <a href="<?= h($base_path) ?>"><?= h($base_title) ?></a> へ！
-			</div>
+				<p>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
+				</p>
+				<p>
+					ようこそ <a href="<?= h($base_path) ?>"><?= h($base_title) ?></a> へ！
+				</p>
 <?php		endif;?>
-			<div class="mgb5px">
-				<span class="post_date"><?= h(timeAgoInWords($list["created"])) ?></span>
+				<p class="notice"><?= h(timeAgoInWords($list["created"])) ?></p>
 			</div>
 		</div>
-	</div>
 <?php endforeach; ?>
-</div>
+	</div>
+
+<?php else: ?>
+
+	<div class="w3-center w3-padding info">
+		<p>Activities not found.</p>
+	</div>
 
 <?php endif; ?>
 
+</div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 
 <script>
 ;$(function(){

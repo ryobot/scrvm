@@ -25,72 +25,75 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($user["username"]) ?> - Users::FavTracks - <?= h($base_title) ?></title>
 </head>
-<body><div id="container">
+<body>
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
-	<?php require __DIR__ . "/_profile.tpl.php" ?>
-</div>
 
-<h3>
-	<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="img16x16" alt="fav tracks" title="fav tracks" />
-	Fav.Tracks (<?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?>)
-</h3>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+<?php require __DIR__ . "/_profile.tpl.php" ?>
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Fav.Tracks (<?= isset($user["favtracks_count"]) ? h($user["favtracks_count"]) : "0" ?>)</h2>
+	</div>
 
 <?php if(count($favtracks) > 0): ?>
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
+<?php endif; ?>
 
-<div class="review_list">
+<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($favtracks as $favtrack): ?>
-	<div class="album_info">
-		<div class="cover">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>"><img src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-		</div>
-		<div class="detail">
-			<div>
-				<strong><?= h($favtrack["track_num"]) ?>. <?= h($favtrack["track_title"]) ?></strong>
-			</div>
-			<div>
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
-					<?= h($favtrack["artist"]) ?><br />
-					<?= h($favtrack["title"]) ?>
-					(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : "unknown" ?>)
-				</a>
-			</div>
-		</div>
+	<div class="w3-padding flex-item info col">
+		<p><img class="cover" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
+		<h5>Tr.<?= h($favtrack["track_num"]) ?> : <?= h($favtrack["track_title"]) ?></h5>
+		<h5>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favtrack["album_id"]) ?>">
+				<?= h($favtrack["artist"] . " / " . $favtrack["title"]) ?>
+				(<?= isset($favtrack["year"]) && $favtrack["year"] !== "" ? h($favtrack["year"]) : " unknown " ?>)
+			</a>
+		</h5>
 	</div>
 <?php endforeach; ?>
 </div>
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
 <?php endif; ?>
+
+<?php endif; ?>
+
+</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div></body>
+</body>
 </html>

@@ -25,72 +25,74 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($user["username"]) ?> - Users::FavAlbums - <?= h($base_title) ?></title>
 </head>
-<body><div id="container">
+<body>
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
-	<?php require __DIR__ . "/_profile.tpl.php" ?>
-</div>
 
-<h3>
-	<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="img16x16" alt="fav albums" title="fav albums" />
-	Fav.Albums (<?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?>)
-</h3>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+<?php require __DIR__ . "/_profile.tpl.php" ?>
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Fav.Albums (<?= isset($user["favalbums_count"]) ? h($user["favalbums_count"]) : "0" ?>)</h2>
+	</div>
 
 <?php if(count($favalbums) > 0): ?>
 
-
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
-
-<div class="contents">
-	<div class="review_list">
-<?php foreach($favalbums as $favalbum): ?>
-		<div class="album_info">
-			<div class="cover">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>"><img src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-			</div>
-			<div class="detail">
-				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
-					<?= h($favalbum["artist"]) ?><br />
-					<?= h($favalbum["title"]) ?><br />
-					(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : "unknown" ?>)
-				</a>
-			</div>
-		</div>
-<?php endforeach; ?>
+		</ul>
 	</div>
+<?php endif; ?>
+
+<div class="flex-container w3-row-padding w3-padding-16 w3-center">
+<?php foreach($favalbums as $favalbum): ?>
+	<div class="w3-padding flex-item info col">
+		<p><img class="cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
+		<h5>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
+				<?= h($favalbum["artist"] . " / " . $favalbum["title"]) ?>
+				(<?= isset($favalbum["year"]) && $favalbum["year"] !== "" ? h($favalbum["year"]) : " unknown " ?>)
+			</a>
+		</h5>
+	</div>
+<?php endforeach; ?>
 </div>
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
+<?php endif; ?>
 
 <?php endif; ?>
 
+</div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div></body>
+</body>
 </html>

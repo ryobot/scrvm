@@ -28,39 +28,42 @@ foreach($pager["nav_list"] as $nav) {
 <?php require __DIR__ . '/../_parts/meta_common.tpl.php'; ?>
 <title><?= h($user["username"]) ?> - Users::FavReviews - <?= h($base_title) ?></title>
 </head>
-<body><div id="container">
+<body>
 
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
-	<?php require __DIR__ . "/_profile.tpl.php" ?>
-</div>
 
-<h3>
-	<img src="<?= h($base_path) ?>img/fav_on.svg" class="img16x16" alt="fav reviews" title="fav reviews" />
-	Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)
-</h3>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
+
+<?php require __DIR__ . "/_profile.tpl.php" ?>
+
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Fav.Reviews (<?= isset($user["favreviews_count"]) ? h($user["favreviews_count"]) : "0" ?>)</h2>
+	</div>
 
 <?php if(count($favreviews) > 0): ?>
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
-
+		</ul>
+	</div>
+<?php endif; ?>
 
 <!-- reviews -->
-<div class="review_list">
+<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($favreviews as $favreview): ?>
-	<div class="album_info">
+	<div class="w3-padding flex-item info col">
 <?php if(
 	($favreview["published"] === 0 && !$is_login)
 	||
@@ -71,52 +74,51 @@ foreach($pager["nav_list"] as $nav) {
 			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
-		<div class="cover">
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>"><img src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></a>
-		</div>
-		<div class="detail">
-			<p><a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
-				<?= h($favreview["artist"]) ?><br />
-				<?= h($favreview["title"]) ?>
-				(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : "unknown" ?>)
-			</a></p>
-		</div>
-		<div class="review_comment"><?=
-			$ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path)
-		?></div>
+		<p><img class="cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="" /></p>
+		<h5>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
+				<?= h($favreview["artist"] . " / " . $favreview["title"]) ?>
+				(<?= isset($favreview["year"]) && $favreview["year"] !== "" ? h($favreview["year"]) : " unknown " ?>)
+			</a>
+		</h5>
+
+		<p class="w3-left-align">
+			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($favreview["body"]))), $base_path) ?>
+		</p>
 		<p>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($favreview["username"]) ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($favreview["user_img_file"]) ? "files/attachment/photo/{$favreview["user_img_file"]}" : "img/user.svg" ?>" /></a>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($favreview["user_id"]) ?>"><?= h($favreview["username"]) ?></a>
 			-
-			<span class="post_date"><a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a></span>
-<?php if($favreview["listening_last"] === "today"): ?>
-			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($favreview["listening_system"]) ?>">
-				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($favreview["listening_system"]) ?>.svg" alt="<?= h($favreview["listening_system"]) ?>" title="<?= h($favreview["listening_system"]) ?>" />
-			</a>
-<?php endif; ?>
+			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($favreview["id"]) ?>"><?= h(timeAgoInWords($favreview["created"])) ?></a>
+		</p>
 <?php endif; ?>
 	</div>
 <?php endforeach; ?>
 </div>
 
 
-<div class="pager">
-	<ul class="pagination">
+<?php if(count($pager["nav_list"])>0): ?>
+	<!-- pager -->
+	<div class="w3-center w3-padding-8">
+		<ul class="w3-pagination">
 <?php if($pager["prev"]): ?>
-		<li><a href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-		<li><a <?= $nav["active"] ? 'class="active"' : '' ?> href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-		<li><a href="<?= h($next_link) ?>">&raquo;</a></li>
+			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
 <?php endif;?>
-	</ul>
-</div>
+		</ul>
+	</div>
+<?php endif; ?>
 
 <?php endif; ?>
 
+</div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div></body>
+</body>
 </html>

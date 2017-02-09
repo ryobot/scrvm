@@ -29,9 +29,9 @@
 		}
 		var i=0,len=json.results.length;
 		if ( len > 0 ) {
-			$search_results.append($("<h3 />").text("iTunes ("+len+")"));
+			$search_results.append($("<h5 />").text("iTunes ("+len+")"));
 		}
-		var $table = $("<div />");
+		var $table = $('<ul class="w3-left-align" />');
 		// 詰め直す
 		var results = [];
 		for(; i<len; i++) {
@@ -44,7 +44,7 @@
 		for(i=0; i<len; i++) {
 			var result = results[i];
 			$table.append(
-				$("<div />").attr({class:"itunes_info"}).append(
+				$("<li />").attr({class:"itunes_info"}).append(
 					createLink(result.url,result.artist,result.title)
 				)
 			);
@@ -72,15 +72,15 @@
 		}
 		var i=0,len=json.length;
 		if ( len > 0 ) {
-			$search_results_gpm.append($("<h3 />").text("Google Play Music ("+len+")"));
+			$search_results_gpm.append($("<h5 />").text("Google Play Music ("+len+")"));
 		}
-		var $table = $("<div />");
+		var $table = $('<ul class="w3-left-align" />');
 		var results = json;
 		for(; i<len; i++) {
 			var result = results[i];
 			var listen_url = createGPMListenUrl(result.url);
 			$table.append(
-				$("<div />").attr({class:"gpm_info"}).append(
+				$("<li />").attr({class:"gpm_info"}).append(
 					createLink(listen_url,result.artist,result.title)
 				)
 			);

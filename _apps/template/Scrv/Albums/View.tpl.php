@@ -23,10 +23,10 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
+
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
 	<div class="error_message">
@@ -37,22 +37,17 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif;?>
 
 	<!-- album info -->
-	<div class="album_info">
-		<h3><?= h($view_title) ?> (<?= h($view_year) ?>)</h3>
-		<div class="info">
-<?php
-	if ( $login_user_data["role"] === "admin"
-		|| ($is_login && $album["create_user_id"] === $login_user_data["id"])
-): ?>
-			<div class="actions mgb10px"><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">Edit Album</a></div>
+	<div class="w3-padding w3-center info">
+<?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
+		<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
 <?php endif; ?>
-			<div class="cover">
-				<img src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
-			</div>
-			<div class="detail">
+		<p><img class="cover" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" /></p>
+		<h5><?= h($view_title) ?> (<?= h($view_year) ?>)</h5>
+		<div class="flex-container">
+			<div>
 				<img
 					id="id_fav_album"
-					class="img32x32 fav_album<?= $is_login ? "" : "_nologin" ?>"
+					class="width_30px cursorpointer fav_album<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
 					src="<?= h($base_path) ?>img/favalbums_on.svg"
 <?php else:?>
@@ -61,20 +56,23 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 					data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
 					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
 					data-album_id="<?= h($album_id) ?>"
-					alt="fav album"
 					title="fav album"
 				/>
-				<span id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? "({$album["favalbums_count"]})" : "" ?></span>
-				<a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="img32x32" alt="apple music" title="apple music" /></a>
-				<a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="img32x32" alt="google play music" title="google play music" /></a>
+				<span class="notice" id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? $album["favalbums_count"] : "" ?></span>
 			</div>
+<!--			<div><a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="width_30px" title="apple music" /></a></div>
+			<div><a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="width_30px" title="google play music" /></a></div>-->
 		</div>
+	</div>
+
 
 <?php if(count($tags) > 0): ?>
-		<!-- tags -->
-		<div class="tags_group">
+	<!-- tags -->
+	<h5 class="w3-center w3-large">Tags</h5>
+	<div class="w3-padding w3-center info">
+		<div class=" tags_group">
 <?php foreach($tags as $tag):?>
-			<span class="tags"><a
+			<span class="w3-tag w3-indigo w3-margin-bottom"><a
 				href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
 				data-id="<?= h($tag["id"]) ?>"
 				data-tag="<?= h($tag["tag"]) ?>"
@@ -84,133 +82,107 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endforeach;?>
 		</div>
 <?php endif; ?>
-
 <?php if($is_login): ?>
 		<!-- add tag form -->
 		<div class="tags_form">
 			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-				<div class="add_tag">
-					<div class="input"><input type="text" name="tag" id="id_tag" value="" required="required" placeholder="add tag" /></div>
-					<div class="submit actions"><input type="submit" value="add tag" /></div>
+				<div>
+					<input type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
+					<input type="submit" value="追加" />
 				</div>
 			</form>
 		</div>
-<?php endif;?>
 	</div>
+<?php endif;?>
+
 
 	<!-- track_info -->
+	<h5 class="w3-center w3-large">Tracks</h5>
+	<table class="w3-table-all">
 <?php foreach($tracks as $track): ?>
-	<div class="track_info">
-		<div class="num"><?= h($track["track_num"]) ?>. </div>
-		<div class="title"><?= h($track["track_title"]) ?></div>
-		<div class="fav">
-			<img
-				class="fav_track<?= $is_login ? "" : "_nologin" ?>"
+		<tr>
+			<td class="displaytablecell"><?= h($track["track_num"]) ?>. <?= h($track["track_title"]) ?></td>
+			<td class="displaytablecell width_50px w3-left-align">
+				<img
+					class="width_20px cursorpointer fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
-				src="<?= h($base_path) ?>img/favtracks_on.svg"
+					src="<?= h($base_path) ?>img/favtracks_on.svg"
 <?php else:?>
-				src="<?= h($base_path) ?>img/favtracks_off.svg"
+					src="<?= h($base_path) ?>img/favtracks_off.svg"
 <?php endif;?>
-				data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
-				data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
-				data-track_id="<?= h($track["id"]) ?>"
-				alt="fav track"
-				title="fav track"
-			/>
-			<span id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "({$track["favtracks_count"]})" : "" ?></span>
-		</div>
-	</div>
+					data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
+					data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
+					data-track_id="<?= h($track["id"]) ?>"
+					title="fav track"
+				/>
+				<span class="notice" id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "{$track["favtracks_count"]}" : "" ?></span>
+			</td>
+		</tr>
 <?php endforeach;?>
-</div>
+	</table>
 
-
-<!-- reviews -->
-<h3>Reviews (<?= count($reviews) ?>)</h3>
-<div class="contents">
+	<!-- reviews -->
+	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
 <?php if($is_login): ?>
-	<p class="actions tacenter mgt10px mgb10px"><a href="<?= h($base_path) ?>Reviews/Add/id/<?= h($album_id) ?>">Add Review</a></p>
+	<p class="w3-center"><button id="id_add_review">レビューを書く</button></p>
 <?php endif; ?>
-	<div class="w100per">
-
+	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php	 foreach($reviews as $idx => $review): ?>
-	<div class="review <?php if($idx > 2): ?>displaynone other_review<?php endif; ?>">
+		<div class="w3-padding w3-center info col">
 <?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
-		<div class="notice">
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			この投稿は非表示にされています。
-		</div>
+			<div class="notice">
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
+				この投稿は非表示にされています。
+			</div>
 <?php else: ?>
-		<div class="review_comment"><?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?></div>
-		<div>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-			-
-			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>">
-				<span class="post_date"><?= h( timeAgoInWords($review["created"])) ?></span>
-			</a>
-<?php if($review["listening_last"] === "today"): ?>
-			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>">
-				<img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" alt="<?= h($review["listening_system"]) ?>" title="<?= h($review["listening_system"]) ?>" />
-			</a>
-<?php endif; ?>
-		</div>
-		<div class="reaction_area">
+			<p class="w3-left-align">
+				<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
+			</p>
+			<p>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+				-
+				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
+			</p>
+		<div class="w3-center reaction_area">
 <?php if($review["published"] === 0): ?>
-			<div><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></div>
+			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" /></span>
+<?php endif; ?>
+<?php if($review["listening_last"] === "today"): ?>
+			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" title="<?= h($review["listening_system"]) ?>" /></a>
 <?php endif; ?>
 			<div class="fav_reviews_wrapper">
 				<img
-					class="fav_review vtalgmiddle img16x16"
+					class="fav_review cursorpointer"
 					src="<?= h($base_path) ?>img/fav_off.svg"
 					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
 					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
 					data-review_id="<?= h($review["id"]) ?>"
 					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
 					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-					alt="fav review"
 					title="fav review"
 				/>
-				<span class="fav_reviews_count"></span>
-			</div>
-			<div>
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path)?>img/link.svg" class="img16x16" alt="perma link" /></a>
+				<span class="notice fav_reviews_count"></span>
 			</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 			<div>
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
+				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" title="edit review" /></a>
 			</div>
 			<div>
 				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
 			</div>
 <?php endif;?>
+			</div>
+<?php endif; ?>
 		</div>
-<?php endif; ?>
-	</div>
 <?php endforeach; ?>
-<?php if(count($reviews) > 3) :?>
-	<div class="actions tacenter mgt10px mgb10px">
-		<a href="#" id="id_more_review_button">もっと読む</a>
 	</div>
-	<script>
-		;$("#id_more_review_button").on("click.js", function(){
-			$(".other_review").slideToggle("fast");
-			$(this).hide();
-			return false;
-		});
-	</script>
-<?php endif; ?>
 
-
-	</div>
-</div>
-
-
-<div class="contents">
 	<!-- music search 用 -->
-	<div id="id_itunes_search_results"></div>
-	<div id="id_gpm_search_results"></div>
+	<div class="w3-padding w3-center info" id="id_itunes_search_results"></div>
+	<div class="w3-padding w3-center info" id="id_gpm_search_results"></div>
 	<input
 		type="hidden"
 		name="term"
@@ -222,19 +194,19 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
 
 </div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 
 <script>
 ;$(function(){
 
 	// tag_data
-	$(".tags > a").each(function(){
+	$(".w3-tag > a").each(function(){
 		var $tag = $(this);
 		if ($tag.attr("data-is_delete") === "0"){return;}
 		var delete_id = $tag.attr("data-id");
-		var $del = $("<span class='tag_delete' />").text("×").on("click.js", function(){
+		var $del = $("<span class='tag_delete' />").text(" ✖ ").on("click.js", function(){
 			if (!confirm("「"+$tag.attr("data-tag")+"」タグを削除しますか？")){
 				return false;
 			}
@@ -265,7 +237,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		var $del = $(this);
 		var delete_id = $del.attr("data-delete_id");
 		$del.on("click.js", function(){
-			if(confirm("are you sure ?")){
+			if(confirm("このレビューを削除しますか ?")){
 				$.ajax( BASE_PATH + "Reviews/Del", {
 					method : 'POST',
 					dataType : 'json',
@@ -324,6 +296,12 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if($is_login): ?>
 
+	// add_review
+	$("#id_add_review").on("click.js", function(){
+		location.href= BASE_PATH + "Reviews/Add/id/<?= h($album_id) ?>";
+		return false;
+	});
+
 	// fav.album
 	$("#id_fav_album").on("click.js", function(){
 		var $this = $(this);
@@ -341,7 +319,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				var fav_count = json.data.fav_count;
 				var img_src = $this.attr( operation === "delete" ? "data-fav_off" : "data-fav_on" );
 				$this.attr({src : img_src});
-				$("#id_fav_album_count").text(fav_count === 0 ? "" : "("+fav_count+")");
+				$("#id_fav_album_count").text(fav_count === 0 ? "" : fav_count);
 			}
 		})
 		.fail(function(e){
@@ -369,7 +347,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 					var fav_count = json.data.fav_count;
 					var img_src = $this.attr( operation === "delete" ? "data-fav_off" : "data-fav_on" );
 					$this.attr({src : img_src});
-					$("#id_fav_track_count_" + track_id).text(fav_count === 0 ? "" : "("+fav_count+")");
+					$("#id_fav_track_count_" + track_id).text(fav_count === 0 ? "" : fav_count);
 				}
 			})
 			.fail(function(e){

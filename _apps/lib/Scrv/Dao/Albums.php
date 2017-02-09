@@ -110,10 +110,14 @@ class Albums extends Dao
 		$sql_count = "SELECT count(id) cnt FROM albums";
 		$params = array();
 		if ( $q !== null && $q !== "" ) {
-			$where = "WHERE({$type} like :q ESCAPE '!')";
+//			$where = "WHERE({$type} like :q ESCAPE '!')";
+			$where = "WHERE(artist like :q1 ESCAPE '!' || title like :q2 ESCAPE '!')";
 			$sql = "SELECT t1.*, count(t2.id) AS reviews FROM albums t1 {$left_join} {$where} {$group_by} {$orderby} {$offsetlimit}";
 			$sql_count = "SELECT count(id) cnt FROM albums {$where} ";
-			$params = array("q"=>"%".$this->_Dao->escapeForLike($q)."%");
+			$params = array(
+				"q1"=>"%".$this->_Dao->escapeForLike($q)."%",
+				"q2"=>"%".$this->_Dao->escapeForLike($q)."%"
+			);
 		}
 
 		// DBファイルキャッシュ設定

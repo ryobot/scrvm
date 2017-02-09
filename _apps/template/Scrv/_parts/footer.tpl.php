@@ -5,13 +5,18 @@
  */
 ?>
 
-<div class="link_page_top" id="js-id_page_top"><img src="<?= h($base_path) ?>img/page_top.svg" alt="page top" title="page top" class="img32x32" /></div>
-
-<div class="footer">
-	<p class="copyright"><?= date("Y", $now_timestamp) ?> <?= h($base_title) ?></p>
-</div>
+<footer class="w3-white w3-row-padding w3-padding-16 w3-center">
+	<p>(C) 2016 - <a href="<?= h($base_path) ?>"><?= h($base_title) ?></a></p>
+</footer>
 
 <script>
+function w3_open() {
+	$("#mySidenav").css({"display":"block"});
+}
+function w3_close() {
+	$("#mySidenav").css({"display":"none"});
+}
+
 ;$(function(){
 	// pagetop
 	var top_btn = $("#js-id_page_top");

@@ -12,18 +12,22 @@
 </head>
 <body>
 
-<div id="container">
-
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
-<div class="contents">
 
-	<h2>Not Found</h2>
+<!-- main contents  -->
+<div class="w3-main w3-content w3-padding-4 main">
 
-	<p>招待リンクが無効です…</p>
+	<div class="w3-center">
+		<h2 class="w3-xlarge">Not Found</h2>
+	</div>
+
+	<div class="w3-padding w3-center w3-red">
+		<p>招待リンクが無効です…</p>
+	</div>
 
 </div>
+
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 
-</div>
 </body>
 </html>
