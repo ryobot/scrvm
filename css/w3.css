@@ -407,7 +407,7 @@ input[type="text"],input[type="password"],textarea{max-width: 100%;}
 .width_100per{width:100%;}
 .top_menu{-webkit-flex-wrap:nowrap;flex-wrap:nowrap;}
 .top_menu img {width:20px;}
-.top_menu .menu_block{width:100%; border-bottom:3px solid #FFF;}
+.top_menu .menu_block{width:100%; border-bottom:3px solid #FFF; position:relative;}
 .top_menu .active{border-bottom:3px solid #06C;}
 .user_menu{-webkit-flex-wrap:nowrap;flex-wrap:nowrap;}
 .user_menu img {width:18px;}
@@ -427,6 +427,7 @@ input[type="text"],input[type="password"],textarea{max-width: 100%;}
 .post_body a{word-break : break-all;}
 .post_body img{max-width:20px;}
 .post_quote{color:#393;}
+.emoji{width:20px;}
 #id_itunes_search_results{display: none;overflow: hidden;}
 #id_gpm_search_results{display: none;overflow: hidden;}
 
