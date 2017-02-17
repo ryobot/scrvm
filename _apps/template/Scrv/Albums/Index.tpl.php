@@ -19,7 +19,7 @@
 	<div class="w3-center">
 		<h2 class="w3-xlarge">
 			Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
-			<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="width_16px loading displaynone" />
+			<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="width_16px w3-spin displaynone" />
 		</h2>
 	</div>
 
@@ -36,13 +36,12 @@
 			<div><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
 		</div>
 
-		<p>
-			<input type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" />
-			<button id="id_search">検索</button>
-		</p>
+		<p><input class="w3-input w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" /></p>
+		<p><button class="w3-btn" id="id_search">検索</button></p>
+
 
 <?php if( $is_login ): ?>
-		<p><a href="<?= h($base_path) ?>Albums/Add" class="add_album">アルバムを追加する</a></p>
+		<p><a class="add_album" href="<?= h($base_path) ?>Albums/Add">アルバムを追加する</a></p>
 <?php endif; ?>
 
 		<div class="w3-hide">

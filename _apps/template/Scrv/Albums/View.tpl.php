@@ -68,7 +68,6 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if(count($tags) > 0): ?>
 	<!-- tags -->
-	<h5 class="w3-center w3-large">Tags</h5>
 	<div class="w3-padding w3-center info">
 		<div class=" tags_group">
 <?php foreach($tags as $tag):?>
@@ -88,10 +87,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-				<div>
-					<input type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-					<input type="submit" value="追加" />
-				</div>
+				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
+				<input class="w3-btn" type="submit" value="追加" />
 			</form>
 		</div>
 	</div>
@@ -126,7 +123,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
 <?php if($is_login): ?>
-	<p class="w3-center"><button id="id_add_review">レビューを書く</button></p>
+	<p class="w3-center"><button class="w3-btn w3-blue" id="id_add_review">レビューを書く</button></p>
 <?php endif; ?>
 	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php	 foreach($reviews as $idx => $review): ?>

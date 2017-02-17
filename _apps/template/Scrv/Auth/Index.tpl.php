@@ -52,8 +52,8 @@
 		</script>
 	</div>
 
-	<div class="w3-padding info">
-		<p class="w3-center w3-text-red">【既存の syncreview アカウントをお持ちの方へ】</p>
+	<div class="w3-panel w3-pale-green">
+		<h5 class="w3-center">【既存の syncreview アカウントをお持ちの方へ】</h5>
 		<p>既存の syncreview アカウントと Twitter ログインのアカウントを統合する場合は、必ず下記の順番で手続きをしてください。</p>
 		<ol class="strong">
 			<li>syncreview の username と password で通常通りログインする</li>

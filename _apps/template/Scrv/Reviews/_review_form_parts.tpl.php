@@ -50,7 +50,7 @@
 <?php endif; ?>
 	</div>
 	<p class="actions mgb10px mgt10px">
-		<input type="submit" value="保存する" id="id_form_submit" />
+		<input class="w3-btn w3-blue" type="submit" value="保存する" id="id_form_submit" />
 	</p>
 </div>
 
