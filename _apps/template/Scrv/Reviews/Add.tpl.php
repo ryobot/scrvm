@@ -33,7 +33,7 @@ $ReviewsParse = new ReviewsParse();
 
 	<!-- album info -->
 	<div class="w3-padding w3-center info">
-		<img class="cover" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" />
+		<img class="cover w3-card-4" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" />
 		<h5><?= h($album["artist"]) ?> / <?= h($album["title"]) ?> (<?= isset($album["year"]) ? h($album["year"]) : "unknown" ?>)</h5>
 		<form action="<?= h($base_path) ?>Reviews/AddRun" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
@@ -42,7 +42,7 @@ $ReviewsParse = new ReviewsParse();
 		</form>
 	</div>
 
-	
+
 	<!-- reviews -->
 	<div class="w3-center">
 		<h4>Reviews (<?= count($reviews) ?>)</h4>

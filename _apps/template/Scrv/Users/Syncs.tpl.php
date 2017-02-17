@@ -53,7 +53,7 @@ $ReviewsParse = new ReviewsParse();
 <?php foreach($syncs["reviews"] as $album_id => $reviews): ?>
 		<div class="w3-padding flex-item info col">
 			<div class="w3-padding">
-				<p><img class="cover" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" /></p>
+				<p><img class="cover w3-card-4" src="<?= h($base_path) ?>files/covers/<?= h($reviews["data"][0]["img_file"]) ?>" /></p>
 				<h5>
 					<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album_id) ?>">
 						<?= h($reviews["data"][0]["artist"] . " / " . $reviews["data"][0]["title"]) ?>
@@ -102,7 +102,7 @@ $ReviewsParse = new ReviewsParse();
 	<div class="flex-container w3-row-padding w3-center">
 <?php foreach($syncs["albums"] as $album): ?>
 		<div class="w3-padding flex-item info col">
-			<p><img class="cover" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" /></p>
+			<p><img class="cover w3-card-4" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" alt="<?= h("{$album["artist"]} / {$album["title"]}") ?>" /></p>
 			<h5>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["album_id"]) ?>">
 					<?= h($album["artist"] . " / " . $album["title"]) ?>
@@ -122,7 +122,7 @@ $ReviewsParse = new ReviewsParse();
 	<div class="flex-container w3-row-padding w3-center">
 <?php foreach($syncs["tracks"] as $track): ?>
 		<div class="w3-padding flex-item info col">
-			<p><img class="cover" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" /></p>
+			<p><img class="cover w3-card-4" src="<?= h($base_path) ?>files/covers/<?= h($track["img_file"]) ?>" alt="<?= h("{$track["artist"]} / {$track["title"]}") ?>" /></p>
 			<h5>Tr.<?= h($track["track_num"]) ?> : <?= h($track["track_title"]) ?></h5>
 			<h5>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($track["album_id"]) ?>">

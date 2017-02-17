@@ -49,7 +49,7 @@ if($is_unpublished){
 		<div class="notice">この投稿は非表示にされています。	</div>
 <?php else: ?>
 
-		<img class="cover" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+		<img class="cover w3-card-4" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 		<h5>
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 				<?= h($review_title) ?> (<?= h($year) ?>)

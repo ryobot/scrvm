@@ -74,7 +74,7 @@ foreach($pager["nav_list"] as $nav) {
 			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
-		<p><img class="cover" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="" /></p>
+		<p><img class="cover w3-card-4" src="<?= isset($favreview["img_file"])? "{$base_path}files/covers/{$favreview["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="" /></p>
 		<h5>
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favreview["album_id"]) ?>">
 				<?= h($favreview["artist"] . " / " . $favreview["title"]) ?>

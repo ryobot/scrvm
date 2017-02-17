@@ -60,7 +60,7 @@ foreach($pager["nav_list"] as $nav) {
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($favalbums as $favalbum): ?>
 	<div class="w3-padding flex-item info col">
-		<p><img class="cover" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
+		<p><img class="cover w3-card-4" src="<?= isset($favalbum["img_file"])? "{$base_path}files/covers/{$favalbum["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
 		<h5>
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($favalbum["id"]) ?>">
 				<?= h($favalbum["artist"] . " / " . $favalbum["title"]) ?>

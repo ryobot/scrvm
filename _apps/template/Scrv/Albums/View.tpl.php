@@ -39,9 +39,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	<!-- album info -->
 	<div class="w3-padding w3-center info">
 <?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
-		<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
+		<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">このアルバム情報を編集する</a></p>
 <?php endif; ?>
-		<p><img class="cover" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" /></p>
+		<p><img class="cover w3-card-4" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" /></p>
 		<h5><?= h($view_title) ?> (<?= h($view_year) ?>)</h5>
 		<div class="flex-container">
 			<div>
@@ -63,6 +63,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <!--			<div><a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="width_30px" title="apple music" /></a></div>
 			<div><a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="width_30px" title="google play music" /></a></div>-->
 		</div>
+<?php if($is_login): ?>
+		<p><a href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">&quot;<?= h($album["artist"]) ?>&quot; の他のアルバムを追加する</a></p>
+<?php endif;?>
 	</div>
 
 

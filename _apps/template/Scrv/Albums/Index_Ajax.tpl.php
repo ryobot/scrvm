@@ -47,7 +47,7 @@
 <?php foreach($lists as $album): ?>
 		<div class="w3-padding flex-item info col">
 			<img
-				class="cover"
+				class="cover w3-card-4"
 				src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
 				alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
 			/>
