@@ -72,22 +72,22 @@ class GoogleMusicSearch
 
 		// xpath search
 		$xpath = new \DOMXPath($dom);
-		$nodes = $xpath->query( '//div[contains(@class,"id-card-list")]/div[contains(@class,"card")]' );
-		foreach($nodes as $node){
-			$details = $this->_getElementsByClassName($node, "details", "div");
-			foreach($details as $detail) {
-				$_a = $this->_getElementsByClassName($detail, "card-click-target", "a");
-				$href= $_a[0]->getAttribute("href");
-				$_title = $this->_getElementsByClassName($detail, "title", "a");
-				$title= $_title[0]->getAttribute("title");
-				$_artist = $this->_getElementsByClassName($detail, "subtitle", "a");
-				$artist= $_artist[0]->getAttribute("title");
-				$results[] = array(
-					"artist" => $artist,
-					"title" => $title,
-					"url" => $this->_api_url . $href,
-				);
+		$nodes = $xpath->query( '//div[contains(@class,"details")]' );
+		foreach($nodes as $detail){
+			$_a = $this->_getElementsByClassName($detail, "card-click-target", "a");
+			$href= $_a[0]->getAttribute("href");
+			if ( strpos($href, "/store/music/album/") !== 0 ) {
+				continue;
 			}
+			$_title = $this->_getElementsByClassName($detail, "title", "a");
+			$title= $_title[0]->getAttribute("title");
+			$_artist = $this->_getElementsByClassName($detail, "subtitle", "a");
+			$artist= $_artist[0]->getAttribute("title");
+			$results[] = array(
+				"artist" => $artist,
+				"title" => $title,
+				"url" => $this->_api_url . $href,
+			);
 		}
 
 		return $results;
