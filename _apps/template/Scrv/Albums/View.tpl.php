@@ -184,8 +184,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	</div>
 
 	<!-- music search 用 -->
-	<div class="w3-padding w3-center w3-white w3-margin-bottom w3-card-2 _info" id="id_itunes_search_results"></div>
-	<div class="w3-padding w3-center w3-white w3-margin-bottom w3-card-2 _info" id="id_gpm_search_results"></div>
+	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_itunes_search_results"></div>
+	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_gpm_search_results"></div>
 	<input
 		type="hidden"
 		name="term"
