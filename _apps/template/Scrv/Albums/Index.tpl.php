@@ -24,7 +24,7 @@
 	</div>
 
 <!-- search tabs -->
-<div class="w3-center w3-padding info">
+<div class="w3-center w3-padding w3-margin-bottom w3-card-2 w3-white">
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET" autocomplete="off">
 
 		<div class="w3-hide">
@@ -36,8 +36,10 @@
 			<div><label><input type="radio" name="type" id="id_search_type_title" value="title" /> title</label></div>
 		</div>
 
-		<p><input class="w3-input w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" /></p>
-		<p><button class="w3-btn" id="id_search">検索</button></p>
+		<div class="w3-row">
+			<input class="w3-input w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" />
+			<p><button class="w3-btn" id="id_search">検索</button></p>
+		</div>
 
 
 <?php if( $is_login ): ?>

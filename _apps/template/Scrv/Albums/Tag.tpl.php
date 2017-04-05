@@ -53,7 +53,7 @@
 <!-- lists -->
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($lists as $album): ?>
-	<div class="w3-padding flex-item info col">
+	<div class="w3-padding w3-margin-bottom flex-item col w3-white w3-card-2">
 		<img class="cover w3-card-4" src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>" />
 
 		<h5>

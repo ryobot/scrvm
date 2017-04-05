@@ -43,7 +43,7 @@ if($is_unpublished){
 <div class="w3-main w3-content w3-padding-4 main">
 
 	<!-- album info -->
-	<div class="w3-padding w3-center info">
+	<div class="w3-margin w3-padding w3-center w3-white w3-card-2">
 
 <?php if($is_unpublished): ?>
 		<div class="notice">この投稿は非表示にされています。	</div>
@@ -102,7 +102,7 @@ if($is_unpublished){
 	</div>
 
 <?php if(count($favreviews_user_lists) > 0): ?>
-	<div class="w3-padding w3-center info">
+	<div class="w3-margin w3-padding w3-center w3-card-2 w3-white">
 		<p>faved by</p>
 		<p>
 <?php		foreach($favreviews_user_lists as $user): ?>

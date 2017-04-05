@@ -11,9 +11,9 @@
 	<label><input type="radio" name="listening_last" value="recently" id="id_listening_last_recently">最近</label>
 </p>
 
-<div class="w3-padding w3-center">
-	<div id="id_listening_system_group">
-		<div class="w3-padding-4">
+<div class="w3-padding-4 w3-center">
+	<div id="id_listening_system_group" class="w3-padding-4 w3-card-2 w3-white">
+		<div class="w3-padding-small">
 			<div>situation</div>
 			[<strong id="id_selected_listening_system">headphones</strong>]
 		</div>
@@ -39,7 +39,7 @@
 	<p><a href="#" id="id_np_or_ar_area_toggle">レビュー欄を開く</a></p>
 	<div class="displaynone" id="id_np_or_ar_area">
 		<p>
-			<textarea class="w3-input" rows="5" name="body" id="id_body" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea>
+			<textarea class="w3-input w3-border" rows="5" name="body" id="id_body" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea>
 			<div class="notice"><span id="id_review_counter"></span></div>
 		</p>
 		<!--<p><input type="checkbox" name="published" id="id_published" value="1" <?= $post_params["published"] === 0 ? "" : "checked" ?>><label for="id_published"> published</label> <span id="id_published_notice"></span></p>-->
@@ -50,7 +50,12 @@
 <?php endif; ?>
 	</div>
 	<p class="actions mgb10px mgt10px">
-		<input class="w3-btn w3-blue" type="submit" value="保存する" id="id_form_submit" />
+		<input
+			class="w3-btn w3-blue"
+			type="submit"
+			value="<?= $__run_class_name === "Edit" ? "保存する" : "投稿する" ?>"
+			id="id_form_submit"
+		/>
 	</p>
 </div>
 

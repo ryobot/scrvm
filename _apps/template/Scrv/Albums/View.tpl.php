@@ -37,7 +37,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif;?>
 
 	<!-- album info -->
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
 <?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
 		<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">このアルバム情報を編集する</a></p>
 <?php endif; ?>
@@ -71,7 +71,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if(count($tags) > 0): ?>
 	<!-- tags -->
-	<div class="w3-padding w3-center info">
+	<h5 class="w3-center w3-large">Tags</h5>
+	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
 		<div class=" tags_group">
 <?php foreach($tags as $tag):?>
 			<span class="w3-tag w3-indigo w3-margin-bottom"><a
@@ -91,7 +92,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
 				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-				<input class="w3-btn" type="submit" value="追加" />
+				<p><input class="w3-btn" type="submit" value="タグを追加する" /></p>
 			</form>
 		</div>
 	</div>
@@ -100,28 +101,30 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 	<!-- track_info -->
 	<h5 class="w3-center w3-large">Tracks</h5>
-	<table class="w3-table-all">
+	<div class='w3-margin w3-card-2'>
+		<table class="w3-table-all">
 <?php foreach($tracks as $track): ?>
-		<tr>
-			<td class="displaytablecell"><?= h($track["track_num"]) ?>. <?= h($track["track_title"]) ?></td>
-			<td class="displaytablecell width_50px w3-left-align">
-				<img
-					class="width_20px cursorpointer fav_track<?= $is_login ? "" : "_nologin" ?>"
+			<tr>
+				<td class="displaytablecell"><?= h($track["track_num"]) ?>. <?= h($track["track_title"]) ?></td>
+				<td class="displaytablecell width_50px w3-left-align">
+					<img
+						class="width_20px cursorpointer fav_track<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($track["favtracks_count"]) && in_array($track["id"], $own_favtracks, true)):?>
-					src="<?= h($base_path) ?>img/favtracks_on.svg"
+						src="<?= h($base_path) ?>img/favtracks_on.svg"
 <?php else:?>
-					src="<?= h($base_path) ?>img/favtracks_off.svg"
+						src="<?= h($base_path) ?>img/favtracks_off.svg"
 <?php endif;?>
-					data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
-					data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
-					data-track_id="<?= h($track["id"]) ?>"
-					title="fav track"
-				/>
-				<span class="notice" id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "{$track["favtracks_count"]}" : "" ?></span>
-			</td>
-		</tr>
+						data-fav_on="<?= h($base_path) ?>img/favtracks_on.svg"
+						data-fav_off="<?= h($base_path) ?>img/favtracks_off.svg"
+						data-track_id="<?= h($track["id"]) ?>"
+						title="fav track"
+					/>
+					<span class="notice" id="id_fav_track_count_<?= $track["id"] ?>"><?= isset($track["favtracks_count"]) ? "{$track["favtracks_count"]}" : "" ?></span>
+				</td>
+			</tr>
 <?php endforeach;?>
-	</table>
+		</table>
+	</div>
 
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
@@ -130,7 +133,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif; ?>
 	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php	 foreach($reviews as $idx => $review): ?>
-		<div class="w3-padding w3-center info col">
+		<div class="w3-padding w3-center w3-card-2 w3-white w3-margin-bottom _info col">
 <?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
 			<div class="notice">
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
@@ -181,8 +184,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	</div>
 
 	<!-- music search 用 -->
-	<div class="w3-padding w3-center info" id="id_itunes_search_results"></div>
-	<div class="w3-padding w3-center info" id="id_gpm_search_results"></div>
+	<div class="w3-padding w3-center w3-white w3-margin-bottom w3-card-2 _info" id="id_itunes_search_results"></div>
+	<div class="w3-padding w3-center w3-white w3-margin-bottom w3-card-2 _info" id="id_gpm_search_results"></div>
 	<input
 		type="hidden"
 		name="term"
