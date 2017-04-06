@@ -29,18 +29,18 @@
 		</div>
 <?php endif;?>
 
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-margin-bottom w3-center w3-card-2 w3-white">
 		<form action="<?= h($base_path) ?>Auth/Login" method="POST">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
-			<p><input class="w3-input" type="text" name="username" id="id_user_id" required="required" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
-			<p><input class="w3-input" type="password" name="password" id="id_password" required="required" placeholder="password" /></p>
+			<p><input class="w3-input w3-border" type="text" name="username" id="id_user_id" required="required" value="<?= isset($post_params["username"]) ? h($post_params["username"]) : "" ?>" placeholder="username" /></p>
+			<p><input class="w3-input w3-border" type="password" name="password" id="id_password" required="required" placeholder="password" /></p>
 			<p><label><input class="w3-check" type="checkbox" name="autologin" id="id_autologin" value="1" /> ログイン状態を保持する</label></p>
-			<p><input class="w3-btn" type="submit" value="ログイン" /></p>
+			<p><input class="w3-btn w3-round" type="submit" value="ログイン" /></p>
 		</form>
 
 		<p>― または ―</p>
 
-		<p class="w3-center"><button class="w3-btn w3-blue" href="javascript:;" id="id_users_twitter">Twitter でログイン</button></p>
+		<p class="w3-center"><button class="w3-btn w3-blue w3-round" href="javascript:;" id="id_users_twitter">Twitter でログイン</button></p>
 		<form id="id_users_twitter_form" action="<?= h($base_path) ?>Auth/LoginTwitter" method="POST">
 			<input type="hidden" name="authenticate" value="auth" />
 		</form>
@@ -52,7 +52,7 @@
 		</script>
 	</div>
 
-	<div class="w3-panel w3-pale-green">
+	<div class="w3-card-2 w3-padding w3-margin-bottom w3-pale-green">
 		<h5 class="w3-center">【既存の syncreview アカウントをお持ちの方へ】</h5>
 		<p>既存の syncreview アカウントと Twitter ログインのアカウントを統合する場合は、必ず下記の順番で手続きをしてください。</p>
 		<ol class="strong">

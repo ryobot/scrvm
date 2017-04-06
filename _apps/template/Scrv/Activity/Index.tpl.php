@@ -23,7 +23,7 @@
 
 <?php if(count($lists) > 0):?>
 
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-center w3-card w3-white">
 		<div class="user_menu_list flex-container cursorpointer">
 			<div class="user_menu_list_block" data-menu="FavReviews" id="id_fav_review">
 				<img src="<?= h($base_path) ?>img/fav_on.svg" class="width_16px" alt="reviews" title="reviews" />
@@ -47,8 +47,7 @@
 	<!-- lists -->
 	<div class="w3-padding w3-center user_list_activity">
 <?php foreach($lists as $list): ?>
-		<div class="user_info action_<?= h($list["action"]) ?>">
-			<div class="detail info">
+		<div class="user_info action_<?= h($list["action"]) ?> w3-padding w3-margin-bottom w3-card-2 w3-white">
 <?php		if( $list["action"] === "fav_reviews" ): ?>
 				<p>
 					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
@@ -94,7 +93,6 @@
 				</p>
 <?php		endif;?>
 				<p class="notice"><?= h(timeAgoInWords($list["created"])) ?></p>
-			</div>
 		</div>
 <?php endforeach; ?>
 	</div>

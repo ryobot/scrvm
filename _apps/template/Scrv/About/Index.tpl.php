@@ -18,11 +18,12 @@
 <div class="w3-main w3-content w3-padding-4 main">
 
 	<div class="w3-center w3-padding">
+		<img src="<?= h($base_path) ?>img/headphone_icon_L.png" class="width_80px" alt="<?= h($base_title) ?>" />
 		<h2 class="w3-xlarge">About</h2>
 	</div>
 
-	<div class="w3-padding info">
-		<h4>音楽鑑賞日記-共有版です。</h4>
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">音楽鑑賞日記-共有版です</h4>
 		<p>
 			生活に音楽が欠かせない全ての人へ。
 			あなたの音楽体験を教えてください。
@@ -40,8 +41,8 @@
 		</p>
 	</div>
 
-	<h3 class="w3-center w3-padding">how to join</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">how to join</h4>
 		<p>
 			Twitterアカウントでログインできるようになりました！
 			ログインするとアカウントごとに個別のユーザページが作られます。
@@ -49,13 +50,15 @@
 		<p>お問い合わせは <span class="mail">syncreview.info@gmail.com</span> まで。</p>
 	</div>
 
-	<h3 class="w3-center w3-padding">何か音楽を聴いたら・・・</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">何か音楽を聴いたら…</h4>
 		<p>
 			<a href="<?= h($base_path) ?>Albums">
 				<img class="width_16px" src="<?= h($base_path) ?>img/albums.svg" class="img16x16" />
 				Albums
-			</a> から検索してみましょう。</p>
+			</a>
+			から検索してみましょう。
+		</p>
 		<ul>
 			<li>見つからなければ「新しくアルバムを追加する」 から追加も可能。</li>
 		</ul>
@@ -70,8 +73,8 @@
 		</ul>
 	</div>
 
-	<h3 class="w3-center w3-padding">あなたと同じアルバムを聴いた人、同じ曲が好きな人・・・</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">あなたと同じアルバムを聴いた人、同じ曲が好きな人…</h4>
 		<p>
 			<a href="<?= h($base_path) ?>Users">
 				<img src="<?= h($base_path) ?>img/users.svg" class="width_16px" alt="Users" /> Users</a>
@@ -79,8 +82,8 @@
 		</p>
 	</div>
 
-	<h3 class="w3-center w3-padding">レビューを同時にtwitterにも・・・</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">レビューを同時にtwitterにも…</h4>
 		<p>
 			☰ &raquo;
 			<a href="<?= h($base_path) ?>Users/Edit">edit</a> &raquo;
@@ -92,14 +95,13 @@
 		</ul>
 	</div>
 
-	<h3 class="w3-center w3-padding">友達を招待・・・</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">友達を招待…</h4>
 		<p>☰ &raquo; <a href="<?= h($base_path) ?>Users/Edit">edit</a> &raquo; <a href="<?= h($base_path) ?>Users/CreateInvite">招待リンク生成</a> &raquo; メールに貼って友達に送る。</p>
 	</div>
 
-	<h3></h3>
-	<h3 class="w3-center w3-padding">改善案など・・・</h3>
-	<div class="w3-padding info">
+	<div class="w3-padding w3-margin-bottom w3-card w3-white">
+		<h4 class="w3-center w3-padding">改善案など…</h4>
 		<p>「使いにくい」「わかりにくい」「こういう機能がほしい」「不具合がある」等あれば、<a href="<?= h($base_path) ?>Posts"><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" class="width_16px" /> Posts</a> に書き込んでください。</p>
 	</div>
 

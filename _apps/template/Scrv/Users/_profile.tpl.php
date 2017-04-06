@@ -1,6 +1,6 @@
 
 	<!-- user profile -->
-	<div class="w3-center info">
+	<div class="w3-padding-top w3-padding-right w3-padding-left w3-center w3-card-2 w3-white _info">
 		<p><img class="cover_user" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" /></p>
 		<h5><a href="<?= h($base_path) ?>Users/View/id/<?= h($user["id"]) ?>"><?= h($user["username"]) ?></a></h5>
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>

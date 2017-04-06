@@ -31,13 +31,13 @@
 <?php endif;?>
 
 <?php if($is_login ): ?>
-	<div class="w3-form">
+	<div class="w3-form w3-card-2 w3-white w3-margin-bottom">
 		<form action="<?= h($base_path) ?>Posts/Add" method="POST" autocomplete="off">
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="reply_id" id="id_reply_id" value="" />
-			<p><input class="w3-input" type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
-			<p><textarea class="w3-input" rows="8" name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
-			<p><input type="submit" value="Save Post" ></p>
+			<p><input class="w3-input w3-border" type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
+			<p><textarea class="w3-input w3-border" rows="8" name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
+			<p><input type="submit" class="w3-btn w3-round" value="Save Post" ></p>
 		</form>
 	</div>
 <?php endif;?>
@@ -64,7 +64,7 @@
 	<!-- posts -->
 	<div class="w3-left">
 <?php foreach($lists as $list): ?>
-		<div class="w3-padding info">
+		<div class="w3-form w3-card-2 w3-white w3-margin-bottom">
 			<h5><a href="<?= h($base_path) ?>Posts/View/id/<?= h($list["id"]) ?>"><?= h($list["title"]) ?></a></h5>
 			<p class="post_body"><?= linkIt(nl2br(h($list["body"])), false) ?></p>
 			<p class="notice">
@@ -77,7 +77,7 @@
 			</p>
 <?php if($is_login ): ?>
 			<p><button
-				class="post_reply"
+				class="post_reply w3-btn w3-green w3-round"
 				data-reply_id="<?= h($list["id"]) ?>"
 				data-reply_title="<?= h($list["title"]) ?>"
 				data-reply_body="<?= h($list["body"]) ?>"

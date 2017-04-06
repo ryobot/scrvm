@@ -24,7 +24,8 @@
 <?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
-		<div class="w3-padding w3-center w3-red">
+		<div class="w3-panel w3-display-container w3-center w3-red">
+			<span onclick="this.parentElement.style.display='none'" class="w3-display-topright w3-btn w3-red">X</span>
 <?php		foreach($error_messages as $key => $message): ?>
 			<p><?= h($message) ?></p>
 <?php		endforeach; unset($key, $message) ?>
@@ -32,11 +33,11 @@
 <?php endif;?>
 
 		<!-- profile -->
-		<div class="w3-padding w3-center info">
+		<div class="w3-padding w3-margin-bottom w3-center w3-card-2 w3-white">
+			<h5>プロフィール修正</h5>
 			<form action="<?= h($base_path) ?>Users/Save" enctype="multipart/form-data" method="POST">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input class="displaynone" type="file" name="file" id="id_file" accept="image/*" />
-				<div class="notice w3-small">アイコンを変更するには画像をタップしてください。</div>
 				<span id="id_drop_zone">
 					<img
 						class="cover_user cursorpointer"
@@ -46,22 +47,23 @@
 						data-src_org="<?= isset($login_user_data["img_file"]) ? "{$base_path}files/attachment/photo/{$login_user_data["img_file"]}" : "{$base_path}img/user.svg" ?>"
 					/>
 				</span>
+				<div class="notice w3-small">※アイコンを変更するには画像をタップしてください。</div>
 				<h5><?= h($login_user_data["username"]) ?></h5>
-				<p><textarea name="profile" rows="5" class="w3-input" id="id_profile" placeholder="your profile"><?= isset($login_user_data["profile"]) ? h($login_user_data["profile"]) : "" ?></textarea></p>
-				<p class="actions"><input type="submit" value=" 保存する " ></p>
+				<p><textarea name="profile" rows="5" class="w3-input w3-border" id="id_profile" placeholder="your profile"><?= isset($login_user_data["profile"]) ? h($login_user_data["profile"]) : "" ?></textarea></p>
+				<p class="actions"><input type="submit" class="w3-btn" value=" 保存する " ></p>
 			</form>
 		</div>
 
 		<!-- username -->
-		<div class="w3-padding w3-center info">
+		<div class="w3-padding w3-margin-bottom w3-center w3-card-2 w3-white">
 			<h5>ユーザ名変更</h5>
 			<form action="<?= h($base_path) ?>Users/SaveUsername" method="POST" id="id_form_changeusername">
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
-				<p><input class="w3-input" type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" data-username_org="<?= h($login_user_data["username"]) ?>" placeholder="new username" /></p>
+				<p><input class="w3-input w3-border" type="text" name="username" id="id_username" value="<?= h($login_user_data["username"]) ?>" data-username_org="<?= h($login_user_data["username"]) ?>" placeholder="new username" /></p>
 <?php if(!$is_only_twitter_login):?>
-				<p><input class="w3-input" type="password" name="password" id="id_password" placeholder="current password" /></p>
+				<p><input class="w3-input w3-border" type="password" name="password" id="id_password" placeholder="パスワードを入力してください" /></p>
 <?php endif; ?>
-				<p><input type="submit" value=" 変更する " ></p>
+				<p><input type="submit" class="w3-btn" value=" 変更する " ></p>
 			</form>
 		</div>
 

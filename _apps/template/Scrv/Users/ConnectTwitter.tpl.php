@@ -31,7 +31,7 @@
 	</div>
 <?php endif;?>
 
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-center w3-margin-bottom w3-card-2 w3-white">
 <?php if (isset($login_user_data["twitter_user_id"])): ?>
 		<p>twitter連携を完全に解除するには、以下ボタンでtwitterの連携を解除したのち、パソコンで twitter を開き、<a href="https://twitter.com/settings/applications">twitter / 設定 - アプリ連携</a> から scrv の許可を取り消す作業が必要です。</p>
 		<p><a class="w3-btn" href="javascript:;" id="id_users_twitter_disconnect">twitter 連携を解除する</a></p>

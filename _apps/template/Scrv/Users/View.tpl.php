@@ -61,7 +61,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($reviews as $review): ?>
-	<div class="w3-padding flex-item info col">
+	<div class="w3-padding w3-margin-bottom flex-item col w3-card-2 w3-white">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||

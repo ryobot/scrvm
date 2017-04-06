@@ -59,7 +59,7 @@ foreach($pager["nav_list"] as $nav) {
 
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($favtracks as $favtrack): ?>
-	<div class="w3-padding flex-item info col">
+	<div class="w3-padding w3-margin-bottom flex-item col w3-card-2 w3-white">
 		<p><img class="cover w3-card-4" src="<?= isset($favtrack["img_file"])? "{$base_path}files/covers/{$favtrack["img_file"]}" : "{$base_path}img/user.svg" ?>" alt="" /></p>
 		<h5>Tr.<?= h($favtrack["track_num"]) ?> : <?= h($favtrack["track_title"]) ?></h5>
 		<h5>

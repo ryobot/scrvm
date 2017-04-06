@@ -57,7 +57,7 @@ $_base_url = $base_path . "Users";
 <!-- lists -->
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($lists as $list): ?>
-	<div class="w3-padding flex-item info col">
+	<div class="w3-padding flex-item col w3-margin-bottom w3-card-2 w3-white">
 		<p><a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><img class="cover_user" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" /></a></p>
 		<h5><a href="<?= h($_base_url) ?>/View/id/<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a></h5>
 		<p>

@@ -21,8 +21,7 @@
 		<h2 class="w3-xlarge">Posts::id::<?= h($id) ?></h2>
 	</div>
 
-	<div class="w3-padding info">
-
+	<div class="w3-form w3-card-2 w3-white w3-margin-bottom">
 		<h5><a href="<?= h($base_path) ?>Posts/View/id/<?= h($id) ?>"><?= h($post["title"]) ?></a></h5>
 		<p class="post_body"><?= linkIt(nl2br(h($post["body"])), false) ?></p>
 		<p class="notice">

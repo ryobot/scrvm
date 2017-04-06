@@ -23,13 +23,13 @@
 
 <?php require __DIR__ . '/_editmenu.tpl.php'; ?>
 
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-center w3-margin-bottom w3-card-2 w3-white">
 		<p>リンク生成回数：残り <span id="id_can_be_invited_count"><?= h($can_be_invited_count) ?></span> 回</p>
 <?php if($login_user_data["role"] === "admin" || $can_be_invited_count > 0): ?>
 		<p id="id_actions"><a href="javascript:;" class="w3-btn" id="id_create_invite">招待用リンクを作成する</a></p>
 		<div id="id_created_link_area" class="displaynone">
 			<p class="notice">下記リンクをコピーして相手にお知らせください。</p>
-			<p><textarea class="w3-input" id="id_created_link"></textarea></p>
+			<p><textarea class="w3-input w3-border" id="id_created_link"></textarea></p>
 		</div>
 <?php else: ?>
 <?php endif ;?>
@@ -42,7 +42,7 @@
 <script>
 ;$(function(){
 	$("#id_create_invite").on("click.js", function(){
-		if (!confirm("are you sure ?")){
+		if (!confirm("招待リンクを作成しますか？")){
 			return false;
 		}
 
