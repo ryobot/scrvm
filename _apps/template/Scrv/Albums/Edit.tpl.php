@@ -28,7 +28,7 @@
 	</div>
 <?php endif;?>
 
-	<div class="w3-center w3-padding info">
+	<div class="w3-center w3-padding w3-card-2 w3-white">
 		<form class="w3-form" id="id_Albums_EditRun" enctype="multipart/form-data" action="javascript:;" method="POST" autocomplete="off">
 			<input type="hidden" name="id" value="<?= h($id) ?>" />
 			<input type="hidden" name="token" value="<?= h($token) ?>" />

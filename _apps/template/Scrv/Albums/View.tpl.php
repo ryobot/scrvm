@@ -71,8 +71,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if(count($tags) > 0): ?>
 	<!-- tags -->
-	<h5 class="w3-center w3-large">Tags</h5>
 	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
+		<h5 class="w3-center w3-large">Tags</h5>
 		<div class=" tags_group">
 <?php foreach($tags as $tag):?>
 			<span class="w3-tag w3-indigo w3-margin-bottom"><a
@@ -100,8 +100,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 
 	<!-- track_info -->
-	<h5 class="w3-center w3-large">Tracks</h5>
-	<div class='w3-margin w3-card-2'>
+	<div class='w3-padding w3-margin w3-card-2 w3-white'>
+		<h5 class="w3-center w3-large">Tracks</h5>
 		<table class="w3-table-all">
 <?php foreach($tracks as $track): ?>
 			<tr>
