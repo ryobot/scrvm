@@ -145,3 +145,28 @@ function linkIt($text, $target_blank = true)
 	$replacement = '<a href="\1"'.$target.'>\1</a>';
 	return preg_replace($pattern, $replacement, $text);
 }
+
+function dateInWeek($date)
+{
+	$time = strtotime($date);
+	$format = 'M. j';
+                  $str = date($format,$time);
+                  $day = date('D.', $time);
+                  $str .= "<br>".$day;
+                  if ( $day == "Sat." ) {
+                        return "<font color=steelblue>".$str."</font>";
+                  } else if ( $day == "Sun." ) {
+                        return "<font color=red>".$str."</font>";
+                  } else if ( $day == "Mon." ) {
+                       return "<font color=gold>".$str."</font>";
+                  } else if ( $day == "Tue." ) {
+                        return "<font color=orange>".$str."</font>";
+                  } else if ( $day == "Wed." ) {
+                        return "<font color=seagreen>".$str."</font>";
+                  } else if ( $day == "Thu." ) {
+                        return "<font color=brown>".$str."</font>";
+                  } else if ( $day == "Fri." ) {
+                        return "<font color=violet>".$str."</font>";
+                  }
+                  return $str;
+}
