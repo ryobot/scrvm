@@ -37,11 +37,11 @@
 	</div>
 
 	<p><a href="#" id="id_np_or_ar_area_toggle">レビュー欄を開く</a></p>
-	<div class="displaynone" id="id_np_or_ar_area">
-		<p>
+	<div class="displaynone w3-container w3-padding-0" id="id_np_or_ar_area">
+		<div>
 			<textarea class="w3-input w3-border" rows="5" name="body" id="id_body" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea>
 			<div class="notice"><span id="id_review_counter"></span></div>
-		</p>
+		</div>
 		<!--<p><input type="checkbox" name="published" id="id_published" value="1" <?= $post_params["published"] === 0 ? "" : "checked" ?>><label for="id_published"> published</label> <span id="id_published_notice"></span></p>-->
 		<input type="hidden" name="published" id="id_published" value="1" />
 <?php if(isset($login_user_data["twitter_user_id"])): ?>
@@ -51,7 +51,7 @@
 	</div>
 	<p class="actions mgb10px mgt10px">
 		<input
-			class="w3-btn w3-blue"
+			class="w3-btn w3-round w3-teal"
 			type="submit"
 			value="<?= $__run_class_name === "Edit" ? "保存する" : "投稿する" ?>"
 			id="id_form_submit"
@@ -67,10 +67,10 @@
 		var $np_or_ar_area = $("#id_np_or_ar_area");
 		if ( $np_or_ar_area.is(":visible") ) {
 			$this.text("レビュー欄を開く");
-			$np_or_ar_area.hide("fast");
+			$np_or_ar_area.slideUp("fast");
 		} else {
 			$this.text("レビュー欄を閉じる");
-			$np_or_ar_area.show("fast");
+			$np_or_ar_area.slideDown("fast");
 		}
 		return false;
 	});

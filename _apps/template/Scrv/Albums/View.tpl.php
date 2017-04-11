@@ -38,9 +38,6 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 	<!-- album info -->
 	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
-<?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
-		<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">このアルバム情報を編集する</a></p>
-<?php endif; ?>
 		<p><img class="cover w3-card-4" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" /></p>
 		<h5><?= h($view_title) ?> (<?= h($view_year) ?>)</h5>
 		<div class="flex-container">
@@ -63,8 +60,11 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <!--			<div><a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="width_30px" title="apple music" /></a></div>
 			<div><a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="width_30px" title="google play music" /></a></div>-->
 		</div>
+<?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
+		<p><a class="w3-btn w3-round" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
+<?php endif; ?>
 <?php if($is_login): ?>
-		<p><a href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">&quot;<?= h($album["artist"]) ?>&quot; の他のアルバムを追加する</a></p>
+		<p><a class="w3-btn w3-round" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
 <?php endif;?>
 	</div>
 
@@ -92,7 +92,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				<input type="hidden" name="token" value="<?= h($token) ?>" />
 				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
 				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-				<p><input class="w3-btn" type="submit" value="タグを追加する" /></p>
+				<p><input class="w3-btn w3-round" type="submit" value="タグを追加する" /></p>
 			</form>
 		</div>
 	</div>
@@ -126,14 +126,15 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		</table>
 	</div>
 
+<?php if($is_login): ?>
+	<div class="w3-container w3-center w3-padding"><button class="w3-btn w3-round w3-teal add_review">レビューを書く</button></div>
+<?php endif; ?>
+
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
-<?php if($is_login): ?>
-	<p class="w3-center"><button class="w3-btn w3-blue" id="id_add_review">レビューを書く</button></p>
-<?php endif; ?>
 	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php	 foreach($reviews as $idx => $review): ?>
-		<div class="w3-padding w3-center w3-card-2 w3-white w3-margin-bottom _info col">
+		<div class="w3-padding w3-center w3-card-2 w3-white w3-margin-bottom col">
 <?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
 			<div class="notice">
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
@@ -184,8 +185,8 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	</div>
 
 	<!-- music search 用 -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_itunes_search_results"></div>
-	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_gpm_search_results"></div>
+	<div class="w3-padding w3-margin w3-center w3-white w3-card-2" id="id_itunes_search_results"></div>
+	<div class="w3-padding w3-margin w3-center w3-white w3-card-2" id="id_gpm_search_results"></div>
 	<input
 		type="hidden"
 		name="term"
@@ -300,7 +301,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php if($is_login): ?>
 
 	// add_review
-	$("#id_add_review").on("click.js", function(){
+	$(".add_review").on("click.js", function(){
 		location.href= BASE_PATH + "Reviews/Add/id/<?= h($album_id) ?>";
 		return false;
 	});

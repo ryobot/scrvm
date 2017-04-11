@@ -49,7 +49,7 @@ $ReviewsParse = new ReviewsParse();
 	</div>
 	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($reviews as $review): ?>
-		<div class="w3-padding w3-center info col">
+		<div class="w3-padding w3-center w3-white w3-card-2 w3-margin-bottom col">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||
