@@ -7,7 +7,7 @@
 
 <!-- Sidenav -->
 <nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidenav">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav">Close</a>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-grey">Close</a>
 <?php if( !$is_login ):?>
 	<a href="<?= h($base_path) ?>Auth">Login</a>
 <?php else: ?>
@@ -63,8 +63,8 @@
 		</a></div>
 	<?php if( $is_login ):?>
 		<div class="menu_block" data-menu="Posts"><a href="<?= h($base_path) ?>Posts">
-			<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
-			<div class="text">Posts</div>
+				<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
+				<div class="text">Posts</div>
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="About"><a href="<?= h($base_path) ?>About">
@@ -80,8 +80,31 @@
 			var $this = $(this);
 			if ( action_name === $this.attr("data-menu") ) {
 				$this.addClass("active");
+			} else{
+				$this.addClass("w3-grayscale-max w3-opacity-min");
 			}
 		});
-	})
+
+<?php if ($is_login): ?>
+			$.ajax(BASE_PATH + "Activity/Counter", {
+				method: "GET",
+				dataType: "json",
+				data: {}
+			}).done(function(json){
+				var options = {expires: 7, path: BASE_PATH};
+				var key = "counter";
+				var counter = Cookies.get(key) || false;
+				if (counter === false) {
+					Cookies.set(key, json, options);
+				} else {
+					// TODO 現在のcounter と比較して差分があるところをnew表示
+					Cookies.set(key, json, options);
+				}
+			}).fail(function(e){
+			}).always(function(){
+			});
+<?php endif; ?>
+
+	});
 </script>
 

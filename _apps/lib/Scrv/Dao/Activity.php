@@ -35,6 +35,30 @@ class Activity extends Dao
 	}
 
 	/**
+	 * 件数取得
+	 * @return resultSet
+	 */
+	public function getCount()
+	{
+		$result = getResultSet();
+		try{
+			$count_list = $this->_Dao->select("SELECT
+				(SELECT count(*) FROM reviews) AS Reviews,
+				(SELECT count(*) FROM albums) AS Albums,
+				(SELECT count(*) FROM users) AS Users,
+				(SELECT count(*) FROM posts) AS Posts
+			");
+			$result["status"] = true;
+			$result["data"] = $count_list[0];
+		} catch( \Exception $ex ) {
+			$result["messages"][] = $ex->getMessage();
+		} catch( \PDOException $e ) {
+			$result["messages"][] = "db error - " . $e->getMessage();
+		}
+		return $result;
+	}
+
+	/**
 	 * fav reviews lists
 	 * @return string
 	 */
