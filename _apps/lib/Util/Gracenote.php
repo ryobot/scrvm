@@ -70,6 +70,22 @@ class Gracenote
 	}
 
 	/**
+	 * 登録用クエリ
+	 * gracenote でアカウント登録後にこのクエリをPOSTしてuser_idを受け取る
+	 * @return string
+	 */
+	private function _makeRegisterQuery()
+	{
+		return
+		"<QUERIES>
+			<QUERY CMD=\"REGISTER\">
+			<CLIENT>{$this->_client_id}</CLIENT>
+			</QUERY>
+		</QUERIES>"
+		;
+	}
+
+	/**
 	 * 検索用XMLを返す
 	 * @param string $artist
 	 * @param string $album_title
@@ -114,6 +130,7 @@ class Gracenote
 		curl_setopt($ch, CURLOPT_POST,           true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,     $body );
 		curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: text/plain'));
+		//curl_setopt($ch, CURLOPT_HTTPHEADER,     array('Content-Type: application/x-www-form-urlencoded'));
 		return curl_exec ($ch);
 	}
 }
