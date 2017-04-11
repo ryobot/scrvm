@@ -38,12 +38,12 @@
 
 		<div class="w3-row">
 			<input class="w3-input w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" />
-			<p><button class="w3-btn" id="id_search">検索</button></p>
+			<p><button class="w3-btn w3-round" id="id_search">検索</button></p>
 		</div>
 
 
 <?php if( $is_login ): ?>
-		<p><a class="add_album" href="<?= h($base_path) ?>Albums/Add">アルバムを追加する</a></p>
+		<p><a class="add_album w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Add">アルバムを追加する</a></p>
 <?php endif; ?>
 
 		<div class="w3-hide">
@@ -189,7 +189,7 @@
 			}
 			location.href=href+query;
 			return false;
-		}).text((q === "" ? "新しく" : "'"+q+"'の") + "アルバムを追加する");
+		}).text((q === "" ? "" : "\""+q+"\" の") + "アルバムを追加する");
 	};
 
 <?php if($is_login): ?>

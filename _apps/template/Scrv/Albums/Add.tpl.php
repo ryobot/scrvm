@@ -30,11 +30,11 @@
 					<label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs"> <img src="<?= h($base_path) ?>img/logo_discogs.png" alt="discogs" title="discogs" class="width_80px" /></label>
 				</div>
 			</div>
-			<p><input class="w3-input" type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="アーティスト名" /></p>
-			<p><input class="w3-input" type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="アルバム名" /></p>
-			<p><input class="w3-input" type="text" name="track" id="id_track" value="" placeholder="トラック名" /></p>
+			<p><input class="w3-input w3-border" type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="アーティスト名" /></p>
+			<p><input class="w3-input w3-border" type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="アルバム名" /></p>
+			<p><input class="w3-input w3-border" type="text" name="track" id="id_track" value="" placeholder="トラック名" /></p>
 			<p class="notice w3-small">※インディーズの新譜はあまりヒットしません。</p>
-			<p><input class="w3-btn" type="submit" id="id_submit" value=" 検索 " /></p>
+			<p><input class="w3-btn w3-round" type="submit" id="id_submit" value=" 検索 " /></p>
 		</form>
 	</div>
 
@@ -69,7 +69,7 @@
 			<form action="javascript:;" id="id_image_search_form">
 				<p><input class="w3-input w3-border" type="text" name="search_q" id="id_search_q" value="" placeholder="search image" /></p>
 				<p><input
-					class="w3-btn"
+					class="w3-btn w3-round"
 					type="submit"
 					value="カバー検索"
 					id="id_image_search_form_submit"
@@ -83,7 +83,7 @@
 
 		<div class="w3-center">
 			<form id="id_Albums_AddRun_Form" action="javascript:;" method="POST">
-				<p><input class="w3-btn w3-orange w3-card-2" type="submit" value=" この内容で追加する " /></p>
+				<p><input class="w3-btn w3-round w3-orange w3-card-2" type="submit" value=" この内容で追加する " /></p>
 			</form>
 		</div>
 
@@ -185,7 +185,7 @@
 				$("<p />").text(track_list.join(" / ")),
 				// 選択ボタン
 				$("<p />").append(
-					$("<button data-cache_index='"+i+"' class='w3-btn'> 選 択 </button>").on("click.js",function(){
+					$("<button data-cache_index='"+i+"' class='w3-btn w3-round'> 選 択 </button>").on("click.js",function(){
 						var cache_index = $(this).attr("data-cache_index");
 						var cache_data = cache_search_result[cache_index];
 						// 最初にアルバム検索
@@ -314,7 +314,7 @@
 						$(this).html("").append(
 							$("<img />").attr({src:selected_img_url}),
 							$("<p></p>"),
-							$("<button class='w3-btn'>選択した画像を削除する</button>").on("click.js", function(){
+							$("<button class='w3-btn w3-round'>選択した画像を削除する</button>").on("click.js", function(){
 								$("#id_selected_img_url").html("");
 								$("#id_add_img_url").val("");
 								return false;
@@ -349,7 +349,7 @@
 						value : tracks[i]
 					})),
 					$("<td />").append(
-						$("<button class='w3-btn w3-small'>削除</button>").attr({"data-track_num":index}).on("click.js", function(){
+						$("<button class='w3-btn w3-round w3-small'>削除</button>").attr({"data-track_num":index}).on("click.js", function(){
 							// 現在表示されているtrack textで配列を再作成
 							tmp_tracks = [].concat([]);
 							$(".text_track_title").each(function(){
@@ -367,7 +367,7 @@
 						})
 					),
 					$("<td />").append(
-						$("<button class='w3-btn w3-small'>追加</button>").attr({"data-track_num":index}).on("click.js", function(){
+						$("<button class='w3-btn w3-round w3-small'>追加</button>").attr({"data-track_num":index}).on("click.js", function(){
 							// 現在表示されているtrack textで配列を再作成
 							tmp_tracks = [].concat([]);
 							$(".text_track_title").each(function(){
