@@ -62,15 +62,15 @@ if ( isset($select_user) ) {
 		</ul>
 	</div>
 
-	<div class="flex-container w3-row-padding w3-padding-16 w3-center"  style="justify-content:flex-start;">
+	<div class="flex-container w3-padding-16 w3-center" style="justify-content:flex-start;">
 <?php $lastdate = ""; $divcnt = 0; ?>
 <?php foreach($reviews as $idx => $review): ?>
 		<?php $date = dateInWeek($review["created"]); ?>
 <?php if ($date !== $lastdate):?>
-		<div class="w3-padding-tile flex-item col_tile w3-white info"><h5><?php echo $date; ?></h5></div>
+		<div class="w3-padding-tile flex-item col_tile w3-white w3-card"><h5><?php echo $date; ?></h5></div>
 		<?php $lastdate = $date; $divcnt++; ?>
 <?php endif;?>
-		<div class="w3-padding-tile flex-item col_tile w3-white info" style="position:relative;">
+		<div class="w3-padding-tile flex-item col_tile w3-white w3-card" style="position:relative;">
 			<div style="position:absolute; top:5px; right:5px; z-index:1">
 				<table><tr>
 <?php if ($review["body"]):?>
@@ -80,6 +80,7 @@ if ( isset($select_user) ) {
 							class="width_20px w3-circle w3-white w3-border w3-border-white"
 							alt="reviews"
 						/></a>
+						</div>
 					</td>
 <?php endif;?>
 <?php if (!isset($select_user)):?>
@@ -94,9 +95,12 @@ if ( isset($select_user) ) {
 					<!-- <td width="30"><a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="width_12px" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" /></a></td> -->
 				</tr></table>
 			</div>
-			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-				<img class="cover w3-card-4" style="z-index:0" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-			</a>
+			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>" class="w3-padding-0 w3-margin-0"><img
+				class="cover w3-card-2"
+				style="z-index:0"
+				src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>"
+				alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>"
+			/></a>
 		</div>
 		<?php $divcnt++; ?>
 <?php endforeach; ?>
