@@ -19,7 +19,7 @@
 	<a id="id_logout" href="javascript:;">Logout</a>
 	<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
 <?php endif; ?>
-	<a href="<?= h($base_path) ?>About" class="w3-closenav">About</a>
+	<a href="<?= h($base_path) ?>About">About</a>
 </nav>
 
 
@@ -69,6 +69,7 @@
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="Logs"><a href="<?= h($base_path) ?>Logs">
+			<div><img src="<?= h($base_path) ?>img/logs.svg" alt="Logs" /></div>
 			<div class="text">Logs</div>
 		</a></div>
 	</div>
