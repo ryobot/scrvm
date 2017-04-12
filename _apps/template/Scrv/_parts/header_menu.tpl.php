@@ -6,7 +6,7 @@
 ?>
 
 <!-- Sidenav -->
-<nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidenav">
+<nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:20;width:40%;min-width:300px" id="mySidenav">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-grey">Close</a>
 <?php if( !$is_login ):?>
 	<a href="<?= h($base_path) ?>Auth">Login</a>
@@ -24,7 +24,7 @@
 
 
 <!-- header -->
-<div class="w3-top w3-white header">
+<div class="w3-top w3-white header" style="z-index: 10">
 
 	<!-- top -->
   <div class="w3-large w3-padding-xlarge">
