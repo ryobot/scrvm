@@ -7,8 +7,8 @@
 use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
 $ReviewsParse = new ReviewsParse();
 
-$view_title = "{$album["artist"]} / {$album["title"]}";
-$view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "unknown";
+$view_year = isset($album["year"]) && $album["year"] !== "" ? $album["year"] : "?";
+$view_title = "{$album["title"]} / {$album["artist"]} ({$view_year})";
 $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{$base_path}img/no_image.png" : "{$base_path}files/covers/{$album["img_file"]}";
 
 ?>
@@ -38,71 +38,31 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 	<!-- album info -->
 	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
-		<p><img class="cover w3-card-4" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" /></p>
-		<h5><?= h($view_title) ?> (<?= h($view_year) ?>)</h5>
-		<div class="flex-container">
-			<div>
-				<img
-					id="id_fav_album"
-					class="width_30px cursorpointer fav_album<?= $is_login ? "" : "_nologin" ?>"
+		<div>
+			<img class="cover w3-card-2" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
+		</div>
+		<h5>
+			<span><?= h($album["title"]) ?></span>
+			<br />
+			<span class="w3-small"><?= h("{$album["artist"]} ({$view_year})") ?></span>
+		</h5>
+		<p>
+			<img
+				id="id_fav_album"
+				class="width_30px cursorpointer fav_album<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
-					src="<?= h($base_path) ?>img/favalbums_on.svg"
+				src="<?= h($base_path) ?>img/favalbums_on.svg"
 <?php else:?>
-					src="<?= h($base_path) ?>img/favalbums_off.svg"
+				src="<?= h($base_path) ?>img/favalbums_off.svg"
 <?php endif;?>
-					data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
-					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
-					data-album_id="<?= h($album_id) ?>"
-					title="fav album"
-				/>
-				<span class="notice" id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? $album["favalbums_count"] : "" ?></span>
-			</div>
-<!--			<div><a href="#" id="id_to_applemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/applemusic.svg" class="width_30px" title="apple music" /></a></div>
-			<div><a href="#" id="id_to_googlemusic" class="displaynone" target="blank"><img src="<?= h($base_path) ?>img/google.svg" class="width_30px" title="google play music" /></a></div>-->
-		</div>
-<?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
-		<p><a class="w3-btn w3-round" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
-<?php endif; ?>
-<?php if($is_login): ?>
-		<p><a class="w3-btn w3-round" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
-<?php endif;?>
-	</div>
-
-
-<?php if(count($tags) > 0): ?>
-	<!-- tags -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
-		<h5 class="w3-center w3-large">Tags</h5>
-		<div class=" tags_group">
-<?php foreach($tags as $tag):?>
-			<span class="w3-tag w3-indigo w3-margin-bottom"><a
-				href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
-				data-id="<?= h($tag["id"]) ?>"
-				data-tag="<?= h($tag["tag"]) ?>"
-				data-album_id="<?= h($tag["album_id"]) ?>"
-				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-			><?= h($tag["tag"]) ?></a></span>
-<?php endforeach;?>
-		</div>
-<?php endif; ?>
-<?php if($is_login): ?>
-		<!-- add tag form -->
-		<div class="tags_form">
-			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
-				<input type="hidden" name="token" value="<?= h($token) ?>" />
-				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-				<p><input class="w3-btn w3-round" type="submit" value="タグを追加する" /></p>
-			</form>
-		</div>
-	</div>
-<?php endif;?>
-
-
-	<!-- track_info -->
-	<div class='w3-padding w3-margin w3-card-2 w3-white'>
-		<h5 class="w3-center w3-large">Tracks</h5>
-		<table class="w3-table-all">
+				data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
+				data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
+				data-album_id="<?= h($album_id) ?>"
+				title="fav album"
+			/>
+			<span class="notice" id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? $album["favalbums_count"] : "" ?></span>
+		</p>
+		<table class="w3-table-all w3-padding">
 <?php foreach($tracks as $track): ?>
 			<tr>
 				<td class="displaytablecell"><?= h($track["track_num"]) ?>. <?= h($track["track_title"]) ?></td>
@@ -124,11 +84,61 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 			</tr>
 <?php endforeach;?>
 		</table>
-	</div>
 
 <?php if($is_login): ?>
-	<div class="w3-container w3-center w3-padding"><button class="w3-btn w3-round w3-teal add_review">レビューを書く</button></div>
+		<div class="w3-display-container">
+			<p><button class="w3-btn w3-round w3-teal add_review">レビューを書く</button></p>
+			<div class="w3-display-right"><a href="javascript:;" id="id_more_edit">more</a></div>
+		</div>
+		<div class="w3-container displaynone" id="id_more_edit_area">
+			<p><a class="w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
+<?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
+			<p><a class="w3-btn w3-round w3-blue-gray" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
 <?php endif; ?>
+		</div>
+		<script>
+		;$(function(){
+			$("#id_more_edit").on("click.js", function(){
+				$("#id_more_edit_area").slideToggle("fast");
+				return false;
+			});
+		});
+		</script>
+<?php endif;?>
+
+	</div>
+
+
+	<!-- tags -->
+	<div class="w3-hide">
+<?php if(count($tags) > 0): ?>
+		<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
+			<h5 class="w3-center w3-large">Tags</h5>
+			<div class=" tags_group">
+<?php foreach($tags as $tag):?>
+				<span class="w3-tag w3-round-medium w3-indigo w3-margin-bottom"><a
+					href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
+					data-id="<?= h($tag["id"]) ?>"
+					data-tag="<?= h($tag["tag"]) ?>"
+					data-album_id="<?= h($tag["album_id"]) ?>"
+					data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+				><?= h($tag["tag"]) ?></a></span>
+<?php endforeach;?>
+			</div>
+<?php endif; ?>
+<?php if($is_login): ?>
+			<div class="tags_form">
+				<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+					<input type="hidden" name="token" value="<?= h($token) ?>" />
+					<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+					<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
+					<p><input class="w3-btn w3-round" type="submit" value="タグ追加" /></p>
+				</form>
+			</div>
+		</div>
+<?php endif;?>
+	</div>
+
 
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>

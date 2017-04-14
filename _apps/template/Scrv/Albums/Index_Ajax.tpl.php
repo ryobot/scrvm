@@ -45,20 +45,17 @@
 	<!-- album lists -->
 	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($lists as $album): ?>
-		<div class="w3-padding w3-margin-bottom flex-item w3-white w3-card-2   _info col">
-			<img
+		<div class="w3-padding w3-margin-bottom flex-item w3-white w3-card-2 col">
+			<div><img
 				class="cover w3-card-4"
 				src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
 				alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
-			/>
+			/></div>
 			<h5>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
-					<span
-						class="artist_title"
-						data-artist="<?= h($album["artist"]) ?>"
-						data-title="<?= h($album["title"]) ?>"
-					><?= h("{$album["artist"]} / {$album["title"]}") ?></span>
-					(<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "unknown" ?>)
+					<span><?= h($album["title"]) ?></span>
+					<br />
+					<span class="w3-small"><?= h($album["artist"]) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "?" ?>)</span>
 				</a>
 			</h5>
 			<div class="reviews">
@@ -74,9 +71,6 @@
 					<span class="vtalgmiddlea"><?= h($album["reviews"]) ?></span>
 				</a>
 <?php endif;?>
-<?php if ($is_login && $album["create_user_id"] === $login_user_data["id"]): ?>
-				<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
-<?php endif; ?>
 			</div>
 		</div>
 <?php endforeach; ?>
@@ -109,13 +103,6 @@
 
 	<script>
 	;$(function(){
-		var q = $("#id_q").val();
-		$(".artist_title").each(function(){
-			var $this = $(this);
-			var artist = $this.attr("data-artist");
-			var title = $this.attr("data-title");
-			// マッチした部分をマーカー表示
-		});
 	});
 	</script>
 

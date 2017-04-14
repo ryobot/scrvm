@@ -7,8 +7,8 @@
 use lib\Scrv\Helper\Reviews\Parse as ReviewsParse;
 $ReviewsParse = new ReviewsParse();
 
-$year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "unknown";
-$review_title = "{$review["artist"]} / {$review["title"]}";
+$year = isset($review["year"]) && $review["year"] !== "" ? $review["year"] : "?";
+$review_title = "{$review["title"]} / {$review["artist"]} ($year)";
 $album_image_path = isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png";
 
 $is_unpublished = $review["published"] === 0 && (!$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]));
@@ -27,7 +27,7 @@ if($is_unpublished){
 <?php else: ?>
 <title>
 	<?= h($review_title) ?>
-	(by <?= h($review["username"]) ?>)
+	by <?= h($review["username"]) ?>
 	- Reviews
 	- <?= h($base_title) ?>
 </title>
@@ -52,7 +52,9 @@ if($is_unpublished){
 		<img class="cover w3-card-4" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 		<h5>
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-				<?= h($review_title) ?> (<?= h($year) ?>)
+				<span><?= h($review["title"]) ?></span>
+				<br />
+				<span class="w3-small"><?= h($review["artist"]) ?> (<?= h($year) ?>)</span>
 			</a>
 		</h5>
 

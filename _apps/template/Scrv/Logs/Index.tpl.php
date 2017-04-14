@@ -73,12 +73,10 @@ if ( isset($select_user) ) {
 
 		<div
 			id="id_log_<?= h($review["id"]) ?>"
-			class="w3-padding-tile flex-item col_tile w3-white w3-card col_tile_cover"
-			style="position:relative;"
+			class="w3-padding-tile flex-item col_tile w3-white w3-card col_tile_cover w3-display-container"
 			data-id="<?= h($review["id"]) ?>"
 			data-album_id="<?= h($review["album_id"]) ?>"
 			data-body="<?= h($ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path)) ?>"
-			data-listening_system="<?= h($review["listening_system"]) ?>"
 			data-artist="<?= h($review["artist"]) ?>"
 			data-title="<?= h($review["title"]) ?>"
 			data-year="<?= h($review["year"] === null ? "?" : $review["year"]) ?>"
@@ -89,30 +87,30 @@ if ( isset($select_user) ) {
 			data-created="<?= h(timeAgoInWords($review["created"])) ?>"
 			data-prev_id="<?= isset($reviews[$idx-1]) ? $reviews[$idx-1]["id"] : "" ?>"
 			data-next_id="<?= isset($reviews[$idx+1]) ? $reviews[$idx+1]["id"] : "" ?>"
+			data-listening_system="<?= h($review["listening_system"]) ?>"
+			data-reviews_count="<?= $review["reviews_count"] ?>"
+			data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+			data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
 		>
-			<div style="position:absolute; top:5px; right:5px; z-index:1">
-				<table><tr>
+			<div class="w3-display-topright w3-padding-small">
 <?php if ($review["body"]):?>
-					<td width="20">
-						<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img
-							src="<?= h($base_path) ?>img/reviews.svg"
-							class="width_20px w3-circle w3-white w3-border w3-border-white"
-							alt="reviews"
-						/></a>
-						</div>
-					</td>
+				<span width="20">
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><img
+						src="<?= h($base_path) ?>img/reviews.svg"
+						class="width_20px w3-circle w3-white w3-border w3-border-white"
+						alt="reviews"
+					/></a>
+				</span>
 <?php endif;?>
 <?php if (!isset($select_user)):?>
-					<td width="20">
-						<a href="<?= h($base_path) ?>Logs/Index/user/<?= h($review["user_id"]) ?>"><img
-							class="width_20px w3-circle w3-white w3-border w3-border-white"
-							src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>"
-							alt="<?= h($review["username"]) ?>"
-						/></a>
-					</td>
+				<span width="20">
+					<a href="<?= h($base_path) ?>Logs/Index/user/<?= h($review["user_id"]) ?>"><img
+						class="width_20px w3-circle w3-white w3-border w3-border-white"
+						src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>"
+						alt="<?= h($review["username"]) ?>"
+					/></a>
+				</span>
 <?php endif;?>
-					<!-- <td width="30"><a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="width_12px" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" /></a></td> -->
-				</tr></table>
 			</div>
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>" class="w3-padding-0 w3-margin-0"><img
 				class="cover w3-card-2"
@@ -138,10 +136,6 @@ if ( isset($select_user) ) {
 					<div id="id_modal_data_artist_title_year"></div>
 					<div id="id_modal_data_body"></div>
 					<div id="id_modal_data_userinfo"></div>
-<?php if ( ! isset($select_user)): ?>
-					<hr />
-					<div id="id_modal_show_user_log"></div>
-<?php endif; ?>
 				</div>
 			</div>
 			<div id="id_modal_button_area"></div>
@@ -180,13 +174,16 @@ if ( isset($select_user) ) {
 	 * @param {jQuery Object} $elm
 	 */
 	var setModal = function($elm){
-		var artist_title_year = $elm.attr("data-artist") + " / " + $elm.attr("data-title") + " (" + $elm.attr("data-year") + ")";
+		var artist = $elm.attr("data-artist");
+		var title = $elm.attr("data-title");
+		var year = $elm.attr("data-year");
+		var title_year = $elm.attr("data-title") + " (" + $elm.attr("data-year") + ")";
 		$("#id_modal_data_img_file").html("").append(
 			$("<p />").append(
 				$('<img />').attr({
 					"src"   : $elm.attr("data-img_file"),
 					"class" : "cover w3-card-2",
-					"alt"   : artist_title_year
+					"alt"   : artist + " / " + title_year
 				})
 			)
 		);
@@ -194,11 +191,13 @@ if ( isset($select_user) ) {
 		$("#id_modal_data_artist_title_year").html("").append(
 			$('<h5 />').append(
 				$('<a />').attr({
-					"href" : BASE_PATH + "Albums/View/id/" + $elm.attr("data-album_id")
-				}).text(
-					artist_title_year
+					"href": BASE_PATH + "Albums/View/id/" + $elm.attr("data-album_id")
+				}).append(
+					$('<span>').text(title),
+					$("<br />"),
+					$('<span class="w3-small">').text(artist + " (" + year + ")")
 				)
-			)
+			),
 		);
 
 		$("#id_modal_data_body").html("").append(
@@ -208,16 +207,16 @@ if ( isset($select_user) ) {
 		$("#id_modal_data_userinfo").html("").append(
 			$("<p />").append(
 				$('<a />').attr({
-					"href" : BASE_PATH + "Users/View/id/" + $elm.attr("data-user_id")
+					"href" : BASE_PATH + "Logs/Index/user/" + $elm.attr("data-user_id")
 				}).append(
 					$('<img />').attr({
-						"class" : "width_25px",
+						"class" : "width_25px w3-circle w3-white w3-border w3-border-white",
 						"src" : $elm.attr("data-user_img_file")
 					})
 				),
 				" ",
 				$('<a />').attr({
-					"href" : BASE_PATH + "Users/View/id/" + $elm.attr("data-user_id")
+					"href" : BASE_PATH + "Logs/Index/user/" + $elm.attr("data-user_id")
 				}).text(
 					$elm.attr("data-username")
 				),
@@ -226,17 +225,6 @@ if ( isset($select_user) ) {
 					"href" : BASE_PATH + "Reviews/View/id/" + $elm.attr("data-id")
 				}).text(
 					$elm.attr("data-created")
-				)
-			)
-		);
-
-		$("#id_modal_show_user_log").html("").append(
-			$("<p />").append(
-				$("<a />").attr({
-					"class" : "w3-btn w3-teal w3-round",
-					"href" : BASE_PATH + "Logs/Index/user/" + $elm.attr("data-user_id")
-				}).text(
-					$elm.attr("data-username") + " の Logs"
 				)
 			)
 		);

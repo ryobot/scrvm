@@ -72,8 +72,9 @@ if ( isset($situation) ) {
 			<img class="cover w3-card-4" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 			<h5>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
-					<?= h($review["artist"] . " / " . $review["title"]) ?>
-					(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : " ? " ?>)
+					<span><?= h($review["title"]) ?></span>
+					<br />
+					<span class="w3-small"><?= h($review["artist"]) ?> (<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : " ? " ?>)</span>
 				</a>
 			</h5>
 			<p class="w3-left-align">
