@@ -114,11 +114,15 @@ if ( isset($situation) ) {
 					</span>
 				</a>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" class="img16x16" alt="edit review" title="edit review" /></a>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" /></a>
+				<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>">more</a>
 <?php endif;?>
 			</div>
-
+<?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
+			<div class="displaynone w3-container w3-padding" id="id_reaction_more_<?= h($review["id"]) ?>">
+				<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round">レビューを編集する</a></p>
+				<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round">レビューを削除する</a></p>
+			</div>
+<?php endif;?>
     </div>
 <?php endforeach; ?>
 	</div>
@@ -148,6 +152,13 @@ if ( isset($situation) ) {
 
 <script>
 ;$(function(){
+
+	$(".reaction_more").on("click.js", function(){
+		var review_id = $(this).attr("data-review_id");
+		$("#id_reaction_more_" + review_id).slideToggle("fast");
+		console.log(review_id);
+		return false;
+	});
 
 	$(".review_delete").each(function(){
 		var $del = $(this);
