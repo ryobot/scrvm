@@ -197,7 +197,7 @@ if ( isset($select_user) ) {
 					$("<br />"),
 					$('<span class="w3-small">').text(artist + " (" + year + ")")
 				)
-			),
+			)
 		);
 
 		$("#id_modal_data_body").html("").append(
