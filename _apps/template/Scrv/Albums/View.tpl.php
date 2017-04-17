@@ -88,7 +88,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php if($is_login): ?>
 		<div class="w3-display-container">
 			<p><button class="w3-btn w3-round w3-teal add_review">レビューを書く</button></p>
-			<div class="w3-display-right"><a href="javascript:;" id="id_more_edit">more</a></div>
+			<div class="w3-display-right"><a href="javascript:;" id="id_more_edit"><img src="<?= h($base_path) ?>img/more.svg" class="width_20px" alt="more" /></a></div>
 		</div>
 		<div class="w3-container displaynone" id="id_more_edit_area">
 			<p><a class="w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
@@ -175,7 +175,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				<span class="notice fav_reviews_count"></span>
 			</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>">more</a>
+			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/more.svg" class="img16x16" alt="more" /></a>
 <?php endif;?>
 			</div>
 <?php endif; ?>
