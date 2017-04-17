@@ -105,36 +105,30 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		});
 		</script>
 <?php endif;?>
-
 	</div>
 
-
 	<!-- tags -->
-	<div class="w3-hide">
-<?php if(count($tags) > 0): ?>
-		<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
-			<h5 class="w3-center w3-large">Tags</h5>
-			<div class=" tags_group">
+	<div class="w3-padding w3-margin w3-center w3-white w3-card-2 w3-hide">
+		<h5 class="w3-center w3-large">Tags</h5>
+		<div class=" tags_group">
 <?php foreach($tags as $tag):?>
-				<span class="w3-tag w3-round-medium w3-indigo w3-margin-bottom"><a
-					href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
-					data-id="<?= h($tag["id"]) ?>"
-					data-tag="<?= h($tag["tag"]) ?>"
-					data-album_id="<?= h($tag["album_id"]) ?>"
-					data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-				><?= h($tag["tag"]) ?></a></span>
+			<span class="w3-tag w3-round-medium w3-indigo w3-margin-bottom"><a
+				href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
+				data-id="<?= h($tag["id"]) ?>"
+				data-tag="<?= h($tag["tag"]) ?>"
+				data-album_id="<?= h($tag["album_id"]) ?>"
+				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+			><?= h($tag["tag"]) ?></a></span>
 <?php endforeach;?>
-			</div>
-<?php endif; ?>
+		</div>
 <?php if($is_login): ?>
-			<div class="tags_form">
-				<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
-					<input type="hidden" name="token" value="<?= h($token) ?>" />
-					<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-					<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-					<p><input class="w3-btn w3-round" type="submit" value="タグ追加" /></p>
-				</form>
-			</div>
+		<div class="tags_form">
+			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+				<input type="hidden" name="token" value="<?= h($token) ?>" />
+				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
+				<p><input class="w3-btn w3-round" type="submit" value="タグ追加" /></p>
+			</form>
 		</div>
 <?php endif;?>
 	</div>
@@ -181,15 +175,16 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 				<span class="notice fav_reviews_count"></span>
 			</div>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<div>
-				<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/edit.svg" title="edit review" /></a>
-			</div>
-			<div>
-				<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete"><img src="<?= h($base_path) ?>img/dustbox.svg" class="img16x16" alt="delete review" title="delete review" /></a>
-			</div>
+			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>">more</a>
 <?php endif;?>
 			</div>
 <?php endif; ?>
+<?php if( $review["user_id"] === $login_user_data["id"] ):?>
+			<div class="displaynone w3-container w3-padding" id="id_reaction_more_<?= h($review["id"]) ?>">
+				<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round">レビューを編集する</a></p>
+				<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round">レビューを削除する</a></p>
+			</div>
+<?php endif;?>
 		</div>
 <?php endforeach; ?>
 	</div>
@@ -244,6 +239,12 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 			return false;
 		});
 		$tag.parent().prepend($del);
+	});
+
+	$(".reaction_more").on("click.js", function(){
+		var review_id = $(this).attr("data-review_id");
+		$("#id_reaction_more_" + review_id).slideToggle("fast");
+		return false;
 	});
 
 	// review delete

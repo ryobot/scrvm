@@ -36,7 +36,7 @@
 			<input type="hidden" name="token" value="<?= h($token) ?>" />
 			<input type="hidden" name="reply_id" id="id_reply_id" value="" />
 			<p><input class="w3-input w3-border" type="text" name="title" id="id_title" value="<?= isset($post_params["title"]) ? h($post_params["title"]) : "" ?>" placeholder="title" required="required" /></p>
-			<p><textarea class="w3-input w3-border" rows="8" name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
+			<p><textarea class="w3-input w3-border" rows="4" name="body" id="id_body" placeholder="content" required="required"><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea></p>
 			<p><input type="submit" class="w3-btn w3-round" value="Save Post" ></p>
 		</form>
 	</div>

@@ -156,7 +156,6 @@ if ( isset($situation) ) {
 	$(".reaction_more").on("click.js", function(){
 		var review_id = $(this).attr("data-review_id");
 		$("#id_reaction_more_" + review_id).slideToggle("fast");
-		console.log(review_id);
 		return false;
 	});
 
