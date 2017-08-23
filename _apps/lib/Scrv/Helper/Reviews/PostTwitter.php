@@ -37,7 +37,7 @@ class PostTwitter extends Base
 		) );
 
 		$max_length = 140;
-		$content = "{$artist}/{$title}\n{$body}";
+		$content = "{$title}/{$artist}\n{$body}";
 		$hashtag = "#scrv";
 		$perma_link = Server::getFullHostUrl() . $this->_BasePath . "r/{$review_id}";
 
