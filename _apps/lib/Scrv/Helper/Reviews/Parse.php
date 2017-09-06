@@ -16,7 +16,7 @@ class Parse
 	 * ハッシュタグ抽出用正規表現
 	 * @var string
 	 */
-	private $_reg_hashtags = "/(^|\s*)#([^\W]+)/u";
+	private $_reg_hashtags = "/(^|\s+)#([^\W]+)/u";
 
 	/**
 	 * body 内のハッシュタグを抜き出して配列で返す。
