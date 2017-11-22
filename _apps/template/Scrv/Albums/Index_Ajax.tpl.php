@@ -43,7 +43,7 @@
 	</div>
 
 	<!-- album lists -->
-	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
+	<div class="flex-container w3-center">
 <?php foreach($lists as $album): ?>
 		<div class="w3-padding w3-margin-bottom flex-item w3-white w3-card-2 col">
 			<div><img

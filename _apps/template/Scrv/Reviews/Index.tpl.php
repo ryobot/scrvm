@@ -66,9 +66,9 @@ if ( isset($situation) ) {
 		</ul>
 	</div>
 
-	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
+	<div class="flex-container w3-center">
 <?php foreach($reviews as $idx => $review): ?>
-		<div class="w3-container w3-padding flex-item w3-card-2 w3-white w3-margin-bottom col">
+		<div class="w3-padding flex-item w3-card-2 w3-white w3-margin-bottom col">
 			<img class="cover w3-card-4" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
 			<h5>
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">

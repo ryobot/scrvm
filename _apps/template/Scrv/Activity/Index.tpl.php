@@ -17,9 +17,7 @@
 
 <div class="w3-main w3-content w3-padding-4 main">
 
-	<div class="w3-center">
-		<h2 class="w3-xlarge">Activities within 24 hours</h2>
-	</div>
+	<p class="w3-center w3-xlarge">Activities within 24 hours</p>
 
 <?php if(count($lists) > 0):?>
 
@@ -45,9 +43,9 @@
 	</div>
 
 	<!-- lists -->
-	<div class="w3-padding w3-center user_list_activity">
+	<div class="w3-padding_ w3-center user_list_activity">
 <?php foreach($lists as $list): ?>
-		<div class="user_info action_<?= h($list["action"]) ?> w3-padding w3-margin-bottom w3-card-2 w3-white">
+		<div class="user_info action_<?= h($list["action"]) ?> w3-card w3-white">
 <?php		if( $list["action"] === "fav_reviews" ): ?>
 				<p>
 					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>

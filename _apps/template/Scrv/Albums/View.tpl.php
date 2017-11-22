@@ -37,31 +37,66 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 <?php endif;?>
 
 	<!-- album info -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-card-2">
-		<div>
-			<img class="cover w3-card-2" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
-		</div>
-		<h5>
-			<span><?= h($album["title"]) ?></span>
-			<br />
-			<span class="w3-small"><?= h("{$album["artist"]} ({$view_year})") ?></span>
-		</h5>
-		<p>
-			<img
-				id="id_fav_album"
-				class="width_30px cursorpointer fav_album<?= $is_login ? "" : "_nologin" ?>"
+	<div class="w3-padding w3-margin-top w3-margin-bottom w3-center w3-white w3-card-2">
+
+		<!-- album info -->
+		<div class="w3-container">
+			<p>
+				<img class="cover w3-card-2" src="<?= !isset($album["img_file"]) || $album["img_file"] === "" ? h("{$base_path}img/no_image.png") : h("{$base_path}files/covers/{$album["img_file"]}") ?>" alt="<?= h($view_title) ?>" />
+			</p>
+			<!-- title, artist, year -->
+			<h5>
+				<span><?= h($album["title"]) ?></span><br />
+				<span class="w3-medium">
+				<a href="<?= h($base_path) ?>Albums/Tag/tag/<?= rawurlencode($album["artist"]) ?>"><?= h($album["artist"]) ?></a>
+				(<?= h($view_year) ?>)
+				</span>
+			</h5>
+			<!-- fav album -->
+			<p>
+				<img
+					id="id_fav_album"
+					class="width_30px cursorpointer fav_album<?= $is_login ? "" : "_nologin" ?>"
 <?php if(isset($album["favalbums_count"]) && in_array($album["id"], $own_favalbums, true)):?>
-				src="<?= h($base_path) ?>img/favalbums_on.svg"
+					src="<?= h($base_path) ?>img/favalbums_on.svg"
 <?php else:?>
-				src="<?= h($base_path) ?>img/favalbums_off.svg"
+					src="<?= h($base_path) ?>img/favalbums_off.svg"
 <?php endif;?>
-				data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
-				data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
-				data-album_id="<?= h($album_id) ?>"
-				title="fav album"
-			/>
-			<span class="notice" id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? $album["favalbums_count"] : "" ?></span>
-		</p>
+					data-fav_on="<?= h($base_path) ?>img/favalbums_on.svg"
+					data-fav_off="<?= h($base_path) ?>img/favalbums_off.svg"
+					data-album_id="<?= h($album_id) ?>"
+					title="fav album"
+				/>
+				<span class="notice" id="id_fav_album_count"><?= isset($album["favalbums_count"]) ? $album["favalbums_count"] : "" ?></span>
+			</p>
+		</div>
+
+		<!-- tags -->
+		<div class="w3-padding w3-margin w3-center w3-white w3-hide">
+			<div class=" tags_group">
+<?php foreach($tags as $tag):?>
+				<span class="w3-tag w3-round-medium w3-indigo w3-margin-bottom"><a
+					href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
+					data-id="<?= h($tag["id"]) ?>"
+					data-tag="<?= h($tag["tag"]) ?>"
+					data-album_id="<?= h($tag["album_id"]) ?>"
+					data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
+				><?= h($tag["tag"]) ?></a></span>
+<?php endforeach;?>
+			</div>
+<?php if($is_login): ?>
+			<div class="tags_form">
+				<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
+					<input type="hidden" name="token" value="<?= h($token) ?>" />
+					<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
+					<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
+					<p><input class="w3-btn w3-round" type="submit" value="タグ追加" /></p>
+				</form>
+			</div>
+<?php endif;?>
+		</div>
+
+		<!-- tracks -->
 		<table class="w3-table-all w3-padding">
 <?php foreach($tracks as $track): ?>
 			<tr>
@@ -91,7 +126,7 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 			<div class="w3-display-right"><a href="javascript:;" id="id_more_edit"><img src="<?= h($base_path) ?>img/more.svg" class="width_20px" alt="more" /></a></div>
 		</div>
 		<div class="w3-container displaynone" id="id_more_edit_area">
-			<p><a class="w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
+			<p><a class="w3-btn w3-round w3-indigo" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
 <?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
 			<p><a class="w3-btn w3-round w3-blue-gray" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
 <?php endif; ?>
@@ -106,33 +141,6 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 		</script>
 <?php endif;?>
 	</div>
-
-	<!-- tags -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-card-2 w3-hide">
-		<h5 class="w3-center w3-large">Tags</h5>
-		<div class=" tags_group">
-<?php foreach($tags as $tag):?>
-			<span class="w3-tag w3-round-medium w3-indigo w3-margin-bottom"><a
-				href="<?= h($base_path) ?>Albums/Tag/tag/<?= urlencode($tag["tag"]) ?>"
-				data-id="<?= h($tag["id"]) ?>"
-				data-tag="<?= h($tag["tag"]) ?>"
-				data-album_id="<?= h($tag["album_id"]) ?>"
-				data-is_delete="<?= $tag["create_user_id"] === $login_user_data["id"] ? 1 : 0 ?>"
-			><?= h($tag["tag"]) ?></a></span>
-<?php endforeach;?>
-		</div>
-<?php if($is_login): ?>
-		<div class="tags_form">
-			<form action="<?= h($base_path) ?>Tags/Add" method="POST" autocomplete="off">
-				<input type="hidden" name="token" value="<?= h($token) ?>" />
-				<input type="hidden" name="album_id" value="<?= h($album_id) ?>" />
-				<input class="w3-input w3-border" type="text" name="tag" id="id_tag" value="" required="required" placeholder="タグを入力" />
-				<p><input class="w3-btn w3-round" type="submit" value="タグ追加" /></p>
-			</form>
-		</div>
-<?php endif;?>
-	</div>
-
 
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
@@ -190,17 +198,19 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	</div>
 
 	<!-- music search 用 -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-card-2" id="id_itunes_search_results"></div>
-	<div class="w3-padding w3-margin w3-center w3-white w3-card-2" id="id_gpm_search_results"></div>
-	<input
-		type="hidden"
-		name="term"
-		id="id_term"
-		value="<?= h("{$album["artist"]} {$album["title"]}") ?>"
-		data-artist="<?= h($album["artist"]) ?>"
-		data-title="<?= h($album["title"]) ?>"
-	/>
-	<script src="<?= h($base_path) ?>js/MusicSearch.js?v20160708"></script>
+	<div class="w3-padding w3-margin-bottom w3-white w3-card">
+		<div id="id_itunes_search_results"></div>
+		<div id="id_gpm_search_results"></div>
+		<input
+			type="hidden"
+			name="term"
+			id="id_term"
+			value="<?= h("{$album["artist"]} {$album["title"]}") ?>"
+			data-artist="<?= h($album["artist"]) ?>"
+			data-title="<?= h($album["title"]) ?>"
+		/>
+		<script src="<?= h($base_path) ?>js/MusicSearch.js?v20170602"></script>
+	</div>
 
 </div>
 
