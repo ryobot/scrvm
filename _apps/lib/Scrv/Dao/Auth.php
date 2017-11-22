@@ -72,12 +72,13 @@ class Auth extends Dao
 	}
 
 	/**
-	 * twitter 新ログイン時
+	 * twitter 新規ログイン時
 	 * @param array $twitter_access_token
+	 * @param integer $invited_user_id 招待者のuser_id
 	 * @return resultSet
 	 * @throws \Exception
 	 */
-	public function loginByTwitterNew(array $twitter_access_token)
+	public function loginByTwitterNew(array $twitter_access_token, $invited_user_id = null)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
@@ -95,10 +96,11 @@ class Auth extends Dao
 			$random_hash = $Password->makeRandomHash($twitter_user_id . $twitter_user_token);
 
 			// username を作成(ランダム文字を含める)
+			$twitter_user_screen_name = $twitter_access_token["screen_name"];
 			$twitter_user_id = $twitter_access_token["user_id"];
 			$twitter_user_token = $twitter_access_token["oauth_token"];
 			$twitter_user_secret = $twitter_access_token["oauth_token_secret"];
-			$username = "twituser-{$twitter_user_id}-" . substr($random_hash, 0, 10);
+			$username = "{$twitter_user_screen_name}-{$twitter_user_id}";
 
 			// 存在チェック
 			$user_sql = "SELECT * FROM users WHERE username=:username";
@@ -113,16 +115,19 @@ class Auth extends Dao
 				INSERT INTO users
 				(
 					username,role,
+					has_invited_user_id,
 					is_twitter_login, twitter_user_id, twitter_user_token, twitter_user_secret,
 					created,modified
 				)
 				VALUES(
 					:username,'author',
+					:invited_user_id,
 					1,:twitter_user_id, :twitter_user_token, :twitter_user_secret,
 					now(),now())
 				",
 				array(
 					"username" => $username,
+					"invited_user_id" => $invited_user_id,
 					"twitter_user_id" => $twitter_user_id,
 					"twitter_user_token" => $twitter_user_token,
 					"twitter_user_secret" => $twitter_user_secret,

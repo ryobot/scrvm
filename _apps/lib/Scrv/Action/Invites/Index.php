@@ -23,9 +23,9 @@ class Index extends Base
 	 */
 	public function run()
 	{
-		// ログインしていたらエラー
+		// ログインしていたらTOPリダイレクト
 		if($this->_is_login){
-			Server::send404Header("404 not found");
+			Server::redirect($this->_BasePath);
 			return false;
 		}
 

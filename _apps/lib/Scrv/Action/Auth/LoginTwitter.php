@@ -100,13 +100,18 @@ class LoginTwitter extends Base
 					Server::redirect($this->_BasePath."Auth");
 					exit;
 				}
+
+				// 招待リンク経由の場合、セッション値に招待者のIDがあるのでそれを取得
+				$sess_inbitations_data = $this->_Session->get(SessionKeys::INVITATIONS_DATA, array());
+				$invited_user_id = isset($sess_inbitations_data["user_id"]) ? $sess_inbitations_data["user_id"] : null;
+
 				// - 1件の場合は is_twitter_login フラグを1に→ログイン処理
 				// - 0件の場合は新規ユーザ作成→ログイン処理
 				$DaoAuth = new DaoAuth();
 				$is_existing_user = count($user_data) === 1;
 				$auth_result = $is_existing_user ?
 					$DaoAuth->loginByTwitter($twitter_access_token) :
-					$DaoAuth->loginByTwitterNew($twitter_access_token)
+					$DaoAuth->loginByTwitterNew($twitter_access_token, $invited_user_id)
 				;
 				if ( !$auth_result["status"] ) {
 					$this->_Session->set(SessionKeys::ERROR_MESSAGES, $auth_result["messages"]);

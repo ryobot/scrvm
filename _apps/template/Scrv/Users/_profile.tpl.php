@@ -1,7 +1,7 @@
 
 	<!-- user profile -->
 	<div class="w3-padding-top w3-padding-right w3-padding-left w3-center w3-card-2 w3-white _info">
-		<p><img class="cover_user" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" /></p>
+		<p><img class="w3-image cover_user" src="<?= h($base_path) ?><?= isset($user["img_file"]) ? "files/attachment/photo/{$user["img_file"]}" : "img/user.svg" ?>" alt="<?= h($user["username"]) ?>" /></p>
 		<h5><a href="<?= h($base_path) ?>Users/View/id/<?= h($user["id"]) ?>"><?= h($user["username"]) ?></a></h5>
 <?php if(isset($user["profile"]) && $user["profile"] !== ""): ?>
 		<p><?= nl2br(linkIt(h($user["profile"]))) ?></p>
@@ -9,6 +9,9 @@
 <?php if(isset($user["has_invited_username"])): ?>
 		<p>(invited from <a href="<?= h($base_path) ?>u/<?= h($user["has_invited_user_id"]) ?>"><?= h($user["has_invited_username"]) ?></a>)</p>
 <?php endif; ?>
+<?php if($is_login && $user_id === $login_user_data["id"]): ?>
+		<p><a href="<?= h($base_path) ?>Users/Edit" class="w3-btn w3-blue w3-round">プロフィール修正</a></p>
+<?php endif;?>
 		<div class="flex-container user_menu">
 			<div class="user_menu_list_block" data-menu="View"><a href="<?= h("{$base_path}Users/View/id/{$user_id}") ?>">
 				<div><img src="<?= h($base_path) ?>img/reviews.svg" title="reviews" /></div>

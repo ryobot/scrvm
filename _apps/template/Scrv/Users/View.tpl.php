@@ -115,7 +115,7 @@ foreach($pager["nav_list"] as $nav) {
 				</span>
 			</a>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>">more</a>
+			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/more.svg" class="img16x16" alt="more" /></a>
 <?php endif;?>
 		</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
