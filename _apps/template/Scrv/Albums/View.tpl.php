@@ -144,51 +144,67 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 	<!-- reviews -->
 	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
-	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
+	<div class="w3-margin-bottom">
 <?php	 foreach($reviews as $idx => $review): ?>
-		<div class="w3-padding w3-center w3-card-2 w3-white w3-margin-bottom col">
-<?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
-			<div class="notice">
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="user_photo_min vtalgmiddle" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($review["username"]) ?>" /></a>
-				この投稿は非表示にされています。
+		<div class="w3-white w3-padding w3-border-bottom">
+
+			<!-- username, date -->
+			<div class="w3-row w3-margin-bottom">
+				<div class="s12">
+					<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="w3-image w3-round width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+					&nbsp;
+					<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
+					-
+					<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
+				</div>
 			</div>
+
+			<!-- comment, reaction area -->
+			<div>
+				<!-- comment -->
+<?php if( $review["published"] === 0 && ( !$is_login || ($is_login && $review["user_id"] !== $login_user_data["id"]) )): ?>
+				<div class="w3-margin-bottom notice">
+					(非表示設定)
+				</div>
 <?php else: ?>
-			<p class="w3-left-align">
-				<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
-			</p>
-			<p>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
-				-
-				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
-			</p>
-		<div class="w3-center reaction_area">
+				<div class="w3-margin-bottom">
+					<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
+				</div>
+
+				<!-- reaction_area -->
+				<div class="w3-center reaction_area">
 <?php if($review["published"] === 0): ?>
-			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" /></span>
+					<span><img class="width_20px" src="<?= h($base_path) ?>img/locked.svg" title="非公開" /></span>
 <?php endif; ?>
 <?php if($review["listening_last"] === "today"): ?>
-			<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="situation" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" title="<?= h($review["listening_system"]) ?>" /></a>
+					<span>
+						<a href="<?= h($base_path) ?>Reviews/Index/situation/<?= h($review["listening_system"]) ?>"><img class="situation w3-image width_20px" src="<?= h($base_path) ?>img/situation/<?= h($review["listening_system"]) ?>.svg" title="<?= h($review["listening_system"]) ?>" /></a>
+					</span>
 <?php endif; ?>
-			<div class="fav_reviews_wrapper">
-				<img
-					class="fav_review cursorpointer"
-					src="<?= h($base_path) ?>img/fav_off.svg"
-					data-img_on="<?= h($base_path) ?>img/fav_on.svg"
-					data-img_off="<?= h($base_path) ?>img/fav_off.svg"
-					data-review_id="<?= h($review["id"]) ?>"
-					data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
-					data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
-					title="fav review"
-				/>
-				<span class="notice fav_reviews_count"></span>
-			</div>
+					<span>
+						<img
+							class="fav_review cursorpointer w3-image width_20px"
+							src="<?= h($base_path) ?>img/fav_off.svg"
+							data-img_on="<?= h($base_path) ?>img/fav_on.svg"
+							data-img_off="<?= h($base_path) ?>img/fav_off.svg"
+							data-review_id="<?= h($review["id"]) ?>"
+							data-my_fav="<?= isset($review["my_fav_id"]) ? 1 : 0 ?>"
+							data-fav_reviews_count="<?= h($review["fav_reviews_count"]) ?>"
+							title="fav review"
+						/>
+						<span class="fav_reviews_count"></span>
+					</span>
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/more.svg" class="img16x16" alt="more" /></a>
+					<span>
+						<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><img class="w3-image width_20px" src="<?= h($base_path) ?>img/more.svg" alt="more" /></a>
+					</spab>
 <?php endif;?>
-			</div>
+				</div>
 <?php endif; ?>
+			</div>
+
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
-			<div class="displaynone w3-container w3-padding" id="id_reaction_more_<?= h($review["id"]) ?>">
+			<div class="displaynone w3-container w3-padding w3-center" id="id_reaction_more_<?= h($review["id"]) ?>">
 				<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round">レビューを編集する</a></p>
 				<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round">レビューを削除する</a></p>
 			</div>
@@ -198,9 +214,9 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 	</div>
 
 	<!-- music search 用 -->
-	<div class="w3-padding w3-margin-bottom w3-white w3-card">
-		<div id="id_itunes_search_results"></div>
-		<div id="id_gpm_search_results"></div>
+	<div class="w3-margin-bottom w3-white w3-card">
+		<div id="id_itunes_search_results" class="w3-margin"></div>
+		<div id="id_gpm_search_results" class="w3-margin"></div>
 		<input
 			type="hidden"
 			name="term"

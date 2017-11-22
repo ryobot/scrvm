@@ -121,21 +121,10 @@ function getResultSet( array $add_array = array() )
  */
 function timeAgoInWords($date)
 {
-//	return $date;
 	$now = time();
 	$time = strtotime($date);
-	$format = date("Y", $now) !== date("Y", $time) ? 'Y年n月j日 G時i分' : 'n月j日 G時i分';
+	$format = date("Y", $now) !== date("Y", $time) ? 'Y年n月j日 G:i' : 'n月j日 G:i';
 	return date($format,$time);
-//	$diff = $now- $time;
-//	if($diff >= 0 && $diff <= 60){
-//		return floor($diff) . "秒前";
-//	}
-//	else if($diff >= 0 && $diff <= 60*60){
-//		return floor($diff/60) . "分前";
-//	}elseif($diff >= 0 && $diff <= 24*60*60){
-//		return floor($diff/(60*60)) . "時間前";
-//	}
-//	return date('Y年n月j日',$time);
 }
 
 function linkIt($text, $target_blank = true)
