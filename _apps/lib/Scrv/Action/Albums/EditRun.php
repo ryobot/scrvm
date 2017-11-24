@@ -39,7 +39,7 @@ class EditRun extends Base
 			$val = convertEOL(mb_trim($val), "\n");
 		}
 		// tracks は jsonでわたってくる
-		$tracks = Server::postArray("tracks");
+		$tracks = Server::postArray("tracks", array());
 		foreach( $tracks as &$track ) {
 			$track = json_decode( convertEOL(mb_trim($track), "\n") );
 		}
@@ -126,6 +126,9 @@ class EditRun extends Base
 			} else if (mb_strlen($track->track_title) > 100 ) {
 				$check_result["messages"]["track_{$num}"] = "tr.{$num} は100文字以内で入力してください。";
 			}
+		}
+		if (count($tracks) === 0) {
+			$check_result["messages"]["track_none"] = "track は必ず1曲必要です。";
 		}
 
 		$check_result["status"] = count($check_result["messages"]) === 0;

@@ -521,7 +521,7 @@ class Albums extends Dao
 
 	/**
 	 * save album and tracks
-	 * @param int $id album_id
+	 * @param int $album_id album_id
 	 * @param string $artist
 	 * @param string $title
 	 * @param string $year
@@ -531,17 +531,15 @@ class Albums extends Dao
 	 * @return resultSet
 	 * @throws \Exception
 	 */
-	public function save($id, $artist, $title, $year, $img_file, array $tracks, $user_id)
+	public function save($album_id, $artist, $title, $year, $img_file, array $tracks, $user_id)
 	{
 		$result = getResultSet();
 		$this->_Dao->beginTransaction();
 		try{
 			// check album exist
 			$search_result = $this->_Dao->select(
-//				"SELECT * FROM albums WHERE id=:id AND create_user_id=:uid",
-//				array("id"=>$id, "uid"=>$user_id,)
 				"SELECT * FROM albums WHERE id=:id",
-				array("id"=>$id,)
+				array("id"=>$album_id,)
 			);
 			if ( count($search_result) === 0 ) {
 				throw new \Exception("該当のアルバムが見つかりません。");
@@ -553,13 +551,42 @@ class Albums extends Dao
 				"title" => $title,
 				"img_file" => $img_file,
 				"year" => $year === "" ? null : $year,
-				"id" => $id,
+				"id" => $album_id,
 			);
 			if ($img_file === null) {
 				$update_sql = "UPDATE albums SET artist=:artist,title=:title,year=:year,modified=now() WHERE id=:id";
 				unset($update_params["img_file"]);
 			}
 			$this ->_Dao->update($update_sql,$update_params);
+
+			// delete tracks
+			// 削除対象 track_id リストを作成
+			$del_track_params = array();
+			foreach($tracks as $idx => $track) {
+				$key = "del_id_{$idx}";
+				$del_track_params[$key] = $track->id;
+			}
+			$del_track_result = $this->_Dao->select(
+				"SELECT id FROM tracks WHERE album_id=:album_id AND id NOT IN (:" . implode(",:", array_keys($del_track_params)) . ")",
+				array_merge(array("album_id" => $album_id),$del_track_params)
+			);
+			$delete_track_id_list = array();
+			foreach($del_track_result as $idx => $row) {
+				$key = "id_{$idx}";
+				$delete_track_id_list[$key] = $row["id"];
+			}
+			// 削除
+			foreach($delete_track_id_list as $del_track_id) {
+				$this ->_Dao->delete(
+					"DELETE FROM tracks WHERE album_id=:album_id AND id=:id",
+					array("album_id" => $album_id, "id" => $del_track_id,)
+				);
+				$this ->_Dao->delete(
+					"DELETE FROM favtracks WHERE track_id=:track_id",
+					array("track_id" => $del_track_id,)
+				);
+			}
+
 			// update tracks
 			foreach( $tracks as $idx => $track ) {
 				$track_num = $idx+1;
@@ -571,7 +598,7 @@ class Albums extends Dao
 						values(:artist,:album_id,:track_num,:track_title,now())",
 						array(
 							"artist" => $track->artist,
-							"album_id" => $id,
+							"album_id" => $album_id,
 							"track_num" => $track_num,
 							"track_title" => $track->track_title,
 						)
@@ -584,7 +611,7 @@ class Albums extends Dao
 						array(
 							"track_title" => $track->track_title,
 							"track_num" => $track_num,
-							"album_id" => $id,
+							"album_id" => $album_id,
 							"id" => $track->id,
 						)
 					);
