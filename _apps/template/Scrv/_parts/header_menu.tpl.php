@@ -31,7 +31,7 @@
     <div class="w3-opennav w3-left w3-hover-text-grey" onclick="w3_open()">☰</div>
 		<div class="w3-right">
 <?php if( $is_login ):?>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>"><img class="width_30px" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.svg" ?>" /></a>
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>"><img class="w3-image w3-round width_30px" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.svg" ?>" /></a>
 <?php endif; ?>
 		</div>
 		<div class="w3-center">

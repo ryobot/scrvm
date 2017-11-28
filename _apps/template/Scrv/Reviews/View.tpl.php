@@ -40,10 +40,10 @@ if($is_unpublished){
 <?php require __DIR__ . '/../_parts/header_menu.tpl.php'; ?>
 
 <!-- main contents  -->
-<div class="w3-main w3-content w3-padding-4 main">
+<div class="main w3-content">
 
 	<!-- album info -->
-	<div class="w3-margin w3-padding w3-center w3-white w3-card-2">
+	<div class="w3-white w3-card-2 w3-padding w3-margin-bottom w3-margin-top w3-center">
 
 <?php if($is_unpublished): ?>
 		<div class="notice">この投稿は非表示にされています。	</div>
@@ -133,11 +133,15 @@ if($is_unpublished){
 	/>
 	<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
 <?php endif; ?>
+
+	<!-- music search 用 -->
+	<div class="w3-card-2 w3-margin-bottom w3-white">
+		<div class="w3-padding" id="id_itunes_search_results"></div>
+		<div class="w3-padding" id="id_gpm_search_results"></div>
+	</div>
+
 </div>
 
-<!-- music search 用 -->
-	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_itunes_search_results"></div>
-	<div class="w3-padding w3-margin w3-center w3-white w3-margin-bottom w3-card-2" id="id_gpm_search_results"></div>
 
 <?php require __DIR__ . '/../_parts/footer.tpl.php'; ?>
 

@@ -24,15 +24,15 @@ $ReviewsParse = new ReviewsParse();
 	</div>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>
-	<div class="error_message">
+	<div class="error_message w3-center">
 <?php		foreach($error_messages as $key => $message): ?>
-		<p><?= h($message) ?></p>
+		<p class="w3-panel w3-red"><?= h($message) ?></p>
 <?php		endforeach; unset($key, $message) ?>
 	</div>
 <?php endif;?>
 
 	<!-- album info -->
-	<div class="w3-padding w3-center info">
+	<div class="w3-padding w3-center w3-white w3-card">
 		<img class="cover w3-card-4" src="<?= h($base_path) ?>files/covers/<?= h($album["img_file"]) ?>" />
 		<h5>
 			<span><?= h($album["title"]) ?></span>
@@ -48,12 +48,10 @@ $ReviewsParse = new ReviewsParse();
 	</div>
 
 	<!-- reviews -->
-	<div class="w3-center">
-		<h4>Reviews (<?= count($reviews) ?>)</h4>
-	</div>
-	<div class="flex-container w3-row-padding w3-padding-16 w3-center">
+	<h5 class="w3-center w3-large">Reviews (<?= count($reviews) ?>)</h5>
+	<div class="w3-margin-bottom">
 <?php foreach($reviews as $review): ?>
-		<div class="w3-padding w3-center w3-white w3-card-2 w3-margin-bottom col">
+		<div class="w3-white w3-padding w3-border-bottom">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||
@@ -68,7 +66,7 @@ $ReviewsParse = new ReviewsParse();
 				<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
 			</p>
 			<p>
-				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="w3-image w3-round width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 				-
 				<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>

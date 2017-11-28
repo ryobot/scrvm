@@ -12,7 +12,7 @@
 </p>
 
 <div class="w3-padding-4 w3-center">
-	<div id="id_listening_system_group" class="w3-padding-4 w3-card-2 w3-white">
+	<div id="id_listening_system_group" class="w3-padding-4 w3-card w3-white">
 		<div class="w3-padding-small">
 			<div>situation</div>
 			[<strong id="id_selected_listening_system">headphones</strong>]
@@ -36,8 +36,8 @@
 <?php endforeach;?>
 	</div>
 
-	<p><a href="#" id="id_np_or_ar_area_toggle">レビュー欄を開く</a></p>
-	<div class="displaynone w3-container w3-padding-0" id="id_np_or_ar_area">
+<!--	<p><a href="#" id="id_np_or_ar_area_toggle">コメント欄を開く</a></p>-->
+	<div class="displaynone_ w3-container w3-margin-top w3-padding-0" id="id_np_or_ar_area">
 		<div>
 			<textarea class="w3-input w3-border" rows="5" name="body" id="id_body" placeholder="write a review."><?= isset($post_params["body"]) ? h($post_params["body"]) : "" ?></textarea>
 			<div class="notice"><span id="id_review_counter"></span></div>
@@ -66,10 +66,10 @@
 		var $this = $(this);
 		var $np_or_ar_area = $("#id_np_or_ar_area");
 		if ( $np_or_ar_area.is(":visible") ) {
-			$this.text("レビュー欄を開く");
+			$this.text("コメント欄を開く");
 			$np_or_ar_area.slideUp("fast");
 		} else {
-			$this.text("レビュー欄を閉じる");
+			$this.text("コメント欄を閉じる");
 			$np_or_ar_area.slideDown("fast");
 		}
 		return false;

@@ -62,7 +62,7 @@
 <?php endif; ?>
 
 	<!-- posts -->
-	<div class="w3-left">
+	<div class="">
 <?php foreach($lists as $list): ?>
 		<div class="w3-form w3-card-2 w3-white w3-margin-bottom">
 			<h5><a href="<?= h($base_path) ?>Posts/View/id/<?= h($list["id"]) ?>"><?= h($list["title"]) ?></a></h5>
