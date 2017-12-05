@@ -92,6 +92,9 @@ class Base extends Scrv\Base
 			if ( isset( $ini["timezone"] ) ) {
 				self::$_pdo->query("SET SESSION time_zone = '{$ini["timezone"]}'");
 			}
+			if ( isset( $ini["sql_mode"] ) ) {
+				self::$_pdo->query("SET SESSION sql_mode = '{$ini["sql_mode"]}'");
+			}
 			return true;
 		} catch( \PDOException $e ) {
 			$this->_error_message = $e->getMessage();

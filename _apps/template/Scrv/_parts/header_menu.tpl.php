@@ -3,6 +3,13 @@
  * _parts/header_menu.tpl.php
  * @author mgng
  */
+
+// event svg list
+$_event_svg_list = array();
+foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
+	$_event_svg_list[] = "{$base_path}img/event/".basename($path);
+}
+
 ?>
 
 <!-- Sidenav -->
@@ -36,7 +43,7 @@
 		</div>
 		<div class="w3-center">
 			<a href="<?= h($base_path) ?>">
-				<img class="width_20px" style="vertical-align: middle;" src="<?= h($base_path) ?>img/headphone_icon_S.png" alt="<?= h($base_title) ?>" />
+				<img class="width_20px" id="id_header_top_icon" style="vertical-align: middle;" src="<?= h($base_path) ?>img/headphone_icon_S.png" alt="<?= h($base_title) ?>" />
 				<?= h($base_title) ?>
 			</a>
 		</div>
@@ -85,6 +92,22 @@
 				$this.addClass("w3-grayscale-max w3-opacity-min");
 			}
 		});
+
+		var event_date_path = new function(){
+			// event date
+			var event_img_path_list = <?= json_encode($_event_svg_list) ?>;
+			var now = new Date();
+			var m = (now.getMonth() + 1).toString(), d = now.getDate().toString();
+			if (m.length === 1) {m = "0" + m;}
+			if (d.length === 1) {d = "0" + d;}
+			var img_path = ["<?= $base_path ?>img/event/", m, d, ".svg"].join("");
+			if ( $.inArray(img_path, event_img_path_list) !== -1 ) {
+				$("#id_header_top_icon").attr({
+					"src" : img_path,
+					"style" : ""
+				});
+			}
+		};
 
 <?php if ($is_login): ?>
 			$.ajax(BASE_PATH + "Activity/Counter", {
