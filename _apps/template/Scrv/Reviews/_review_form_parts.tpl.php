@@ -89,5 +89,10 @@
 			$send_twitter_notice.slideUp("fast");
 		}
 	});
+
+	$("#id_form_submit").on("click", function(){
+		$("#id_modal_wait").show();
+		return true;
+	});
 });
 </script>
