@@ -15,18 +15,18 @@
 
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 
@@ -45,20 +45,20 @@
 	<!-- album lists -->
 	<div class="flex-container w3-center">
 <?php foreach($lists as $album): ?>
-		<div class="w3-padding w3-margin-bottom flex-item w3-white w3-card-2 col">
+		<div class="w3-padding w3-margin-bottom flex-item w3-white w3-card col">
 			<div><img
-				class="cover w3-card-4"
+				class="cover w3-card"
 				src="<?= isset($album["img_file"])? "{$base_path}files/covers/{$album["img_file"]}" : "{$base_path}img/no_image.png" ?>"
 				alt="<?= h( "{$album["artist"]} / {$album["title"]}") ?>"
 			/></div>
-			<h5>
+			<div class="w3-padding w3-large">
 				<a href="<?= h($base_path) ?>Albums/View/id/<?= h($album["id"]) ?>">
 					<span><?= h($album["title"]) ?></span>
 					<br />
 					<span class="w3-small"><?= h($album["artist"]) ?> (<?= isset($album["year"]) && $album["year"] !== "" ? h($album["year"]) : "?" ?>)</span>
 				</a>
-			</h5>
-			<div class="reviews">
+			</div>
+			<div class="w3-padding reviews">
 <?php if($album["reviews"] > 0): ?>
 				<a
 <?php if ($is_login): ?>
@@ -76,27 +76,25 @@
 <?php endforeach; ?>
 	</div>
 
-
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 
-
 <?php else:?>
-	<div class="w3-center w3-padding info">
+	<div class="w3-center w3-padding w3-white w3-card info">
 		<p class="error_message">見つかりませんでした。</p>
 	</div>
 <?php endif;?>

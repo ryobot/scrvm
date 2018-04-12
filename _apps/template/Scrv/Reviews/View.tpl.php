@@ -43,32 +43,36 @@ if($is_unpublished){
 <div class="main w3-content">
 
 	<!-- album info -->
-	<div class="w3-white w3-card-2 w3-padding w3-margin-bottom w3-margin-top w3-center">
+	<div class="w3-white w3-center w3-card w3-margin-bottom">
 
 <?php if($is_unpublished): ?>
-		<div class="notice">この投稿は非表示にされています。	</div>
+		<div class="w3-padding notice">この投稿は非表示にされています。</div>
 <?php else: ?>
 
-		<img class="cover w3-card-4" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
-		<h5>
+		<div class="w3-padding">
+			<img class="cover w3-card" src="<?= h($album_image_path) ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+		</div>
+
+		<div class="w3-large w3-padding">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 				<span><?= h($review["title"]) ?></span>
 				<br />
 				<span class="w3-small"><?= h($review["artist"]) ?> (<?= h($year) ?>)</span>
 			</a>
-		</h5>
+		</div>
 
-		<p class="w3-left-align">
+		<div class="w3-padding w3-left-align">
 			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
-		</p>
-		<p>
-			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
+		</div>
+
+		<div class="w3-padding">
+			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="w3-round width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 			-
 			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
-		</p>
+		</div>
 
-		<div class="w3-center reaction_area">
+		<div class="w3-padding reaction_area">
 <?php if($review["published"] === 0): ?>
 			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></span>
 <?php endif; ?>
@@ -100,21 +104,21 @@ if($is_unpublished){
 <?php endif;?>
 		</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-		<div class="displaynone w3-container w3-padding" id="id_reaction_more_<?= h($review["id"]) ?>">
-			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round">レビューを編集する</a></p>
-			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round">レビューを削除する</a></p>
+		<div class="displaynone w3-container w3-padding w3-light-gray" id="id_reaction_more_<?= h($review["id"]) ?>">
+			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> レビューを編集する</a></p>
+			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> レビューを削除する</a></p>
 		</div>
 <?php endif;?>
 	</div>
 
 <?php if(count($favreviews_user_lists) > 0): ?>
-	<div class="w3-margin w3-padding w3-center w3-card-2 w3-white">
+	<div class="w3-padding w3-center w3-card w3-white w3-margin-bottom">
 		<p>faved by</p>
 		<p>
 <?php		foreach($favreviews_user_lists as $user): ?>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($user["user_id"]) ?>">
 				<img
-					class="width_25px"
+					class="w3-round width_25px"
 					src="<?= h($base_path) ?><?= isset($user["user_img_file"]) ? "files/attachment/photo/{$user["user_img_file"]}" : "img/user.svg" ?>"
 					alt="<?= h($user["username"]) ?>"
 				/>
@@ -135,7 +139,7 @@ if($is_unpublished){
 <?php endif; ?>
 
 	<!-- music search 用 -->
-	<div class="w3-card-2 w3-margin-bottom w3-white">
+	<div class="w3-card w3-margin-bottom w3-white">
 		<div class="w3-padding" id="id_itunes_search_results"></div>
 		<div class="w3-padding" id="id_gpm_search_results"></div>
 	</div>

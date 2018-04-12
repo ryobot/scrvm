@@ -15,10 +15,11 @@
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />
 <link rel="alternate" type="application/rss+xml" title="feed" href="<?= h($base_path) ?>Rss" />
 <link rel="stylesheet" href="<?= h($base_path) ?>css/w3.css?v20171122" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
-<script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.2.2"></script>
+<script src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.2.2"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 <script>
 	var BASE_PATH = "<?= h($base_path) ?>";
 	$(function(){this.IS_LOGINED = <?= $is_login ? "true" : "false" ?>;});

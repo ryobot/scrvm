@@ -19,12 +19,11 @@
 	<div class="w3-center">
 		<h2 class="w3-xlarge">
 			Albums (<span id="id_total_count"><?= h($pager["total_count"]) ?></span>)
-			<img id="id_loading" src="<?= h($base_path) ?>img/loading.svg" class="width_16px w3-spin displaynone" />
 		</h2>
 	</div>
 
 <!-- search tabs -->
-<div class="w3-center w3-padding w3-margin-bottom w3-card-2 w3-white">
+<div class="w3-center w3-padding w3-margin-bottom w3-card w3-white">
 	<form id="id_form_Albums_ArtistFilter" action="<?= h($base_path) ?>Albums" method="GET" autocomplete="off">
 
 		<div class="w3-hide">
@@ -37,8 +36,8 @@
 		</div>
 
 		<div class="w3-row">
-			<input class="w3-input w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" />
-			<p><button class="w3-btn w3-round" id="id_search">検索</button></p>
+			<p><input class="w3-input w3-round w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" /></p>
+			<p><button class="w3-btn w3-round w3-black" id="id_search">検 索</button></p>
 		</div>
 
 
@@ -97,7 +96,7 @@
 
 	// incremental search
 	var incSearch = function(){
-		var $q = $("#id_q"), input, type, $loading = $("#id_loading");
+		var $q = $("#id_q"), input, type, $loading = $("#id_modal_wait");
 		clearTimeout(incSearch.timer);
 		incSearch.timer = setTimeout(function(){
 			type = "artist";

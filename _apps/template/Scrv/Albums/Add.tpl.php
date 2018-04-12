@@ -30,11 +30,11 @@
 					<label><input type="radio" name="search_type" id="id_search_type_discogs" value="discogs"> <img src="<?= h($base_path) ?>img/logo_discogs.png" alt="discogs" title="discogs" class="width_80px" /></label>
 				</div>
 			</div>
-			<p><input class="w3-input w3-border" type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="アーティスト名" /></p>
-			<p><input class="w3-input w3-border" type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="アルバム名" /></p>
-			<p><input class="w3-input w3-border" type="text" name="track" id="id_track" value="" placeholder="トラック名" /></p>
-			<p class="notice w3-small">※インディーズの新譜はあまりヒットしません。</p>
-			<p><input class="w3-btn w3-round" type="submit" id="id_submit" value=" 検索 " /></p>
+			<p><input class="w3-input w3-round w3-border" type="text" name="artist" id="id_artist" value="<?= $type==="artist" ? h($q) : "" ?>" placeholder="アーティスト名" /></p>
+			<p><input class="w3-input w3-round w3-border" type="text" name="title" id="id_title" value="<?= $type==="title" ? h($q) : "" ?>" placeholder="アルバム名" /></p>
+			<p><input class="w3-input w3-round w3-border" type="text" name="track" id="id_track" value="" placeholder="トラック名" /></p>
+<!--			<p class="notice w3-small">※インディーズの新譜はあまりヒットしません。</p>-->
+			<p><input class="w3-btn w3-round" type="submit" id="id_submit" value=" 検 索 " /></p>
 		</form>
 	</div>
 
@@ -48,15 +48,15 @@
 			<table class="width_100per">
 				<tr>
 					<td>artist</td>
-					<td><input class="w3-input" type="text" name="add_artist" id="id_add_artist" value="" /></td>
+					<td><input class="w3-input w3-round w3-border" type="text" name="add_artist" id="id_add_artist" value="" /></td>
 				</tr>
 				<tr>
 					<td>title</td>
-					<td><input class="w3-input" type="text" name="add_title" id="id_add_title" value="" /></td>
+					<td><input class="w3-input w3-round w3-border" type="text" name="add_title" id="id_add_title" value="" /></td>
 				</tr>
 				<tr>
 					<td>year</td>
-					<td><input class="w3-input" ype="text" name="add_year" id="id_add_year" value="" /></td>
+					<td><input class="w3-input w3-round w3-border" ype="text" name="add_year" id="id_add_year" value="" /></td>
 				</tr>
 			</table>
 			<p>track list</p>
@@ -67,7 +67,7 @@
 		<div class="w3-center w3-padding w3-margin-bottom w3-card-2 w3-white">
 			<h5 class="w3-center w3-text-red">アルバムカバーを選択してください（あとで変更も可能です）。</h5>
 			<form action="javascript:;" id="id_image_search_form">
-				<p><input class="w3-input w3-border" type="text" name="search_q" id="id_search_q" value="" placeholder="search image" /></p>
+				<p><input class="w3-input w3-round w3-border" type="text" name="search_q" id="id_search_q" value="" placeholder="search image" /></p>
 				<p><input
 					class="w3-btn w3-round"
 					type="submit"
@@ -99,6 +99,7 @@
 	var cache_search_result = [];
 	var $result = $("#id_Albums_SearchArtist_result");
 	var $submit = $("#id_submit");
+	var $loading = $("#id_modal_wait");
 
 	/**
 	 * jQuery.ajax を jQuery.Defferd でラップした関数
@@ -231,7 +232,7 @@
 				)
 			));
 		}
-		$submit.attr({disabled:false}).val(" 検索 ");
+		$loading.fadeOut("fast");
 		$result.slideToggle("middle");
 	};
 
@@ -245,7 +246,9 @@
 			alert("いずれか必須です。");
 			return;
 		}
-		$submit.attr({disabled:true}).val(" 検索中... ");
+
+		$loading.fadeIn("fast");
+
 		$.ajax( BASE_PATH + "Albums/SearchArtist", {
 			method : 'POST',
 			dataType : 'json',
@@ -274,9 +277,7 @@
 			alert("system error.");
 		})
 		.always(function(){
-			if ( $submit.attr("disabled") ) {
-				$submit.attr({disabled:false}).val(" 検索 ");
-			}
+			$loading.fadeOut("fast");
 		});
 		return false;
 	});
@@ -343,7 +344,7 @@
 			$id_add_tracks.append(
 				$("<tr />").attr({}).append(
 					$("<td class='td_track_num' />").text("tr." + index),
-					$("<td class='td_track_title' />").append($('<input class="text_track_title w3-input" type="text" />').attr({
+					$("<td class='td_track_title' />").append($('<input class="text_track_title w3-input w3-round w3-border" type="text" />').attr({
 						name :"add_track_"+index,
 						id :"id_add_track_"+index,
 						value : tracks[i]
@@ -389,6 +390,9 @@
 		if(!confirm("アルバムを追加しますか？")) {
 			return false;
 		}
+
+		$loading.fadeIn("fast");
+
 		var artist = $.trim($("#id_add_artist").val());
 		var title = $.trim($("#id_add_title").val());
 		var year = $.trim($("#id_add_year").val());
