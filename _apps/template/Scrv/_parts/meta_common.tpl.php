@@ -14,7 +14,7 @@
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="icon" />
 <link href="<?= h($base_path) ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />
 <link rel="alternate" type="application/rss+xml" title="feed" href="<?= h($base_path) ?>Rss" />
-<link rel="stylesheet" href="<?= h($base_path) ?>css/w3.css?v20171122" />
+<link rel="stylesheet" href="<?= h($base_path) ?>css/w3.css?v20180413" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>

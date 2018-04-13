@@ -14,7 +14,7 @@
 	}
 
 	// itunes search
-	var $search_results = $("#id_itunes_search_results").html("");
+	var $search_results = $("#id_itunes_search_results").html("").hide();
 	$.ajax( BASE_PATH + 'Itunes/Search', {
 		method : 'GET',
 		dataType : 'json',
@@ -29,9 +29,11 @@
 		}
 		var i=0,len=json.results.length;
 		if ( len > 0 ) {
-			$search_results.append($("<h5 />").text("iTunes ("+len+")"));
+			$search_results.append($("<h5 />").append(
+				"<i class=\"fab fa-apple\"></i> Apple Music ("+len+")"
+			));
 		}
-		var $table = $('<ul class="w3-left-align" />');
+		var $table = $('<ul class="w3-ul" />');
 		// 詰め直す
 		var results = [];
 		for(; i<len; i++) {
@@ -49,7 +51,6 @@
 				)
 			);
 		}
-		$("#id_to_applemusic").attr({href:results[0].url}).fadeIn();
 		$search_results.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
@@ -57,8 +58,44 @@
 	.always(function(){
 	});
 
+	// spotify search
+	var $search_results_spotify = $("#id_spotify_search_results").html("").hide();
+	$.ajax( BASE_PATH + 'Spotify/Search', {
+		method : 'GET',
+		dataType : 'json',
+		data : {
+			"q" : $("#id_term").val()
+		}
+	})
+	.done(function(json){
+		if ( json.length === 0 ) {
+			return;
+		}
+		var i=0,len=json.length;
+		if ( len > 0 ) {
+			$search_results_spotify.append($("<h5 />").append(
+				"<i class=\"fab fa-spotify\"></i> Spotify ("+len+")"
+			));
+		}
+		var $table = $('<ul class="w3-ul" />');
+		var results = json;
+		for(; i<len; i++) {
+			var result = results[i];
+			$table.append(
+				$("<li />").attr({"class":"spotify_info"}).append(
+					createLink(result.url,result.artist,result.title)
+				)
+			);
+		}
+		$search_results_spotify.append($table).slideToggle("middle");
+	})
+	.fail(function(e){
+	})
+	.always(function(){
+	});
+
 	// google play music search
-	var $search_results_gpm = $("#id_gpm_search_results").html("");
+	var $search_results_gpm = $("#id_gpm_search_results").html("").hide();
 	$.ajax( BASE_PATH + 'GooglePlayMusic/Search', {
 		method : 'GET',
 		dataType : 'json',
@@ -72,9 +109,11 @@
 		}
 		var i=0,len=json.length;
 		if ( len > 0 ) {
-			$search_results_gpm.append($("<h5 />").text("Google Play Music ("+len+")"));
+			$search_results_gpm.append($("<h5 />").append(
+				"<i class=\"fab fa-google-play\"></i> Google Play Music ("+len+")"
+			));
 		}
-		var $table = $('<ul class="w3-left-align" />');
+		var $table = $('<ul class="w3-ul" />');
 		var results = json;
 		for(; i<len; i++) {
 			var result = results[i];
@@ -85,7 +124,6 @@
 				)
 			);
 		}
-		$("#id_to_googlemusic").attr({href:createGPMListenUrl(results[0].url)}).fadeIn();
 		$search_results_gpm.append($table).slideToggle("middle");
 	})
 	.fail(function(e){
