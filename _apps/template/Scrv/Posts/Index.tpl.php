@@ -46,18 +46,18 @@
 
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 
@@ -69,7 +69,7 @@
 			<p class="post_body"><?= linkIt(nl2br(h($list["body"])), false) ?></p>
 			<p class="notice">
 				<a href="<?= h($base_path) ?>Users/View/id/<?= h($list["user_id"]) ?>">
-					<img class="width_20px" src="<?= h($base_path) ?><?= isset($list["user_img_file"]) ? "files/attachment/photo/{$list["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" />
+					<img class="width_20px w3-round" src="<?= h($base_path) ?><?= isset($list["user_img_file"]) ? "files/attachment/photo/{$list["user_img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["username"]) ?>" />
 					<?= isset($list["username"]) ? h($list["username"]) : "(delete user)" ?>
 				</a>
 				-
@@ -89,18 +89,18 @@
 
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 

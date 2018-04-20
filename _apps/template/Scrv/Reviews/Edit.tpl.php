@@ -20,7 +20,7 @@ $ReviewsParse = new ReviewsParse();
 <div class="w3-main w3-content w3-padding-4 main">
 
 	<div class="w3-center">
-		<h2 class="w3-xlarge">Edit Your Review</h2>
+		<h2 class="w3-xlarge"><i class="fas fa-edit"></i> Edit Your Review</h2>
 	</div>
 
 <?php if(isset($error_messages) && count($error_messages) > 0): ?>

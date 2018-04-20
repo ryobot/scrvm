@@ -45,14 +45,14 @@
 	<!-- lists -->
 	<div class="w3-padding_ w3-center user_list_activity">
 <?php foreach($lists as $list): ?>
-		<div class="user_info action_<?= h($list["action"]) ?> w3-card w3-white">
+		<div class="user_info action_<?= h($list["action"]) ?> w3-padding w3-panel w3-white w3-card">
 <?php		if( $list["action"] === "fav_reviews" ): ?>
 				<p>
-					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="w3-round width_25px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
 					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
 				</p>
 				<p>
-					<img src="<?= h($base_path) ?>img/fav_on.svg" class="width_16px" alt="fav review" />
+					<img src="<?= h($base_path) ?>img/fav_on.svg" class="w3-round width_25px" alt="fav review" />
 					<a href="<?= h($base_path) ?>r/<?= h($list["review_id"]) ?>">
 						<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
 					</a>
@@ -60,11 +60,11 @@
 				</p>
 <?php		elseif($list["action"] === "fav_tracks"):?>
 				<p>
-					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="w3-round width_25px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
 					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
 				</p>
 				<p>
-					<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="width_16px" alt="fav track" />
+					<img src="<?= h($base_path) ?>img/favtracks_on.svg" class="w3-round width_25px" alt="fav track" />
 					<?= h($list["track_num"]) ?>. <?= h($list["track_title"]) ?>
 				</p>
 				<p>
@@ -72,18 +72,18 @@
 				</p>
 <?php		elseif($list["action"] === "fav_albums"):?>
 				<p>
-					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="w3-round width_25px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
 					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><?= h($list["faved_username"]) ?></a>
 				</p>
 				<p>
-					<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="width_16px" alt="fav album" />
+					<img src="<?= h($base_path) ?>img/favalbums_on.svg" class="w3-round width_25px" alt="fav album" />
 					<a href="<?= h($base_path) ?>a/<?= h($list["album_id"]) ?>">
 						<?= h($list["artist"]) ?> / <?= h($list["title"]) ?>
 					</a>
 				</p>
 <?php		elseif($list["action"] === "new_user"):?>
 				<p>
-					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="width_16px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
+					<a href="<?= h($base_path) ?>u/<?= h($list["faved_user_id"]) ?>"><img class="w3-round width_25px" src="<?= h($base_path) ?><?= isset($list["img_file"]) ? "files/attachment/photo/{$list["img_file"]}" : "img/user.svg" ?>" alt="<?= h($list["faved_username"]) ?>" /></a>
 					<a href="<?= h($base_path) ?>u/<?= h($list["id"]) ?>"><?= h($list["username"]) ?></a>
 				</p>
 				<p>

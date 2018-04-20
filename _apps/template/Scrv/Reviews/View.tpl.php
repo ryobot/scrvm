@@ -105,8 +105,8 @@ if($is_unpublished){
 		</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
 		<div class="displaynone w3-container w3-padding w3-light-gray" id="id_reaction_more_<?= h($review["id"]) ?>">
-			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> レビューを編集する</a></p>
-			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> レビューを削除する</a></p>
+			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a></p>
+			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a></p>
 		</div>
 <?php endif;?>
 	</div>
@@ -127,21 +127,23 @@ if($is_unpublished){
 		</p>
 	</div>
 <?php endif; ?>
-	<input
-		type="hidden"
-		name="term"
-		id="id_term"
-		value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
-		data-artist="<?= h($review["artist"]) ?>"
-		data-title="<?= h($review["title"]) ?>"
-	/>
-	<script src="<?= h($base_path) ?>js/MusicSearch.js"></script>
+
 <?php endif; ?>
 
 	<!-- music search 用 -->
-	<div class="w3-card w3-margin-bottom w3-white">
-		<div class="w3-padding" id="id_itunes_search_results"></div>
-		<div class="w3-padding" id="id_gpm_search_results"></div>
+	<div class="w3-margin-bottom w3-white w3-card">
+		<div id="id_itunes_search_results" class="w3-margin"></div>
+		<div id="id_spotify_search_results" class="w3-margin"></div>
+		<div id="id_gpm_search_results" class="w3-margin"></div>
+		<input
+			type="hidden"
+			name="term"
+			id="id_term"
+			value="<?= h("{$review["artist"]} {$review["title"]}") ?>"
+			data-artist="<?= h($review["artist"]) ?>"
+			data-title="<?= h($review["title"]) ?>"
+		/>
+		<script src="<?= h($base_path) ?>js/MusicSearch.js?v20180413"></script>
 	</div>
 
 </div>

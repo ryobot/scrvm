@@ -44,24 +44,24 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 
 <div class="flex-container w3-row-padding w3-padding-16 w3-center">
 <?php foreach($reviews as $review): ?>
-	<div class="w3-padding w3-margin-bottom flex-item col w3-card-2 w3-white">
+	<div class="w3-white w3-center w3-card w3-margin-bottom col">
 <?php if(
 	($review["published"] === 0 && !$is_login)
 	||
@@ -71,23 +71,29 @@ foreach($pager["nav_list"] as $nav) {
 			この投稿は非表示にされています。
 		</div>
 <?php else: ?>
-		<p><img class="cover w3-card-4" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" /></p>
-		<h5>
+		<div class="w3-padding">
+			<img class="cover w3-card" src="<?= isset($review["img_file"])? "{$base_path}files/covers/{$review["img_file"]}" : "{$base_path}img/no_image.png" ?>" alt="<?= h( "{$review["artist"]} / {$review["title"]}") ?>" />
+		</div>
+
+		<div class="w3-large w3-padding">
 			<a href="<?= h($base_path) ?>Albums/View/id/<?= h($review["album_id"]) ?>">
 				<?= h($review["artist"] . " / " . $review["title"]) ?>
 				(<?= isset($review["year"]) && $review["year"] !== "" ? h($review["year"]) : " unknown " ?>)
 			</a>
-		</h5>
-		<p class="w3-left-align">
+		</div>
+
+		<div class="w3-padding w3-left-align">
 			<?= $ReviewsParse->replaceHashTagsToLink(nl2br(linkIt(h($review["body"]))), $base_path) ?>
-		</p>
-		<p>
+		</div>
+
+		<div class="w3-padding">
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><img class="w3-image w3-round width_25px" src="<?= h($base_path) ?><?= isset($review["user_img_file"]) ? "files/attachment/photo/{$review["user_img_file"]}" : "img/user.svg" ?>" /></a>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($review["user_id"]) ?>"><?= h($review["username"]) ?></a>
 			-
 			<a href="<?= h($base_path) ?>Reviews/View/id/<?= h($review["id"]) ?>"><?= h(timeAgoInWords($review["created"])) ?></a>
-		</p>
-		<div class="w3-center reaction_area">
+		</div>
+
+		<div class="w3-padding reaction_area">
 <?php if($review["published"] === 0): ?>
 			<span><img src="<?= h($base_path) ?>img/locked.svg" title="非公開" alt="非公開" /></span>
 <?php endif; ?>
@@ -115,13 +121,13 @@ foreach($pager["nav_list"] as $nav) {
 				</span>
 			</a>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><img src="<?= h($base_path) ?>img/more.svg" class="img16x16" alt="more" /></a>
+			<a href="javascript:;" class="reaction_more" data-review_id="<?= h($review["id"]) ?>"><i class="fas fa-ellipsis-h" title="more"></i></a>
 <?php endif;?>
 		</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
-		<div class="displaynone w3-container w3-padding" id="id_reaction_more_<?= h($review["id"]) ?>">
-			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round">レビューを編集する</a></p>
-			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round">レビューを削除する</a></p>
+		<div class="displaynone w3-container w3-padding w3-light-gray" id="id_reaction_more_<?= h($review["id"]) ?>">
+			<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a></p>
+			<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a></p>
 		</div>
 <?php endif;?>
 <?php endif; ?>
@@ -131,18 +137,18 @@ foreach($pager["nav_list"] as $nav) {
 
 <?php if(count($pager["nav_list"])>0): ?>
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 <?php endif; ?>
 
