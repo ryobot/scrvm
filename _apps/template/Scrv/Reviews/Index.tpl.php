@@ -124,8 +124,10 @@ if ( isset($situation) ) {
 			</div>
 <?php if( $is_login && $review["user_id"] === $login_user_data["id"] ):?>
 			<div class="displaynone w3-container w3-padding w3-light-gray" id="id_reaction_more_<?= h($review["id"]) ?>">
-				<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a></p>
-				<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a></p>
+				<p>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a>
+				</p>
 			</div>
 <?php endif;?>
     </div>

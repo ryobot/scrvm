@@ -14,19 +14,19 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 
 <!-- Sidenav -->
 <nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:20;width:40%;min-width:300px" id="mySidenav">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-grey">Close</a>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-grey"><i class="fas fa-times"></i> Close</a>
 <?php if( !$is_login ):?>
-	<a href="<?= h($base_path) ?>Auth">Login</a>
+	<a href="<?= h($base_path) ?>Auth"><i class="fas fa-sign-in-alt"></i> Login</a>
 <?php else: ?>
+	<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>"><i class="fas fa-user"></i> Profile</a>
+	<a href="<?= h($base_path) ?>Users/Edit"><i class="fas fa-edit"></i> Edit</a>
+	<a id="id_logout" href="javascript:;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+	<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
+<?php endif; ?>
+	<a href="<?= h($base_path) ?>About"><i class="fas fa-question-circle"></i> About</a>
 <?php if( $login_user_data["role"] === "admin" ):?>
 	<a href="<?= h($base_path) ?>Admin">*admin*</a>
 <?php endif; ?>
-	<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>">Profile</a>
-	<a href="<?= h($base_path) ?>Users/Edit">Edit</a>
-	<a id="id_logout" href="javascript:;">Logout</a>
-	<form id="id_form_logout" action="<?= h($base_path) ?>Auth/Logout" method="POST"></form>
-<?php endif; ?>
-	<a href="<?= h($base_path) ?>About">About</a>
 </nav>
 
 
@@ -35,7 +35,7 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 
 	<!-- top -->
   <div class="w3-large w3-padding-xlarge">
-    <div class="w3-opennav w3-left w3-hover-text-grey" onclick="w3_open()">☰</div>
+    <div class="w3-opennav w3-left w3-text-grey w3-hover-text-grey" onclick="w3_open()"><i class="fas fa-bars"></i></div>
 		<div class="w3-right">
 <?php if( $is_login ):?>
 			<a href="<?= h($base_path) ?>Users/View/id/<?= h($login_user_data["id"]) ?>"><img class="w3-image w3-round width_30px" src="<?= h($base_path) ?><?= isset($login_user_data["img_file"]) ? "files/attachment/photo/{$login_user_data["img_file"]}" : "img/user.svg" ?>" /></a>
@@ -52,31 +52,37 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 	<!-- top menu -->
 	<div class="w3-center flex-container top_menu" id="id_top_menu">
 		<div class="menu_block" data-menu="Reviews"><a href="<?= h($base_path) ?>">
-			<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>
+<!--			<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>-->
+			<div class="w3-large"><i class="fas fa-edit"></i></div>
 			<div class="text">Reviews</div>
 		</a></div>
 		<div class="menu_block" data-menu="Albums"><a href="<?= h($base_path) ?>Albums">
-			<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>
+<!--			<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>-->
+			<div class="w3-large"><i class="fas fa-search"></i></div>
 			<div class="text">Albums</div>
 		</a></div>
 	<?php if( $is_login ):?>
 		<div class="menu_block" data-menu="Activity"><a href="<?= h($base_path) ?>Activity">
-			<div><img src="<?= h($base_path) ?>img/activity.svg" alt="Activity" /></div>
+<!--			<div><img src="<?= h($base_path) ?>img/activity.svg" alt="Activity" /></div>-->
+			<div class="w3-large"><i class="fas fa-bell"></i></div>
 			<div class="text">Activity</div>
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="Users"><a href="<?= h($base_path) ?>Users">
-			<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>
+<!--			<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>-->
+			<div class="w3-large"><i class="fas fa-users"></i></div>
 			<div class="text">Users</div>
 		</a></div>
 	<?php if( $is_login ):?>
 		<div class="menu_block" data-menu="Posts"><a href="<?= h($base_path) ?>Posts">
-				<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>
-				<div class="text">Posts</div>
+<!--				<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>-->
+			<div class="w3-large"><i class="fas fa-comment-dots"></i></div>
+			<div class="text">Posts</div>
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="Logs"><a href="<?= h($base_path) ?>Logs">
-			<div><img src="<?= h($base_path) ?>img/logs.svg" alt="Logs" /></div>
+<!--			<div><img src="<?= h($base_path) ?>img/logs.svg" alt="Logs" /></div>-->
+			<div class="w3-large"><i class="fas fa-th"></i></div>
 			<div class="text">Logs</div>
 		</a></div>
 	</div>

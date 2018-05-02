@@ -81,7 +81,7 @@
 			</a>
 <?php endif;?>
 <?php if ($is_login && $album["create_user_id"] === $login_user_data["id"]): ?>
-			<p><a href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
+			<p><a class="w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>"><i class="fas fa-edit"></i> アルバムを編集</a></a></p>
 <?php endif; ?>
 		</div>
 	</div>

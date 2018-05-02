@@ -37,12 +37,12 @@
 
 		<div class="w3-row">
 			<p><input class="w3-input w3-round w3-border" type="text" name="q" id="id_q" value="<?= h($q) ?>" placeholder="検索" /></p>
-			<p><button class="w3-btn w3-round w3-black" id="id_search">検 索</button></p>
+			<p><button class="w3-btn w3-round w3-teal" id="id_search"><i class="fas fa-search"></i> 検 索</button></p>
 		</div>
 
 
 <?php if( $is_login ): ?>
-		<p><a class="add_album w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Add">アルバムを追加する</a></p>
+		<p><a class="add_album w3-btn w3-round w3-black" href="<?= h($base_path) ?>Albums/Add"><i class="fas fa-plus-circle"></i> <span id="id_add_album_text">アルバムを追加</span></a></p>
 <?php endif; ?>
 
 		<div class="w3-hide">
@@ -188,7 +188,8 @@
 			}
 			location.href=href+query;
 			return false;
-		}).text((q === "" ? "" : "\""+q+"\" の") + "アルバムを追加する");
+		});
+		$("#id_add_album_text").text((q === "" ? "" : "\""+q+"\" の") + "アルバムを追加");
 	};
 
 <?php if($is_login): ?>

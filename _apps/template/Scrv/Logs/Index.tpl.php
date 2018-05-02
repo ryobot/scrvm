@@ -48,18 +48,18 @@ if ( isset($select_user) ) {
 <?php if(count($reviews) > 0):?>
 
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 
 	<div class="flex-container w3-padding-16 w3-center" style="justify-content:flex-start;">
@@ -144,18 +144,18 @@ if ( isset($select_user) ) {
 	</div>
 
 	<!-- pager -->
-	<div class="w3-center w3-padding-8">
-		<ul class="w3-pagination">
+	<div class="w3-padding-top w3-padding-bottom w3-center">
+		<div class="w3-bar">
 <?php if($pager["prev"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($prev_link) ?>">&laquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($prev_link) ?>">&laquo;</a>
 <?php endif;?>
 <?php foreach($nav_list as $nav): ?>
-			<li><a class="<?= $nav["active"] ? "w3-black" : "w3-hover-black" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a></li>
+			<a class="w3-button w3-circle <?= $nav["active"] ? "w3-indigo" : "w3-hover-indigo" ?>" href="<?= h($nav["link"]) ?>"><?= h($nav["page"]) ?></a>
 <?php endforeach; ?>
 <?php if($pager["next"]): ?>
-			<li><a class="w3-hover-black" href="<?= h($next_link) ?>">&raquo;</a></li>
+			<a class="w3-button w3-circle w3-hover-indigo" href="<?= h($next_link) ?>">&raquo;</a>
 <?php endif;?>
-		</ul>
+		</div>
 	</div>
 
 <?php endif; ?>

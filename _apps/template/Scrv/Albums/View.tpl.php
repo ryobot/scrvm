@@ -125,13 +125,13 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if($is_login): ?>
 		<div class="w3-padding w3-display-container">
-			<p><button class="w3-btn w3-round w3-teal add_review"><i class="fas fa-edit"></i> レビューを書く</button></p>
+			<p><button class="w3-btn w3-round w3-deep-orange add_review"><i class="fas fa-edit"></i> レビューを書く</button></p>
 			<div class="w3-display-right w3-margin-right"><a href="javascript:;" id="id_more_edit"><i class="fas fa-ellipsis-h" title="more"></i></a></div>
 		</div>
 		<div class="w3-container displaynone w3-light-gray" id="id_more_edit_area">
-			<p><a class="w3-btn w3-round w3-indigo" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>">他のアルバムを追加する</a></p>
+			<p><a class="w3-btn w3-round w3-" href="<?= h($base_path) ?>Albums/Add/type/artist/q/<?= rawurlencode($album["artist"]) ?>"><i class="fas fa-plus-circle"></i> アルバムを追加</a></p>
 <?php if ( $login_user_data["role"] === "admin" || ($is_login && $album["create_user_id"] === $login_user_data["id"]) ): ?>
-			<p><a class="w3-btn w3-round w3-blue-gray" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>">アルバム情報を編集する</a></p>
+			<p><a class="w3-btn w3-round w3-teal" href="<?= h($base_path) ?>Albums/Edit/id/<?= h($album["id"]) ?>"><i class="fas fa-edit"></i> アルバムを編集</a></p>
 <?php endif; ?>
 		</div>
 		<script>
@@ -208,8 +208,10 @@ $album_image_path = !isset($album["img_file"]) || $album["img_file"] === "" ? "{
 
 <?php if( $review["user_id"] === $login_user_data["id"] ):?>
 			<div class="displaynone w3-container w3-padding w3-center w3-light-gray" id="id_reaction_more_<?= h($review["id"]) ?>">
-				<p><a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a></p>
-				<p><a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a></p>
+				<p>
+					<a href="<?= h($base_path) ?>Reviews/Edit/id/<?= h($review["id"]) ?>" class="w3-btn w3-teal w3-round"><i class="fas fa-edit"></i> 編集</a>
+					<a href="javascript:;" data-delete_id="<?= h($review["id"]) ?>" class="review_delete w3-btn w3-round"><i class="fas fa-trash-alt"></i> 削除</a>
+				</p>
 			</div>
 <?php endif;?>
 		</div>
