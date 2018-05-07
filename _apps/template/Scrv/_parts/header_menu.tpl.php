@@ -12,8 +12,10 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 
 ?>
 
+<div id="myOverlay" class="w3-overlay" onclick="w3_close()" style="z-index:19"></div>
+
 <!-- Sidenav -->
-<nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:20;width:40%;min-width:300px" id="mySidenav">
+<nav class="w3-sidenav w3-card-2 w3-top w3-large w3-animate-left" style="display:none;z-index:20;width:50%;" id="mySidenav">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-closenav w3-grey"><i class="fas fa-times"></i> Close</a>
 <?php if( !$is_login ):?>
 	<a href="<?= h($base_path) ?>Auth"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -28,7 +30,6 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 	<a href="<?= h($base_path) ?>Admin">*admin*</a>
 <?php endif; ?>
 </nav>
-
 
 <!-- header -->
 <div class="w3-top w3-white header" style="z-index: 10">
@@ -52,42 +53,51 @@ foreach(glob(__DIR__ . "/../../../../img/event/*.svg") as $path) {
 	<!-- top menu -->
 	<div class="w3-center flex-container top_menu" id="id_top_menu">
 		<div class="menu_block" data-menu="Reviews"><a href="<?= h($base_path) ?>">
-<!--			<div><img src="<?= h($base_path) ?>img/reviews.svg" alt="Reviews" /></div>-->
 			<div class="w3-large"><i class="fas fa-edit"></i></div>
 			<div class="text">Reviews</div>
 		</a></div>
 		<div class="menu_block" data-menu="Albums"><a href="<?= h($base_path) ?>Albums">
-<!--			<div><img src="<?= h($base_path) ?>img/albums.svg" alt="Albums" /></div>-->
 			<div class="w3-large"><i class="fas fa-search"></i></div>
 			<div class="text">Albums</div>
 		</a></div>
 	<?php if( $is_login ):?>
 		<div class="menu_block" data-menu="Activity"><a href="<?= h($base_path) ?>Activity">
-<!--			<div><img src="<?= h($base_path) ?>img/activity.svg" alt="Activity" /></div>-->
 			<div class="w3-large"><i class="fas fa-bell"></i></div>
 			<div class="text">Activity</div>
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="Users"><a href="<?= h($base_path) ?>Users">
-<!--			<div><img src="<?= h($base_path) ?>img/users.svg" alt="Users" /></div>-->
 			<div class="w3-large"><i class="fas fa-users"></i></div>
 			<div class="text">Users</div>
 		</a></div>
 	<?php if( $is_login ):?>
 		<div class="menu_block" data-menu="Posts"><a href="<?= h($base_path) ?>Posts">
-<!--				<div><img src="<?= h($base_path) ?>img/posts.svg" alt="Posts" /></div>-->
 			<div class="w3-large"><i class="fas fa-comment-dots"></i></div>
 			<div class="text">Posts</div>
 		</a></div>
 	<?php endif; ?>
 		<div class="menu_block" data-menu="Logs"><a href="<?= h($base_path) ?>Logs">
-<!--			<div><img src="<?= h($base_path) ?>img/logs.svg" alt="Logs" /></div>-->
 			<div class="w3-large"><i class="fas fa-th"></i></div>
 			<div class="text">Logs</div>
 		</a></div>
 	</div>
 </div>
+
 <script>
+
+	// menu 関連
+	function w3_open() {
+		$("#mySidenav").css({"display":"block"});
+		$("#myOverlay").css({"display":"block"});
+	}
+	function w3_close() {
+		$("#mySidenav").css({"display":"none"});
+		$("#myOverlay").css({"display":"none"});
+	}
+	Mousetrap.bind("esc", function(){
+		w3_close();
+	});
+
 	;$(function(){
 		var action_name = "<?= h($__action_name) ?>";
 		$("#id_top_menu .menu_block").each(function(){

@@ -19,34 +19,10 @@
 </div>
 
 <script>
-function w3_open() {
-	$("#mySidenav").css({"display":"block"});
-}
-function w3_close() {
-	$("#mySidenav").css({"display":"none"});
-}
 
 ;$(function(){
-	// pagetop
-	var top_btn = $("#js-id_page_top");
-	top_btn.hide();
-	$(window).scroll(function(){
-		if ( $(this).scrollTop() > 100 ) {
-			top_btn.fadeIn();
-		} else {
-			top_btn.fadeOut();
-		}
-	});
-	top_btn.on("click.js", function(){
-		$("body,html").animate({
-			scrollTop: 0
-		}, 500);
-		return false;
-	});
-
-	if ( ! /(iPhone|iPad|iPod|Android)/.test(navigator.userAgent) ) {
-		twemoji.parse(document.body);
-	}
-
+//	if ( ! /(iPhone|iPad|iPod|Android)/.test(navigator.userAgent) ) {
+//		twemoji.parse(document.body);
+//	}
 });
 </script>
